@@ -18,6 +18,10 @@ The pinned Skills CLI installed all three packages into an isolated Codex-target
 
 A distribution-only marker was then appended to the installed video entry. Reinstalling that package removed the marker while preserving a separate private merchant preference sentinel byte-for-byte in meaning (the original file remained unchanged). This demonstrates package replacement and private-data separation; it does not simulate every possible installer or client upgrade.
 
+The public GitHub tree-URL install initially failed because Skills CLI 1.7.0 treated the slash-containing feature branch as branch `feat`. The installation guide was corrected to clone the full branch explicitly and install from the checkout. A fresh public clone then installed all three packages successfully, and the installed references passed validation.
+
+The initial content commit passed [GitHub CI on both Linux and Windows](https://github.com/intgral-ai/skills/actions/runs/35275229504). Current PR checks are authoritative for subsequent commits.
+
 ## Behavioral forward-test
 
 An independent agent read the packages and followed three synthetic scenarios without external calls:

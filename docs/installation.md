@@ -4,13 +4,16 @@ Use a client that supports local Agent Skills and an authenticated Intgral MCP c
 
 ## Initial review branch
 
-Before the initial PR is merged, use the branch explicitly:
+Before the initial PR is merged, clone the branch explicitly, then install into your current client workspace:
 
 ```bash
-npx skills@1.7.0 add https://github.com/intgral-ai/skills/tree/feat/public-merchant-skills --skill intgral-listing --agent codex --copy
+git clone --branch feat/public-merchant-skills --single-branch https://github.com/intgral-ai/skills.git intgral-skills-source
+npx skills@1.7.0 add ./intgral-skills-source --skill intgral-listing --agent codex --copy
 ```
 
 Replace the skill name with `intgral-research` or `intgral-video`, or select several. These are independent packages. `--copy` avoids symlink requirements on Windows. Omit `--agent` to use the installer's client selection. The example targets a project; add `--global` only when you want user-wide installation.
+
+Skills CLI 1.7.0 splits a GitHub tree URL at the slash in this branch name and attempts to clone a nonexistent branch named `feat`. Use the clone command above instead of a tree URL. If the source directory already exists, update its checkout deliberately rather than cloning over it.
 
 For a cloned checkout, run from your intended client workspace:
 
