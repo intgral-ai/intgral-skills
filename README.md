@@ -38,6 +38,6 @@ Node 22+ is enough; the validation scripts have no dependencies:
 npm run verify
 ```
 
-This checks the publication contract and installs each package into an isolated test directory. It does not call a live ERP or generate paid media. Read [contributing](CONTRIBUTING.md), [provenance](docs/provenance.md) and [validation evidence](docs/validation.md).
+This checks the publication contract, installs each package into an isolated test directory, and validates the behavioral scenario fixtures. It does not call a live ERP, generate paid media or run an agent; recorded agent runs live under [evals](evals/README.md). Read [contributing](CONTRIBUTING.md), [provenance](docs/provenance.md) and [validation evidence](docs/validation.md).
 
 Licensed under [MIT](LICENSE). Public content is independently maintained; no ERP or gateway code is included.

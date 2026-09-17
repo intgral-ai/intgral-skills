@@ -2,7 +2,7 @@
 
 Keep each skill independently installable. Entry descriptions identify user tasks; references contain only task-specific detail. Use relative inline Markdown links and single-line name/description frontmatter; the zero-dependency validator intentionally supports this repository convention rather than all Markdown/YAML syntax.
 
-Test externally visible validator/installation behavior before changing validation code. Run `npm run verify` on Node 22 or newer. The publication gate rejects missing references, cross-package dependencies, invalid names and old remote Skill dependencies. It is not a complete secret scanner or license audit.
+Test externally visible validator/installation behavior before changing validation code. Guidance changes are assessed by behavior: record a baseline agent run on the relevant scenario, change the guidance, rerun, and keep both records — see [evals/README.md](evals/README.md). Run `npm run verify` on Node 22 or newer. The publication gate rejects missing references, cross-package dependencies, invalid names and old remote Skill dependencies. It is not a complete secret scanner or license audit.
 
 Use private synthetic test workspaces. Real merchant preferences, product observations, task records, credentials and unrelated upstream skill history do not belong here. Research examples are schema illustrations, never retained evidence.
 

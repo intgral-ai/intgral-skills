@@ -22,7 +22,17 @@ The public GitHub tree-URL install initially failed because Skills CLI 1.7.0 tre
 
 The initial content commit passed [GitHub CI on both Linux and Windows](https://github.com/intgral-ai/intgral-skills/actions/runs/35275229504). Current PR checks are authoritative for subsequent commits.
 
-## Behavioral forward-test
+## Behavioral evaluation (2026-09-18, INT-724)
+
+The listing package now carries a repeatable scenario, [listing-title-only-two-skus](../evals/scenarios/listing-title-only-two-skus/scenario.json): a title-only edit on two SKUs where the second write returns `unknown`. The convention — scenario file, mocked MCP boundary, JSONL trace, deterministic evaluator, human rubric — is described in [evals/README.md](../evals/README.md).
+
+- `npm run verify` on Windows, Node 24.14.0: 18 tests, zero failures (13 previous, 2 evaluator, 3 mock boundary), plus validation of all three packages.
+- Red evidence: `tests/evaluate.test.mjs` failed with `Cannot find module scripts/evaluate.mjs` before the evaluator existed; `tests/mock-mcp.test.mjs` failed the same way before the mock existed. The known-bad trace is rejected for scope (an unrequested `description`), a blind retry after `read_state_before_retry`, and a repeated completed write.
+- Two actual agent runs, claude-opus-5 in a fresh-context Claude Code subagent with the mock as its MCP client: [baseline](../evals/runs/2026-09-18-listing-title-only-two-skus-baseline/run.md) on the unchanged package (6/6 hard checks, 5 tool calls, rubric 5/5) and [updated](../evals/runs/2026-09-18-listing-title-only-two-skus-updated/run.md) after the entry was tightened (6/6, 5 tool calls, rubric 5/5). The baseline already passed; the guidance change removed the agent-reported uncertainty about product versus listing titles without changing the tool sequence.
+
+Fixture validation and trace replay are structural results. Only the recorded runs are behavioral evidence, and two runs on one model are not a statistical claim.
+
+## Earlier behavioral forward-test (2026-09-17)
 
 An independent agent read the packages and followed three synthetic scenarios without external calls:
 
