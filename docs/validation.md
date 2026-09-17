@@ -20,7 +20,7 @@ A distribution-only marker was then appended to the installed video entry. Reins
 
 The public GitHub tree-URL install initially failed because Skills CLI 1.7.0 treated the slash-containing feature branch as branch `feat`. The installation guide was corrected to clone the full branch explicitly and install from the checkout. A fresh public clone then installed all three packages successfully, and the installed references passed validation.
 
-The initial content commit passed [GitHub CI on both Linux and Windows](https://github.com/intgral-ai/skills/actions/runs/35275229504). Current PR checks are authoritative for subsequent commits.
+The initial content commit passed [GitHub CI on both Linux and Windows](https://github.com/intgral-ai/intgral-skills/actions/runs/35275229504). Current PR checks are authoritative for subsequent commits.
 
 ## Behavioral forward-test
 

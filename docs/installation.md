@@ -7,7 +7,7 @@ Use a client that supports local Agent Skills and an authenticated Intgral MCP c
 Before the initial PR is merged, clone the branch explicitly, then install into your current client workspace:
 
 ```bash
-git clone --branch feat/public-merchant-skills --single-branch https://github.com/intgral-ai/skills.git intgral-skills-source
+git clone --branch feat/public-merchant-skills --single-branch https://github.com/intgral-ai/intgral-skills.git intgral-skills-source
 npx skills@1.7.0 add ./intgral-skills-source --skill intgral-listing --agent codex --copy
 ```
 
