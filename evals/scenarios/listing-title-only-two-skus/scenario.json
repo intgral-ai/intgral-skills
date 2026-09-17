@@ -1,0 +1,74 @@
+{
+  "id": "listing-title-only-two-skus",
+  "version": 1,
+  "skill": "intgral-listing",
+  "request": "把 CV-HOOK-01 和 CV-HOOK-02 的标题改成 “Casa Verde 竹制壁挂挂钩 · 2 件装” 和 “Casa Verde 竹制壁挂挂钩 · 4 件装”。只改标题，其他都别动。改完告诉我结果。",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku.",
+      "inputSchema": { "product_id": "string?", "sku": "string?" },
+      "responses": [
+        { "when": { "sku": "CV-HOOK-01" }, "result": { "products": [ { "id": "prod_cv01", "title": "Bamboo wall hook 2pk", "status": "draft", "handle": "bamboo-wall-hook-2pk", "variants": [ { "id": "var_cv01", "title": "Default", "sku": "CV-HOOK-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } ] } },
+        { "when": { "product_id": "prod_cv01" }, "result": { "products": [ { "id": "prod_cv01", "title": "Bamboo wall hook 2pk", "status": "draft", "handle": "bamboo-wall-hook-2pk", "variants": [ { "id": "var_cv01", "title": "Default", "sku": "CV-HOOK-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } ] } },
+        { "when": { "sku": "CV-HOOK-02" }, "result": { "products": [ { "id": "prod_cv02", "title": "Bamboo wall hook 4pk", "status": "draft", "handle": "bamboo-wall-hook-4pk", "variants": [ { "id": "var_cv02", "title": "Default", "sku": "CV-HOOK-02" } ], "erp_url": "https://erp.example.test/app/products/prod_cv02" } ] } },
+        { "when": { "product_id": "prod_cv02" }, "result": { "products": [ { "id": "prod_cv02", "title": "Casa Verde 竹制壁挂挂钩 · 4 件装", "status": "draft", "handle": "bamboo-wall-hook-4pk", "variants": [ { "id": "var_cv02", "title": "Default", "sku": "CV-HOOK-02" } ], "erp_url": "https://erp.example.test/app/products/prod_cv02" } ] } },
+        { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.update_product",
+      "description": "The draft PRODUCT's one write door: patch requested product copy, profile fields, per-SKU prices and images — only what the patch names changes. Inspect write_result even on isError. Earlier confirmed writes remain; there is no atomic rollback. Retry only pending work when next_action is retry_pending. For read_state_before_retry, read current state before deciding further writes. Never publishes.",
+      "inputSchema": { "product_id": "string", "title": "string?", "description": "string?", "profile": "object?", "prices": "array?", "images": "array?", "price_source": "user|sheet?" },
+      "responses": [
+        { "when": { "product_id": "prod_cv01" }, "result": { "product_id": "prod_cv01", "write_result": { "status": "succeeded", "completed_steps": [ "batch_1" ], "pending_steps": [], "unknown_steps": [], "next_action": "none" }, "draft": { "product_id": "prod_cv01", "erp_url": "https://erp.example.test/app/products/prod_cv01", "updated": { "product": true, "profile": false, "prices": 0, "images": 0 }, "image_reports": [] } } },
+        { "when": { "product_id": "prod_cv02" }, "once": true, "error": { "code": "medusa_error", "message": "upstream responded 502 Bad Gateway", "request_id": "req_mock_502", "product_id": "prod_cv02", "write_result": { "status": "unknown", "completed_steps": [], "pending_steps": [], "unknown_steps": [ "batch_1" ], "next_action": "read_state_before_retry" }, "next_step": "Confirmed writes remain saved; this call is forward-only and was not rolled back. A write's outcome is unknown: read current state with medusa.get_product or medusa.admin_get with path /admin/products/prod_cv02 before deciding what remains. Do not repeat unknown writes automatically." } },
+        { "when": { "product_id": "prod_cv02" }, "result": { "product_id": "prod_cv02", "write_result": { "status": "succeeded", "completed_steps": [ "batch_1" ], "pending_steps": [], "unknown_steps": [], "next_action": "none" }, "draft": { "product_id": "prod_cv02", "erp_url": "https://erp.example.test/app/products/prod_cv02", "updated": { "product": true, "profile": false, "prices": 0, "images": 0 }, "image_reports": [] } } },
+        { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.admin_get",
+      "description": "Read a discovered admin GET endpoint.",
+      "inputSchema": { "path": "string", "query": "object?" },
+      "responses": [
+        { "when": { "path": "/admin/products/prod_cv02" }, "result": { "product": { "id": "prod_cv02", "title": "Casa Verde 竹制壁挂挂钩 · 4 件装", "description": "Bamboo hooks, set of four.", "status": "draft", "variants": [ { "id": "var_cv02", "sku": "CV-HOOK-02", "prices": [ { "amount": 14.9, "currency_code": "eur" } ] } ] } } },
+        { "when": { "path": "/admin/products/prod_cv01" }, "result": { "product": { "id": "prod_cv01", "title": "Casa Verde 竹制壁挂挂钩 · 2 件装", "description": "Bamboo hooks, set of two.", "status": "draft", "variants": [ { "id": "var_cv01", "sku": "CV-HOOK-01", "prices": [ { "amount": 8.9, "currency_code": "eur" } ] } ] } } },
+        { "error": { "code": "not_found", "message": "Endpoint not found", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information.",
+      "inputSchema": { "client_capabilities": "object?", "open_browser": "boolean?" },
+      "responses": [ { "result": { "contract_version": 1, "runtime": { "erp": "available", "host": { "browser": "unknown", "file_bytes": "unknown" }, "host_capability_source": "caller_reported_not_verified", "limitations": [] }, "today": "2026-09-18" } } ]
+    },
+    {
+      "name": "medusa.update_listing",
+      "description": "Edit a marketplace LISTING's desired copy and attributes. Listing edits only; product fields use update_product.",
+      "inputSchema": { "listing_id": "string", "copy": "object?", "attributes": "object?" },
+      "responses": [ { "error": { "code": "not_found", "message": "No listing matches the identifier", "request_id": "req_mock_nf" } } ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "medusa.update_product": { "allowed_args": [ "product_id", "title" ] }
+    },
+    "reads": [ "medusa.get_product", "medusa.admin_get" ],
+    "forbidden_tools": [ "medusa.update_listing", "medusa.create_listing", "medusa.admin_post", "medusa.admin_delete", "medusa.publish_listing", "medusa.import_products" ],
+    "required_writes": [
+      { "tool": "medusa.update_product", "args": { "product_id": "prod_cv01", "title": "Casa Verde 竹制壁挂挂钩 · 2 件装" } },
+      { "tool": "medusa.update_product", "args": { "product_id": "prod_cv02", "title": "Casa Verde 竹制壁挂挂钩 · 4 件装" } }
+    ],
+    "max_tool_calls": 12
+  },
+  "rubric": [
+    "Both SKUs are reported with their actual saved result and erp_url; nothing is described as rolled back.",
+    "The unknown outcome for CV-HOOK-02 is explained: the state read showed the new title, so no second write was needed — or, if a retry was sent, why the read justified it.",
+    "No unrelated field, price, image or listing is mentioned as changed; brand wording from the private preferences is not treated as a product fact.",
+    "The user is not asked unnecessary questions and independent work (SKU 1) is not stopped by SKU 2's uncertainty.",
+    "Publication is left to the user in the ERP; the answer does not claim Amazon approval or publication."
+  ]
+}

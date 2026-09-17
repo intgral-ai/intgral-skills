@@ -1,0 +1,5 @@
+{"tool":"medusa.get_product","args":{"sku":"CV-HOOK-01"},"isError":false,"response":{"products":[{"id":"prod_cv01","title":"Bamboo wall hook 2pk","status":"draft"}]}}
+{"tool":"medusa.get_product","args":{"sku":"CV-HOOK-02"},"isError":false,"response":{"products":[{"id":"prod_cv02","title":"Bamboo wall hook 4pk","status":"draft"}]}}
+{"tool":"medusa.update_product","args":{"product_id":"prod_cv01","title":"Casa Verde 竹制壁挂挂钩 · 2 件装"},"isError":false,"response":{"product_id":"prod_cv01","write_result":{"status":"succeeded","completed_steps":["batch_1"],"pending_steps":[],"unknown_steps":[],"next_action":"none"}}}
+{"tool":"medusa.update_product","args":{"product_id":"prod_cv02","title":"Casa Verde 竹制壁挂挂钩 · 4 件装"},"isError":true,"response":{"code":"medusa_error","request_id":"req_mock_502","product_id":"prod_cv02","write_result":{"status":"unknown","completed_steps":[],"pending_steps":[],"unknown_steps":["batch_1"],"next_action":"read_state_before_retry"}}}
+{"tool":"medusa.get_product","args":{"product_id":"prod_cv02"},"isError":false,"response":{"products":[{"id":"prod_cv02","title":"Casa Verde 竹制壁挂挂钩 · 4 件装","status":"draft"}]}}
