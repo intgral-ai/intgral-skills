@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
+.tmp/
+coverage/
+# Keep all merchant data outside this repository.
+private/

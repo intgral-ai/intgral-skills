@@ -1,0 +1,14 @@
+# Bounded acquisition
+
+1. Read supplied evidence and existing scope artifacts first — inert reads through `medusa.admin_get` on catalogued research read routes. Evidence saves follow [evidence schemas](evidence-schemas.md).
+2. Create a standalone scope for supplied or retained evidence when no collection is needed. Create an approved plan only when the user authorized collection. Freeze the question, target market, sources, functions, query/selection scope, expiry, finite request/result/page/runtime/budget ceilings, and permitted refinements. The authenticated actor is authoritative; a claimed approver is annotation only.
+3. Admit each acquisition with a caller-stable request key, one supported capability/source, in-plan input, and a reservation inside remaining limits. The inspected baseline supports the configurations below; they are deployment limits, not defaults for this merchant. Confirm them through the live plan/acquisition schema before requesting work:
+   - `amazon.discovery` + `amazon_es` with `{ "query": "..." }`.
+   - `amazon.reviews` + `amazon_es` with `{ "asin": "...", "variant": "..." }`.
+   - `alibaba.product_discovery` + `alibaba_com` with `{ "query": "...", "shipping_destination": "ES" }`.
+   - `alibaba.supplier_discovery` + `alibaba_com` with `{ "query": "...", "shipping_destination": "ES" }`.
+   A merchant requesting another market is not silently redirected to ES; report unsupported acquisition scope. Query strings and identities are normalized before plan comparison. Do not broaden the market, source, query class, review selection, or shipping destination to obtain more results.
+4. Connector execution is live through Medusa after admission. The gateway only uses the generic authenticated Admin transport; it has no provider tool, token, header, or direct provider call. Builds, pricing, credentials, and transport configuration are deployment-owned and never supplied by an agent request.
+5. Read acquisition state locally by its returned identity. A known provider run is recovered and reconciled; do not blindly resubmit an ambiguous start. Keep cumulative request/runtime bounds, settled or held spend, provider-run provenance, and partial/blocked coverage visible. A terminal run can have incomplete evidence.
+6. To stop a known acquisition, call the catalogued `POST /admin/research/acquisitions/:id/cancel`, then read the acquisition until the cancellation/reconciliation outcome is recorded. Cancellation does not authorize replacement work or release a disputed charge without reconciliation.
+7. Close the plan when approved work is done. Closure does not authorize a replacement plan.

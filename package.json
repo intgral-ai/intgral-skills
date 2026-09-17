@@ -1,0 +1,16 @@
+{
+  "name": "@intgral/skills",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Client-installed Intgral merchant skills",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "test": "node --test",
+    "verify": "npm run test && npm run check"
+  }
+}
