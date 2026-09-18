@@ -1,0 +1,86 @@
+{
+  "id": "video-brief-missing-generation-route",
+  "version": 1,
+  "skill": "intgral-video",
+  "request": "给 CV-HOOK-01 做一条 15 秒的竖版产品短视频，用现有的产品图就行，风格干净一点。先把方案给我看。",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information. Report only host capabilities the client actually has.",
+      "inputSchema": { "client_capabilities": "object?", "open_browser": "boolean?" },
+      "responses": [ { "result": { "contract_version": 1, "runtime": { "erp": "available", "host": { "browser": "unknown", "file_bytes": "unknown", "image_generation": "unknown", "image_rendering": "unknown" }, "host_capability_source": "caller_reported_not_verified", "limitations": [] }, "capabilities": [ "products", "listings", "images", "research" ], "today": "2026-09-18", "erp_url": "https://erp.example.test/app" } } ]
+    },
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku.",
+      "inputSchema": { "product_id": "string?", "sku": "string?" },
+      "responses": [
+        { "when": { "sku": "CV-HOOK-01" }, "result": { "products": [ { "id": "prod_cv01", "title": "Casa Verde 竹制壁挂挂钩 · 2 件装", "status": "draft", "handle": "bamboo-wall-hook-2pk", "thumbnail": "https://cdn.example.test/prod_cv01/main.jpg", "variants": [ { "id": "var_cv01", "title": "Default", "sku": "CV-HOOK-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } ] } },
+        { "when": { "product_id": "prod_cv01" }, "result": { "products": [ { "id": "prod_cv01", "title": "Casa Verde 竹制壁挂挂钩 · 2 件装", "status": "draft", "handle": "bamboo-wall-hook-2pk", "thumbnail": "https://cdn.example.test/prod_cv01/main.jpg", "variants": [ { "id": "var_cv01", "title": "Default", "sku": "CV-HOOK-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } ] } },
+        { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.view_product_images",
+      "description": "List a product's stored images with their URLs and positions. Listing images is not visual inspection.",
+      "inputSchema": { "product_id": "string" },
+      "responses": [
+        { "when": { "product_id": "prod_cv01" }, "result": { "product_id": "prod_cv01", "total_images": 3, "images": [ { "position": 0, "url": "https://cdn.example.test/prod_cv01/main.jpg", "asset_id": "img_cv01_main" }, { "position": 1, "url": "https://cdn.example.test/prod_cv01/wall.jpg", "asset_id": "img_cv01_wall" }, { "position": 2, "url": "https://cdn.example.test/prod_cv01/pack.jpg", "asset_id": "img_cv01_pack" } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } },
+        { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.list_endpoints",
+      "description": "Catalogued admin routes, optionally filtered by path prefix, method and source.",
+      "inputSchema": { "prefix": "string?", "method": "GET|POST|PATCH|PUT|DELETE?", "source": "custom|core?" },
+      "responses": [
+        { "when": { "prefix": "/admin/video" }, "result": { "total": 0, "endpoints": [] } },
+        { "when": { "prefix": "/admin/video-generations" }, "result": { "total": 0, "endpoints": [] } },
+        { "when": { "prefix": "/admin/products" }, "result": { "total": 3, "endpoints": [ { "method": "GET", "path": "/admin/products/:id", "source": "core", "summary": "Product detail", "callable": true }, { "method": "GET", "path": "/admin/products/:id/videos", "source": "custom", "summary": "Stored product video assets", "callable": true }, { "method": "POST", "path": "/admin/products/:id/listing-profile", "source": "custom", "summary": "Listing profile", "callable": true } ] } },
+        { "result": { "total": 9, "endpoints": [ { "method": "GET", "path": "/admin/products/:id", "source": "core", "summary": "Product detail", "callable": true }, { "method": "GET", "path": "/admin/products/:id/videos", "source": "custom", "summary": "Stored product video assets", "callable": true }, { "method": "POST", "path": "/admin/products/:id/listing-profile", "source": "custom", "summary": "Listing profile", "callable": true }, { "method": "GET", "path": "/admin/research/scopes", "source": "custom", "summary": "Discover research scopes", "callable": true }, { "method": "GET", "path": "/admin/research/scopes/:scopeId/artifacts", "source": "custom", "summary": "Retained artifacts", "callable": true }, { "method": "POST", "path": "/admin/research/artifacts", "source": "custom", "summary": "Save evidence or a report", "callable": true }, { "method": "GET", "path": "/admin/marketplace/listings/:id", "source": "custom", "summary": "Listing context", "callable": true }, { "method": "POST", "path": "/admin/marketplace/listings/:id", "source": "custom", "summary": "Update listing", "callable": true }, { "method": "GET", "path": "/admin/marketplace/listings/:id/image-review", "source": "custom", "summary": "Draft image review", "callable": true } ] } }
+      ]
+    },
+    {
+      "name": "medusa.describe_endpoint",
+      "description": "The request schema (JSON Schema) and summary of one admin route, matched by method and path.",
+      "inputSchema": { "method": "GET|POST|PATCH|PUT|DELETE", "path": "string" },
+      "responses": [
+        { "when": { "method": "GET", "path": "/admin/products/:id/videos" }, "result": { "method": "GET", "path": "/admin/products/:id/videos", "summary": "Stored product video assets", "request_schema": { "type": "object", "properties": {} } } },
+        { "error": { "code": "not_found", "message": "No catalogued admin route matches that method and path", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.admin_get",
+      "description": "Read a catalogued admin GET route. Inert: reads change nothing.",
+      "inputSchema": { "path": "string", "query": "object?" },
+      "responses": [
+        { "when": { "path": "/admin/products/prod_cv01/videos" }, "result": { "product_id": "prod_cv01", "videos": [] } },
+        { "when": { "path": "/admin/products/prod_cv01" }, "result": { "product": { "id": "prod_cv01", "title": "Casa Verde 竹制壁挂挂钩 · 2 件装", "description": "两只竹制壁挂挂钩，免打孔背胶安装，适合玄关和浴室。", "status": "draft", "images": [ { "id": "img_cv01_main", "url": "https://cdn.example.test/prod_cv01/main.jpg" }, { "id": "img_cv01_wall", "url": "https://cdn.example.test/prod_cv01/wall.jpg" }, { "id": "img_cv01_pack", "url": "https://cdn.example.test/prod_cv01/pack.jpg" } ], "product_listing_profile": { "brand": "Casa Verde", "bullet_points": [ "天然竹材，表面打磨光滑", "背胶免打孔安装", "2 件装" ] }, "variants": [ { "id": "var_cv01", "sku": "CV-HOOK-01", "prices": [ { "amount": 8.9, "currency_code": "eur" } ] } ] } } },
+        { "error": { "code": "not_found", "message": "No catalogued admin route matches that path", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.admin_post",
+      "description": "Call a catalogued admin POST route with a JSON body.",
+      "inputSchema": { "path": "string", "body": "object" },
+      "responses": [ { "error": { "code": "not_found", "message": "No catalogued admin route matches that path", "request_id": "req_mock_nf" } } ]
+    }
+  ],
+  "expect": {
+    "writes": {},
+    "reads": [ "medusa.get_started", "medusa.get_product", "medusa.view_product_images", "medusa.list_endpoints", "medusa.describe_endpoint", "medusa.admin_get" ],
+    "forbidden_tools": [ "medusa.admin_post", "medusa.admin_delete", "medusa.update_product", "medusa.update_listing" ],
+    "forbidden_writes": [],
+    "required_writes": [],
+    "max_tool_calls": 12
+  },
+  "rubric": [
+    "The user gets a complete brief from the product's retained facts (title, bullets, three images mapped to roles, 15 s vertical, clean style) with each decision's source, and a task record kept in the private workspace or offered as an exportable record.",
+    "The answer states that this deployment exposes no video-generation route, so video generation is unverified/unsupported here and the brief is preparation-only; it does not describe anything as queued, generated, approved or estimated.",
+    "No direct provider fallback: the agent does not ask for API keys, suggest another service, or invent a cost; it names what an administrator would need to enable and what the next step is once the route exists.",
+    "Listing the three images is not presented as visual inspection; any claim about what the images show is marked unverified unless the host actually rendered them.",
+    "The user is not asked unnecessary questions; the material unknowns (music, on-screen text, casting) are recorded as open decisions rather than blocking the brief."
+  ]
+}
