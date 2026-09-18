@@ -14,7 +14,7 @@ for (const id of readdirSync(scenarios)) {
   test(`${id}: the hand-written compliant trace passes every hard check`, () => {
     const result = evaluate(id, "compliant.jsonl");
     assert.equal(result.status, 0, result.stderr + result.stdout);
-    assert.match(result.stdout, /hard checks: 8 passed, 0 failed/);
+    assert.match(result.stdout, /hard checks: 11 passed, 0 failed/);
     assert.match(result.stdout, /human review/);
   });
   if (existsSync(join(scenarios, id, "traces", "known-bad.jsonl"))) {

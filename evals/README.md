@@ -19,7 +19,7 @@ Only the third is behavioral evidence. The first two run in CI without credentia
 - `request` — the user's message, verbatim, in the user's language.
 - `workspace` — a directory of synthetic private state (merchant preferences, task records). Copied per run; never a real merchant.
 - `tools[]` — the mocked MCP contract: `name`, `description`, an abbreviated `inputSchema`, and `responses[]` tried in order. A response with `when` matches when every listed argument equals; `once` serves it only the first time; a response without `when` is the fallback. `result` is a normal result, `error` an `isError: true` result.
-- `expect` — the hard checks: `writes` (allowed argument names per write tool), `reads` (tools that count as reading current state), `forbidden_tools`, `forbidden_writes` (labelled partial argument shapes a write must never match), `required_writes` (partial argument shapes some write must match), `forbidden_write_text` (strings that must not appear anywhere in a write's arguments, case-insensitive — for copy that must exclude unsupported claims), `max_tool_calls`. Partial shapes match deeply: every key given must be present with an equal value, nested objects recurse, arrays compare whole, and the value `"*"` accepts any present value (so `{copy: {title: "*"}}` means "a title was sent"). That is enough to require `review_analysis.status: unavailable` inside an `admin_post` body or to forbid any POST to `/admin/research/plans`.
+- `expect` — the hard checks (the first eight judge the trace; the last three judge private state and need `--workspace`, `--install` and `--final`): `writes` (allowed argument names per write tool), `reads` (tools that count as reading current state), `forbidden_tools`, `forbidden_writes` (labelled partial argument shapes a write must never match), `required_writes` (partial argument shapes some write must match), `forbidden_write_text` (strings that must not appear anywhere in a write's arguments, case-insensitive — for copy that must exclude unsupported claims), `max_tool_calls`. Partial shapes match deeply: every key given must be present with an equal value, nested objects recurse, arrays compare whole, and the value `"*"` accepts any present value (so `{copy: {title: "*"}}` means "a title was sent"). That is enough to require `review_analysis.status: unavailable` inside an `admin_post` body or to forbid any POST to `/admin/research/plans`.
 - `rubric[]` — what a human judges in the final answer. Not matched mechanically.
 
 `traces/compliant.jsonl` (every scenario) and `traces/known-bad.jsonl` (where present) are hand-written. They exist so the evaluator can be tested; they are not runs.
@@ -36,8 +36,10 @@ node scripts/mock-mcp.mjs <scenario.json> <trace.jsonl> call <tool> '<json args>
 ## The evaluator
 
 ```
-node scripts/evaluate.mjs <scenario.json> <trace.jsonl>
+node scripts/evaluate.mjs <scenario.json> <trace.jsonl> [--workspace <run dir>] [--install <installed package>] [--final <final.md>]
 ```
+
+A run that made no tool call has no trace file; that is an empty trace.
 
 Hard checks, all deterministic:
 
@@ -49,10 +51,13 @@ Hard checks, all deterministic:
 | forbidden | a `forbidden_tools` entry is called |
 | forbidden-write | a write matches a `forbidden_writes` shape (the finding carries that entry's `label`) |
 | text | a write's arguments contain a `forbidden_write_text` string |
+| workspace | with `--workspace <run dir>`: a path in `workspace.unchanged` differs from the scenario's fixture, an `exists` path is missing, an `absent` path exists, a `contains` text is missing or a `not_contains` text is present |
+| install | with `--install <dir>` and `install_unchanged: true`: any file inside the installed package differs from, or is not in, the repository's package |
+| final | with `--final <file>`: the final answer contains a `final_forbidden_text` string |
 | required | a `required_writes` entry never happened |
 | budget | more than `max_tool_calls` calls |
 
-Exit 0 means the trace passed the eight hard checks; the rubric is printed for a human. Exact prose is never matched, and a trace is never graded by whether the agent repeats the skill's own rules.
+Exit 0 means the trace passed the eleven hard checks; the rubric is printed for a human. Exact prose is never matched, and a trace is never graded by whether the agent repeats the skill's own rules.
 
 ## Running an agent
 
@@ -74,5 +79,9 @@ For a guidance change, record a baseline run first, change the guidance, then re
 | [listing-copy-suggest-only](scenarios/listing-copy-suggest-only/scenario.json) | intgral-listing | title/bullet suggestions asked for, no write authorized | [baseline](runs/2026-09-18-listing-copy-suggest-only-baseline/run.md), [updated](runs/2026-09-18-listing-copy-suggest-only-updated/run.md) |
 | [listing-copy-conflict](scenarios/listing-copy-conflict/scenario.json) | intgral-listing | authorized bullet rewrite; user asserts stainless steel and a 5 kg load, the ERP says bamboo and nothing about load | [baseline](runs/2026-09-18-listing-copy-conflict-baseline/run.md), [updated](runs/2026-09-18-listing-copy-conflict-updated/run.md) |
 | [listing-copy-localize-es](scenarios/listing-copy-localize-es/scenario.json) | intgral-listing | authorized Spanish rewrite of title, bullets and description for Amazon ES | [baseline](runs/2026-09-18-listing-copy-localize-es-baseline/run.md), [updated](runs/2026-09-18-listing-copy-localize-es-updated/run.md) |
+| [workspace-first-time-setup](scenarios/workspace-first-time-setup/scenario.json) | intgral-listing | empty configured workspace; new merchant supplies id, market, language, currency | [baseline](runs/2026-09-18-workspace-first-time-setup-baseline/run.md), [updated](runs/2026-09-18-workspace-first-time-setup-updated/run.md) |
+| [workspace-lasting-vs-one-off](scenarios/workspace-lasting-vs-one-off/scenario.json) | intgral-listing | a one-off title variant plus a lasting rule in one request | [baseline](runs/2026-09-18-workspace-lasting-vs-one-off-baseline/run.md), [updated](runs/2026-09-18-workspace-lasting-vs-one-off-updated/run.md) |
+| [workspace-switch-merchant](scenarios/workspace-switch-merchant/scenario.json) | intgral-listing | two merchants in one workspace; a title suggestion for the second | [baseline](runs/2026-09-18-workspace-switch-merchant-baseline/run.md), [updated](runs/2026-09-18-workspace-switch-merchant-updated/run.md) |
+| [workspace-no-filesystem](scenarios/workspace-no-filesystem/scenario.json) | intgral-listing | same setup request on a host with no writable filesystem | [baseline](runs/2026-09-18-workspace-no-filesystem-baseline/run.md), [updated](runs/2026-09-18-workspace-no-filesystem-updated/run.md) |
 | [video-brief-missing-generation-route](scenarios/video-brief-missing-generation-route/scenario.json) | intgral-video | 15 s vertical video requested; the deployment exposes no video-generation route | [recorded](runs/2026-09-18-video-brief-missing-generation-route-recorded/run.md) |
 | [research-brief-pinned-no-acquisition](scenarios/research-brief-pinned-no-acquisition/scenario.json) | intgral-research | brief from three retained reports, one superseded version, stale-ish freshness, no collection | [baseline](runs/2026-09-18-research-brief-pinned-no-acquisition-baseline/run.md), [updated](runs/2026-09-18-research-brief-pinned-no-acquisition-updated/run.md) |

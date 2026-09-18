@@ -1,0 +1,91 @@
+{
+  "id": "workspace-first-time-setup",
+  "version": 1,
+  "skill": "intgral-listing",
+  "workspace": "workspace",
+  "merchant": "verde-norte-de",
+  "request": "我们是新商家 Verde Norte，商家 ID 用 verde-norte-de，站点 Amazon DE，商品文案用德语，货币 EUR。私有目录就用现在配置的那个。把这些设置存下来，以后都按这个来。",
+  "tools": [
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information. Report only host capabilities the client actually has.",
+      "inputSchema": {
+        "client_capabilities": "object?",
+        "open_browser": "boolean?"
+      },
+      "responses": [
+        {
+          "result": {
+            "contract_version": 1,
+            "runtime": {
+              "erp": "available",
+              "host": {
+                "browser": "unknown",
+                "file_bytes": "unknown"
+              },
+              "host_capability_source": "caller_reported_not_verified",
+              "limitations": []
+            },
+            "capabilities": [
+              "products",
+              "listings",
+              "images"
+            ],
+            "today": "2026-09-18",
+            "erp_url": "https://erp.example.test/app"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {},
+    "reads": [
+      "medusa.get_started",
+      "medusa.get_product",
+      "medusa.get_listing_context",
+      "medusa.admin_get"
+    ],
+    "forbidden_tools": [
+      "medusa.update_listing",
+      "medusa.update_product",
+      "medusa.admin_post"
+    ],
+    "forbidden_writes": [],
+    "required_writes": [],
+    "install_unchanged": true,
+    "max_tool_calls": 4,
+    "workspace": {
+      "unchanged": [
+        ".keep"
+      ],
+      "exists": [
+        "merchants/verde-norte-de/preferences.md"
+      ],
+      "contains": [
+        {
+          "path": "merchants/verde-norte-de/preferences.md",
+          "text": "verde-norte-de"
+        },
+        {
+          "path": "merchants/verde-norte-de/preferences.md",
+          "text": "Amazon DE"
+        }
+      ],
+      "absent": [
+        "preferences.example.md"
+      ]
+    },
+    "final_forbidden_text": [
+      "下次自动",
+      "永久记住"
+    ]
+  },
+  "rubric": [
+    "The stable identifier is taken from the user (verde-norte-de) and the private location is the configured workspace; the agent confirms both rather than inferring an identifier from the display name, and asks nothing the user already answered.",
+    "The preference file is created under merchants/verde-norte-de/ from the bundled template's structure with the supplied values (market, language, currency, brand name), unknown items left unset, and a first row in the lasting-rules table with today's date and the user as source.",
+    "The agent reads the file back and reports the actual path and contents it saved; it explains that persistence is this file in this workspace (not the agent's memory) and what the user should do when switching machines or reinstalling.",
+    "Nothing is written inside the installed package; the bundled template is not modified.",
+    "The answer is in Chinese and ends with what will happen on the next task (the file is read first)."
+  ]
+}
