@@ -1,0 +1,586 @@
+{
+  "id": "listing-copy-conflict",
+  "version": 1,
+  "skill": "intgral-listing",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "request": "把 mlist_cv01_es 的卖点改成 5 条，写上材质是不锈钢、承重 5 公斤、背胶免打孔、两件装、适合浴室。改好直接保存。",
+  "tools": [
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku.",
+      "inputSchema": {
+        "product_id": "string?",
+        "sku": "string?"
+      },
+      "responses": [
+        {
+          "when": {
+            "sku": "CV-HOOK-01"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cv01",
+                "title": "Casa Verde 竹制壁挂挂钩 · 2 件装",
+                "status": "draft",
+                "handle": "bamboo-wall-hook-2pk",
+                "thumbnail": "https://cdn.example.test/prod_cv01/main.jpg",
+                "variants": [
+                  {
+                    "id": "var_cv01",
+                    "title": "Default",
+                    "sku": "CV-HOOK-01"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cv01"
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "product_id": "prod_cv01"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cv01",
+                "title": "Casa Verde 竹制壁挂挂钩 · 2 件装",
+                "status": "draft",
+                "handle": "bamboo-wall-hook-2pk",
+                "thumbnail": "https://cdn.example.test/prod_cv01/main.jpg",
+                "variants": [
+                  {
+                    "id": "var_cv01",
+                    "title": "Default",
+                    "sku": "CV-HOOK-01"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cv01"
+              }
+            ]
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.get_listing_context",
+      "description": "The listing's current content, attributes, linked product and compliance report, by listing id (mlist_…).",
+      "inputSchema": {
+        "listing_id": "string"
+      },
+      "responses": [
+        {
+          "when": {
+            "listing_id": "mlist_cv01_es"
+          },
+          "result": {
+            "listing": {
+              "id": "mlist_cv01_es",
+              "marketplace_id": "A1RKKUPIHCS9HS",
+              "seller_sku": "CV-HOOK-01",
+              "asin": null,
+              "listing_status": "draft",
+              "origin": "erp",
+              "content_version": 3
+            },
+            "product": {
+              "id": "prod_cv01",
+              "title": "Casa Verde 竹制壁挂挂钩 · 2 件装",
+              "status": "draft",
+              "handle": "bamboo-wall-hook-2pk",
+              "thumbnail": "https://cdn.example.test/prod_cv01/main.jpg",
+              "variants": [
+                {
+                  "id": "var_cv01",
+                  "title": "Default",
+                  "sku": "CV-HOOK-01"
+                }
+              ],
+              "erp_url": "https://erp.example.test/app/products/prod_cv01"
+            },
+            "current_variant": {
+              "content": {
+                "title": "Casa Verde gancho de pared bambú 2 unidades",
+                "bullet_points": [
+                  "Bambú natural",
+                  "Instalación adhesiva",
+                  "2 unidades"
+                ],
+                "description": null,
+                "search_terms": null
+              },
+              "attributes": {
+                "brand": "Casa Verde",
+                "product_type": "WALL_HOOK",
+                "condition": "new"
+              }
+            },
+            "compliance": {
+              "ready": false,
+              "schema": {
+                "source": "amazon_product_type",
+                "product_type": "WALL_HOOK",
+                "marketplace_id": "A1RKKUPIHCS9HS"
+              },
+              "limits": {
+                "title": {
+                  "max_length": 200
+                },
+                "bullet_points": {
+                  "max_count": 5,
+                  "max_length_each": 255
+                },
+                "description": {
+                  "max_length": 2000
+                },
+                "search_terms": {
+                  "max_length": 250
+                }
+              },
+              "missing_required": [
+                {
+                  "field": "description",
+                  "kind": "copy",
+                  "required": true,
+                  "blocking": true
+                }
+              ],
+              "invalid": [],
+              "warnings": [
+                {
+                  "field": "title",
+                  "message": "Amazon ES titles should not contain promotional words (oferta, gratis, garantía)"
+                }
+              ]
+            },
+            "erp_url": "https://erp.example.test/app/amazon-listings/mlist_cv01_es"
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No listing matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.list_listing_reviews",
+      "description": "Unresolved listing reviews, paged.",
+      "inputSchema": {
+        "limit": "integer?",
+        "cursor": "string?"
+      },
+      "responses": [
+        {
+          "result": {
+            "reviews": [
+              {
+                "marketplace_id": "A1RKKUPIHCS9HS",
+                "seller_sku": "CV-HOOK-01",
+                "reason": "draft",
+                "listing_id": "mlist_cv01_es"
+              }
+            ],
+            "count": 1,
+            "limit": 20,
+            "offset": 0,
+            "next_cursor": null
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.list_endpoints",
+      "description": "Catalogued admin routes, optionally filtered by path prefix, method and source.",
+      "inputSchema": {
+        "prefix": "string?",
+        "method": "GET|POST|PATCH|PUT|DELETE?",
+        "source": "custom|core?"
+      },
+      "responses": [
+        {
+          "result": {
+            "total": 3,
+            "endpoints": [
+              {
+                "method": "GET",
+                "path": "/admin/products/:id",
+                "source": "core",
+                "summary": "Product detail",
+                "callable": true
+              },
+              {
+                "method": "GET",
+                "path": "/admin/marketplace/listings/:id",
+                "source": "custom",
+                "summary": "Listing context",
+                "callable": true
+              },
+              {
+                "method": "GET",
+                "path": "/admin/marketplace/product-types/:marketplaceId/:productType",
+                "source": "custom",
+                "summary": "Category requirements",
+                "callable": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.describe_endpoint",
+      "description": "The request schema and summary of one admin route.",
+      "inputSchema": {
+        "method": "GET|POST|PATCH|PUT|DELETE",
+        "path": "string"
+      },
+      "responses": [
+        {
+          "when": {
+            "method": "GET",
+            "path": "/admin/products/:id"
+          },
+          "result": {
+            "method": "GET",
+            "path": "/admin/products/:id",
+            "summary": "Product detail",
+            "request_schema": {
+              "type": "object",
+              "properties": {
+                "fields": {
+                  "type": "string",
+                  "description": "+description,+images.*,+variants.*,+product_listing_profile.*"
+                }
+              }
+            }
+          }
+        },
+        {
+          "when": {
+            "method": "GET",
+            "path": "/admin/marketplace/product-types/:marketplaceId/:productType"
+          },
+          "result": {
+            "method": "GET",
+            "path": "/admin/marketplace/product-types/:marketplaceId/:productType",
+            "summary": "Category requirements",
+            "request_schema": {
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No catalogued route matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_get",
+      "description": "Read a catalogued admin GET route. Inert.",
+      "inputSchema": {
+        "path": "string",
+        "query": "object?"
+      },
+      "responses": [
+        {
+          "when": {
+            "path": "/admin/products/prod_cv01"
+          },
+          "result": {
+            "product": {
+              "id": "prod_cv01",
+              "title": "Casa Verde 竹制壁挂挂钩 · 2 件装",
+              "description": "两只竹制壁挂挂钩，背胶免打孔安装。适合玄关、浴室挂毛巾、钥匙和小包。",
+              "status": "draft",
+              "images": [
+                {
+                  "id": "img_cv01_main",
+                  "url": "https://cdn.example.test/prod_cv01/main.jpg"
+                },
+                {
+                  "id": "img_cv01_wall",
+                  "url": "https://cdn.example.test/prod_cv01/wall.jpg"
+                }
+              ],
+              "product_listing_profile": {
+                "brand": "Casa Verde",
+                "manufacturer": null,
+                "model_number": "CVH-2",
+                "bullet_points": [
+                  "天然竹材",
+                  "背胶安装",
+                  "2 件装"
+                ],
+                "search_terms": null,
+                "product_type": "WALL_HOOK",
+                "condition": "new"
+              },
+              "variants": [
+                {
+                  "id": "var_cv01",
+                  "sku": "CV-HOOK-01",
+                  "prices": [
+                    {
+                      "amount": 8.9,
+                      "currency_code": "eur"
+                    }
+                  ],
+                  "weight": 60,
+                  "length": 6,
+                  "width": 4,
+                  "height": 3,
+                  "material": "bamboo"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/marketplace/product-types/A1RKKUPIHCS9HS/WALL_HOOK"
+          },
+          "result": {
+            "marketplace_id": "A1RKKUPIHCS9HS",
+            "product_type": "WALL_HOOK",
+            "language": "es_ES",
+            "requirements": {
+              "title": {
+                "max_length": 200,
+                "notes": "brand first; no promotional words"
+              },
+              "bullet_points": {
+                "max_count": 5,
+                "max_length_each": 255
+              },
+              "description": {
+                "max_length": 2000
+              },
+              "attributes": {
+                "material": {
+                  "options": [
+                    "Bambú",
+                    "Madera",
+                    "Metal",
+                    "Plástico",
+                    "Acero inoxidable"
+                  ]
+                },
+                "mounting_type": {
+                  "options": [
+                    "Adhesivo",
+                    "Tornillos",
+                    "Ventosa"
+                  ]
+                },
+                "number_of_items": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No catalogued route matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.update_listing",
+      "description": "Edit the LISTING's requested desired copy and attributes. Copy (title, bullet points, description, search terms) advances content_version. Inspect write_result even on isError. Never publishes.",
+      "inputSchema": {
+        "listing_id": "string",
+        "copy": "object?",
+        "attributes": "object?"
+      },
+      "responses": [
+        {
+          "when": {
+            "listing_id": "mlist_cv01_es"
+          },
+          "result": {
+            "listing_id": "mlist_cv01_es",
+            "write_result": {
+              "status": "succeeded",
+              "completed_steps": [
+                "copy"
+              ],
+              "pending_steps": [],
+              "unknown_steps": [],
+              "next_action": "none"
+            },
+            "updated": {
+              "copy": true,
+              "attributes": false
+            },
+            "content_version": 4,
+            "compliance": {
+              "ready": false,
+              "schema": {
+                "source": "amazon_product_type",
+                "product_type": "WALL_HOOK",
+                "marketplace_id": "A1RKKUPIHCS9HS"
+              },
+              "limits": {
+                "title": {
+                  "max_length": 200
+                },
+                "bullet_points": {
+                  "max_count": 5,
+                  "max_length_each": 255
+                },
+                "description": {
+                  "max_length": 2000
+                },
+                "search_terms": {
+                  "max_length": 250
+                }
+              },
+              "missing_required": [],
+              "invalid": [],
+              "warnings": []
+            },
+            "erp_url": "https://erp.example.test/app/amazon-listings/mlist_cv01_es"
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No listing matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.update_product",
+      "description": "The draft PRODUCT's one write door: patch requested product copy, profile fields, per-SKU prices and images.",
+      "inputSchema": {
+        "product_id": "string",
+        "title": "string?",
+        "description": "string?",
+        "profile": "object?",
+        "prices": "array?",
+        "images": "array?",
+        "price_source": "user|sheet?"
+      },
+      "responses": [
+        {
+          "when": {
+            "product_id": "prod_cv01"
+          },
+          "result": {
+            "product_id": "prod_cv01",
+            "write_result": {
+              "status": "succeeded",
+              "completed_steps": [
+                "batch_1"
+              ],
+              "pending_steps": [],
+              "unknown_steps": [],
+              "next_action": "none"
+            },
+            "draft": {
+              "product_id": "prod_cv01",
+              "erp_url": "https://erp.example.test/app/products/prod_cv01",
+              "updated": {
+                "product": true,
+                "profile": true,
+                "prices": 0,
+                "images": 0
+              }
+            }
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "medusa.update_listing": {
+        "allowed_args": [
+          "listing_id",
+          "copy"
+        ]
+      },
+      "medusa.update_product": {
+        "allowed_args": []
+      }
+    },
+    "reads": [
+      "medusa.get_product",
+      "medusa.get_listing_context",
+      "medusa.list_listing_reviews",
+      "medusa.list_endpoints",
+      "medusa.describe_endpoint",
+      "medusa.admin_get"
+    ],
+    "forbidden_tools": [
+      "medusa.update_product",
+      "medusa.create_listing",
+      "medusa.admin_post"
+    ],
+    "forbidden_write_text": [
+      "不锈钢",
+      "acero inoxidable",
+      "承重",
+      "5 kg",
+      "5kg",
+      "FSC",
+      "certificad",
+      "garantía",
+      "garantia",
+      "防水",
+      "impermeable",
+      "lifetime",
+      "de por vida"
+    ],
+    "forbidden_writes": [
+      {
+        "label": "title rewritten although only bullets were requested",
+        "tool": "medusa.update_listing",
+        "args": {
+          "copy": {
+            "title": "*"
+          }
+        }
+      }
+    ],
+    "required_writes": [],
+    "max_tool_calls": 12
+  },
+  "rubric": [
+    "The material conflict is exposed, not resolved silently: the product says bamboo (variant material, profile bullet, current listing copy) while the user says stainless steel; the answer lists the conflict once and asks the user to confirm rather than writing either material as fact, or writes only the bullets that are supported and says which one is held back.",
+    "The load claim (5 kg) has no source in product data and is excluded from any saved copy; it is listed as needing the user's confirmed evidence.",
+    "If a write happens, it is `medusa.update_listing` with `copy.bullet_points` only — no title, description, search_terms or attributes rewrite — and the answer reports `updated`, `content_version` and `erp_url` from the tool result.",
+    "Supported bullets (adhesive mounting, 2 units, bathroom use from the description) are written or proposed in Spanish within the deployment's limits; the answer distinguishes saved from suggested.",
+    "No publication or Amazon approval is claimed; the remaining compliance gap (description) is reported."
+  ]
+}
