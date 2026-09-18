@@ -22,7 +22,7 @@ Only the third is behavioral evidence. The first two run in CI without credentia
 - `expect` — the hard checks: `writes` (allowed argument names per write tool), `reads` (tools that count as reading current state), `forbidden_tools`, `forbidden_writes` (labelled partial argument shapes a write must never match), `required_writes` (partial argument shapes some write must match), `max_tool_calls`. Partial shapes match deeply: every key given must be present with an equal value, nested objects recurse, arrays compare whole. That is enough to require `review_analysis.status: unavailable` inside an `admin_post` body or to forbid any POST to `/admin/research/plans`.
 - `rubric[]` — what a human judges in the final answer. Not matched mechanically.
 
-`traces/compliant.jsonl` and `traces/known-bad.jsonl` are hand-written. They exist so the evaluator can be tested; they are not runs.
+`traces/compliant.jsonl` (every scenario) and `traces/known-bad.jsonl` (where present) are hand-written. They exist so the evaluator can be tested; they are not runs.
 
 ## The mocked boundary
 
@@ -67,3 +67,7 @@ For a guidance change, record a baseline run first, change the guidance, then re
 | Scenario | Skill | Journey | Runs |
 | --- | --- | --- | --- |
 | [listing-title-only-two-skus](scenarios/listing-title-only-two-skus/scenario.json) | intgral-listing | title-only edit on two SKUs; one write returns `unknown` | [baseline](runs/2026-09-18-listing-title-only-two-skus-baseline/run.md), [updated](runs/2026-09-18-listing-title-only-two-skus-updated/run.md) |
+| [research-market-proxies](scenarios/research-market-proxies/scenario.json) | intgral-research | market report from retained listings only; badge floors, two dated points, a cheap alternative; no measurement record | [baseline](runs/2026-09-18-research-market-proxies-baseline/run.md), [updated](runs/2026-09-18-research-market-proxies-updated/run.md) |
+| [research-competitor-ratings-only](scenarios/research-competitor-ratings-only/scenario.json) | intgral-research | complaint themes asked for; ratings and counts retained, no review bodies | [baseline](runs/2026-09-18-research-competitor-ratings-only-baseline/run.md), [updated](runs/2026-09-18-research-competitor-ratings-only-updated/run.md) |
+| [research-supplier-incomplete-quotes](scenarios/research-supplier-incomplete-quotes/scenario.json) | intgral-research | "which is cheapest" across a FOB quote, a listing tier and a per-set CN¥ price | [baseline](runs/2026-09-18-research-supplier-incomplete-quotes-baseline/run.md), [updated](runs/2026-09-18-research-supplier-incomplete-quotes-updated/run.md) |
+| [research-brief-pinned-no-acquisition](scenarios/research-brief-pinned-no-acquisition/scenario.json) | intgral-research | brief from three retained reports, one superseded version, stale-ish freshness, no collection | [baseline](runs/2026-09-18-research-brief-pinned-no-acquisition-baseline/run.md), [updated](runs/2026-09-18-research-brief-pinned-no-acquisition-updated/run.md) |
