@@ -2,6 +2,8 @@
 
 ## `competitor_research` report data
 
+Declared `schema_revision: competitor_research/1`.
+
 ```json
 {
   "candidates": [{
