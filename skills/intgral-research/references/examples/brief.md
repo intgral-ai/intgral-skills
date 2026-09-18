@@ -15,7 +15,7 @@ Retained reports, read through the catalogued routes (`latest=false` to see hist
 | rart_ex_comp | 1 | competitor_research | 2026-09-04 | partial (bodies for one variant) | evidence 16 days old, advisory |
 | rart_ex_supplier | 1 | product_supplier_research | 2026-09-10 | partial (landed cost unknown) | evidence 7-13 days old, advisory |
 
-The merchant's private preferences supply a brand tone rule ("plain, no superlatives"). That is an approved brand rule, not a product fact.
+The merchant's private preferences supply a brand tone rule ("plain, no superlatives"). That is an instruction to follow, not retained evidence: the Brand Voice section stays `unknown` and cites nothing, while the rule shapes how the brief is worded.
 
 ## Method
 
@@ -47,7 +47,7 @@ Report data excerpt (`product_brief`, `template_revision: product_brief@1`):
     "problems_pain_points": {"status": "supported", "heading": "4. Problems & Pain Points", "content": "Reported (one competitor variant, 40-review convenience sample): dividers shift when the drawer opens (6/40); a counterexample reports stability at 42 cm. Prevalence is unknown.", "evidence_ids": ["rart_ex_comp", "rart_ex_rev_01"]},
     "personas": {"status": "unknown", "heading": "3. Personas", "content": "Task-based only: a household organizing cutlery in a drawer of unknown width. Demographics are not evidenced.", "evidence_ids": []},
     "customer_language": {"status": "supported", "heading": "9. Customer Language", "content": "Original: \"Encaja perfecto en mi cajón de 42 cm, la parte extensible no baila.\" Translation kept separate: fits my 42 cm drawer perfectly, the expandable part does not wobble.", "evidence_ids": ["rart_ex_rev_01"]},
-    "brand_voice": {"status": "supported", "heading": "10. Brand Voice", "content": "Merchant rule: plain wording, no superlatives. This is an approved brand rule, not a product fact.", "evidence_ids": []},
+    "brand_voice": {"status": "unknown", "heading": "10. Brand Voice", "content": "No ERP-retained brand rule. The merchant's private preference (plain wording, no superlatives) is applied as an instruction, not cited as evidence.", "evidence_ids": []},
     "success_metrics": {"status": "unknown", "heading": "12. Success Metrics", "content": "No approved baseline or target; proposed: first-month sell-through against the per-listing floors is not a valid target because floors are lower bounds.", "evidence_ids": []}
   },
   "specifications": [{"attribute": "expanded width", "unit": "cm", "baseline": "competitors list 32-48 and 33-50", "source_or_rationale": "listing strings, not measurements", "proposed_target": "33-50 (proposed)", "validation_method": "measure a sample and three typical drawers", "approval_status": "proposed"}],
