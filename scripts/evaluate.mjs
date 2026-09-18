@@ -7,11 +7,11 @@ const [scenarioPath, tracePath] = process.argv.slice(2);
 if (!scenarioPath || !tracePath) { console.error("usage: evaluate.mjs <scenario.json> <trace.jsonl>"); process.exit(2); }
 const scenario = JSON.parse(readFileSync(scenarioPath, "utf8"));
 const calls = readFileSync(tracePath, "utf8").split(/\r?\n/).filter(Boolean).map((line, index) => ({ n: index + 1, ...JSON.parse(line) }));
-const { writes = {}, reads = [], forbidden_tools = [], forbidden_writes = [], required_writes = [], max_tool_calls = Infinity } = scenario.expect;
+const { writes = {}, reads = [], forbidden_tools = [], forbidden_writes = [], forbidden_write_text = [], required_writes = [], max_tool_calls = Infinity } = scenario.expect;
 const failures = [];
 const subjectOf = (call) => call.args?.product_id ?? call.args?.listing_id ?? "";
-// Deep partial match: every key in `wanted` must be present in `actual` with an equal value; objects recurse.
-const matches = (actual, wanted) => wanted !== null && typeof wanted === "object" && !Array.isArray(wanted)
+// Deep partial match: every key in `wanted` must be present in `actual` with an equal value; objects recurse; "*" accepts any present value.
+const matches = (actual, wanted) => wanted === "*" ? actual !== undefined : wanted !== null && typeof wanted === "object" && !Array.isArray(wanted)
   ? actual !== null && typeof actual === "object" && Object.entries(wanted).every(([key, value]) => matches(actual[key], value))
   : JSON.stringify(actual) === JSON.stringify(wanted);
 
@@ -31,6 +31,8 @@ for (const call of calls) {
   const extra = Object.keys(call.args ?? {}).filter((key) => !rule.allowed_args.includes(key));
   if (extra.length) failures.push(`scope: ${label} sends ${extra.join(", ")} beyond the authorized fields`);
   for (const rule of forbidden_writes) if (rule.tool === call.tool && matches(call.args, rule.args)) failures.push(`forbidden-write: ${label} — ${rule.label}`);
+  const text = JSON.stringify(call.args ?? {}).toLowerCase();
+  for (const needle of forbidden_write_text) if (text.includes(needle.toLowerCase())) failures.push(`text: ${label} contains "${needle}"`);
   if (mustRead.has(subject)) failures.push(`retry: ${label} to ${subject} follows read_state_before_retry without a read of current state`);
   if (completed.has(subject)) failures.push(`repeat: ${label} to ${subject} repeats a completed write`);
   const result = call.response?.write_result;
@@ -43,7 +45,7 @@ for (const wanted of required_writes) {
 }
 if (calls.length > max_tool_calls) failures.push(`budget: ${calls.length} tool calls exceed ${max_tool_calls}`);
 
-const checks = ["scope", "retry", "repeat", "forbidden", "forbidden-write", "required", "budget"];
+const checks = ["scope", "retry", "repeat", "forbidden", "forbidden-write", "text", "required", "budget"];
 const failed = new Set(failures.map((line) => line.split(":")[0]));
 for (const line of failures) console.log("FAIL " + line);
 console.log(`hard checks: ${checks.length - failed.size} passed, ${failed.size} failed (${calls.length} tool calls)`);
