@@ -14,7 +14,7 @@ for (const id of readdirSync(scenarios)) {
   test(`${id}: the hand-written compliant trace passes every hard check`, () => {
     const result = evaluate(id, "compliant.jsonl");
     assert.equal(result.status, 0, result.stderr + result.stdout);
-    assert.match(result.stdout, /hard checks: 7 passed, 0 failed/);
+    assert.match(result.stdout, /hard checks: 8 passed, 0 failed/);
     assert.match(result.stdout, /human review/);
   });
   if (existsSync(join(scenarios, id, "traces", "known-bad.jsonl"))) {
@@ -36,4 +36,12 @@ test("research: the known-bad trace names the unauthorized plan and the ratings-
   assert.match(stdout, /forbidden-write: medusa\.admin_post #5 — collection was not authorized/);
   assert.match(stdout, /forbidden-write: medusa\.admin_post #6 — review themes claimed without retained review bodies/);
   assert.match(stdout, /required: no medusa\.admin_post with/);
+});
+
+test("listing copy: the conflict known-bad trace names the unsupported text and the unrequested title", () => {
+  const { stdout, status } = evaluate("listing-copy-conflict", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /text: medusa\.update_listing #3 contains "acero inoxidable"/);
+  assert.match(stdout, /text: medusa\.update_listing #3 contains "5 kg"/);
+  assert.match(stdout, /forbidden-write: medusa\.update_listing #3 — title rewritten/);
 });
