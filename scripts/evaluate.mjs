@@ -9,7 +9,8 @@ const [scenarioPath, tracePath, ...rest] = process.argv.slice(2);
 const option = (name) => { const index = rest.indexOf(name); return index === -1 ? undefined : rest[index + 1]; };
 if (!scenarioPath || !tracePath) { console.error("usage: evaluate.mjs <scenario.json> <trace.jsonl> [--workspace dir] [--install dir] [--final file]"); process.exit(2); }
 const scenario = JSON.parse(readFileSync(scenarioPath, "utf8"));
-const calls = readFileSync(tracePath, "utf8").split(/\r?\n/).filter(Boolean).map((line, index) => ({ n: index + 1, ...JSON.parse(line) }));
+// A run that made no tool call has no trace file; that is an empty trace, not an error.
+const calls = (existsSync(tracePath) ? readFileSync(tracePath, "utf8") : "").split(/\r?\n/).filter(Boolean).map((line, index) => ({ n: index + 1, ...JSON.parse(line) }));
 const { writes = {}, reads = [], forbidden_tools = [], forbidden_writes = [], forbidden_write_text = [], required_writes = [], max_tool_calls = Infinity, workspace = {}, install_unchanged = false, final_forbidden_text = [] } = scenario.expect;
 const failures = [];
 const subjectOf = (call) => call.args?.product_id ?? call.args?.listing_id ?? "";
