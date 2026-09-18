@@ -58,6 +58,7 @@ if (runWorkspace) {
   for (const path of workspace.exists ?? []) if (!existsSync(join(runWorkspace, path))) failures.push(`workspace: ${path} was not created`);
   for (const path of workspace.absent ?? []) if (existsSync(join(runWorkspace, path))) failures.push(`workspace: ${path} exists but must not`);
   for (const { path, text } of workspace.contains ?? []) if (!existsSync(join(runWorkspace, path)) || !readFileSync(join(runWorkspace, path), "utf8").includes(text)) failures.push(`workspace: ${path} does not contain "${text}"`);
+  for (const { path, text } of workspace.not_contains ?? []) if (existsSync(join(runWorkspace, path)) && readFileSync(join(runWorkspace, path), "utf8").includes(text)) failures.push(`workspace: ${path} must not contain "${text}"`);
 }
 const installDir = option("--install");
 if (installDir && install_unchanged) {
