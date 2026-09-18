@@ -42,7 +42,7 @@ function fixture(t) {
   writeFileSync(join(root, "scenario", "scenario.json"), JSON.stringify({
     id: "ws", version: 1, skill: "intgral-listing", request: "x", workspace: "workspace", tools: [],
     expect: { writes: {}, reads: [], forbidden_tools: [], required_writes: [], max_tool_calls: 5,
-      workspace: { unchanged: ["merchants/a/preferences.md"], exists: ["merchants/b/preferences.md"], contains: [{ path: "merchants/b/preferences.md", text: "identifier: b" }], absent: ["merchants/a/rules.md"] },
+      workspace: { unchanged: ["merchants/a/preferences.md"], exists: ["merchants/b/preferences.md"], contains: [{ path: "merchants/b/preferences.md", text: "identifier: b" }], not_contains: [{ path: "merchants/b/preferences.md", text: "one-off" }], absent: ["merchants/a/rules.md"] },
       install_unchanged: true, final_forbidden_text: ["I will remember"] },
     rubric: []
   }));
