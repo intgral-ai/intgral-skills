@@ -2,9 +2,11 @@
 
 Build from exact saved evidence and report revisions. The brief performs zero acquisition: it never refreshes a source, selects a supplier, creates a product or SKU, or authorizes procurement. Missing upstream evidence limits the brief and never forces collection; name the missing stages and coverage.
 
+Worked example with a missing upstream report and a proposal caught drifting into fact: [examples/brief.md](examples/brief.md).
+
 ## Synthesis method
 
-Inventory the exact upstream report revisions and their coverage. Build a claim ledger connecting each proposed brief statement to those reports and their retained evidence. Reconcile conflicts explicitly; recency alone does not make one claim correct.
+Inventory the exact upstream report revisions and their coverage: pin the latest suitable revision of each kind and record superseded versions only as history; report advisory freshness as an age, and never refresh. Cite an upstream report's evidence IDs only when they are readable in the same scope; otherwise cite the report and name the unreadable IDs as a gap. Build a claim ledger connecting each proposed brief statement to those reports and their retained evidence. Reconcile conflicts explicitly; recency alone does not make one claim correct.
 
 Write the sections below using supported findings, clearly labeled proposals and explicit gaps. Derive differentiation only against the actual comparator set. Keep proposed targets separate from measured baselines and identify how each proposal could be tested. Check the finished brief back against its claim ledger and pinned revisions before saving.
 
@@ -14,7 +16,7 @@ Material user, scenario, and differentiation claims keep the chain source observ
 
 Also include specifications (baseline, proposed target and tolerance, rationale, validation method, approval status), a target-cost basis (comparable quantity, currency, date, unknown components), a sample plan (quantity, rationale, cost, timing, owner, authorization), and a validation plan (threshold, evidence, owner, status, failure action).
 
-Save as `product_brief` ([payload](report-data/product_brief.md), [artifacts and reuse](artifacts-and-reuse.md)) with `template_revision: product_brief@1` and `skill_revision: intgral-research/brief@1`.
+Save as `product_brief` ([payload](report-data/product_brief.md), [artifacts and reuse](artifacts-and-reuse.md)) with `template_revision: product_brief@1` and `skill_revision: intgral-research/brief@2`.
 
 ## Done when
 

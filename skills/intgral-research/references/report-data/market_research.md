@@ -2,6 +2,8 @@
 
 ## `market_research` report data
 
+Declared `schema_revision: market_research/1`.
+
 Required objects are `scope_decision`, `source_selection`, `measured_metrics`, `demand_hypotheses`, `trend_gaps`, `competition_prices`, and `opportunities`. `scope_decision.market` must equal the trusted scope market. Every observed claim needs evidence. Competition prices pin an exact `{evidence_id,source_ref,offer_id,observed_at}` and repeat the matching amount/currency/unit/quantity. Unsupported market size, sales, and growth stay null, unless a retained `research-market-measurement/1` record — including the observed-floor sales and market-size measurements an Amazon.es acquisition saves — is repeated exactly; hypotheses and unknowns are labelled explicitly.
 
 An observed claim uses `{text,basis:"observed",observations:[{evidence_id,source_ref,observed_at}],limitations:[...]}`. Inference and unknown claims use `{text,basis,evidence_ids}`. This prevents an artifact-level citation from hiding which source row and date support an observation.

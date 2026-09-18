@@ -47,3 +47,14 @@ test("calling a tool the scenario does not define is an error, not an invented r
   assert.equal(result.status, 1);
   assert.match(result.stderr, /not available/);
 });
+
+test("a call missing a required argument is refused as invalid_arguments and still recorded", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "intgral-mock-"));
+  t.after(() => rmSync(dir, { recursive: true, force: true }));
+  const trace = join(dir, "trace.jsonl");
+  const result = JSON.parse(run(trace, "call", "medusa.update_product", JSON.stringify({ title: "no product id" })).stdout);
+  assert.equal(result.isError, true);
+  assert.equal(result.code, "invalid_arguments");
+  assert.match(result.message, /product_id/);
+  assert.equal(readFileSync(trace, "utf8").trim().split("\n").length, 1);
+});

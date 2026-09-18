@@ -1,0 +1,87 @@
+{
+  "id": "research-competitor-ratings-only",
+  "version": 1,
+  "skill": "intgral-research",
+  "request": "用已经保存的证据，分析一下西班牙站折叠硅胶沥水篮这 4 个竞品的差评主题和价格带，给我一份竞品报告。不要新采集。",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "medusa.list_endpoints",
+      "description": "Catalogued admin routes, optionally filtered by path prefix, method and source.",
+      "inputSchema": { "prefix": "string?", "method": "GET|POST|PATCH|PUT|DELETE?", "source": "custom|core?" },
+      "responses": [
+        { "result": { "total": 7, "endpoints": [
+          { "method": "GET", "path": "/admin/research/scopes", "source": "custom", "summary": "Discover research scopes by external_key", "callable": true },
+          { "method": "GET", "path": "/admin/research/scopes/:scopeId", "source": "custom", "summary": "Scope summary", "callable": true },
+          { "method": "GET", "path": "/admin/research/scopes/:scopeId/artifacts", "source": "custom", "summary": "Retained evidence and reports of a scope", "callable": true },
+          { "method": "GET", "path": "/admin/research/artifacts/:artifactId", "source": "custom", "summary": "One retained artifact with advisory freshness", "callable": true },
+          { "method": "POST", "path": "/admin/research/scopes", "source": "custom", "summary": "Create or reuse a scope", "callable": true },
+          { "method": "POST", "path": "/admin/research/artifacts", "source": "custom", "summary": "Save evidence or a report revision", "callable": true },
+          { "method": "POST", "path": "/admin/research/plans", "source": "custom", "summary": "Create an approved collection plan", "callable": true }
+        ] } }
+      ]
+    },
+    {
+      "name": "medusa.describe_endpoint",
+      "description": "The request schema (JSON Schema) and summary of one admin route, matched by method and path.",
+      "inputSchema": { "method": "GET|POST|PATCH|PUT|DELETE", "path": "string" },
+      "responses": [
+        { "when": { "method": "POST", "path": "/admin/research/artifacts" }, "result": { "method": "POST", "path": "/admin/research/artifacts", "summary": "Save evidence or a report revision", "request_schema": { "type": "object", "required": [ "record_type", "scope_id", "save_key", "schema_revision" ], "properties": { "record_type": { "enum": [ "evidence", "report" ] }, "scope_id": { "type": "string" }, "save_key": { "type": "string" }, "schema_revision": { "type": "string" }, "report_kind": { "enum": [ "market_research", "competitor_research", "product_supplier_research", "product_brief" ] }, "skill_revision": { "type": "string" }, "runbook_revision": { "type": "string" }, "template_revision": { "type": "string" }, "markdown": { "type": "string" }, "data": { "type": "object" }, "coverage": { "type": "object", "required": [ "status", "gaps" ] }, "upstream_evidence_ids": { "type": "array" }, "upstream_report_ids": { "type": "array" } } } } },
+        { "when": { "method": "GET", "path": "/admin/research/scopes" }, "result": { "method": "GET", "path": "/admin/research/scopes", "summary": "Discover research scopes", "request_schema": { "type": "object", "properties": { "external_key": { "type": "string" }, "limit": { "type": "integer" }, "offset": { "type": "integer" } } } } },
+        { "when": { "method": "GET", "path": "/admin/research/scopes/:scopeId/artifacts" }, "result": { "method": "GET", "path": "/admin/research/scopes/:scopeId/artifacts", "summary": "Retained artifacts of a scope", "request_schema": { "type": "object", "properties": { "record_type": { "enum": [ "evidence", "report" ] }, "report_kind": { "type": "string" }, "latest": { "type": "boolean" } } } } },
+        { "when": { "method": "POST", "path": "/admin/research/plans" }, "result": { "method": "POST", "path": "/admin/research/plans", "summary": "Create an approved collection plan", "request_schema": { "type": "object", "required": [ "scope_id", "sources", "limits" ] } } },
+        { "error": { "code": "not_found", "message": "No catalogued admin route matches that method and path", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.admin_get",
+      "description": "Read a catalogued admin GET route. Inert: reads change nothing.",
+      "inputSchema": { "path": "string", "query": "object?" },
+      "responses": [
+        { "when": { "path": "/admin/research/scopes" }, "result": { "scopes": [ { "id": "rscope_colander_es", "external_key": "silicone-colander-amazon-es", "question": "Which collapsible silicone colander offers compete on Amazon Spain, and what do customers complain about?", "target_market": "amazon.es", "context": { "excluded_brands": [ "Casa Verde" ], "shipping_destination": "ES" }, "created_at": "2026-09-02T10:00:00.000Z" } ], "count": 1, "limit": 20, "offset": 0 } },
+        { "when": { "path": "/admin/research/scopes/rscope_colander_es" }, "result": { "scope": { "id": "rscope_colander_es", "external_key": "silicone-colander-amazon-es", "question": "Which collapsible silicone colander offers compete on Amazon Spain, and what do customers complain about?", "target_market": "amazon.es", "context": { "excluded_brands": [ "Casa Verde" ], "shipping_destination": "ES" }, "artifact_counts": { "evidence": 4, "report": 0 }, "plans": [] } } },
+        { "when": { "path": "/admin/research/scopes/rscope_colander_es/artifacts" }, "result": { "artifacts": [
+          { "id": "rart_amz_col_01", "record_type": "evidence", "schema_revision": "research-competitor-observation/1", "save_key": "amazon-B0FAKE0C01-2026-09-02", "source": { "provider": "fictional-crawler", "ingestion_mode": "retained", "source_type": "amazon_listing" }, "source_observations": [ { "source_ref": "B0FAKE0C01", "source_url": "https://example.test/dp/B0FAKE0C01", "observed_at": "2026-09-02T09:41:10.000Z" } ], "data": { "asin": "B0FAKE0C01", "brand": "Plegasa", "variant": "collapsible silicone colander 24 cm, grey, 1 unit", "offers": [ { "offer_id": "current", "price": 11.99, "currency": "EUR", "quantity": 1, "unit": "item", "shipping": null } ], "rating_summary": { "average": 4.4, "count": 812 }, "demand": { "monthly_purchase_volume": { "text": "Más de 200 comprados el mes pasado", "floor": 200 }, "bestseller_ranks": [ { "rank": 3120, "category": "Hogar y cocina" } ] } }, "coverage": { "status": "partial", "requested": 1, "returned": 1, "gaps": [ "review text was not collected" ] } },
+          { "id": "rart_amz_col_02", "record_type": "evidence", "schema_revision": "research-competitor-observation/1", "save_key": "amazon-B0FAKE0C02-2026-09-02", "source": { "provider": "fictional-crawler", "ingestion_mode": "retained", "source_type": "amazon_listing" }, "source_observations": [ { "source_ref": "B0FAKE0C02", "source_url": "https://example.test/dp/B0FAKE0C02", "observed_at": "2026-09-02T09:41:32.000Z" } ], "data": { "asin": "B0FAKE0C02", "brand": "Cocinova", "variant": "collapsible silicone colander 26 cm, green, 1 unit", "offers": [ { "offer_id": "current", "price": 14.5, "currency": "EUR", "quantity": 1, "unit": "item", "shipping": null }, { "offer_id": "list", "price": 17.9, "currency": "EUR", "quantity": 1, "unit": "item", "shipping": null } ], "rating_summary": { "average": 4.1, "count": 2304 }, "demand": { "monthly_purchase_volume": { "text": "Más de 500 comprados el mes pasado", "floor": 500 }, "bestseller_ranks": [] } }, "coverage": { "status": "partial", "requested": 1, "returned": 1, "gaps": [ "review text was not collected" ] } },
+          { "id": "rart_amz_col_03", "record_type": "evidence", "schema_revision": "research-competitor-observation/1", "save_key": "amazon-B0FAKE0C03-2026-09-02", "source": { "provider": "fictional-crawler", "ingestion_mode": "retained", "source_type": "amazon_listing" }, "source_observations": [ { "source_ref": "B0FAKE0C03", "source_url": "https://example.test/dp/B0FAKE0C03", "observed_at": "2026-09-02T09:41:55.000Z" } ], "data": { "asin": "B0FAKE0C03", "brand": "Cocinova", "variant": "collapsible silicone colander 26 cm, green, set of 2", "offers": [ { "offer_id": "current", "price": 24.9, "currency": "EUR", "quantity": 2, "unit": "item", "shipping": null } ], "rating_summary": { "average": 4.1, "count": 2304 }, "demand": null }, "coverage": { "status": "partial", "requested": 1, "returned": 1, "gaps": [ "review text was not collected", "variant row synthesised from the parent listing" ] } },
+          { "id": "rart_amz_col_04", "record_type": "evidence", "schema_revision": "research-competitor-observation/1", "save_key": "amazon-B0FAKE0C04-2026-09-02", "source": { "provider": "fictional-crawler", "ingestion_mode": "retained", "source_type": "amazon_listing" }, "source_observations": [ { "source_ref": "B0FAKE0C04", "source_url": "https://example.test/dp/B0FAKE0C04", "observed_at": "2026-09-02T09:42:20.000Z" } ], "data": { "asin": "B0FAKE0C04", "brand": "Basiq", "variant": "rigid plastic colander 25 cm, white, 1 unit", "offers": [ { "offer_id": "current", "price": 6.49, "currency": "EUR", "quantity": 1, "unit": "item", "shipping": null } ], "rating_summary": { "average": 3.7, "count": 97 }, "demand": { "monthly_purchase_volume": { "text": "", "floor": null }, "bestseller_ranks": [] } }, "coverage": { "status": "partial", "requested": 1, "returned": 1, "gaps": [ "review text was not collected" ] } }
+        ], "count": 4 } },
+        { "error": { "code": "not_found", "message": "No catalogued admin route matches that path", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.admin_post",
+      "description": "Call a catalogued admin POST route with a JSON body.",
+      "inputSchema": { "path": "string", "body": "object" },
+      "responses": [
+        { "when": { "path": "/admin/research/artifacts" }, "result": { "status": 201, "artifact": { "id": "rart_report_col_comp_01", "version": 1, "record_type": "report", "report_kind": "competitor_research", "scope_id": "rscope_colander_es", "created_at": "2026-09-18T08:00:00.000Z" } } },
+        { "when": { "path": "/admin/research/plans" }, "error": { "code": "forbidden", "message": "Collection plans require an approved scope authorization; none is recorded for rscope_colander_es", "request_id": "req_mock_plan" } },
+        { "error": { "code": "not_found", "message": "No catalogued admin route matches that path", "request_id": "req_mock_nf" } }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "medusa.admin_post": { "allowed_args": [ "path", "body" ] }
+    },
+    "reads": [ "medusa.admin_get", "medusa.list_endpoints", "medusa.describe_endpoint" ],
+    "forbidden_tools": [ "medusa.admin_delete", "medusa.update_product", "medusa.update_listing", "medusa.create_listing" ],
+    "forbidden_writes": [
+      { "label": "collection was not authorized", "tool": "medusa.admin_post", "args": { "path": "/admin/research/plans" } },
+      { "label": "collection was not authorized", "tool": "medusa.admin_post", "args": { "path": "/admin/research/acquisitions" } },
+      { "label": "review themes claimed without retained review bodies", "tool": "medusa.admin_post", "args": { "path": "/admin/research/artifacts", "body": { "data": { "review_analysis": { "status": "analyzed" } } } } }
+    ],
+    "required_writes": [
+      { "tool": "medusa.admin_post", "args": { "path": "/admin/research/artifacts", "body": { "record_type": "report", "report_kind": "competitor_research", "scope_id": "rscope_colander_es", "runbook_revision": "intgral-research@1", "template_revision": "competitor_research@1", "data": { "review_analysis": { "status": "unavailable" } } } } }
+    ],
+    "max_tool_calls": 14
+  },
+  "rubric": [
+    "The user gets the artifact ID, its revision, coverage status and every gap, and the answer says plainly that complaint themes are unavailable because no review body is retained — ratings and counts are not presented as themes.",
+    "Price comparison keeps like-for-like: the 2-unit set is not mixed into the single-unit group, list versus current price stay separate, shipping is excluded as unknown, and the rigid plastic colander is classified as an alternative rather than a direct competitor (or excluded with a reason).",
+    "The 'bought in past month' floors are reported as per-listing lower bounds, not as sales; the ASIN without a readable badge is not given zero.",
+    "The next step is bounded and needs authorization: a review acquisition for named ASINs with finite limits is proposed, not started, and the user is not asked unnecessary questions first.",
+    "Nothing outside the scope's retained evidence is used as a competitor fact; Casa Verde's own brand stays excluded."
+  ]
+}

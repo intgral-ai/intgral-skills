@@ -22,6 +22,23 @@ The public GitHub tree-URL install initially failed because Skills CLI 1.7.0 tre
 
 The initial content commit passed [GitHub CI on both Linux and Windows](https://github.com/intgral-ai/intgral-skills/actions/runs/35275229504). Current PR checks are authoritative for subsequent commits.
 
+## Research methods demonstrated from evidence to decision (2026-09-18, INT-725)
+
+The research package now carries a worked example per function under [references/examples/](../skills/intgral-research/references/examples/) — synthetic bamboo drawer organizers, each with positive, incomplete and conflicting variants — and four scenarios in a different fictional domain (collapsible silicone colanders) so the runs test transfer rather than recall: [market proxies](../evals/scenarios/research-market-proxies/scenario.json), [competitor ratings-only](../evals/scenarios/research-competitor-ratings-only/scenario.json), [supplier incomplete quotes](../evals/scenarios/research-supplier-incomplete-quotes/scenario.json), [brief pinned, no acquisition](../evals/scenarios/research-brief-pinned-no-acquisition/scenario.json). Method revisions moved to `intgral-research/<function>@2`.
+
+- `npm run verify` on Windows, Node 24.14.0: 26 tests, zero failures (18 previous, 4 compliant-trace scenarios, 1 research known-bad, 1 research finding names, 1 mock argument validation, 1 evaluator generalisation), plus validation of all three packages.
+- Red evidence: the evaluator's deep-partial matching and `forbidden_writes` did not exist — the generic scenario test failed on the seventh check and the competitor known-bad trace (an unauthorized plan POST plus `review_analysis.status: analyzed` with no bodies) was not rejected; the mock's required-argument refusal failed before it was added.
+- Eight actual agent runs, claude-opus-5 in fresh-context subagents, baseline on the unchanged package (`a93319a`) then rerun after the examples and clarifications (`1efd23f`):
+
+| Scenario | Baseline | Updated |
+| --- | --- | --- |
+| market proxies | 7/7, 10 calls, rubric 5/5 | 7/7, 8 calls, rubric 5/5 |
+| competitor ratings-only | 7/7, 6 calls, rubric 5/5 | 7/7, 5 calls, rubric 5/5 |
+| supplier incomplete quotes | 7/7, 7 calls, rubric 5/5 | **6/7**, 6 calls, rubric 5/5 — one malformed bridge call (bare body without `path`), self-corrected on the next call |
+| brief pinned, no acquisition | 7/7, 12 calls, rubric 5/5 | 7/7, 8 calls, rubric 5/5 |
+
+All baselines already passed; no red was manufactured. What the reruns changed: the agents' reported uncertainties (which `schema_revision` a report carries, whether badge floors may be summed, whether to save a partial report without asking, how to answer "cheapest" on incomparable bases, which revision a brief pins) disappeared, and tool counts fell. Two defects surfaced in the fixtures and package rather than in the agents, both fixed after the runs and recorded in the run files: the brief scenario had pinned evidence from another scope (scenario v2), and the brief example marked a merchant brand rule `supported` with no evidence (example corrected).
+
 ## Behavioral evaluation (2026-09-18, INT-724)
 
 The listing package now carries a repeatable scenario, [listing-title-only-two-skus](../evals/scenarios/listing-title-only-two-skus/scenario.json): a title-only edit on two SKUs where the second write returns `unknown`. The convention — scenario file, mocked MCP boundary, JSONL trace, deterministic evaluator, human rubric — is described in [evals/README.md](../evals/README.md).

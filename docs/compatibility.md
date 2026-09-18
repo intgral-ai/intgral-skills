@@ -24,7 +24,7 @@ Video reference-image support requires a deployment that exposes that mode. Voic
 
 ## Revisions
 
-Repository version 0.1.0 identifies this distribution candidate. New research reports declare runbook `intgral-research@1`, per-function method revisions and existing report template/schema revisions. New video tasks declare `intgral-video@1` when supported. Those content identities are not backend deployment versions; historical records retain their original identities.
+Repository version 0.1.0 identifies this distribution candidate. New research reports declare runbook `intgral-research@1`, per-function method revisions (`intgral-research/<function>@2` since the worked examples and clarifications of INT-725; `@1` reports keep their identity) and existing report template/schema revisions (`<report_kind>@1` and `<report_kind>/1`). New video tasks declare `intgral-video@1` when supported. Those content identities are not backend deployment versions; historical records retain their original identities.
 
 ## Scope of verification
 

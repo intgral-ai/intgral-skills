@@ -2,6 +2,8 @@
 
 Keep product discovery and company discovery distinct while preserving their links; never join companies by name alone. Product evidence covers identity, variants, specifications, images, price tiers, MOQ, customization, packaging, samples, tooling, lead time, trade terms, and destination; supplier evidence covers identity, location, linked products, claimed role, capabilities, capacity, similar work, quality, and qualification statements. Both stay **pending** verification where the source only makes a marketplace claim.
 
+Worked example with an expired quote and a lead-time conflict: [examples/supplier.md](examples/supplier.md).
+
 ## Analysis method
 
 Define must-have criteria, optional preferences, destination, comparable quantity and commercial basis before comparing candidates. Use separate approved product and supplier discovery capabilities; a missing capability leaves that stage pending.
@@ -12,9 +14,9 @@ Prepare an unsent RFQ that asks only unresolved commercial or technical question
 
 Label each material claim: observed listing / pending verification, supplier statement / pending verification, scoped quote, independently checked (evidence, date, result), or unknown / conflicting. A badge, certificate image, quote, or marketplace label does not establish factory capability or qualification.
 
-Keep quantity tiers, sample currency, customization MOQs, and quantity-dependent lead times separate from catalog prices; compare like-for-like variants, packaging, tiers, currency, tax, and delivery terms; separate advertised price, quote, estimate, and target cost. A landed-cost scenario names every component with source and date; a partial subtotal is not a landed cost or margin.
+Keep quantity tiers, sample currency, customization MOQs, and quantity-dependent lead times separate from catalog prices; compare like-for-like variants, packaging, tiers, currency, tax, and delivery terms; separate advertised price, quote, estimate, and target cost. A landed-cost scenario names every component with source and date; a partial subtotal is not a landed cost or margin. When candidates are on different bases (a scoped FOB quote, a listing tier with unknown terms, a per-set price in another currency), "cheapest" is answered as not determinable on the retained evidence; `cost_scenario` stays null with every unknown component named, and the RFQ asks for the same basis from each.
 
-Save as `product_supplier_research` ([payload](report-data/product_supplier_research.md), [artifacts and reuse](artifacts-and-reuse.md)) with `template_revision: product_supplier_research@1` and `skill_revision: intgral-research/supplier@1`.
+Save as `product_supplier_research` ([payload](report-data/product_supplier_research.md), [artifacts and reuse](artifacts-and-reuse.md)) with `template_revision: product_supplier_research@1` and `skill_revision: intgral-research/supplier@2`.
 
 ## Done when
 

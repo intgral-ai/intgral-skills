@@ -2,6 +2,8 @@
 
 ## `product_brief` report data
 
+Declared `schema_revision: product_brief/1`.
+
 `sections` contains exactly the twelve keys: `product_overview`, `target_audience`, `personas`, `problems_pain_points`, `competitive_landscape`, `differentiation`, `objections`, `switching_dynamics`, `customer_language`, `brand_voice`, `proof_points`, and `success_metrics`. Each has `status`, `heading`, `content`, and `evidence_ids`; the Markdown must contain the submitted heading and content. Supported/conflicted sections cite retained evidence; unknown sections remain explicit and do not invent citations.
 
 Also supply non-empty `specifications`, `sample_plan`, and `validation_plan`, plus `target_cost` and `handoff`. Proposed values remain proposed. `handoff.upstream_versions` must equal the `id@version` values of the reports pinned by `upstream_report_ids`; all evidence and upstream reports must share the scope.
