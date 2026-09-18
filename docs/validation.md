@@ -22,6 +22,23 @@ The public GitHub tree-URL install initially failed because Skills CLI 1.7.0 tre
 
 The initial content commit passed [GitHub CI on both Linux and Windows](https://github.com/intgral-ai/intgral-skills/actions/runs/35275229504). Current PR checks are authoritative for subsequent commits.
 
+## Private merchant onboarding, switching and preference reuse (2026-09-18, INT-727)
+
+`references/private-workspace.md` — identical in all three packages, pinned by a test — is now a journey: a fixed layout (`merchants/<stable-id>/preferences.md | rules.md | tasks/ | backups/`), first-time setup, every later task, lasting instructions versus one-off choices with the re-read → dated backup → minimum change → read-back procedure, switching merchants, reinstall, and hosts without a filesystem. The video task template points at the same `tasks/` directory.
+
+- `npm run verify` on Windows, Node 24.14.0: 42 tests, zero failures (34 previous, 4 compliant traces, 2 package-consistency and reinstall tests, 2 evaluator fixture tests), plus validation of all three packages.
+- Red evidence: the evaluator's `--workspace`, `--install` and `--final` checks did not exist, so the two fixture tests failed; the consistency test (three identical copies) and the reinstall test (a preference file outside the package survives a package replacement byte-for-byte) passed on the existing tree and pin those facts.
+- Eight actual agent runs, claude-opus-5, baseline on the package at `ce0f5fc` then rerun on `211454c`:
+
+| Scenario | Baseline | Updated |
+| --- | --- | --- |
+| first-time setup | **10/11** — file created at the workspace root, no `merchants/` layout was stated | 11/11, 0 tool calls |
+| lasting vs one-off | 11/11 | 11/11 |
+| switch merchant | 11/11 | 11/11 |
+| no filesystem | 11/11 (export path also omitted `merchants/`) | 11/11, 0 tool calls |
+
+The setup baseline was a genuine red caused by a guidance gap, not manufactured. The other three already passed; their reruns are unchanged in behavior. The no-filesystem answer now leads with the limitation instead of an acknowledgement that read like a save. Concurrent edits during a run were not simulated; the re-read/merge rule is documented, not exercised.
+
 ## Fact-grounded listing copy and localization (2026-09-18, INT-728)
 
 The listing package gains [references/examples/copy.md](../skills/intgral-listing/references/examples/copy.md) — synthetic before/after title, bullets and localization for a fictional folding lamp, every claim with its source and the deployment limits read from the tools, plus suggestion-only, conflict and Spanish-localization variants — and `content.md` now says to read the full product before writing copy, to hold user-stated numbers without product evidence for confirmation, to use only evidenced usage scenes, and what localization does and does not carry over. Three scenarios in a different fictional product (the bamboo wall hook): [suggest-only](../evals/scenarios/listing-copy-suggest-only/scenario.json), [conflict](../evals/scenarios/listing-copy-conflict/scenario.json), [localize-es](../evals/scenarios/listing-copy-localize-es/scenario.json).
