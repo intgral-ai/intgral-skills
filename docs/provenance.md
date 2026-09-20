@@ -27,3 +27,24 @@ No redistribution permission for these packages was established in the inspected
 Excluded also: developer skills, merchant-specific brand manuals, actual merchant preference files, local task history, recorded research fixtures, provider secrets and all other vendored skills. Public examples use fictional identities. An ES source identifier in a contract example records a supported development capability, not a customer setting.
 
 Links: [Agent Skills format](https://agentskills.io/specification), [Skills CLI](https://github.com/vercel-labs/skills), [MiniMax H3](https://github.com/MiniMax-AI/MiniMax-H3).
+
+## Re-verification against the ERP integration branch (2026-09-20, INT-776)
+
+The three packages were compared file by file with the first-party manuals on the ERP repository's `develop` at `e73d29eb` (2026-09-20) and, for video, `video-generation-v1` at `22ffadae`, because the video manual is not on `develop` yet.
+
+| Package | ERP source on that commit | Result |
+| --- | --- | --- |
+| intgral-listing | `apps/mcp-gateway/mcp-skills/intgral/listing-walkthrough` | byte-identical to the snapshot `c9549a69`; differences are the adaptations in the table above only (relative links, private-workspace rule in place of the pilot brand file, the inference-free fact rule) |
+| intgral-research | `apps/mcp-gateway/mcp-skills/intgral/research-workflow` | byte-identical to the snapshot; the five contract copies (`evidence-schemas.md`, `report-data/*.md`) differ only in fictionalised identifiers and the header line — every field, enum and rule is the same |
+| intgral-video | `apps/mcp-gateway/mcp-skills/intgral/video-walkthrough` on `video-generation-v1` | unchanged since the snapshot |
+
+Nothing on `develop` is unported. Content that exists only in open, unmerged ERP pull requests is deliberately **not** carried here until it merges, because an unmerged contract is not agreed:
+
+| ERP pull request | What it changes in a first-party manual |
+| --- | --- |
+| #358 `video-generation-v1` | the video manual itself (the source of intgral-video) |
+| #379 `feat/ad-research` | `evidence-schemas.md` — a `schema_revision` list filter and the new `research-ad-video-observation/1` evidence contract (Meta / TikTok ad-library video observations) |
+| #385 `feat/research-tab-linking` | `artifacts-and-reuse.md` — attaching a saved report revision to a product variant through `POST /admin/research/links` |
+| #373 `codex/int-659-production-mcp` | listing `references/operate.md` (new) and `review.md` — an operator account that may review, confirm, publish and delete under user authorization; this changes the package's human-publishing boundary and needs its own decision before it is ported |
+
+When one of those merges, port the delta with the same adaptations and record the new baseline commit here.
