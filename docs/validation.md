@@ -103,3 +103,27 @@ The pass identified unnecessary category reads for a title-only edit, overbroad 
 No live ERP writes, supplier contact, paid image/video generation, real report saves or deployment changes were performed. Client-target installation was tested, but a fresh Codex desktop session with a real authenticated ERP was not exercised. Cross-session use, actual media playback, live API compatibility and paid generation acceptance remain separate integration work after the relevant backend PRs land.
 
 ERP root/core/module/HTTP suites were not run: this repository does not change the ERP or gateway. CI is configured to run the standalone gate on Linux and Windows.
+
+## Port re-verification and repeated agent runs (2026-09-20, INT-776)
+
+[docs/provenance.md](provenance.md) now records a file-by-file comparison against the ERP integration branch (`develop` at `e73d29eb`; `video-generation-v1` at `22ffadae`): nothing on `develop` is unported, and the four unmerged ERP pull requests that would touch a first-party manual are listed for later porting. No package content changed for this slice.
+
+Twenty-five actual agent runs across six scenarios and all three packages — the same scenario repeated in independent fresh contexts, three or four on claude-opus-5 and one on claude-sonnet-5 each — to answer whether the installed packages are followed *reliably*, not just once. Package at `456178e` (top of the INT-723 stack). Full records with per-attempt traces and answers are under `evals/runs/2026-09-20-*-reliability/`.
+
+| Scenario | Skill | Hard checks (attempts passed) | Rubric findings |
+| --- | --- | --- | --- |
+| listing-title-only-two-skus | listing | 3/4 — opus 3/3, sonnet 0/1 | all pass; the sonnet failure is the evaluator not recognising a re-read by SKU (fixture answers it with stale state) |
+| listing-copy-conflict | listing | 4/4 | all pass; identical decisions in every attempt |
+| research-competitor-ratings-only | research | 4/4 | 1 fail, 2 partial on price-group shape (a cross-material group; one-member groups) |
+| research-brief-pinned-no-acquisition | research | 2/4 — opus 1/3, sonnet 1/1 | all pass; both failures are the Bash bridge's ~32 KB command-line limit (probe calls over budget; a bare body refused, then corrected) |
+| workspace-switch-merchant | listing | 3/3 with the session merchant stated; 0/2 with it unstated | the two unstated-merchant attempts named the other merchant in the answer, one also read its file |
+| video-brief-missing-generation-route | video | 4/4 | 1 fail: the sonnet attempt described image contents without saying it cannot see images |
+
+Across the 23 convention-faithful attempts, 20 pass every hard check; none of the three failures is a wrong write, an unauthorized action, an invented fact in a saved artifact, or a provider fallback. Where the packages are followed, they are followed the same way by different contexts and models. What repetition surfaced that single runs had not:
+
+- **Harness before package.** Two of the three failures and much of the tool-count variance come from the Bash bridge (JSON on a Windows command line) and from fixture gaps (`artifact/:id` always `not_found`; a SKU read scripted with pre-write state; a refused call counted as a write). These are filed as a follow-up on the evaluation convention, not as package changes.
+- **Merchant isolation depends on the merchant being named.** With the session merchant unstated, both Opus attempts leaked the other merchant's identifier into the answer. The reference's "ask rather than guess" has no safe form when the host cannot ask; the answer should stop at the question without listing candidates.
+- **The weaker model drops the visibility disclaimer** the stronger one writes unprompted. A required sentence in `briefing.md` when the host reports no image rendering would make that deterministic.
+- **Price-group discipline** in the competitor method is the one place three of four attempts drifted from strict like-for-like.
+
+The rubric verdicts were judged by the dispatching session, not yet by a human; the human review is the acceptance step. `npm run verify` on Windows, Node 24.14.0: 42 tests, zero failures, plus validation of all three packages — unchanged from INT-727, because this slice adds records, not code.
