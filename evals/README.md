@@ -29,9 +29,10 @@ Only the third is behavioral evidence. The first two run in CI without credentia
 ```
 node scripts/mock-mcp.mjs <scenario.json> <trace.jsonl> list
 node scripts/mock-mcp.mjs <scenario.json> <trace.jsonl> call <tool> '<json args>'
+node scripts/mock-mcp.mjs <scenario.json> <trace.jsonl> call <tool> < body.json
 ```
 
-`list` is `tools/list`. `call` prints the scripted result and appends `{tool, args, isError, response}` to the trace. The trace is the mock's only state. A tool the scenario does not define is an error, never an invented answer.
+`list` is `tools/list`. `call` prints the scripted result and appends `{tool, args, isError, response}` to the trace. The trace is the mock's only state. A tool the scenario does not define is an error, never an invented answer. Omit the JSON argument and the mock reads it from stdin: that is how a large body is sent, since a shell's argument limit (~32 KB on Windows) is not a limit a real MCP client has. A response's `when` compares top-level arguments with `===`, so it matches scalar arguments only; a nested object such as `query` never matches.
 
 ## The evaluator
 
@@ -56,6 +57,8 @@ Hard checks, all deterministic:
 | final | with `--final <file>`: the final answer contains a `final_forbidden_text` string |
 | required | a `required_writes` entry never happened |
 | budget | more than `max_tool_calls` calls |
+
+A call the mock refused for a missing argument never reached the tool: it counts toward `budget` and `forbidden`, but is not judged as a write. A read names its subject in its arguments or in its response, so a read keyed on SKU clears `retry` for the product it returns.
 
 Exit 0 means the trace passed the eleven hard checks; the rubric is printed for a human. Exact prose is never matched, and a trace is never graded by whether the agent repeats the skill's own rules.
 

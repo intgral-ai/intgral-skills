@@ -24,8 +24,11 @@ const completed = new Set(); // subjects with a confirmed write
 for (const call of calls) {
   const label = `${call.tool} #${call.n}`;
   if (forbidden_tools.includes(call.tool)) failures.push(`forbidden: ${label} is not allowed in this scenario`);
+  // A call the mock refused for a missing argument never reached the tool: it is neither a read nor a write, only budget.
+  if (call.isError && call.response?.code === "invalid_arguments") continue;
   if (reads.includes(call.tool)) {
-    const text = JSON.stringify(call.args ?? {});
+    // A read names its subject in the arguments (product_id) or only in the response (a read keyed on SKU).
+    const text = JSON.stringify([call.args ?? {}, call.response ?? {}]);
     for (const subject of mustRead) if (text.includes(subject)) mustRead.delete(subject);
     continue;
   }
