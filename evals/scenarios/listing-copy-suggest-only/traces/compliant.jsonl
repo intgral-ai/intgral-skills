@@ -1,0 +1,2 @@
+{"tool":"medusa.get_listing_context","args":{"listing_id":"mlist_cv01_es"},"isError":false,"response":{"listing":{"id":"mlist_cv01_es"}}}
+{"tool":"medusa.admin_get","args":{"path":"/admin/products/prod_cv01"},"isError":false,"response":{"product":{"id":"prod_cv01"}}}

@@ -33,7 +33,7 @@ The installer replaces distribution files. Treat those files as replaceable. Las
 
 ## Connect
 
-Configure the actual Intgral MCP endpoint using your client's connection settings and your administrator's authentication instructions. Then inspect available tools and, when needed, call `medusa.get_started`. The gateway's own Skill listing is not evidence that your client installed this package.
+Configure the actual Intgral MCP endpoint using your client's connection settings and your administrator's authentication instructions. Then run the capability check in the [compatibility guide](compatibility.md) before the first task: it takes each workflow from `medusa.get_started` and `tools/list` through endpoint discovery to an execution-ready, preparation-only or unknown outcome. The gateway's own Skill listing is not evidence that your client installed this package, and a listed tool is not evidence that the backend supports it.
 
 No endpoint, tenant, user identity, marketplace or language is inferred from this repository. Missing authentication or routes should produce a precise limitation rather than a direct-provider workaround.
 
