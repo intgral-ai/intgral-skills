@@ -28,4 +28,4 @@ The supported video contract has no speech or voice-over. Subtitles are a separa
 
 Prompt and frame generation/rendering depend on actual host tools. A URL or image list does not prove visual inspection. All provider submissions go through Intgral's catalogued endpoints; no direct provider fallback when a deployment is missing a capability.
 
-For each new task, record `skill_version: intgral-video@1` when the deployed schema supports it. Keep the version attached to existing tasks unchanged.
+For each new task, record `skill_version: intgral-video@2` when the deployed schema supports it. Keep the version attached to existing tasks unchanged.
