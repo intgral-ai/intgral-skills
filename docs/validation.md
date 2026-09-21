@@ -22,6 +22,22 @@ The public GitHub tree-URL install initially failed because Skills CLI 1.7.0 tre
 
 The initial content commit passed [GitHub CI on both Linux and Windows](https://github.com/intgral-ai/intgral-skills/actions/runs/35275229504). Current PR checks are authoritative for subsequent commits.
 
+## Fact-grounded listing copy and localization (2026-09-18, INT-728)
+
+The listing package gains [references/examples/copy.md](../skills/intgral-listing/references/examples/copy.md) — synthetic before/after title, bullets and localization for a fictional folding lamp, every claim with its source and the deployment limits read from the tools, plus suggestion-only, conflict and Spanish-localization variants — and `content.md` now says to read the full product before writing copy, to hold user-stated numbers without product evidence for confirmation, to use only evidenced usage scenes, and what localization does and does not carry over. Three scenarios in a different fictional product (the bamboo wall hook): [suggest-only](../evals/scenarios/listing-copy-suggest-only/scenario.json), [conflict](../evals/scenarios/listing-copy-conflict/scenario.json), [localize-es](../evals/scenarios/listing-copy-localize-es/scenario.json).
+
+- `npm run verify` on Windows, Node 24.14.0: 34 tests, zero failures (28 previous, 3 compliant traces, 2 known-bad, 1 named finding), plus validation of all three packages.
+- Red evidence: the conflict known-bad trace (stainless steel and a 5 kg load in saved bullets plus an unrequested title) passed 7/7 before the evaluator gained `forbidden_write_text` and the present-value wildcard.
+- Six actual agent runs, claude-opus-5, baseline on the package at `31f920d` then rerun on `639be2d`:
+
+| Scenario | Baseline | Updated |
+| --- | --- | --- |
+| suggest-only | 8/8, 2 calls, rubric 5/5 | 8/8, 5 calls, rubric 5/5 |
+| conflict | 8/8, 2 calls (asked, no write), rubric 4/5 + 1 partial | 8/8, 4 calls, rubric 5/5 |
+| localize-es | 8/8, 3 calls, rubric 4/5 + 1 partial | 8/8, 5 calls, rubric 5/5 |
+
+All baselines passed the hard checks; the rubric found what the checks cannot: none of the baseline agents read the product description or variant facts (the trimmed reads omit them), so one asked the user for usage facts the ERP held, one drafted a user-asserted load figure as non-conflicting fact, and one filled a Spanish description with rooms the facts do not name. After the reference change all three read the full product and those defects disappeared. One observation remains untested by a rerun: replacing a bullet array while holding a conflicting claim dropped an existing supported bullet; a sentence was added to `content.md` afterwards.
+
 ## Capability discovery guide (2026-09-18, INT-730)
 
 [docs/compatibility.md](compatibility.md) now takes each of the three workflows from installation to a capability check with a per-stage table (required capability, discovery step, preparation-only fallback, stop condition), a tested-environments table with dates, and release guidance separating content/method revisions from deployment requirements. One synthetic walkthrough — the video brief on a deployment without a video-generation route — is recorded as an actual agent run: [video-brief-missing-generation-route](../evals/runs/2026-09-18-video-brief-missing-generation-route-recorded/run.md), claude-opus-5, 7/7 hard checks, 7 tool calls, rubric 5/5, no write attempted, the limitation named and no provider fallback. The complete-capability walkthrough is described, not run: exercising it past approval needs paid generation, which the spec excludes.
