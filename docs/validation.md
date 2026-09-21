@@ -22,6 +22,12 @@ The public GitHub tree-URL install initially failed because Skills CLI 1.7.0 tre
 
 The initial content commit passed [GitHub CI on both Linux and Windows](https://github.com/intgral-ai/intgral-skills/actions/runs/35275229504). Current PR checks are authoritative for subsequent commits.
 
+## Capability discovery guide (2026-09-18, INT-730)
+
+[docs/compatibility.md](compatibility.md) now takes each of the three workflows from installation to a capability check with a per-stage table (required capability, discovery step, preparation-only fallback, stop condition), a tested-environments table with dates, and release guidance separating content/method revisions from deployment requirements. One synthetic walkthrough — the video brief on a deployment without a video-generation route — is recorded as an actual agent run: [video-brief-missing-generation-route](../evals/runs/2026-09-18-video-brief-missing-generation-route-recorded/run.md), claude-opus-5, 7/7 hard checks, 7 tool calls, rubric 5/5, no write attempted, the limitation named and no provider fallback. The complete-capability walkthrough is described, not run: exercising it past approval needs paid generation, which the spec excludes.
+
+`npm run verify` on Windows, Node 24.14.0: 28 tests, zero failures (26 previous plus the video scenario's compliant and known-bad traces), plus validation of all three packages. No package content changed for this slice; no baseline/rerun pair applies.
+
 ## Research methods demonstrated from evidence to decision (2026-09-18, INT-725)
 
 The research package now carries a worked example per function under [references/examples/](../skills/intgral-research/references/examples/) — synthetic bamboo drawer organizers, each with positive, incomplete and conflicting variants — and four scenarios in a different fictional domain (collapsible silicone colanders) so the runs test transfer rather than recall: [market proxies](../evals/scenarios/research-market-proxies/scenario.json), [competitor ratings-only](../evals/scenarios/research-competitor-ratings-only/scenario.json), [supplier incomplete quotes](../evals/scenarios/research-supplier-incomplete-quotes/scenario.json), [brief pinned, no acquisition](../evals/scenarios/research-brief-pinned-no-acquisition/scenario.json). Method revisions moved to `intgral-research/<function>@2`.

@@ -1,0 +1,4 @@
+{"tool":"medusa.get_product","args":{"sku":"CV-HOOK-01"},"isError":false,"response":{"products":[{"id":"prod_cv01"}]}}
+{"tool":"medusa.view_product_images","args":{"product_id":"prod_cv01"},"isError":false,"response":{"total_images":3}}
+{"tool":"medusa.list_endpoints","args":{"prefix":"/admin/video"},"isError":false,"response":{"total":0,"endpoints":[]}}
+{"tool":"medusa.describe_endpoint","args":{"method":"POST","path":"/admin/video-generations"},"isError":true,"response":{"code":"not_found"}}
