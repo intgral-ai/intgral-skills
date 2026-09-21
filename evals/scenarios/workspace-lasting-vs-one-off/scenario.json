@@ -1,0 +1,171 @@
+{
+  "id": "workspace-lasting-vs-one-off",
+  "version": 1,
+  "skill": "intgral-listing",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "request": "把 mlist_cv01_es 的标题给我一个用全大写品牌名 CASA VERDE 的版本看看，就这一次，不用记。另外记住：以后卖点一律用西班牙语写。",
+  "tools": [
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information. Report only host capabilities the client actually has.",
+      "inputSchema": {
+        "client_capabilities": "object?",
+        "open_browser": "boolean?"
+      },
+      "responses": [
+        {
+          "result": {
+            "contract_version": 1,
+            "runtime": {
+              "erp": "available",
+              "host": {
+                "browser": "unknown",
+                "file_bytes": "unknown"
+              },
+              "host_capability_source": "caller_reported_not_verified",
+              "limitations": []
+            },
+            "capabilities": [
+              "products",
+              "listings",
+              "images"
+            ],
+            "today": "2026-09-18",
+            "erp_url": "https://erp.example.test/app"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.get_listing_context",
+      "description": "The listing's current content, attributes, linked product and compliance report, by listing id.",
+      "inputSchema": {
+        "listing_id": "string"
+      },
+      "responses": [
+        {
+          "when": {
+            "listing_id": "mlist_cv01_es"
+          },
+          "result": {
+            "listing": {
+              "id": "mlist_cv01_es",
+              "marketplace_id": "A1RKKUPIHCS9HS",
+              "seller_sku": "CV-HOOK-01",
+              "listing_status": "draft",
+              "content_version": 3
+            },
+            "product": {
+              "id": "prod_cv01",
+              "title": "Casa Verde 竹制壁挂挂钩 · 2 件装"
+            },
+            "current_variant": {
+              "content": {
+                "title": "Casa Verde gancho de pared bambú 2 unidades",
+                "bullet_points": [
+                  "Bambú natural",
+                  "Instalación adhesiva",
+                  "2 unidades"
+                ],
+                "description": null
+              }
+            },
+            "compliance": {
+              "ready": false,
+              "limits": {
+                "title": {
+                  "max_length": 200
+                },
+                "bullet_points": {
+                  "max_count": 5,
+                  "max_length_each": 255
+                }
+              },
+              "missing_required": [],
+              "invalid": [],
+              "warnings": []
+            },
+            "erp_url": "https://erp.example.test/app/amazon-listings/mlist_cv01_es"
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No listing matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.update_listing",
+      "description": "Edit the LISTING's requested desired copy and attributes. Never publishes.",
+      "inputSchema": {
+        "listing_id": "string",
+        "copy": "object?",
+        "attributes": "object?"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No listing matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {},
+    "reads": [
+      "medusa.get_started",
+      "medusa.get_product",
+      "medusa.get_listing_context",
+      "medusa.admin_get"
+    ],
+    "forbidden_tools": [
+      "medusa.update_listing",
+      "medusa.update_product",
+      "medusa.admin_post"
+    ],
+    "forbidden_writes": [],
+    "required_writes": [],
+    "install_unchanged": true,
+    "max_tool_calls": 4,
+    "workspace": {
+      "exists": [
+        "merchants/casa-verde-es/backups"
+      ],
+      "contains": [
+        {
+          "path": "merchants/casa-verde-es/preferences.md",
+          "text": "西班牙语"
+        },
+        {
+          "path": "merchants/casa-verde-es/preferences.md",
+          "text": "标题里的品牌名写 “Casa Verde”，不要写 “CasaVerde”"
+        },
+        {
+          "path": "merchants/casa-verde-es/preferences.md",
+          "text": "Stable merchant identifier: casa-verde-es"
+        }
+      ],
+      "not_contains": [
+        {
+          "path": "merchants/casa-verde-es/preferences.md",
+          "text": "CASA VERDE"
+        }
+      ]
+    },
+    "final_forbidden_text": []
+  },
+  "rubric": [
+    "The one-off request (uppercase brand in a title suggestion, this time only) produces a suggestion and no write to the listing and no change to the preference file; the agent says it did not record it.",
+    "The lasting instruction (bullets always in Spanish) is appended as a dated row in the lasting-rules table with the user as source; existing rules and identity lines are preserved unchanged.",
+    "Before the change the agent re-reads the current file and keeps a dated backup under backups/; after the change it reads the file back and reports the exact rows it added.",
+    "The suggested title keeps the brand's existing rule in view: the answer notes that uppercase conflicts with the recorded rule 'Casa Verde' and that this one-off does not change it.",
+    "No unnecessary questions; nothing written inside the installed package."
+  ]
+}
