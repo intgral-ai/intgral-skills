@@ -2,6 +2,8 @@
 
 ## `product_supplier_research` report data
 
+Declared `schema_revision: product_supplier_research/1`.
+
 Required objects are `opportunity_ref`, `commercial_basis`, `products`, `suppliers`, `verification_ledger`, and optional unsent `rfq`. Product and company IDs remain distinct and link explicitly. Observed tiers, MOQ, sample terms, lead time, capabilities, and qualifications each carry their evidence state and source reference. Quantity, unit, currency, variant, and trade basis must match retained evidence.
 
 ```json

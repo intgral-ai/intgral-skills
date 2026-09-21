@@ -14,12 +14,15 @@ if (command === "list") {
 const contract = scenario.tools.find((entry) => entry.name === tool);
 if (!contract) { console.error(`tool ${tool} is not available in this scenario`); process.exit(1); }
 const args = JSON.parse(rawArgs ?? readFileSync(0, "utf8") ?? "{}");
+// Like a real MCP client, refuse a call that omits a required argument (schema values not ending in "?").
+const missing = Object.entries(contract.inputSchema ?? {}).filter(([key, type]) => !String(type).endsWith("?") && !(key in args)).map(([key]) => key);
 const matches = (when = {}, subject = args) => Object.entries(when).every(([key, value]) => subject?.[key] === value);
 const previous = existsSync(tracePath) ? readFileSync(tracePath, "utf8").split(/\r?\n/).filter(Boolean).map((line) => JSON.parse(line)) : [];
 // A "once" response is consumed by an earlier matching call already in the trace.
 const chosen = contract.responses.find((candidate) => matches(candidate.when)
   && !(candidate.once && previous.some((call) => call.tool === tool && matches(candidate.when, call.args))));
-const isError = !chosen || "error" in chosen;
-const response = chosen ? (chosen.error ?? chosen.result) : { code: "unmatched", message: "no scripted response for these arguments" };
+const isError = missing.length > 0 || !chosen || "error" in chosen;
+const response = missing.length ? { code: "invalid_arguments", message: `missing required argument(s): ${missing.join(", ")}` }
+  : chosen ? (chosen.error ?? chosen.result) : { code: "unmatched", message: "no scripted response for these arguments" };
 appendFileSync(tracePath, JSON.stringify({ tool, args, isError, response }) + "\n");
 console.log(JSON.stringify(isError ? { isError: true, ...response } : response, null, 2));

@@ -1,0 +1,1077 @@
+{
+  "id": "research-supplier-incomplete-quotes",
+  "version": 1,
+  "skill": "intgral-research",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "request": "比较一下这三家硅胶沥水篮的供应商，2000 个发到西班牙，哪家最便宜？把报告存下来，顺便帮我准备要问供应商的问题。",
+  "tools": [
+    {
+      "name": "medusa.list_endpoints",
+      "description": "Catalogued admin routes, optionally filtered by path prefix, method and source.",
+      "inputSchema": {
+        "prefix": "string?",
+        "method": "GET|POST|PATCH|PUT|DELETE?",
+        "source": "custom|core?"
+      },
+      "responses": [
+        {
+          "result": {
+            "total": 7,
+            "endpoints": [
+              {
+                "method": "GET",
+                "path": "/admin/research/scopes",
+                "source": "custom",
+                "summary": "Discover research scopes by external_key",
+                "callable": true
+              },
+              {
+                "method": "GET",
+                "path": "/admin/research/scopes/:scopeId",
+                "source": "custom",
+                "summary": "Scope summary",
+                "callable": true
+              },
+              {
+                "method": "GET",
+                "path": "/admin/research/scopes/:scopeId/artifacts",
+                "source": "custom",
+                "summary": "Retained evidence and reports of a scope",
+                "callable": true
+              },
+              {
+                "method": "GET",
+                "path": "/admin/research/artifacts/:artifactId",
+                "source": "custom",
+                "summary": "One retained artifact with advisory freshness",
+                "callable": true
+              },
+              {
+                "method": "POST",
+                "path": "/admin/research/scopes",
+                "source": "custom",
+                "summary": "Create or reuse a scope",
+                "callable": true
+              },
+              {
+                "method": "POST",
+                "path": "/admin/research/artifacts",
+                "source": "custom",
+                "summary": "Save evidence or a report revision",
+                "callable": true
+              },
+              {
+                "method": "POST",
+                "path": "/admin/research/plans",
+                "source": "custom",
+                "summary": "Create an approved collection plan",
+                "callable": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.describe_endpoint",
+      "description": "The request schema (JSON Schema) and summary of one admin route, matched by method and path.",
+      "inputSchema": {
+        "method": "GET|POST|PATCH|PUT|DELETE",
+        "path": "string"
+      },
+      "responses": [
+        {
+          "when": {
+            "method": "POST",
+            "path": "/admin/research/artifacts"
+          },
+          "result": {
+            "method": "POST",
+            "path": "/admin/research/artifacts",
+            "summary": "Save evidence or a report revision",
+            "request_schema": {
+              "type": "object",
+              "required": [
+                "record_type",
+                "scope_id",
+                "save_key",
+                "schema_revision"
+              ],
+              "properties": {
+                "record_type": {
+                  "enum": [
+                    "evidence",
+                    "report"
+                  ]
+                },
+                "scope_id": {
+                  "type": "string"
+                },
+                "save_key": {
+                  "type": "string"
+                },
+                "schema_revision": {
+                  "type": "string"
+                },
+                "report_kind": {
+                  "enum": [
+                    "market_research",
+                    "competitor_research",
+                    "product_supplier_research",
+                    "product_brief"
+                  ]
+                },
+                "skill_revision": {
+                  "type": "string"
+                },
+                "runbook_revision": {
+                  "type": "string"
+                },
+                "template_revision": {
+                  "type": "string"
+                },
+                "markdown": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                },
+                "coverage": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "gaps"
+                  ]
+                },
+                "upstream_evidence_ids": {
+                  "type": "array"
+                },
+                "upstream_report_ids": {
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        {
+          "when": {
+            "method": "GET",
+            "path": "/admin/research/scopes"
+          },
+          "result": {
+            "method": "GET",
+            "path": "/admin/research/scopes",
+            "summary": "Discover research scopes",
+            "request_schema": {
+              "type": "object",
+              "properties": {
+                "external_key": {
+                  "type": "string"
+                },
+                "limit": {
+                  "type": "integer"
+                },
+                "offset": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        {
+          "when": {
+            "method": "GET",
+            "path": "/admin/research/scopes/:scopeId/artifacts"
+          },
+          "result": {
+            "method": "GET",
+            "path": "/admin/research/scopes/:scopeId/artifacts",
+            "summary": "Retained artifacts of a scope",
+            "request_schema": {
+              "type": "object",
+              "properties": {
+                "record_type": {
+                  "enum": [
+                    "evidence",
+                    "report"
+                  ]
+                },
+                "report_kind": {
+                  "type": "string"
+                },
+                "latest": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        {
+          "when": {
+            "method": "POST",
+            "path": "/admin/research/plans"
+          },
+          "result": {
+            "method": "POST",
+            "path": "/admin/research/plans",
+            "summary": "Create an approved collection plan",
+            "request_schema": {
+              "type": "object",
+              "required": [
+                "scope_id",
+                "sources",
+                "limits"
+              ]
+            }
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No catalogued admin route matches that method and path",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_get",
+      "description": "Read a catalogued admin GET route. Inert: reads change nothing.",
+      "inputSchema": {
+        "path": "string",
+        "query": "object?"
+      },
+      "responses": [
+        {
+          "when": {
+            "path": "/admin/research/scopes"
+          },
+          "result": {
+            "scopes": [
+              {
+                "id": "rscope_colander_supply",
+                "external_key": "silicone-colander-suppliers-es",
+                "question": "Which supplier can produce a 24-26 cm collapsible silicone colander for Spain at 2000 units?",
+                "target_market": "alibaba.com",
+                "context": {
+                  "supplier_origin": "CN",
+                  "shipping_destination": "ES"
+                },
+                "created_at": "2026-09-05T10:00:00.000Z"
+              }
+            ],
+            "count": 1,
+            "limit": 20,
+            "offset": 0
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/scopes/rscope_colander_supply"
+          },
+          "result": {
+            "scope": {
+              "id": "rscope_colander_supply",
+              "external_key": "silicone-colander-suppliers-es",
+              "question": "Which supplier can produce a 24-26 cm collapsible silicone colander for Spain at 2000 units?",
+              "target_market": "alibaba.com",
+              "context": {
+                "supplier_origin": "CN",
+                "shipping_destination": "ES"
+              },
+              "created_at": "2026-09-05T10:00:00.000Z",
+              "artifact_counts": {
+                "evidence": 4,
+                "report": 0
+              },
+              "plans": []
+            }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/scopes/rscope_colander_supply/artifacts"
+          },
+          "result": {
+            "artifacts": [
+              {
+                "id": "rart_ali_prod_a",
+                "record_type": "evidence",
+                "schema_revision": "alibaba-product-projection/v1",
+                "save_key": "alibaba-90001-2026-09-05",
+                "source": {
+                  "provider": "fictional-b2b-crawler",
+                  "ingestion_mode": "retained",
+                  "source_type": "alibaba_product"
+                },
+                "source_observations": [
+                  {
+                    "source_ref": "alibaba:product:90001",
+                    "source_url": "https://example.test/product/90001",
+                    "observed_at": "2026-09-05T08:10:00.000Z"
+                  }
+                ],
+                "data": {
+                  "product": {
+                    "productId": "90001",
+                    "name": "Foldable silicone colander with handles",
+                    "variants": [
+                      {
+                        "id": "90001-24",
+                        "label": "24 cm"
+                      },
+                      {
+                        "id": "90001-26",
+                        "label": "26 cm"
+                      }
+                    ],
+                    "priceTiers": [
+                      {
+                        "min": 500,
+                        "max": 1999,
+                        "price": 1.45,
+                        "currency": "US $",
+                        "unit": "piece"
+                      },
+                      {
+                        "min": 2000,
+                        "max": 4999,
+                        "price": 1.3,
+                        "currency": "US $",
+                        "unit": "piece"
+                      }
+                    ],
+                    "moq": {
+                      "value": 500,
+                      "unit": "piece"
+                    },
+                    "packaging": "polybag, 50 pcs per carton",
+                    "customization": "logo print on request"
+                  },
+                  "supplier": {
+                    "companyId": "70001",
+                    "country": "CN",
+                    "isFactory": true,
+                    "badges": [
+                      "Verified Supplier"
+                    ],
+                    "yearsOnPlatform": 4
+                  },
+                  "detail": {
+                    "leadTime": [
+                      {
+                        "quantityMin": 1,
+                        "quantityMax": 2000,
+                        "days": 25
+                      },
+                      {
+                        "quantityMin": 2001,
+                        "quantityMax": 5000,
+                        "days": 35
+                      }
+                    ],
+                    "sample": {
+                      "available": true,
+                      "price": null,
+                      "currency": null,
+                      "timing": "7-10 days"
+                    }
+                  }
+                },
+                "coverage": {
+                  "status": "complete",
+                  "requested": 1,
+                  "returned": 1,
+                  "gaps": []
+                }
+              },
+              {
+                "id": "rart_ali_prod_b",
+                "record_type": "evidence",
+                "schema_revision": "alibaba-product-projection/v1",
+                "save_key": "alibaba-90002-2026-09-05",
+                "source": {
+                  "provider": "fictional-b2b-crawler",
+                  "ingestion_mode": "retained",
+                  "source_type": "alibaba_product"
+                },
+                "source_observations": [
+                  {
+                    "source_ref": "alibaba:product:90002",
+                    "source_url": "https://example.test/product/90002",
+                    "observed_at": "2026-09-05T08:14:00.000Z"
+                  }
+                ],
+                "data": {
+                  "product": {
+                    "productId": "90002",
+                    "name": "Collapsible silicone strainer basket",
+                    "variants": [
+                      {
+                        "id": "90002-24",
+                        "label": "24 cm"
+                      },
+                      {
+                        "id": "90002-26",
+                        "label": "26 cm"
+                      }
+                    ],
+                    "priceTiers": [
+                      {
+                        "min": 1000,
+                        "max": 2999,
+                        "price": 1.15,
+                        "currency": "US $",
+                        "unit": "piece"
+                      }
+                    ],
+                    "moq": {
+                      "value": 1000,
+                      "unit": "piece"
+                    },
+                    "packaging": "polybag, 50 pcs per carton",
+                    "customization": "logo print on request"
+                  },
+                  "supplier": {
+                    "companyId": "70002",
+                    "country": "CN",
+                    "isFactory": false,
+                    "badges": [],
+                    "yearsOnPlatform": 4
+                  },
+                  "detail": {
+                    "leadTime": [
+                      {
+                        "quantityMin": 1,
+                        "quantityMax": 3000,
+                        "days": 30
+                      }
+                    ],
+                    "sample": {
+                      "available": true,
+                      "price": null,
+                      "currency": null,
+                      "timing": "7-10 days"
+                    }
+                  }
+                },
+                "coverage": {
+                  "status": "complete",
+                  "requested": 1,
+                  "returned": 1,
+                  "gaps": []
+                }
+              },
+              {
+                "id": "rart_ali_prod_c",
+                "record_type": "evidence",
+                "schema_revision": "alibaba-product-projection/v1",
+                "save_key": "alibaba-90003-2026-09-05",
+                "source": {
+                  "provider": "fictional-b2b-crawler",
+                  "ingestion_mode": "retained",
+                  "source_type": "alibaba_product"
+                },
+                "source_observations": [
+                  {
+                    "source_ref": "alibaba:product:90003",
+                    "source_url": "https://example.test/product/90003",
+                    "observed_at": "2026-09-05T08:20:00.000Z"
+                  }
+                ],
+                "data": {
+                  "product": {
+                    "productId": "90003",
+                    "name": "Silicone colander set 2 pcs foldable",
+                    "variants": [
+                      {
+                        "id": "90003-24",
+                        "label": "24 cm"
+                      },
+                      {
+                        "id": "90003-26",
+                        "label": "26 cm"
+                      }
+                    ],
+                    "priceTiers": [
+                      {
+                        "min": 300,
+                        "max": 999,
+                        "price": 18,
+                        "currency": "CN¥",
+                        "unit": "set"
+                      },
+                      {
+                        "min": 1000,
+                        "max": 2999,
+                        "price": 16.5,
+                        "currency": "CN¥",
+                        "unit": "set"
+                      }
+                    ],
+                    "moq": {
+                      "value": 300,
+                      "unit": "set"
+                    },
+                    "packaging": "polybag, 50 pcs per carton",
+                    "customization": "logo print on request"
+                  },
+                  "supplier": {
+                    "companyId": "70003",
+                    "country": "CN",
+                    "isFactory": true,
+                    "badges": [
+                      "Verified Supplier"
+                    ],
+                    "yearsOnPlatform": 4
+                  },
+                  "detail": {
+                    "leadTime": [
+                      {
+                        "quantityMin": 1,
+                        "quantityMax": 1000,
+                        "days": 20
+                      }
+                    ],
+                    "sample": {
+                      "available": true,
+                      "price": null,
+                      "currency": null,
+                      "timing": "7-10 days"
+                    }
+                  }
+                },
+                "coverage": {
+                  "status": "complete",
+                  "requested": 1,
+                  "returned": 1,
+                  "gaps": []
+                }
+              },
+              {
+                "id": "rart_quote_a",
+                "record_type": "evidence",
+                "schema_revision": "research-supplier-quote/1",
+                "save_key": "quote-70001-2026-09-10",
+                "source": {
+                  "provider": "merchant-upload",
+                  "ingestion_mode": "retained",
+                  "source_type": "supplier_quote"
+                },
+                "source_observations": [
+                  {
+                    "source_ref": "quote:70001:Q-2026-091",
+                    "observed_at": "2026-09-10T15:00:00.000Z"
+                  }
+                ],
+                "data": {
+                  "quote": {
+                    "subject_ref": "alibaba:company:70001",
+                    "scope": "24 cm foldable silicone colander, grey, logo print, polybag",
+                    "valid_until": "2026-10-10",
+                    "trade_terms": "FOB",
+                    "delivery_terms": "FOB Ningbo",
+                    "currency": "USD",
+                    "quantity": 2000,
+                    "unit_price": 1.28,
+                    "sample": {
+                      "quantity": 2,
+                      "price": 15,
+                      "currency": "USD",
+                      "timing": "7 days"
+                    },
+                    "lead_time": {
+                      "min_days": 30,
+                      "max_days": 35,
+                      "start_condition": "deposit received"
+                    }
+                  }
+                },
+                "coverage": {
+                  "status": "complete",
+                  "requested": 1,
+                  "returned": 1,
+                  "gaps": []
+                }
+              }
+            ],
+            "count": 4
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/artifacts/rart_ali_prod_a"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_ali_prod_a",
+              "record_type": "evidence",
+              "schema_revision": "alibaba-product-projection/v1",
+              "save_key": "alibaba-90001-2026-09-05",
+              "source": {
+                "provider": "fictional-b2b-crawler",
+                "ingestion_mode": "retained",
+                "source_type": "alibaba_product"
+              },
+              "source_observations": [
+                {
+                  "source_ref": "alibaba:product:90001",
+                  "source_url": "https://example.test/product/90001",
+                  "observed_at": "2026-09-05T08:10:00.000Z"
+                }
+              ],
+              "data": {
+                "product": {
+                  "productId": "90001",
+                  "name": "Foldable silicone colander with handles",
+                  "variants": [
+                    {
+                      "id": "90001-24",
+                      "label": "24 cm"
+                    },
+                    {
+                      "id": "90001-26",
+                      "label": "26 cm"
+                    }
+                  ],
+                  "priceTiers": [
+                    {
+                      "min": 500,
+                      "max": 1999,
+                      "price": 1.45,
+                      "currency": "US $",
+                      "unit": "piece"
+                    },
+                    {
+                      "min": 2000,
+                      "max": 4999,
+                      "price": 1.3,
+                      "currency": "US $",
+                      "unit": "piece"
+                    }
+                  ],
+                  "moq": {
+                    "value": 500,
+                    "unit": "piece"
+                  },
+                  "packaging": "polybag, 50 pcs per carton",
+                  "customization": "logo print on request"
+                },
+                "supplier": {
+                  "companyId": "70001",
+                  "country": "CN",
+                  "isFactory": true,
+                  "badges": [
+                    "Verified Supplier"
+                  ],
+                  "yearsOnPlatform": 4
+                },
+                "detail": {
+                  "leadTime": [
+                    {
+                      "quantityMin": 1,
+                      "quantityMax": 2000,
+                      "days": 25
+                    },
+                    {
+                      "quantityMin": 2001,
+                      "quantityMax": 5000,
+                      "days": 35
+                    }
+                  ],
+                  "sample": {
+                    "available": true,
+                    "price": null,
+                    "currency": null,
+                    "timing": "7-10 days"
+                  }
+                }
+              },
+              "coverage": {
+                "status": "complete",
+                "requested": 1,
+                "returned": 1,
+                "gaps": []
+              }
+            },
+            "freshness": {
+              "age_days": 16,
+              "status": "advisory"
+            }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/artifacts/rart_ali_prod_b"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_ali_prod_b",
+              "record_type": "evidence",
+              "schema_revision": "alibaba-product-projection/v1",
+              "save_key": "alibaba-90002-2026-09-05",
+              "source": {
+                "provider": "fictional-b2b-crawler",
+                "ingestion_mode": "retained",
+                "source_type": "alibaba_product"
+              },
+              "source_observations": [
+                {
+                  "source_ref": "alibaba:product:90002",
+                  "source_url": "https://example.test/product/90002",
+                  "observed_at": "2026-09-05T08:14:00.000Z"
+                }
+              ],
+              "data": {
+                "product": {
+                  "productId": "90002",
+                  "name": "Collapsible silicone strainer basket",
+                  "variants": [
+                    {
+                      "id": "90002-24",
+                      "label": "24 cm"
+                    },
+                    {
+                      "id": "90002-26",
+                      "label": "26 cm"
+                    }
+                  ],
+                  "priceTiers": [
+                    {
+                      "min": 1000,
+                      "max": 2999,
+                      "price": 1.15,
+                      "currency": "US $",
+                      "unit": "piece"
+                    }
+                  ],
+                  "moq": {
+                    "value": 1000,
+                    "unit": "piece"
+                  },
+                  "packaging": "polybag, 50 pcs per carton",
+                  "customization": "logo print on request"
+                },
+                "supplier": {
+                  "companyId": "70002",
+                  "country": "CN",
+                  "isFactory": false,
+                  "badges": [],
+                  "yearsOnPlatform": 4
+                },
+                "detail": {
+                  "leadTime": [
+                    {
+                      "quantityMin": 1,
+                      "quantityMax": 3000,
+                      "days": 30
+                    }
+                  ],
+                  "sample": {
+                    "available": true,
+                    "price": null,
+                    "currency": null,
+                    "timing": "7-10 days"
+                  }
+                }
+              },
+              "coverage": {
+                "status": "complete",
+                "requested": 1,
+                "returned": 1,
+                "gaps": []
+              }
+            },
+            "freshness": {
+              "age_days": 16,
+              "status": "advisory"
+            }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/artifacts/rart_ali_prod_c"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_ali_prod_c",
+              "record_type": "evidence",
+              "schema_revision": "alibaba-product-projection/v1",
+              "save_key": "alibaba-90003-2026-09-05",
+              "source": {
+                "provider": "fictional-b2b-crawler",
+                "ingestion_mode": "retained",
+                "source_type": "alibaba_product"
+              },
+              "source_observations": [
+                {
+                  "source_ref": "alibaba:product:90003",
+                  "source_url": "https://example.test/product/90003",
+                  "observed_at": "2026-09-05T08:20:00.000Z"
+                }
+              ],
+              "data": {
+                "product": {
+                  "productId": "90003",
+                  "name": "Silicone colander set 2 pcs foldable",
+                  "variants": [
+                    {
+                      "id": "90003-24",
+                      "label": "24 cm"
+                    },
+                    {
+                      "id": "90003-26",
+                      "label": "26 cm"
+                    }
+                  ],
+                  "priceTiers": [
+                    {
+                      "min": 300,
+                      "max": 999,
+                      "price": 18,
+                      "currency": "CN¥",
+                      "unit": "set"
+                    },
+                    {
+                      "min": 1000,
+                      "max": 2999,
+                      "price": 16.5,
+                      "currency": "CN¥",
+                      "unit": "set"
+                    }
+                  ],
+                  "moq": {
+                    "value": 300,
+                    "unit": "set"
+                  },
+                  "packaging": "polybag, 50 pcs per carton",
+                  "customization": "logo print on request"
+                },
+                "supplier": {
+                  "companyId": "70003",
+                  "country": "CN",
+                  "isFactory": true,
+                  "badges": [
+                    "Verified Supplier"
+                  ],
+                  "yearsOnPlatform": 4
+                },
+                "detail": {
+                  "leadTime": [
+                    {
+                      "quantityMin": 1,
+                      "quantityMax": 1000,
+                      "days": 20
+                    }
+                  ],
+                  "sample": {
+                    "available": true,
+                    "price": null,
+                    "currency": null,
+                    "timing": "7-10 days"
+                  }
+                }
+              },
+              "coverage": {
+                "status": "complete",
+                "requested": 1,
+                "returned": 1,
+                "gaps": []
+              }
+            },
+            "freshness": {
+              "age_days": 16,
+              "status": "advisory"
+            }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/artifacts/rart_quote_a"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_quote_a",
+              "record_type": "evidence",
+              "schema_revision": "research-supplier-quote/1",
+              "save_key": "quote-70001-2026-09-10",
+              "source": {
+                "provider": "merchant-upload",
+                "ingestion_mode": "retained",
+                "source_type": "supplier_quote"
+              },
+              "source_observations": [
+                {
+                  "source_ref": "quote:70001:Q-2026-091",
+                  "observed_at": "2026-09-10T15:00:00.000Z"
+                }
+              ],
+              "data": {
+                "quote": {
+                  "subject_ref": "alibaba:company:70001",
+                  "scope": "24 cm foldable silicone colander, grey, logo print, polybag",
+                  "valid_until": "2026-10-10",
+                  "trade_terms": "FOB",
+                  "delivery_terms": "FOB Ningbo",
+                  "currency": "USD",
+                  "quantity": 2000,
+                  "unit_price": 1.28,
+                  "sample": {
+                    "quantity": 2,
+                    "price": 15,
+                    "currency": "USD",
+                    "timing": "7 days"
+                  },
+                  "lead_time": {
+                    "min_days": 30,
+                    "max_days": 35,
+                    "start_condition": "deposit received"
+                  }
+                }
+              },
+              "coverage": {
+                "status": "complete",
+                "requested": 1,
+                "returned": 1,
+                "gaps": []
+              }
+            },
+            "freshness": {
+              "age_days": 16,
+              "status": "advisory"
+            }
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No catalogued admin route matches that path",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_post",
+      "description": "Call a catalogued admin POST route with a JSON body.",
+      "inputSchema": {
+        "path": "string",
+        "body": "object"
+      },
+      "responses": [
+        {
+          "when": {
+            "path": "/admin/research/artifacts"
+          },
+          "result": {
+            "status": 201,
+            "artifact": {
+              "id": "rart_report_col_supplier_01",
+              "version": 1,
+              "record_type": "report",
+              "report_kind": "product_supplier_research",
+              "created_at": "2026-09-18T08:00:00.000Z"
+            }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/plans"
+          },
+          "error": {
+            "code": "forbidden",
+            "message": "Collection plans require an approved scope authorization; none is recorded for this scope",
+            "request_id": "req_mock_plan"
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No catalogued admin route matches that path",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "medusa.admin_post": {
+        "allowed_args": [
+          "path",
+          "body"
+        ]
+      }
+    },
+    "reads": [
+      "medusa.admin_get",
+      "medusa.list_endpoints",
+      "medusa.describe_endpoint"
+    ],
+    "forbidden_tools": [
+      "medusa.admin_delete",
+      "medusa.update_product",
+      "medusa.update_listing",
+      "medusa.create_listing"
+    ],
+    "forbidden_writes": [
+      {
+        "label": "collection was not authorized",
+        "tool": "medusa.admin_post",
+        "args": {
+          "path": "/admin/research/plans"
+        }
+      },
+      {
+        "label": "collection was not authorized",
+        "tool": "medusa.admin_post",
+        "args": {
+          "path": "/admin/research/acquisitions"
+        }
+      },
+      {
+        "label": "a partial subtotal was presented as a landed cost",
+        "tool": "medusa.admin_post",
+        "args": {
+          "path": "/admin/research/artifacts",
+          "body": {
+            "data": {
+              "commercial_basis": {
+                "unknown_cost_components": []
+              }
+            }
+          }
+        }
+      }
+    ],
+    "required_writes": [
+      {
+        "tool": "medusa.admin_post",
+        "args": {
+          "path": "/admin/research/artifacts",
+          "body": {
+            "record_type": "report",
+            "report_kind": "product_supplier_research",
+            "scope_id": "rscope_colander_supply",
+            "runbook_revision": "intgral-research@1",
+            "template_revision": "product_supplier_research@1",
+            "data": {
+              "rfq": {
+                "status": "unsent"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "max_tool_calls": 16
+  },
+  "rubric": [
+    "No supplier is declared cheapest by omission: A's FOB Ningbo USD quote, B's listing tier with unknown trade basis, and C's CN¥ per set-of-2 catalog price are kept as three different bases, and any per-unit comparison names the conversion or assumption or leaves it unknown.",
+    "Unknown cost components (freight to ES, duty and VAT, packaging beyond polybag, inspection) stay unknown with no zero or estimate filled in; no landed-cost total or margin is stated.",
+    "Each material claim carries its state: A's quote is a scoped quote (valid until 2026-10-10); B's and C's tiers, MOQ and lead times are observed listing / pending verification; 'Verified Supplier' and isFactory do not become verified manufacturing capability.",
+    "The RFQ is a draft with only unresolved questions (variant, quantity 2000, customization, packaging, sample terms, lead time, delivery basis, evidence for claimed qualifications) and is not sent; the user is told which supplier decision remains theirs.",
+    "The user gets the artifact ID, revision, coverage status and every gap, plus a bounded next step (e.g. ask A for an EXW/FOB comparison, ask B and C for a quote on the same basis) without contacting anyone."
+  ]
+}
