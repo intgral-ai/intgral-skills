@@ -127,3 +127,26 @@ Across the 23 convention-faithful attempts, 20 pass every hard check; none of th
 - **Price-group discipline** in the competitor method is the one place three of four attempts drifted from strict like-for-like.
 
 The rubric verdicts were judged by the dispatching session, not yet by a human; the human review is the acceptance step. `npm run verify` on Windows, Node 24.14.0: 42 tests, zero failures, plus validation of all three packages — unchanged from INT-727, because this slice adds records, not code.
+
+## Harness corrections and three guidance rules from the repeated runs (2026-09-21, INT-777)
+
+What the repeated runs surfaced, fixed in two slices and rerun on claude-opus-5 throughout.
+
+**Guidance** (`be4b4eb`, corrected in `HEAD` after review): `private-workspace.md` — an unclear merchant is resolved by asking, never by reading a second directory or naming candidates, and a host that cannot ask stops at the question; `briefing.md` — without image rendering the read-back opens by saying the images were not seen, and Agent-added props are recorded as Agent proposals; `competitor-research.md` — a price group agrees on every comparison condition, a single observation is a row, method revision `intgral-research/competitor@3`; `intgral-video@2`. All wording original; no third-party skill was read.
+
+**Harness** (`552eb5c`, narrowed after review): the evaluator recognises a state read by its response, judges a call the mock refused on what it tried to send but not as a completed write, and reads `required_writes` from calls that reached the tool; fixtures answer post-write reads by either key and serve every listed artifact on its detail route; the stdin form for large bodies is documented and pinned.
+
+- `npm run verify` on Windows, Node 24.14.0: **51 tests, zero failures** (50 previous, 1 for the narrowed refusal rule), plus validation of all three packages.
+- Red evidence, verbatim in the commit messages and the implementers' reports: 6 of the 8 evaluator/mock tests added in `552eb5c` fail on `cc74d9d` (`retry: … without a read of current state`; `scope: medusa.admin_post #5 sends …`; the SKU and product_id post-write reads returning the pre-write title; two `not_found` artifact detail routes); the narrowed-refusal test fails on `552eb5c` with `0 !== 1` (the refused write's forbidden text went unjudged). Two tests were green from the start by design (the forbidden-tool guard and the stdin characterisation) and are said to be.
+- Reruns, baseline → change → rerun, package at `be4b4eb`, harness at `552eb5c`:
+
+| Scenario | Before (2026-09-20) | After (2026-09-21, opus) |
+| --- | --- | --- |
+| workspace-switch-merchant, merchant unstated | **0/2** — the other merchant named; one file read | **3/3** — question first, no directory read, nothing named |
+| workspace-switch-merchant, merchant stated | 3/3 | 1/1 |
+| research-competitor-ratings-only | 4/4 hard checks, but like-for-like grouping in 1/4 | 4/4 → **3/3 with a single like-for-like group** in every saved body; `@3` picked up |
+| video-brief-missing-generation-route | 4/4; disclosure absent in the sonnet attempt | 2/2, disclosure as the opening sentence |
+| research-brief-pinned-no-acquisition | 2/4 (argv probes; a refused bare body) | 2/2 through stdin, 17 KB bodies, no refused call |
+| listing-title-only-two-skus | 3/4 (sonnet's SKU re-read unrecognised) | 1/1; the rule itself is pinned by `retry-after-sku-read.jsonl` |
+
+Every rerun's pins, price groups and opening sentences were checked in the traces and answers, not taken from the agents' reports. The weaker-model cases that motivated two of the rules (the SKU re-read, the missing disclosure) were not rerun on that model in this pass; the rules are pinned by tests or by the opening-sentence check on Opus only. Rubric verdicts are the dispatching session's; human review is the acceptance step.
