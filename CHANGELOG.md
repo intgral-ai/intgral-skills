@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 — Unreleased
+## 0.1.0 — 2026-09-21 (tag `v0.1.0`)
 
 - Three independently installable merchant skills: listing, research and video.
 - Packaged local references and self-contained research methods.
@@ -14,4 +14,4 @@
 - Listing entry tightened: single-field edits routed explicitly, SKU-only requests edit the product catalog, shared boundaries compressed; regulatory inference limits moved to the content reference.
 - Repeated agent runs as reliability evidence (INT-776), and the fixes they surfaced (INT-777): the private workspace never names or reads another merchant to resolve an unclear one and stops at the question when the host cannot ask; the video read-back states when images were not seen and marks Agent-added props as unconfirmed proposals — `intgral-video@2`; competitor price groups agree on every comparison condition, single observations are rows — `intgral-research/competitor@3`. Harness: the evaluator recognises a state read by its response, judges a call the mock refused on what it tried to send rather than as a completed write, fixtures answer post-write reads by SKU and artifact detail routes, and the stdin form for large call bodies is documented and pinned by a test.
 
-No ERP or MCP gateway migration is included in this release candidate.
+No ERP or MCP gateway migration is included in this release.
