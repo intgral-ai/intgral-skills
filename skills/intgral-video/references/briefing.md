@@ -2,7 +2,7 @@
 
 Read existing product facts, this merchant's private preferences and any resumed task before asking questions. Record answers in a private copy of the [task template](../assets/task-record-template.md), never inside the installed skill. Without filesystem access, maintain an exportable in-chat record and state that it has not been persisted.
 
-Each decision records a source: user, saved preference, product evidence, delegated creative choice, or unverified. A creative choice is delegated only when the user authorized the Agent to decide it. The principal message and product identity constraints need product/user evidence, not an invented marketing claim.
+Each decision records a source: user, saved preference, product evidence, delegated creative choice, Agent proposal, or unverified. A creative choice is delegated only when the user authorized the Agent to decide it. The principal message and product identity constraints need product/user evidence, not an invented marketing claim.
 
 | Decision | Record |
 | --- | --- |

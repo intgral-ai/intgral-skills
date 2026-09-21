@@ -54,10 +54,17 @@ test("listing: a retry cleared by a read keyed on SKU whose response names the s
   assert.match(stdout, /hard checks: 11 passed, 0 failed/);
 });
 
-test("research brief: the save the mock refused for a missing argument is not judged as a write", () => {
+test("research brief: the save the mock refused for a missing argument is not judged as a completed write", () => {
   const { stdout, status } = evaluate("research-brief-pinned-no-acquisition", "refused-then-corrected.jsonl");
   assert.equal(status, 0, stdout);
   assert.match(stdout, /hard checks: 11 passed, 0 failed \(6 tool calls\)/);
+});
+
+test("listing copy: a refused write is judged on the text it tried to send, not on its scope", () => {
+  const { stdout, status } = evaluate("listing-copy-conflict", "refused-with-forbidden-text.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /text: medusa\.update_listing #3 contains "acero inoxidable"/);
+  assert.doesNotMatch(stdout, /scope:/);
 });
 
 test("a refused call to a forbidden tool is still reported", (t) => {

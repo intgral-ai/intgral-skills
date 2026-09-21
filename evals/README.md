@@ -18,11 +18,11 @@ Only the third is behavioral evidence. The first two run in CI without credentia
 
 - `request` — the user's message, verbatim, in the user's language.
 - `workspace` — a directory of synthetic private state (merchant preferences, task records). Copied per run; never a real merchant.
-- `tools[]` — the mocked MCP contract: `name`, `description`, an abbreviated `inputSchema`, and `responses[]` tried in order. A response with `when` matches when every listed argument equals; `once` serves it only the first time; a response without `when` is the fallback. `result` is a normal result, `error` an `isError: true` result.
+- `tools[]` — the mocked MCP contract: `name`, `description`, an abbreviated `inputSchema`, and `responses[]` tried in order. A response with `when` matches when every listed argument equals; `once` serves it only the first time; a response without `when` is the fallback. A `once` response approximates post-write state by call order, so a hand-written trace is not required to be replayable against the mock. `result` is a normal result, `error` an `isError: true` result.
 - `expect` — the hard checks (the first eight judge the trace; the last three judge private state and need `--workspace`, `--install` and `--final`): `writes` (allowed argument names per write tool), `reads` (tools that count as reading current state), `forbidden_tools`, `forbidden_writes` (labelled partial argument shapes a write must never match), `required_writes` (partial argument shapes some write must match), `forbidden_write_text` (strings that must not appear anywhere in a write's arguments, case-insensitive — for copy that must exclude unsupported claims), `max_tool_calls`. Partial shapes match deeply: every key given must be present with an equal value, nested objects recurse, arrays compare whole, and the value `"*"` accepts any present value (so `{copy: {title: "*"}}` means "a title was sent"). That is enough to require `review_analysis.status: unavailable` inside an `admin_post` body or to forbid any POST to `/admin/research/plans`.
 - `rubric[]` — what a human judges in the final answer. Not matched mechanically.
 
-`traces/compliant.jsonl` (every scenario) and `traces/known-bad.jsonl` (where present) are hand-written. They exist so the evaluator can be tested; they are not runs.
+Every file under `traces/` is hand-written: `compliant.jsonl` in every scenario, `known-bad.jsonl` where present, and the named traces that pin one evaluator rule each. They exist so the evaluator can be tested; they are not runs.
 
 ## The mocked boundary
 
