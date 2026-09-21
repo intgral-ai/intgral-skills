@@ -42,7 +42,7 @@ If the file changed between the read and the write, merge or ask about the confl
 
 ## Switching merchants
 
-Each merchant has its own directory. A task names one merchant; read that directory only. Another merchant's rules, identities or task records never enter the current task, even when the operator runs several merchants from one client. When the merchant for a task is unclear, ask which stable identifier applies rather than guessing from context.
+Each merchant has its own directory. A task names one merchant; read that directory only. Another merchant's rules, identities or task records never enter the current task, even when the operator runs several merchants from one client. When the merchant for a task is unclear, the answer opens with the question for the stable identifier, and nothing merchant-specific follows until it is answered. Never settle that question by reading a second directory; the reading is itself the leak. Never list the candidates either: no other merchant's identifier, brand name or directory name belongs in the answer or in any file written, not even to say it was not read. When the host cannot put the question to the user, stop at the question and deliver only what needs no merchant.
 
 ## Reinstall and upgrade
 

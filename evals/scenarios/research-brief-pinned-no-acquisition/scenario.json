@@ -2306,6 +2306,25 @@
           }
         },
         {
+          "when": {
+            "path": "/admin/research/artifacts/rart_report_col_brief_01"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_report_col_brief_01",
+              "version": 1,
+              "record_type": "report",
+              "report_kind": "product_brief",
+              "created_at": "2026-09-18T08:00:00.000Z"
+            },
+            "freshness": {
+              "age_days": 0,
+              "upstream_evidence_age_days": 16,
+              "status": "advisory"
+            }
+          }
+        },
+        {
           "error": {
             "code": "not_found",
             "message": "No catalogued admin route matches that path",
