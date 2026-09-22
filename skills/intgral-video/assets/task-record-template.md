@@ -1,6 +1,6 @@
 # Product video task
 
-Copy into the private merchant workspace's video-tasks directory using a unique task name. Without filesystem access, use an exportable in-chat record and identify it as unsaved. Never fill this template in the installed package.
+Copy into the current merchant's `tasks/` directory in the private workspace (`<workspace>/merchants/<stable-id>/tasks/`) using a unique task name. Without filesystem access, use an exportable in-chat record and identify it as unsaved. Never fill this template in the installed package.
 
 - Merchant and target product/variant:
 - Created date and user request:

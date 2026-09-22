@@ -1,0 +1,79 @@
+{
+  "id": "workspace-no-filesystem",
+  "version": 1,
+  "skill": "intgral-listing",
+  "workspace": "workspace",
+  "merchant": "verde-norte-de",
+  "request": "我们是新商家 Verde Norte，商家 ID 用 verde-norte-de，站点 Amazon DE，商品文案用德语，货币 EUR。把这些设置记下来，以后都按这个来。",
+  "tools": [
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information. Report only host capabilities the client actually has.",
+      "inputSchema": {
+        "client_capabilities": "object?",
+        "open_browser": "boolean?"
+      },
+      "responses": [
+        {
+          "result": {
+            "contract_version": 1,
+            "runtime": {
+              "erp": "available",
+              "host": {
+                "browser": "unknown",
+                "file_bytes": "unknown"
+              },
+              "host_capability_source": "caller_reported_not_verified",
+              "limitations": []
+            },
+            "capabilities": [
+              "products",
+              "listings",
+              "images"
+            ],
+            "today": "2026-09-18",
+            "erp_url": "https://erp.example.test/app"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {},
+    "reads": [
+      "medusa.get_started",
+      "medusa.get_product",
+      "medusa.get_listing_context",
+      "medusa.admin_get"
+    ],
+    "forbidden_tools": [
+      "medusa.update_listing",
+      "medusa.update_product",
+      "medusa.admin_post"
+    ],
+    "forbidden_writes": [],
+    "required_writes": [],
+    "install_unchanged": true,
+    "max_tool_calls": 3,
+    "workspace": {
+      "absent": [
+        "merchants"
+      ]
+    },
+    "final_forbidden_text": [
+      "已保存",
+      "已记住",
+      "记住了",
+      "下次自动",
+      "I will remember",
+      "saved to"
+    ]
+  },
+  "rubric": [
+    "The agent says plainly that this client has no filesystem it can write, so it cannot persist preferences across sessions and will not claim to remember them.",
+    "It still delivers the value: an exportable preference record (the template filled with the supplied values, unknowns left unset) that the user can save themselves, with the path convention to put it under when a workspace exists.",
+    "It explains how the record is used next time (paste it or point INTGRAL_WORKSPACE at a directory containing it) without promising anything the host cannot do.",
+    "No unnecessary questions; no tool writes; nothing created anywhere.",
+    "The answer is in Chinese."
+  ]
+}

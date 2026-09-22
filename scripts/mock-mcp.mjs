@@ -2,7 +2,8 @@ import { readFileSync, appendFileSync, existsSync } from "node:fs";
 
 // The mocked MCP boundary for a scenario: scripted responses, every call appended to a JSONL trace.
 //   node scripts/mock-mcp.mjs <scenario.json> <trace.jsonl> list
-//   node scripts/mock-mcp.mjs <scenario.json> <trace.jsonl> call <tool> '<json args>'   (args may also come on stdin)
+//   node scripts/mock-mcp.mjs <scenario.json> <trace.jsonl> call <tool> '<json args>'
+//   node scripts/mock-mcp.mjs <scenario.json> <trace.jsonl> call <tool> < body.json   — omit the args and they are read from stdin, the way past a shell's argument limit (~32 KB on Windows)
 // The trace is the mock's only state: a response marked "once" is served the first time its "when" matches.
 const [scenarioPath, tracePath, command, tool, rawArgs] = process.argv.slice(2);
 if (!scenarioPath || !tracePath || !command) { console.error("usage: mock-mcp.mjs <scenario.json> <trace.jsonl> list | call <tool> <json args>"); process.exit(2); }

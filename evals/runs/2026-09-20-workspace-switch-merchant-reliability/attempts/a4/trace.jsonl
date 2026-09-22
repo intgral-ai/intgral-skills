@@ -1,0 +1,1 @@
+{"tool":"medusa.get_product","args":{"sku":"VN-HOOK-01"},"isError":false,"response":{"products":[{"id":"prod_vn01","title":"Bambus Wandhaken 2er Set","status":"draft","handle":"bambus-wandhaken-2er","variants":[{"id":"var_vn01","title":"Default","sku":"VN-HOOK-01"}],"erp_url":"https://erp.example.test/app/products/prod_vn01"}]}}
