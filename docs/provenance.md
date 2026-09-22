@@ -5,7 +5,7 @@ This repository was assembled from selected first-party content, not a subtree p
 | Public package | First-party baseline | Adaptation |
 | --- | --- | --- |
 | intgral-listing | listing-walkthrough, integration snapshot c9549a69 | Local references, private merchant workspace, removal of pilot brand rules |
-| intgral-research | research-workflow, integration snapshot c9549a69 | Local references, self-contained analysis methods, fictional schema examples, explicit deployment limits |
+| intgral-research | research-workflow, integration snapshot c9549a69; ad_video additions from develop f6f57a42 (INT-695) | Local references, self-contained analysis methods, fictional schema examples, explicit deployment limits |
 | intgral-video | video-walkthrough, integration snapshot 22ffadae (PR #358) | Separate reference/keyframe paths, private state outside installation, focused recovery guidance; the briefing rounds, challenge rules, expert-prompt writing rules and recovery branches carried rule by rule ([audit](port-audit-video-22ffadae.md)); deployment values (enumerations, limits, prices) read from the live schema and estimate rather than restated |
 
 The c9549a69 snapshot combines research and video development work; the video-walkthrough tree at 22ffadae is byte-identical to it, and 22ffadae is the last first-party copy before the ERP removes its bundled Skill, so this package is the complete carrier. The presence of either snapshot is not a claim that the work is deployed. ERP code and Git history were not imported or modified.
