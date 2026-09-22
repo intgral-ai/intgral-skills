@@ -90,10 +90,11 @@ GET /admin/research/scopes/:scopeId
 GET /admin/research/scopes/:scopeId/artifacts
 GET /admin/research/scopes/:scopeId/artifacts?record_type=report
 GET /admin/research/scopes/:scopeId/artifacts?record_type=report&latest=false
+GET /admin/research/scopes/:scopeId/artifacts?record_type=evidence&schema_revision=research-ad-video-observation/1
 GET /admin/research/artifacts/:artifactId
 ```
 
-Scope discovery returns `{scopes,count,limit,offset}`. A query filtered by `record_type=report` or `report_kind` returns only the latest version of each matching report by default; pass `latest=false` to request report history. Mixed artifact lists without a report filter keep their existing behavior. Artifact detail returns `{artifact,freshness}`. Freshness is advisory: it reports the saved record's age and, for reports, the age and coverage of transitive upstream evidence. It never performs collection and does not change the saved artifact.
+Scope discovery returns `{scopes,count,limit,offset}`. A query filtered by `record_type=report` or `report_kind` returns only the latest version of each matching report by default; pass `latest=false` to request report history. `schema_revision` filters a list to one artifact contract — for example `research-ad-video-observation/1`, which collected Meta and TikTok ad library video observations carry. Mixed artifact lists without a report filter keep their existing behavior. Artifact detail returns `{artifact,freshness}`. Freshness is advisory: it reports the saved record's age and, for reports, the age and coverage of transitive upstream evidence. It never performs collection and does not change the saved artifact.
 
 ### Evidence schemas
 
@@ -133,6 +134,10 @@ An Amazon.es discovery acquisition saves up to two of these itself, keyed `apify
 Use `source_ref: "alibaba:product:<productId>"`. Preserve the retained `product`, `supplier`, and `detail` objects, including product/company IDs, native currency, MOQ, tier quantities and units, trade basis, sample fields, and lead-time ladders. A product-linked company may use `original_source_ref: "alibaba:company:<companyId>"`; the server checks the company ID inside the same projection. Listing terms remain `observed_listing`, not a quote or independent verification.
 
 Quote and completed-check claims require `research-supplier-quote/1` and `research-verification-check/1` evidence respectively. A checked verification item needs retained check evidence. Platform badges and `isFactory` fields do not prove manufacturing origin or qualification.
+
+#### Ad library video: `research-ad-video-observation/1`
+
+One artifact per provider run, saved by an `ad_video.discovery` acquisition against `meta_ad_library` or `tiktok_ad_library` and keyed `apify:<run_id>:meta-ad-videos` or `apify:<run_id>:tiktok-ad-videos`. `data.records` holds bounded ad observations: `source_ref` (`<source>:<ad_id>` plus `:<creative_id>` when the provider distinguishes creatives), `ad_id`, optional `creative_id`, `advertiser` (`id`, `name` — the provider's own identity fields), `caption`, `placements` lowercased exactly as observed — no platform is asserted when absent — `source_url`, `media` (`video_url`, `thumbnail_url`; `null` is explicit, not omitted), `provider_dates`, `status`, and a per-record `gaps` list. `data.counts` reports `requested`, `fetched`, `mapped`, `malformed`, `duplicates`, `over_limit`, and `incomplete`; `data.provider_run` carries actor, build, run, and dataset identity. `coverage` discloses blocked or partial results rather than presenting them as complete.
 
 #### Supplier supporting terms and costs
 
