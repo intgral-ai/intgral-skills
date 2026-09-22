@@ -1,6 +1,6 @@
 # Product video task
 
-Copy into the private merchant workspace's video-tasks directory using a unique task name. Without filesystem access, use an exportable in-chat record and identify it as unsaved. Never fill this template in the installed package.
+Copy into the current merchant's `tasks/` directory in the private workspace (`<workspace>/merchants/<stable-id>/tasks/`) using a unique task name. Without filesystem access, use an exportable in-chat record and identify it as unsaved. Never fill this template in the installed package.
 
 Write each answer as it arrives, not at the end. Request fields, prompts and compiled sentences are English; everything else is in the user's language. Approval needs a source in every brief decision row; after an interruption, continue from the empty rows.
 

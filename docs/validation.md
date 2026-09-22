@@ -22,6 +22,23 @@ The public GitHub tree-URL install initially failed because Skills CLI 1.7.0 tre
 
 The initial content commit passed [GitHub CI on both Linux and Windows](https://github.com/intgral-ai/intgral-skills/actions/runs/35275229504). Current PR checks are authoritative for subsequent commits.
 
+## Private merchant onboarding, switching and preference reuse (2026-09-18, INT-727)
+
+`references/private-workspace.md` — identical in all three packages, pinned by a test — is now a journey: a fixed layout (`merchants/<stable-id>/preferences.md | rules.md | tasks/ | backups/`), first-time setup, every later task, lasting instructions versus one-off choices with the re-read → dated backup → minimum change → read-back procedure, switching merchants, reinstall, and hosts without a filesystem. The video task template points at the same `tasks/` directory.
+
+- `npm run verify` on Windows, Node 24.14.0: 42 tests, zero failures (34 previous, 4 compliant traces, 2 package-consistency and reinstall tests, 2 evaluator fixture tests), plus validation of all three packages.
+- Red evidence: the evaluator's `--workspace`, `--install` and `--final` checks did not exist, so the two fixture tests failed; the consistency test (three identical copies) and the reinstall test (a preference file outside the package survives a package replacement byte-for-byte) passed on the existing tree and pin those facts.
+- Eight actual agent runs, claude-opus-5, baseline on the package at `ce0f5fc` then rerun on `211454c`:
+
+| Scenario | Baseline | Updated |
+| --- | --- | --- |
+| first-time setup | **10/11** — file created at the workspace root, no `merchants/` layout was stated | 11/11, 0 tool calls |
+| lasting vs one-off | 11/11 | 11/11 |
+| switch merchant | 11/11 | 11/11 |
+| no filesystem | 11/11 (export path also omitted `merchants/`) | 11/11, 0 tool calls |
+
+The setup baseline was a genuine red caused by a guidance gap, not manufactured. The other three already passed; their reruns are unchanged in behavior. The no-filesystem answer now leads with the limitation instead of an acknowledgement that read like a save. Concurrent edits during a run were not simulated; the re-read/merge rule is documented, not exercised.
+
 ## Fact-grounded listing copy and localization (2026-09-18, INT-728)
 
 The listing package gains [references/examples/copy.md](../skills/intgral-listing/references/examples/copy.md) — synthetic before/after title, bullets and localization for a fictional folding lamp, every claim with its source and the deployment limits read from the tools, plus suggestion-only, conflict and Spanish-localization variants — and `content.md` now says to read the full product before writing copy, to hold user-stated numbers without product evidence for confirmation, to use only evidenced usage scenes, and what localization does and does not carry over. Three scenarios in a different fictional product (the bamboo wall hook): [suggest-only](../evals/scenarios/listing-copy-suggest-only/scenario.json), [conflict](../evals/scenarios/listing-copy-conflict/scenario.json), [localize-es](../evals/scenarios/listing-copy-localize-es/scenario.json).
@@ -86,3 +103,50 @@ The pass identified unnecessary category reads for a title-only edit, overbroad 
 No live ERP writes, supplier contact, paid image/video generation, real report saves or deployment changes were performed. Client-target installation was tested, but a fresh Codex desktop session with a real authenticated ERP was not exercised. Cross-session use, actual media playback, live API compatibility and paid generation acceptance remain separate integration work after the relevant backend PRs land.
 
 ERP root/core/module/HTTP suites were not run: this repository does not change the ERP or gateway. CI is configured to run the standalone gate on Linux and Windows.
+
+## Port re-verification and repeated agent runs (2026-09-20, INT-776)
+
+[docs/provenance.md](provenance.md) now records a file-by-file comparison against the ERP integration branch (`develop` at `e73d29eb`; `video-generation-v1` at `22ffadae`): nothing on `develop` is unported, and the four unmerged ERP pull requests that would touch a first-party manual are listed for later porting. No package content changed for this slice.
+
+Twenty-five actual agent runs across six scenarios and all three packages — the same scenario repeated in independent fresh contexts, three or four on claude-opus-5 and one on claude-sonnet-5 each — to answer whether the installed packages are followed *reliably*, not just once. Package at `456178e` (top of the INT-723 stack). Full records with per-attempt traces and answers are under `evals/runs/2026-09-20-*-reliability/`.
+
+| Scenario | Skill | Hard checks (attempts passed) | Rubric findings |
+| --- | --- | --- | --- |
+| listing-title-only-two-skus | listing | 3/4 — opus 3/3, sonnet 0/1 | all pass; the sonnet failure is the evaluator not recognising a re-read by SKU (fixture answers it with stale state) |
+| listing-copy-conflict | listing | 4/4 | all pass; identical decisions in every attempt |
+| research-competitor-ratings-only | research | 4/4 | 1 fail, 2 partial on price-group shape (a cross-material group; one-member groups) |
+| research-brief-pinned-no-acquisition | research | 2/4 — opus 1/3, sonnet 1/1 | all pass; both failures are the Bash bridge's ~32 KB command-line limit (probe calls over budget; a bare body refused, then corrected) |
+| workspace-switch-merchant | listing | 3/3 with the session merchant stated; 0/2 with it unstated | the two unstated-merchant attempts named the other merchant in the answer, one also read its file |
+| video-brief-missing-generation-route | video | 4/4 | 1 fail: the sonnet attempt described image contents without saying it cannot see images |
+
+Across the 23 convention-faithful attempts, 20 pass every hard check; none of the three failures is a wrong write, an unauthorized action, an invented fact in a saved artifact, or a provider fallback. Where the packages are followed, they are followed the same way by different contexts and models. What repetition surfaced that single runs had not:
+
+- **Harness before package.** Two of the three failures and much of the tool-count variance come from the Bash bridge (JSON on a Windows command line) and from fixture gaps (`artifact/:id` always `not_found`; a SKU read scripted with pre-write state; a refused call counted as a write). These are filed as a follow-up on the evaluation convention, not as package changes.
+- **Merchant isolation depends on the merchant being named.** With the session merchant unstated, both Opus attempts leaked the other merchant's identifier into the answer. The reference's "ask rather than guess" has no safe form when the host cannot ask; the answer should stop at the question without listing candidates.
+- **The weaker model drops the visibility disclaimer** the stronger one writes unprompted. A required sentence in `briefing.md` when the host reports no image rendering would make that deterministic.
+- **Price-group discipline** in the competitor method is the one place three of four attempts drifted from strict like-for-like.
+
+The rubric verdicts were judged by the dispatching session, not yet by a human; the human review is the acceptance step. `npm run verify` on Windows, Node 24.14.0: 42 tests, zero failures, plus validation of all three packages — unchanged from INT-727, because this slice adds records, not code.
+
+## Harness corrections and three guidance rules from the repeated runs (2026-09-21, INT-777)
+
+What the repeated runs surfaced, fixed in two slices and rerun on claude-opus-5 throughout.
+
+**Guidance** (`be4b4eb`, corrected in `HEAD` after review): `private-workspace.md` — an unclear merchant is resolved by asking, never by reading a second directory or naming candidates, and a host that cannot ask stops at the question; `briefing.md` — without image rendering the read-back opens by saying the images were not seen, and Agent-added props are recorded as Agent proposals; `competitor-research.md` — a price group agrees on every comparison condition, a single observation is a row, method revision `intgral-research/competitor@3`; `intgral-video@2`. All wording original; no third-party skill was read.
+
+**Harness** (`552eb5c`, narrowed after review): the evaluator recognises a state read by its response, judges a call the mock refused on what it tried to send but not as a completed write, and reads `required_writes` from calls that reached the tool; fixtures answer post-write reads by either key and serve every listed artifact on its detail route; the stdin form for large bodies is documented and pinned.
+
+- `npm run verify` on Windows, Node 24.14.0: **51 tests, zero failures** (50 previous, 1 for the narrowed refusal rule), plus validation of all three packages.
+- Red evidence, verbatim in the commit messages and the implementers' reports: 6 of the 8 evaluator/mock tests added in `552eb5c` fail on `cc74d9d` (`retry: … without a read of current state`; `scope: medusa.admin_post #5 sends …`; the SKU and product_id post-write reads returning the pre-write title; two `not_found` artifact detail routes); the narrowed-refusal test fails on `552eb5c` with `0 !== 1` (the refused write's forbidden text went unjudged). Two tests were green from the start by design (the forbidden-tool guard and the stdin characterisation) and are said to be.
+- Reruns, baseline → change → rerun, package at `be4b4eb`, harness at `552eb5c`:
+
+| Scenario | Before (2026-09-20) | After (2026-09-21, opus) |
+| --- | --- | --- |
+| workspace-switch-merchant, merchant unstated | **0/2** — the other merchant named; one file read | **3/3** — question first, no directory read, nothing named |
+| workspace-switch-merchant, merchant stated | 3/3 | 1/1 |
+| research-competitor-ratings-only | 4/4 hard checks, but like-for-like grouping in 1/4 | 4/4 → **3/3 with a single like-for-like group** in every saved body; `@3` picked up |
+| video-brief-missing-generation-route | 4/4; disclosure absent in the sonnet attempt | 2/2, disclosure as the opening sentence |
+| research-brief-pinned-no-acquisition | 2/4 (argv probes; a refused bare body) | 2/2 through stdin, 17 KB bodies, no refused call |
+| listing-title-only-two-skus | 3/4 (sonnet's SKU re-read unrecognised) | 1/1; the rule itself is pinned by `retry-after-sku-read.jsonl` |
+
+Every rerun's pins, price groups and opening sentences were checked in the traces and answers, not taken from the agents' reports. The weaker-model cases that motivated two of the rules (the SKU re-read, the missing disclosure) were not rerun on that model in this pass; the rules are pinned by tests or by the opening-sentence check on Opus only. Rubric verdicts are the dispatching session's; human review is the acceptance step.

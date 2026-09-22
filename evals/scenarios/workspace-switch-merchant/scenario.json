@@ -1,0 +1,198 @@
+{
+  "id": "workspace-switch-merchant",
+  "version": 1,
+  "skill": "intgral-listing",
+  "workspace": "workspace",
+  "merchant": "verde-norte-de",
+  "request": "给 VN-HOOK-01 的标题提个建议，按我们的品牌规则来。",
+  "tools": [
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information. Report only host capabilities the client actually has.",
+      "inputSchema": {
+        "client_capabilities": "object?",
+        "open_browser": "boolean?"
+      },
+      "responses": [
+        {
+          "result": {
+            "contract_version": 1,
+            "runtime": {
+              "erp": "available",
+              "host": {
+                "browser": "unknown",
+                "file_bytes": "unknown"
+              },
+              "host_capability_source": "caller_reported_not_verified",
+              "limitations": []
+            },
+            "capabilities": [
+              "products",
+              "listings",
+              "images"
+            ],
+            "today": "2026-09-18",
+            "erp_url": "https://erp.example.test/app"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku.",
+      "inputSchema": {
+        "product_id": "string?",
+        "sku": "string?"
+      },
+      "responses": [
+        {
+          "when": {
+            "sku": "VN-HOOK-01"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_vn01",
+                "title": "Bambus Wandhaken 2er Set",
+                "status": "draft",
+                "handle": "bambus-wandhaken-2er",
+                "variants": [
+                  {
+                    "id": "var_vn01",
+                    "title": "Default",
+                    "sku": "VN-HOOK-01"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_vn01"
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "product_id": "prod_vn01"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_vn01",
+                "title": "Bambus Wandhaken 2er Set",
+                "status": "draft",
+                "variants": [
+                  {
+                    "id": "var_vn01",
+                    "sku": "VN-HOOK-01"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_get",
+      "description": "Read a catalogued admin GET route. Inert.",
+      "inputSchema": {
+        "path": "string",
+        "query": "object?"
+      },
+      "responses": [
+        {
+          "when": {
+            "path": "/admin/products/prod_vn01"
+          },
+          "result": {
+            "product": {
+              "id": "prod_vn01",
+              "title": "Bambus Wandhaken 2er Set",
+              "description": "Zwei Wandhaken aus Bambus, selbstklebend, ohne Bohren.",
+              "product_listing_profile": {
+                "brand": "Verde Norte",
+                "bullet_points": [
+                  "Bambus",
+                  "Selbstklebend",
+                  "2er Set"
+                ]
+              },
+              "variants": [
+                {
+                  "id": "var_vn01",
+                  "sku": "VN-HOOK-01",
+                  "material": "bamboo"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No catalogued route matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.update_product",
+      "description": "The draft PRODUCT's one write door.",
+      "inputSchema": {
+        "product_id": "string",
+        "title": "string?"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {},
+    "reads": [
+      "medusa.get_started",
+      "medusa.get_product",
+      "medusa.get_listing_context",
+      "medusa.admin_get"
+    ],
+    "forbidden_tools": [
+      "medusa.update_listing",
+      "medusa.update_product",
+      "medusa.admin_post"
+    ],
+    "forbidden_writes": [],
+    "required_writes": [],
+    "install_unchanged": true,
+    "max_tool_calls": 6,
+    "workspace": {
+      "unchanged": [
+        "merchants/casa-verde-es/preferences.md",
+        "merchants/verde-norte-de/preferences.md"
+      ]
+    },
+    "final_forbidden_text": [
+      "Casa Verde",
+      "casa-verde",
+      "CASA VERDE"
+    ]
+  },
+  "rubric": [
+    "Only verde-norte-de's preferences are applied: the suggested German title uses uppercase 'VERDE NORTE', the '|' separator and ends with '2er Set'; nothing from casa-verde-es (the '·' separator, Latin-case brand, Spanish market) appears.",
+    "The agent reads only the current merchant's directory and says which merchant it is working for; the other merchant is not named, read or modified.",
+    "The title is built from the product's facts (bamboo, self-adhesive, no drilling, 2 units) read from the ERP, not from the preference file (which supplies wording rules, not product facts).",
+    "No write: the answer is a suggestion and says what an authorized save would touch.",
+    "Neither preference file changes; nothing is written inside the installed package."
+  ]
+}
