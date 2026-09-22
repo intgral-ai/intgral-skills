@@ -1,10 +1,10 @@
 # Generation journey through Intgral MCP
 
-Use `medusa.list_endpoints` and `medusa.describe_endpoint` to discover exact methods, paths and input schemas. Use the available authenticated Admin tools. Missing routes or refused permissions stop the corresponding stage; the public skill may be newer than the deployment. If discovery tools are absent, continue useful brief preparation from available product reads but do not guess write schemas or submit a draft.
+Use `medusa.list_endpoints` and `medusa.describe_endpoint` to discover exact methods, paths and input schemas. Use the available authenticated Admin tools. Missing routes or refused permissions stop the corresponding stage; the public skill may be newer than the deployment. If discovery tools are absent, continue useful brief preparation from available product reads but do not guess write schemas or submit a draft. A conflict response carries a message: relay it to the user as returned, and neither retry the same call nor switch to another route to get past it.
 
 ## Create a draft
 
-Read the target product/variant and available media. Create through `POST /admin/video-generations` with the actual product identity, duration, aspect ratio, prompt path, optional language/placement preferences, skill version and a stable idempotency key.
+Read the target product/variant and available media. Create through `POST /admin/video-generations` with the actual product identity, duration, aspect ratio and resolution from the deployed schema, prompt path, optional language/placement preferences, skill version and a stable idempotency key. Record the desired result and the executable result separately when they differ, and report both.
 
 Reference mode supplies product reference asset IDs and segment expert prompts, omitting a keyframe budget. Keyframe mode supplies the authorized frame budget and structured brief/beats as required; see [prompting](prompting.md). Do not copy both modes into one request.
 
@@ -12,7 +12,7 @@ Record returned generation ID, mode, segment durations/prompts, plan hash, frame
 
 ## Review and approve
 
-Read `GET /admin/video-generations/:id`. Show the current reference images in their mapped order or latest keyframes, all segment prompts, timing, known issues, sourced estimate and proposed cost cap.
+Read `GET /admin/video-generations/:id`. Show the current reference images in their mapped order or latest keyframes, all segment prompts, timing, known issues, sourced estimate and proposed cost cap, together with the recorded brief decisions and their sources; a decision without a source stops here. In keyframe mode, place each beat's compiled English sentence beside its frame: the user confirms that English, not the Agent's paraphrase.
 
 For keyframe mode, record the user's per-frame decisions through the catalogued review endpoint. Reference mode has no keyframe review: the user reviews the reference order and full expert prompt.
 
@@ -24,7 +24,7 @@ Approval freezes the snapshot and queues backend work. Changing images, actions,
 
 Poll the existing generation by ID. Report actual status and stored/total segments; `queued`, `running`, `paused`, `failed` and `completed` are different outcomes. A timeout is not failure or permission to create a replacement.
 
-Report requested versus measured duration, ratio and resolution when available. The server handles generation and storage after chat closes. Read [recovery](recovery.md) for resume decisions and uncertain provider submissions.
+Report requested versus measured duration, ratio and resolution when available, and the stored assets' probe results (codec, frame rate, audio track, AI-content label) as returned. The server handles generation and storage after chat closes; do not trigger the same work again to speed it up. Read [recovery](recovery.md) for resume decisions and uncertain provider submissions.
 
 ## Deliver and version
 
