@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Harness: the four research scenarios expect `runbook_revision: intgral-research@3` on a new save, matching the package since INT-738 (historical reports in fixtures keep `@1`); a test fails when a scenario's new-save revision differs from the one its skill declares. Smoke runs of all three packages on develop 006f2ad recorded (INT-834). Guidance unchanged.
 - Research: a "Retained references and frames" reference paragraph for reading a retained video reference's clip and its timestamped frames with zero acquisition — `medusa.admin_get` on `GET /admin/research/video-references` and `GET /admin/research/video-references/:id`, the `state`/`frames_state` split, an explicit inspection basis (`video_inspected`, `frames_sampled`, `metadata_only`) for every creative observation, stable identities over short-lived access URLs, and the no-URL handoff contract from the ERP's Research page (INT-738) — `runbook_revision: intgral-research@3` (`@2` since INT-702, `@3` since INT-738). Guidance only; no deployment requirement changes.
 
 ## 0.1.0 — 2026-09-21 (tag `v0.1.0`)
