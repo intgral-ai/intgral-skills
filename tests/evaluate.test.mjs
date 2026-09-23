@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { join } from "node:path";
-import { readdirSync, existsSync, mkdtempSync, writeFileSync, rmSync } from "node:fs";
+import { readdirSync, readFileSync, existsSync, mkdtempSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
@@ -24,6 +24,23 @@ for (const id of readdirSync(scenarios)) {
       assert.equal(evaluate(id, "known-bad.jsonl").status, 1);
     });
   }
+}
+
+// A new save must carry the runbook revision the installed skill declares; historical reports keep theirs.
+const declaredRunbook = (skill) => readFileSync(join(repository, "skills", skill, "SKILL.md"), "utf8").match(/runbook_revision: (\S+@\d+)/)?.[1];
+const saveRevisions = (id) => {
+  const scenario = JSON.parse(readFileSync(join(scenarios, id, "scenario.json"), "utf8"));
+  const trace = readFileSync(join(scenarios, id, "traces", "compliant.jsonl"), "utf8").split("\n").filter(Boolean).map((line) => JSON.parse(line));
+  const bodies = [...(scenario.expect.required_writes ?? []).map((write) => write.args?.body), ...trace.map((call) => call.args?.body)];
+  return { skill: scenario.skill, revisions: bodies.map((body) => body?.runbook_revision).filter(Boolean) };
+};
+for (const id of readdirSync(scenarios)) {
+  const { skill, revisions } = saveRevisions(id);
+  const declared = declaredRunbook(skill);
+  if (!declared || revisions.length === 0) continue;
+  test(`${id}: required and compliant saves carry the runbook revision ${skill} declares`, () => {
+    assert.deepEqual(revisions, revisions.map(() => declared));
+  });
 }
 
 test("listing: the known-bad trace names scope, blind retry and repeated completed write", () => {
