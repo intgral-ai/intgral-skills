@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Research: a "Retained references and frames" reference paragraph for reading a retained video reference's clip and its timestamped frames with zero acquisition — `medusa.admin_get` on `GET /admin/research/video-references` and `GET /admin/research/video-references/:id`, the `state`/`frames_state` split, an explicit inspection basis (`video_inspected`, `frames_sampled`, `metadata_only`) for every creative observation, stable identities over short-lived access URLs, and the no-URL handoff contract from the ERP's Research page (INT-738) — `runbook_revision: intgral-research@3` (`@2` since INT-702, `@3` since INT-738). Guidance only; no deployment requirement changes.
+
 ## 0.1.0 — 2026-09-21 (tag `v0.1.0`)
 
 - Three independently installable merchant skills: listing, research and video.
