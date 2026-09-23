@@ -896,7 +896,7 @@
             "record_type": "report",
             "report_kind": "market_research",
             "scope_id": "rscope_colander_es",
-            "runbook_revision": "intgral-research@1",
+            "runbook_revision": "intgral-research@3",
             "template_revision": "market_research@1",
             "data": {
               "scope_decision": {

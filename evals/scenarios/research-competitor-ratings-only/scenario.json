@@ -77,7 +77,7 @@
       { "label": "review themes claimed without retained review bodies", "tool": "medusa.admin_post", "args": { "path": "/admin/research/artifacts", "body": { "data": { "review_analysis": { "status": "analyzed" } } } } }
     ],
     "required_writes": [
-      { "tool": "medusa.admin_post", "args": { "path": "/admin/research/artifacts", "body": { "record_type": "report", "report_kind": "competitor_research", "scope_id": "rscope_colander_es", "runbook_revision": "intgral-research@1", "template_revision": "competitor_research@1", "data": { "review_analysis": { "status": "unavailable" } } } } }
+      { "tool": "medusa.admin_post", "args": { "path": "/admin/research/artifacts", "body": { "record_type": "report", "report_kind": "competitor_research", "scope_id": "rscope_colander_es", "runbook_revision": "intgral-research@3", "template_revision": "competitor_research@1", "data": { "review_analysis": { "status": "unavailable" } } } } }
     ],
     "max_tool_calls": 14
   },

@@ -2437,7 +2437,7 @@
             "record_type": "report",
             "report_kind": "product_brief",
             "scope_id": "rscope_colander_es",
-            "runbook_revision": "intgral-research@1",
+            "runbook_revision": "intgral-research@3",
             "template_revision": "product_brief@1",
             "upstream_report_ids": [
               "rart_report_col_market_01",
