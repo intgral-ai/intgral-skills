@@ -44,3 +44,9 @@
    next_action=read_state_before_retry 时先读当前状态，确认后才决定剩余写入；不假定回滚。
    产品图片变更可能按后端同步规则影响关联的
    ERP-origin listings；写前说明该影响，不能承诺产品改图永远只改产品。
+6. 多变体产品的 create_listing 还会建立或复用一个不可购买的父体草稿，并保存变体主题；
+   `listings` 只含可售的子体。汇报返回的 `family`：主题、`parent_sku`、`parent_listing_id`，
+   说明父体不可购买；`applied: false` 时原样报告 `reason`（already_submitted 带 `submitted_sku`）。
+   父体不承载图片、EAN/标识、价格、库存、报价或配送：用户说“所有 listing”时这些只写子体
+   （价格按 SKU 写在产品上），不写父体；后端以 `parent_field_not_allowed` 拒绝时不重试。
+   父体只放整组共用的文案和属性，仅在用户明确要求时修改。
