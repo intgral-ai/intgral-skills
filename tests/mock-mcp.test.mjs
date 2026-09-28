@@ -120,3 +120,19 @@ test("a read by product_id after the write shows the post-write title too", (t) 
   const after = JSON.parse(run(trace, "call", "medusa.get_product", JSON.stringify({ product_id: "prod_cv01" })).stdout);
   assert.equal(after.products[0].title, "Casa Verde 竹制壁挂挂钩 · 2 件装");
 });
+
+test("the family scenario returns the parent on create_listing, refuses a parent write and accepts a child write", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "intgral-mock-"));
+  t.after(() => rmSync(dir, { recursive: true, force: true }));
+  const path = join(repository, "evals", "scenarios", "listing-create-family-parent", "scenario.json");
+  const trace = join(dir, "trace.jsonl");
+  const created = JSON.parse(runOn(path, trace, "call", "medusa.create_listing", JSON.stringify({ product_id: "prod_rs9001" })).stdout);
+  assert.deepEqual(created.listings.map((listing) => listing.seller_sku), ["RS-9001-BK", "RS-9001-WH"]);
+  assert.equal(created.family.applied, true);
+  assert.equal(created.family.parent_sku, "RS-9001-BK-PARENT");
+  const parent = JSON.parse(runOn(path, trace, "call", "medusa.update_listing", JSON.stringify({ listing_id: created.family.parent_listing_id, attributes: { extra: { purchasable_offer: "29.90 EUR" } } })).stdout);
+  assert.equal(parent.isError, true);
+  assert.equal(parent.code, "parent_field_not_allowed");
+  const child = JSON.parse(runOn(path, trace, "call", "medusa.update_listing", JSON.stringify({ listing_id: created.listings[0].id, attributes: { extra: { fulfillment_availability: "50" } } })).stdout);
+  assert.equal(child.write_result.status, "succeeded");
+});
