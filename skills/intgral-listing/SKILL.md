@@ -3,7 +3,7 @@ name: intgral-listing
 description: Query Intgral products and listings, import product files, edit catalog or marketplace drafts, manage images, and recover partial writes through connected Intgral MCP tools.
 license: MIT
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Intgral 上架工作流

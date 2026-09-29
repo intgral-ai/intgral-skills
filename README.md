@@ -12,7 +12,7 @@ Each package includes its references and templates and can be installed alone. R
 
 ## Install
 
-After the initial PR is merged, use the open-source [Skills CLI](https://github.com/vercel-labs/skills):
+Use the open-source [Skills CLI](https://github.com/vercel-labs/skills):
 
 ```bash
 npx skills@1.7.0 add intgral-ai/intgral-skills --skill intgral-listing
@@ -20,7 +20,7 @@ npx skills@1.7.0 add intgral-ai/intgral-skills --skill intgral-listing
 
 The installer lets you select a client and installation scope. See [installation](docs/installation.md) for a fixed release/commit, Windows copies, local installation, updates and rollback.
 
-**Install a tagged release.** `v0.1.0` is the first reviewed release; the [installation guide](docs/installation.md) shows the clone-at-tag path. `develop` is the integration branch and can be ahead of the last reviewed tag, so pin the tag rather than the branch for anything that has to be reproducible.
+**Install a tagged release.** `v0.2.0` is the latest reviewed release (see the [changelog](CHANGELOG.md)); the [installation guide](docs/installation.md) shows the clone-at-tag path. `develop` is the integration branch and can be ahead of the last reviewed tag, so pin the tag rather than the branch for anything that has to be reproducible.
 
 Installing a Skill does not connect or authenticate to your ERP. Add your administrator-provided Intgral MCP endpoint in your client's connection settings and authenticate there. Provider credentials stay on the service; do not put them in this repository or a task record.
 
