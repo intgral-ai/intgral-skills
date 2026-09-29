@@ -3,7 +3,7 @@ name: intgral-video
 description: Plan, approve, generate, review and resume product videos through Intgral MCP, using product reference images or approved keyframes and private merchant preferences.
 license: MIT
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # Intgral product video

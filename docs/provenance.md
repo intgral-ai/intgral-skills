@@ -5,7 +5,7 @@ This repository was assembled from selected first-party content, not a subtree p
 | Public package | First-party baseline | Adaptation |
 | --- | --- | --- |
 | intgral-listing | listing-walkthrough, integration snapshot c9549a69 | Local references, private merchant workspace, removal of pilot brand rules |
-| intgral-research | research-workflow, integration snapshot c9549a69; ad_video additions from develop f6f57a42 (INT-695) | Local references, self-contained analysis methods, fictional schema examples, explicit deployment limits |
+| intgral-research | research-workflow, integration snapshot c9549a69; ad_video additions from develop f6f57a42 (INT-695); product links from #385 (merged f6f57a42, contract re-read on develop b88fe91c) | Local references, self-contained analysis methods, fictional schema examples, explicit deployment limits |
 | intgral-video | video-walkthrough, integration snapshot 22ffadae (PR #358) | Separate reference/keyframe paths, private state outside installation, focused recovery guidance; the briefing rounds, challenge rules, expert-prompt writing rules and recovery branches carried rule by rule ([audit](port-audit-video-22ffadae.md)); deployment values (enumerations, limits, prices) read from the live schema and estimate rather than restated |
 
 The c9549a69 snapshot combines research and video development work; the video-walkthrough tree at 22ffadae is byte-identical to it, and 22ffadae is the last first-party copy before the ERP removes its bundled Skill, so this package is the complete carrier. The presence of either snapshot is not a claim that the work is deployed. ERP code and Git history were not imported or modified.
@@ -43,8 +43,14 @@ Nothing on `develop` is unported. Content that exists only in open, unmerged ERP
 | ERP pull request | What it changes in a first-party manual |
 | --- | --- |
 | #358 `video-generation-v1` | the video manual itself (the source of intgral-video) |
-| #379 `feat/ad-research` | `evidence-schemas.md` — a `schema_revision` list filter and the new `research-ad-video-observation/1` evidence contract (Meta / TikTok ad-library video observations) |
-| #385 `feat/research-tab-linking` | `artifacts-and-reuse.md` — attaching a saved report revision to a product variant through `POST /admin/research/links` |
+| #434 `feat/int-736-review-follow-ups` | the retained video-reference routes (`/admin/research/video-references`) — **carried ahead of its merge** as INT-738 (intgral-skills #15) and declared a deployment requirement in 0.2.0; recheck the routes when it merges |
 | #373 `codex/int-659-production-mcp` | listing `references/operate.md` (new) and `review.md` — an operator account that may review, confirm, publish and delete under user authorization; this changes the package's human-publishing boundary and needs its own decision before it is ported |
 
 When one of those merges, port the delta with the same adaptations and record the new baseline commit here.
+
+## Ported after the re-verification
+
+| ERP pull request | Baseline | Ported into | Adaptation |
+| --- | --- | --- | --- |
+| #379 `feat/ad-research` (closed; its delta reached `develop` in the #385 merge `f6f57a42`) | the `research-ad-video-observation/1` evidence contract and `schema_revision` filter in `evidence-schemas.md` at `f6f57a42` | intgral-research `references/evidence-schemas.md` and `acquisition.md` (INT-702, intgral-skills #14, `runbook_revision: intgral-research@2`) | Carried verbatim apart from the four contract-copy differences recorded in the ERP's `skills-contract-pin.json` notes. |
+| #385 `feat/research-tab-linking`, merged at `f6f57a42` | the attach instruction in `research-workflow/references/artifacts-and-reuse.md` at `f6f57a42`; the link contract re-read on `develop` `b88fe91c` — `docs/workflow/research-report-api.md` (report bodies and product links), gateway `docs/medusa-api.md` and `docs/permissions.md`, the `medusa.get_product` / `medusa.list_product_research_history` registry and schemas, and the `/admin/research/links` route and link store | intgral-research `references/artifacts-and-reuse.md` "Product links" (2026-09-29, `runbook_revision: intgral-research@4`) | The one-sentence attach instruction is expanded from the contract rather than carried verbatim: exact-SKU variant resolution, the `{artifact_id, variant_id, reason}` body with `listing_id` only for an Amazon listing of that variant, confirmation from the returned link, replacement within variant + scope + report kind with history kept, the `research_link_revision_conflict` refusal, unlink as ERP-only and its soft-delete block, and the read side (`research_links` on SKU lookups, the history tool, `research_error`, absence without `research:read`). Fictional identifiers in the scenario `research-link-report-to-sku`; no ERP code or route shape is copied. |

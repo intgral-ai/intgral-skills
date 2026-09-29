@@ -8,6 +8,17 @@ Store Markdown together with the structured comparisons/statistics required by t
 
 For a new session, read the scope, then list its artifacts and read exact artifact IDs through catalogued GET routes. Reuse the latest suitable revision or a named historical revision. Report each supporting observation date; stale or missing dates stay visible.
 
+## Product links
+
+A link records that one exact saved report revision is relevant to one existing product variant. It is relevance, not product approval, and it changes neither the report nor the product.
+
+- **Resolve the variant, never guess it.** Read `medusa.get_product` by SKU and take the variant whose `sku` equals the one named; the product's other variants and the product ID are not it. No matching variant means no link — say so. Category-only research, with no product in hand, has no product link.
+- **Attach.** Find `POST /admin/research/links` with `medusa.list_endpoints` and `medusa.describe_endpoint`, then send `{artifact_id, variant_id, reason}`: the exact revision's artifact ID, the resolved variant ID, and a short relevance reason in the user's terms (at most 280 characters). Add `listing_id` only when a read returned it as an Amazon listing of that same variant. A 201 records the link — new, or the same revision with a changed reason or listing; a 200 with `reused: true` means it was already exactly so. Read the returned `link` — `state`, `variant_sku`, `report_kind`, `version` — to confirm before reporting success.
+- **Revisions.** Linking a newer revision replaces the current link for the same variant, scope and report kind; the older link stays as history. A 409 `research_link_revision_conflict` means an equal or newer revision is already current: report it, never retry.
+- **Unlink.** Not available through the gateway: `DELETE /admin/research/links/:id` is outside the seller profile. Tell the user to unlink in the ERP. A report with a current or historical link cannot be soft-deleted until that link is unlinked.
+
+Reading: a SKU lookup through `medusa.get_product` adds `research_links` — body-free summaries with `artifact_id`, `scope_id`, `scope_question`, `report_kind`, `version`, `variant_id`, `variant_sku`, `reason`, `state` and an `erp_url` into the Research page. Read the report itself through the artifact detail route before citing what it says. `medusa.list_product_research_history` with a `variant_id` (`limit` 1–50, default 20; `offset`) pages current, historical and unlinked links, newest first. A top-level `research_error: {code}` means the product data is good and only the research part failed: report the code, do not retry blindly. A SKU lookup with no `research_links` key and no `research_error` may lack `research:read` — it is not evidence that nothing is linked; an empty list is. A product-ID lookup never carries links.
+
 ## Video ad evidence
 
 Read retained Meta and TikTok video-ad evidence with `medusa.admin_get` on `/admin/research/scopes/:scopeId/artifacts?record_type=evidence&schema_revision=research-ad-video-observation/1`. In a new session, use these records as context with zero acquisition; reads never collect.
@@ -28,3 +39,4 @@ A handoff copied from the ERP's Research page carries `scope_id`, and per refere
 
 - The save returned 201, or 200 for an identical retry; any other status is reported as-is, never retried under a new key with the same content.
 - The user has the artifact ID, its revision, its coverage status, and every gap.
+- For a link: the POST returned 201, or 200 with `reused: true`, and the user has the linked artifact ID and version, the variant SKU and the link's `state`.

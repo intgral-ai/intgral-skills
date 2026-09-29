@@ -7,7 +7,7 @@ Use a client that supports local Agent Skills and an authenticated Intgral MCP c
 Clone the reviewed tag explicitly, then install into your current client workspace:
 
 ```bash
-git clone --branch v0.1.0 --single-branch https://github.com/intgral-ai/intgral-skills.git intgral-skills-source
+git clone --branch v0.2.0 --single-branch https://github.com/intgral-ai/intgral-skills.git intgral-skills-source
 npx skills@1.7.0 add ./intgral-skills-source --skill intgral-listing --agent codex --copy
 ```
 
@@ -25,7 +25,7 @@ The path is an example: use the actual checkout. Restart or reload the client as
 
 ## Fixed versions and upgrades
 
-For reproducible installation, clone this repository, check out a reviewed tag or commit, and install from that local checkout. Record the commit in your private task workspace. Tags are published only after release review; `v0.1.0` is the first, and the [changelog](../CHANGELOG.md) says what each tag carries.
+For reproducible installation, clone this repository, check out a reviewed tag or commit, and install from that local checkout. Record the commit in your private task workspace. Tags are published only after release review; `v0.1.0` was the first and `v0.2.0` is the latest, and the [changelog](../CHANGELOG.md) says what each tag carries.
 
 Before upgrading, preserve private preferences and customer-edited rules outside the installed package. Reinstall from the selected checkout, start a fresh client session and confirm that the same private merchant workspace is read. To roll back, install the prior reviewed checkout; keep historical task and report revision identities unchanged.
 
