@@ -35,6 +35,8 @@ Every workflow discovers the same way. Later steps refine earlier ones; a stop a
 
 Publication is never a capability of this package: the user publishes in the ERP.
 
+After a confirmed save, the agent opens the returned `erp_url` with the host's own browser tool, unprompted, so the user lands on the page where review and publication happen; without a browser tool it gives the link. This is a host capability, not the gateway's: `open_browser` and the deployment switch `ERP_OPEN_ON_INIT` launch a browser on the gateway's machine, which reaches the user only when the gateway runs on their computer. Read-only questions never open a page.
+
 ## Research
 
 | Stage | Required capability | Discovered by | Preparation-only fallback | Stop when |

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Listing: after a confirmed save that returns an `erp_url`, the agent opens that page with the host's own browser tool without being asked — review and publication happen there — one page per task, the rest as links; it does not act inside the page, and without a browser tool it gives the link and does not claim the page opened. Read-only questions still never open a page. The compatibility guide records that the gateway's `open_browser` / `ERP_OPEN_ON_INIT` open a browser on the gateway's machine, not the client's. One scenario, `listing-open-after-write`, with baseline and updated runs. Guidance only; no deployment requirement changes.
+
 ## 0.2.0 — 2026-09-29 (tag `v0.2.0`)
 
 - Research: product links. artifacts-and-reuse.md gains "Product links" — resolve the `variant_id` from `medusa.get_product` by SKU (never guessed), attach an exact saved revision through the catalogued `POST /admin/research/links` with `{artifact_id, variant_id, reason}` (`listing_id` only for an Amazon listing of that variant), confirm from the returned link; a newer revision replaces the current link within variant, scope and report kind and the older stays history; unlinking is ERP-only and blocks soft delete until done; `research_links` on SKU lookups are body-free summaries, `medusa.list_product_research_history` pages current, historical and unlinked links, and a `research_error` keeps the product data — `runbook_revision: intgral-research@4` (`@3` since INT-738); the four research scenarios' new-save expectations follow. One scenario, `research-link-report-to-sku`, with baseline and updated runs (the baseline already passed the hard checks). Guidance only; requires an ERP with intgral-erp-seam#385.

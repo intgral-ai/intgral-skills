@@ -21,7 +21,8 @@
 4. 仅用户明确要求打开页面且当前能力支持时传 open_browser=true；随后查看 erp_opened /
    open_in_browser / runtime.limitations，有主机打开能力且仍需打开时用返回的 erp_url，已开不重复。
    无已确认的打开能力时给深链，不能承诺已打开。部署 ERP_OPEN_ON_INIT 是已有显式 opt-in，
-   不在任务里擅自开关。其余情况给深链即可，不猜路径、不操作 ERP 写按钮、不要求卡片或聊天图片。
+   不在任务里擅自开关。写入保存后的打开按 [SKILL.md](../SKILL.md) 的“保存后打开复核页”；
+   其余情况给深链即可，不猜路径、不操作 ERP 写按钮、不要求卡片或聊天图片。
 
 仅使用目标 SKU/站点的有来源事实。相似 SKU 可以解释术语或文案结构，不能提供目标商品事实。
 错误照返回的原因/next_step/request_id 报告；medusa_error 是后端响应错误，勿编造成断线，
