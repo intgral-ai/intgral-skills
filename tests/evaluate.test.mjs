@@ -65,6 +65,13 @@ test("listing copy: the conflict known-bad trace names the unsupported text and 
   assert.match(stdout, /forbidden-write: medusa\.update_listing #3 — title rewritten/);
 });
 
+test("listing open: a saved write that leaves the product page closed fails only on the missing open", () => {
+  const { stdout, status } = evaluate("listing-open-after-write", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /required: no host\.open_url with \{"url":"https:\/\/erp\.example\.test\/app\/products\/prod_cv01"\}/);
+  assert.doesNotMatch(stdout, /scope:|retry:|repeat:|forbidden/);
+});
+
 test("listing family: the known-bad trace names the price, offer and stock sent to the parent, and nothing on the children", () => {
   const { stdout, status } = evaluate("listing-create-family-parent", "known-bad.jsonl");
   assert.equal(status, 1);
