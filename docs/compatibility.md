@@ -35,6 +35,16 @@ Every workflow discovers the same way. Later steps refine earlier ones; a stop a
 
 Publication is never a capability of this package: the user publishes in the ERP.
 
+## Inventory
+
+| Stage | Required capability | Discovered by | Preparation-only fallback | Stop when |
+| --- | --- | --- | --- | --- |
+| Read stock | `medusa.get_stock` (a read in every permission profile) | step 3; step 5 is the read itself | answer from the merchant's own statement, labelled as not read from the ERP | the read returns `not_found` for the SKU: unknown or not stockable, no line for it |
+| Propose | `medusa.propose_stock_changes`; the line shapes its `inputSchema` accepts (`set`; `adjust` with a reason where the deployment has it); a permission profile that is not read-only | step 3 — read `kind` and the required fields in the schema, never assume `adjust` | the prepared lines, source reference and read stock shown in the answer, marked *not proposed* | the tool is absent, the profile refuses the write, or the merchant has stated no sourced quantity |
+| Read back | `medusa.get_stock_change` | step 3 | the batch id and the `erp_url` from the proposal | the batch is `not_found` |
+
+Confirming or rejecting a line is never a capability of this package: a human does it in the ERP, and the gateway refuses both for every permission profile. A confirmed stock change reaches Amazon only through a human-confirmed publication plan. A deployment that lists the tools but not the stock-change backend rules (the refusal codes, warnings and `adjust` lines the package describes) answers with whatever the ERP actually returns; the package reports that and does not assume the rest.
+
 ## Research
 
 | Stage | Required capability | Discovered by | Preparation-only fallback | Stop when |
@@ -76,6 +86,7 @@ Both use the same fictional merchant, `casa-verde-es`, and product `CV-HOOK-01`.
 | Installer copy and replacement preserve a private preference file | Skills CLI 1.7.0, Codex target, copy mode, Windows | 2026-09-17 | [validation](validation.md) |
 | Behavior against a mocked MCP boundary (listing, research, video) | Claude Code desktop, claude-opus-5, scripted mock | 2026-09-18 | [evals](../evals/README.md) |
 | Behavior against a live authenticated ERP | — | — | **not verified**; deliberately separate acceptance |
+| Inventory behavior (the five `inventory-*` scenarios), against a live ERP or a mock | — | — | **not run**; scenarios and hand-written traces exist, no agent run is recorded |
 | Any client other than the Codex install target and the Claude Code subagent | — | — | **not verified**; discovery and UI support must be checked per client |
 | Paid video or image generation, real report saves, supplier contact | — | — | **not exercised** |
 
