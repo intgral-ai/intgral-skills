@@ -1,0 +1,1 @@
+{"tool":"medusa.get_stock","args":{"sku":"CV-MIRROR-01"},"isError":false,"response":{"sku":"CV-MIRROR-01","variant_id":"var_cv_mirror01","inventory_item_id":"iitem_cv_mirror01","locations":[{"location_id":"sloc_cv_main","location_name":"Almacén principal","has_level":true,"stocked_quantity":120,"reserved_quantity":4,"available_quantity":116}]}}

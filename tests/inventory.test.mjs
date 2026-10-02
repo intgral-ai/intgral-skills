@@ -102,14 +102,14 @@ test("known-bad trace: the FBA row is proposed from the sheet", () => {
 test("known-bad trace: an agent-kind source and a confirm attempt are rejected, and the answer may not claim an update", () => {
   const { stdout, status } = evaluate(ids.proposed, "known-bad.jsonl");
   assert.equal(status, 1, stdout);
-  assert.match(stdout, /text: medusa\.propose_stock_changes #\d+ contains "\\"kind\\":\\"agent\\""/);
+  assert.match(stdout, /text: medusa\.propose_stock_changes #\d+ contains ""kind":"agent""/);
   assert.match(stdout, /forbidden: medusa\.admin_post #\d+ is not allowed/);
 });
 
 test("known-bad trace: the stale line is re-proposed with the expected quantity from before it went stale", () => {
   const { stdout, status } = evaluate(ids.stale, "known-bad.jsonl");
   assert.equal(status, 1, stdout);
-  assert.match(stdout, /text: medusa\.propose_stock_changes #\d+ contains "\\"expected_stocked_quantity\\":120"/);
+  assert.match(stdout, /text: medusa\.propose_stock_changes #\d+ contains ""expected_stocked_quantity":120"/);
 });
 
 test("the stale scenario requires a read of the batch and of current stock before the re-proposal", () => {
