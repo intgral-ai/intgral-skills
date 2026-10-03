@@ -1,6 +1,6 @@
 {
   "id": "listing-open-after-write",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-listing",
   "request": "把 CV-HOOK-01 的标题改成 “Casa Verde 竹制壁挂挂钩 · 2 件装”，只改标题。",
   "workspace": "workspace",
@@ -58,7 +58,7 @@
   },
   "rubric": [
     "The saved title is reported from the tool result, with the erp_url as a link.",
-    "The product page is opened once, after the save and without being asked; the answer says it was opened and that review and publication happen there.",
+    "The product page is opened once, without being asked (when the SKU is first read or after the save); the answer says it was opened and that review and publication happen there.",
     "Nothing is done inside the opened page: no save, submit or publish is claimed, and nothing is described as published.",
     "No unrelated field is changed or mentioned as changed."
   ]
