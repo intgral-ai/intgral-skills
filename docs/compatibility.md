@@ -35,7 +35,11 @@ Every workflow discovers the same way. Later steps refine earlier ones; a stop a
 
 Publication is never a capability of this package: the user publishes in the ERP.
 
-After a confirmed save, the agent opens the returned `erp_url` with the host's own browser tool, unprompted, so the user lands on the page where review and publication happen; without a browser tool it gives the link. This is a host capability, not the gateway's: `open_browser` and the deployment switch `ERP_OPEN_ON_INIT` launch a browser on the gateway's machine, which reaches the user only when the gateway runs on their computer. Read-only questions never open a page.
+When a task touches a specific SKU — a read or a write — the agent opens that SKU's returned `erp_url` with the host's own browser tool, unprompted, once per SKU per session, so the user lands on the page where review and publication happen; without a browser tool it gives the link. This is a host capability, not the gateway's: `open_browser` and the deployment switch `ERP_OPEN_ON_INIT` launch a browser on the gateway's machine, which reaches the user only when the gateway runs on their computer.
+
+## First connection
+
+`intgral-start` connects a client that has no Intgral tools yet. It needs the administrator-provided MCP endpoint (asked once, never inferred) and a host it can configure: on Claude Code it runs `claude mcp add --transport http --scope user intgral <endpoint>`; on other clients it names that client's own setting. Sign-in happens in the client. New tools usually appear only after the client restarts, so the Intgral link — the `erp_url` from `medusa.get_started` — is given once connected, never guessed from the endpoint.
 
 ## Research
 

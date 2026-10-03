@@ -1,0 +1,51 @@
+---
+name: intgral-start
+description: Start using Intgral — connect the Intgral MCP server on first use, then show what can be done with a link to Intgral, and open a SKU's Intgral page whenever a task touches that SKU.
+license: MIT
+metadata:
+  version: "0.1.0"
+---
+
+# 开始使用 Intgral
+
+用户第一次用 Intgral、问“能做什么”、或连接出问题时用这个 Skill。具体的上架、调研、视频工作由
+`intgral-listing` / `intgral-research` / `intgral-video` 完成；本 Skill 只负责连接、入口和打开页面。
+
+## 1. 先看是否已连接
+
+本会话已列出 Intgral 工具（如 `medusa.get_started`）就是已连接：直接到第 2 步，不重装、不改客户端配置。
+没有 Intgral 工具就是首次使用，按顺序：
+
+1. **地址。** 用户消息里给了 MCP 地址就用它；没有就只问这一件事（管理员提供的地址）。
+   不从域名、示例、文档或其他商家推断地址。
+2. **直接安装，不再二次确认。** 宿主是 Claude Code（有 `claude` 命令）时运行：
+   `claude mcp add --transport http --scope user intgral <地址>`
+   用 user 级别，之后每个会话都可用。提示同名 `intgral` 已存在时，先 `claude mcp get intgral`：
+   地址相同就当作已安装，不同就把两者告诉用户，由用户决定是否替换。命令失败时照原样报告输出。
+   其他客户端：给出该客户端自己的添加方式或其连接设置位置；不确定就直说，不编命令。
+3. **登录在客户端里。** 需要授权时由客户端自己的登录页完成；不在聊天里索要 token、密码或密钥。
+4. **说清下一步。** 新装的 MCP 一般要重启或重新加载客户端后工具才出现。Intgral 的链接由连上后的
+   `medusa.get_started` 返回；现在还拿不到就说明重启后会给出，不猜 ERP 地址。
+5. 给出第 2 步的菜单，问用户想先做什么。
+
+## 2. 菜单和 Intgral 链接
+
+已连接时先调用 `medusa.get_started`（不传 `open_browser`），把返回的 `erp_url` 作为“打开 Intgral”的链接给用户。
+没有返回 `erp_url` 就说明拿不到，不拼路径。然后用编号列出可做的事，问用户选哪个：
+
+1. 查 SKU 的状态和现有信息（intgral-listing）
+2. 用表格或资料导入，建产品草稿（intgral-listing）
+3. 改产品文案或站点 listing（intgral-listing）
+4. 看图、补图、调整图片（intgral-listing）
+5. 市场、竞品、供应商调研和产品简报（intgral-research）
+6. 产品视频（intgral-video）
+
+用户已经说了具体任务就跳过菜单，直接交给对应 Skill。对应 Skill 未安装时说出要装哪个：
+`npx skills@1.7.0 add intgral-ai/intgral-skills --skill <名字>`。
+
+## 3. 操作 SKU 时直接打开它的页面
+
+任务一涉及具体 SKU（查、改、图片、调研关联、视频都算），读到该 SKU 后就用返回的 `erp_url`，
+在本会话的浏览器工具里打开，不等用户要求。每个 SKU 每个会话只开一次；一次涉及多个 SKU 时开第一个，
+其余给链接。页面留给用户操作：打开后不在页面里点击、保存或发布。没有浏览器工具或打开失败时给链接，
+不说已打开。
