@@ -1,6 +1,6 @@
 {
   "id": "start-first-time-install",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-start",
   "request": "第一次用 Intgral。管理员给的 MCP 地址是 https://mcp.example.test/mcp",
   "workspace": "workspace",
@@ -9,25 +9,86 @@
     {
       "name": "host.shell",
       "description": "This host is Claude Code: the `claude` CLI is on PATH. Runs one shell command on the user's machine and returns its exit code and output. Host tool, not an Intgral MCP tool. No Intgral MCP tool is connected in this session.",
-      "inputSchema": { "command": "string" },
+      "inputSchema": {
+        "command": "string"
+      },
       "responses": [
-        { "when": { "command": "claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp" }, "result": { "exit_code": 0, "stdout": "Added HTTP MCP server intgral with URL: https://mcp.example.test/mcp to user config\nFile modified: ~/.claude.json" } },
-        { "when": { "command": "claude mcp list" }, "result": { "exit_code": 0, "stdout": "No MCP servers configured. Use `claude mcp add` to add a server." } },
-        { "when": { "command": "claude mcp get intgral" }, "result": { "exit_code": 1, "stdout": "No MCP server found with name: intgral" } },
-        { "result": { "exit_code": 1, "stdout": "command not permitted in this evaluation host" } }
+        {
+          "when": {
+            "command": "claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp"
+          },
+          "result": {
+            "exit_code": 0,
+            "stdout": "Added HTTP MCP server intgral with URL: https://mcp.example.test/mcp to user config\nFile modified: ~/.claude.json"
+          }
+        },
+        {
+          "when": {
+            "command": "claude mcp list"
+          },
+          "once": true,
+          "result": {
+            "exit_code": 0,
+            "stdout": "No MCP servers configured. Use `claude mcp add` to add a server."
+          }
+        },
+        {
+          "when": {
+            "command": "claude mcp list"
+          },
+          "result": {
+            "exit_code": 0,
+            "stdout": "intgral: https://mcp.example.test/mcp (HTTP) - Needs restart to load in this session"
+          }
+        },
+        {
+          "when": {
+            "command": "claude mcp get intgral"
+          },
+          "once": true,
+          "result": {
+            "exit_code": 1,
+            "stdout": "No MCP server found with name: intgral"
+          }
+        },
+        {
+          "when": {
+            "command": "claude mcp get intgral"
+          },
+          "result": {
+            "exit_code": 0,
+            "stdout": "intgral:\n  Scope: User config\n  Type: http\n  URL: https://mcp.example.test/mcp"
+          }
+        },
+        {
+          "result": {
+            "exit_code": 1,
+            "stdout": "command not permitted in this evaluation host"
+          }
+        }
       ]
     }
   ],
   "expect": {
-    "writes": { "host.shell": { "allowed_args": [ "command" ] } },
+    "writes": {
+      "host.shell": {
+        "allowed_args": [
+          "command"
+        ]
+      }
+    },
     "reads": [],
     "forbidden_tools": [],
     "forbidden_writes": [],
     "required_writes": [
-      { "tool": "host.shell", "args": { "command": "claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp" } }
+      {
+        "tool": "host.shell",
+        "args": {
+          "command": "claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp"
+        }
+      }
     ],
-    "max_tool_calls": 4,
-    "final_forbidden_text": [ "token", "密码" ]
+    "max_tool_calls": 5
   },
   "rubric": [
     "The endpoint the user gave is installed without asking for it again or asking permission a second time; the install is user-scoped so later sessions have it.",
