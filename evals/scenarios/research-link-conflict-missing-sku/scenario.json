@@ -1,0 +1,1300 @@
+{
+  "id": "research-link-conflict-missing-sku",
+  "version": 1,
+  "skill": "intgral-research",
+  "request": "把最新竞品报告挂到 SKU CV-COL-24-GR 和 CV-COL-28-BL 上。",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "medusa.list_endpoints",
+      "description": "Catalogued admin routes, optionally filtered by path prefix, method and source.",
+      "inputSchema": {
+        "prefix": "string?",
+        "method": "GET|POST|PATCH|PUT|DELETE?",
+        "source": "custom|core?"
+      },
+      "responses": [
+        {
+          "result": {
+            "total": 10,
+            "endpoints": [
+              {
+                "method": "GET",
+                "path": "/admin/research/scopes",
+                "source": "custom",
+                "summary": "Discover research scopes by external_key",
+                "callable": true
+              },
+              {
+                "method": "GET",
+                "path": "/admin/research/scopes/:scopeId",
+                "source": "custom",
+                "summary": "Scope summary",
+                "callable": true
+              },
+              {
+                "method": "GET",
+                "path": "/admin/research/scopes/:scopeId/artifacts",
+                "source": "custom",
+                "summary": "Retained evidence and reports of a scope",
+                "callable": true
+              },
+              {
+                "method": "GET",
+                "path": "/admin/research/artifacts/:artifactId",
+                "source": "custom",
+                "summary": "One retained artifact with advisory freshness",
+                "callable": true
+              },
+              {
+                "method": "GET",
+                "path": "/admin/research/links",
+                "source": "custom",
+                "summary": "Page report-to-variant associations by variant or report revision, including historical and explicitly unlinked rows; no report body or file URL.",
+                "callable": true
+              },
+              {
+                "method": "POST",
+                "path": "/admin/research/scopes",
+                "source": "custom",
+                "summary": "Create or reuse a scope",
+                "callable": true
+              },
+              {
+                "method": "POST",
+                "path": "/admin/research/artifacts",
+                "source": "custom",
+                "summary": "Save evidence or a report revision",
+                "callable": true
+              },
+              {
+                "method": "POST",
+                "path": "/admin/research/plans",
+                "source": "custom",
+                "summary": "Persist one authenticated, expiring research approval with finite request, result, page, runtime and budget bounds; returns its scope and plan.",
+                "callable": true
+              },
+              {
+                "method": "POST",
+                "path": "/admin/research/links",
+                "source": "custom",
+                "summary": "Explicitly link an immutable report revision to an existing product variant and optional linked Amazon listing, recording the relevance reason.",
+                "callable": true
+              },
+              {
+                "method": "DELETE",
+                "path": "/admin/research/links/:id",
+                "source": "custom",
+                "summary": "Record an audited unlink of a report-to-variant association",
+                "callable": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.describe_endpoint",
+      "description": "The request schema (JSON Schema) and summary of one admin route, matched by method and path.",
+      "inputSchema": {
+        "method": "GET|POST|PATCH|PUT|DELETE",
+        "path": "string"
+      },
+      "responses": [
+        {
+          "when": {
+            "method": "POST",
+            "path": "/admin/research/links"
+          },
+          "result": {
+            "method": "POST",
+            "path": "/admin/research/links",
+            "summary": "Explicitly link an immutable report revision to an existing product variant and optional linked Amazon listing, recording the relevance reason.",
+            "request_schema": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "artifact_id",
+                "variant_id",
+                "reason"
+              ],
+              "properties": {
+                "artifact_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "variant_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "listing_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 280
+                }
+              }
+            }
+          }
+        },
+        {
+          "when": {
+            "method": "GET",
+            "path": "/admin/research/links"
+          },
+          "result": {
+            "method": "GET",
+            "path": "/admin/research/links",
+            "summary": "Page report-to-variant associations by variant or report revision, including historical and explicitly unlinked rows; no report body or file URL.",
+            "request_schema": {
+              "type": "object",
+              "properties": {
+                "variant_id": {
+                  "type": "string"
+                },
+                "artifact_id": {
+                  "type": "string"
+                },
+                "state": {
+                  "enum": [
+                    "current",
+                    "historical",
+                    "all"
+                  ]
+                },
+                "limit": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 50
+                },
+                "offset": {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        },
+        {
+          "when": {
+            "method": "POST",
+            "path": "/admin/research/artifacts"
+          },
+          "result": {
+            "method": "POST",
+            "path": "/admin/research/artifacts",
+            "summary": "Save evidence or a report revision",
+            "request_schema": {
+              "type": "object",
+              "required": [
+                "record_type",
+                "scope_id",
+                "save_key",
+                "schema_revision"
+              ],
+              "properties": {
+                "record_type": {
+                  "enum": [
+                    "evidence",
+                    "report"
+                  ]
+                },
+                "scope_id": {
+                  "type": "string"
+                },
+                "save_key": {
+                  "type": "string"
+                },
+                "schema_revision": {
+                  "type": "string"
+                },
+                "report_kind": {
+                  "enum": [
+                    "market_research",
+                    "competitor_research",
+                    "product_supplier_research",
+                    "product_brief"
+                  ]
+                },
+                "skill_revision": {
+                  "type": "string"
+                },
+                "runbook_revision": {
+                  "type": "string"
+                },
+                "template_revision": {
+                  "type": "string"
+                },
+                "markdown": {
+                  "type": "string"
+                },
+                "data": {
+                  "type": "object"
+                },
+                "coverage": {
+                  "type": "object",
+                  "required": [
+                    "status",
+                    "gaps"
+                  ]
+                },
+                "upstream_evidence_ids": {
+                  "type": "array"
+                },
+                "upstream_report_ids": {
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        {
+          "when": {
+            "method": "GET",
+            "path": "/admin/research/scopes"
+          },
+          "result": {
+            "method": "GET",
+            "path": "/admin/research/scopes",
+            "summary": "Discover research scopes by external_key",
+            "request_schema": {
+              "type": "object",
+              "properties": {
+                "external_key": {
+                  "type": "string"
+                },
+                "target_market": {
+                  "type": "string"
+                },
+                "limit": {
+                  "type": "integer"
+                },
+                "offset": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        {
+          "when": {
+            "method": "GET",
+            "path": "/admin/research/scopes/:scopeId/artifacts"
+          },
+          "result": {
+            "method": "GET",
+            "path": "/admin/research/scopes/:scopeId/artifacts",
+            "summary": "Retained evidence and reports of a scope",
+            "request_schema": {
+              "type": "object",
+              "properties": {
+                "record_type": {
+                  "enum": [
+                    "evidence",
+                    "report"
+                  ]
+                },
+                "report_kind": {
+                  "type": "string"
+                },
+                "schema_revision": {
+                  "type": "string"
+                },
+                "latest": {
+                  "enum": [
+                    "true",
+                    "false"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No catalogued admin route matches that method and path",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. A SKU lookup also includes current relevant research report summaries when research:read is authorized; it never reads report bodies. Provide exactly one of product_id or sku. Zero matches is a not_found error.",
+      "inputSchema": {
+        "product_id": "string?",
+        "sku": "string?"
+      },
+      "responses": [
+        {
+          "when": {
+            "sku": "CV-COL-24-GR"
+          },
+          "once": true,
+          "result": {
+            "products": [
+              {
+                "id": "prod_fake_colander",
+                "title": "Casa Verde 折叠硅胶沥水篮",
+                "subtitle": null,
+                "status": "draft",
+                "handle": "casa-verde-collapsible-colander",
+                "type_id": null,
+                "thumbnail": null,
+                "options": [
+                  {
+                    "id": "opt_fake_colander_size",
+                    "title": "Size / Colour",
+                    "values": [
+                      "24 cm Gris",
+                      "26 cm Verde"
+                    ]
+                  }
+                ],
+                "variants": [
+                  {
+                    "id": "variant_fake_col26gn",
+                    "title": "26 cm Verde",
+                    "sku": "CV-COL-26-GN"
+                  },
+                  {
+                    "id": "variant_fake_col24gr",
+                    "title": "24 cm Gris",
+                    "sku": "CV-COL-24-GR"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_fake_colander",
+                "research_links": []
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "sku": "CV-COL-24-GR"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_fake_colander",
+                "title": "Casa Verde 折叠硅胶沥水篮",
+                "subtitle": null,
+                "status": "draft",
+                "handle": "casa-verde-collapsible-colander",
+                "type_id": null,
+                "thumbnail": null,
+                "options": [
+                  {
+                    "id": "opt_fake_colander_size",
+                    "title": "Size / Colour",
+                    "values": [
+                      "24 cm Gris",
+                      "26 cm Verde"
+                    ]
+                  }
+                ],
+                "variants": [
+                  {
+                    "id": "variant_fake_col26gn",
+                    "title": "26 cm Verde",
+                    "sku": "CV-COL-26-GN"
+                  },
+                  {
+                    "id": "variant_fake_col24gr",
+                    "title": "24 cm Gris",
+                    "sku": "CV-COL-24-GR"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_fake_colander",
+                "research_links": [
+                  {
+                    "artifact_id": "rart_report_col_comp_03",
+                    "scope_id": "rscope_colander_es",
+                    "scope_question": "Which collapsible silicone colander offers compete on Amazon Spain, and what do customers complain about?",
+                    "report_kind": "competitor_research",
+                    "version": 3,
+                    "variant_id": "variant_fake_col24gr",
+                    "variant_sku": "CV-COL-24-GR",
+                    "reason": "Price check after the September repricing",
+                    "state": "current",
+                    "erp_url": "https://erp.example.test/app/research/rscope_colander_es?artifact=rart_report_col_comp_03"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "sku": "CV-COL-26-GN"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_fake_colander",
+                "title": "Casa Verde 折叠硅胶沥水篮",
+                "subtitle": null,
+                "status": "draft",
+                "handle": "casa-verde-collapsible-colander",
+                "type_id": null,
+                "thumbnail": null,
+                "options": [
+                  {
+                    "id": "opt_fake_colander_size",
+                    "title": "Size / Colour",
+                    "values": [
+                      "24 cm Gris",
+                      "26 cm Verde"
+                    ]
+                  }
+                ],
+                "variants": [
+                  {
+                    "id": "variant_fake_col26gn",
+                    "title": "26 cm Verde",
+                    "sku": "CV-COL-26-GN"
+                  },
+                  {
+                    "id": "variant_fake_col24gr",
+                    "title": "24 cm Gris",
+                    "sku": "CV-COL-24-GR"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_fake_colander",
+                "research_links": []
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "product_id": "prod_fake_colander"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_fake_colander",
+                "title": "Casa Verde 折叠硅胶沥水篮",
+                "subtitle": null,
+                "status": "draft",
+                "handle": "casa-verde-collapsible-colander",
+                "type_id": null,
+                "thumbnail": null,
+                "options": [
+                  {
+                    "id": "opt_fake_colander_size",
+                    "title": "Size / Colour",
+                    "values": [
+                      "24 cm Gris",
+                      "26 cm Verde"
+                    ]
+                  }
+                ],
+                "variants": [
+                  {
+                    "id": "variant_fake_col26gn",
+                    "title": "26 cm Verde",
+                    "sku": "CV-COL-26-GN"
+                  },
+                  {
+                    "id": "variant_fake_col24gr",
+                    "title": "24 cm Gris",
+                    "sku": "CV-COL-24-GR"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_fake_colander"
+              }
+            ]
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.list_product_research_history",
+      "description": "Read current, historical, and unlinked report association metadata for a Medusa variant, newest first. Requires research:read. No report Markdown or storage URLs are returned.",
+      "inputSchema": {
+        "variant_id": "string",
+        "limit": "integer?",
+        "offset": "integer?"
+      },
+      "responses": [
+        {
+          "when": {
+            "variant_id": "variant_fake_col24gr"
+          },
+          "result": {
+            "links": [
+              {
+                "artifact_id": "rart_report_col_comp_03",
+                "scope_id": "rscope_colander_es",
+                "scope_question": "Which collapsible silicone colander offers compete on Amazon Spain, and what do customers complain about?",
+                "report_kind": "competitor_research",
+                "version": 3,
+                "variant_id": "variant_fake_col24gr",
+                "variant_sku": "CV-COL-24-GR",
+                "reason": "Price check after the September repricing",
+                "state": "current",
+                "erp_url": "https://erp.example.test/app/research/rscope_colander_es?artifact=rart_report_col_comp_03"
+              }
+            ],
+            "count": 1,
+            "limit": 20,
+            "offset": 0
+          }
+        },
+        {
+          "result": {
+            "links": [],
+            "count": 0,
+            "limit": 20,
+            "offset": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_get",
+      "description": "Read a catalogued admin GET route. Inert: reads change nothing. Medusa's own status and body come back verbatim.",
+      "inputSchema": {
+        "path": "string",
+        "query": "object?"
+      },
+      "responses": [
+        {
+          "when": {
+            "path": "/admin/research/scopes"
+          },
+          "result": {
+            "scopes": [
+              {
+                "id": "rscope_colander_es",
+                "external_key": "silicone-colander-amazon-es",
+                "question": "Which collapsible silicone colander offers compete on Amazon Spain, and what do customers complain about?",
+                "target_market": "amazon.es",
+                "context": {
+                  "excluded_brands": [
+                    "Casa Verde"
+                  ],
+                  "shipping_destination": "ES"
+                },
+                "created_at": "2026-09-02T10:00:00.000Z"
+              }
+            ],
+            "count": 1,
+            "limit": 20,
+            "offset": 0
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/scopes/rscope_colander_es"
+          },
+          "result": {
+            "scope": {
+              "id": "rscope_colander_es",
+              "external_key": "silicone-colander-amazon-es",
+              "question": "Which collapsible silicone colander offers compete on Amazon Spain, and what do customers complain about?",
+              "target_market": "amazon.es",
+              "context": {
+                "excluded_brands": [
+                  "Casa Verde"
+                ],
+                "shipping_destination": "ES"
+              },
+              "artifact_counts": {
+                "evidence": 2,
+                "report": 3
+              },
+              "plans": []
+            }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/scopes/rscope_colander_es/artifacts"
+          },
+          "once": true,
+          "result": {
+            "artifacts": [
+              {
+                "id": "rart_amz_col_01",
+                "record_type": "evidence",
+                "schema_revision": "research-competitor-observation/1",
+                "save_key": "amazon-B0FAKE0C01-2026-09-02",
+                "source_observations": [
+                  {
+                    "source_ref": "B0FAKE0C01",
+                    "source_url": "https://example.test/dp/B0FAKE0C01",
+                    "observed_at": "2026-09-02T09:41:10.000Z"
+                  }
+                ],
+                "coverage": {
+                  "status": "partial",
+                  "gaps": [
+                    "review text was not collected"
+                  ]
+                }
+              },
+              {
+                "id": "rart_amz_col_02",
+                "record_type": "evidence",
+                "schema_revision": "research-competitor-observation/1",
+                "save_key": "amazon-B0FAKE0C02-2026-09-02",
+                "source_observations": [
+                  {
+                    "source_ref": "B0FAKE0C02",
+                    "source_url": "https://example.test/dp/B0FAKE0C02",
+                    "observed_at": "2026-09-02T09:41:32.000Z"
+                  }
+                ],
+                "coverage": {
+                  "status": "partial",
+                  "gaps": [
+                    "review text was not collected"
+                  ]
+                }
+              },
+              {
+                "id": "rart_report_col_comp_02",
+                "version": 2,
+                "record_type": "report",
+                "report_kind": "competitor_research",
+                "schema_revision": "competitor_research/1",
+                "skill_revision": "intgral-research/competitor@1",
+                "runbook_revision": "intgral-research@1",
+                "template_revision": "competitor_research@1",
+                "save_key": "colander-competitor-2026-09-16-a",
+                "created_at": "2026-09-16T10:00:00.000Z",
+                "coverage": {
+                  "status": "partial",
+                  "gaps": [
+                    "no review bodies retained"
+                  ]
+                },
+                "upstream_evidence_ids": [
+                  "rart_amz_col_01",
+                  "rart_amz_col_02"
+                ],
+                "upstream_report_ids": []
+              },
+              {
+                "id": "rart_report_col_market_01",
+                "version": 1,
+                "record_type": "report",
+                "report_kind": "market_research",
+                "schema_revision": "market_research/1",
+                "skill_revision": "intgral-research/market@1",
+                "runbook_revision": "intgral-research@1",
+                "template_revision": "market_research@1",
+                "save_key": "colander-market-2026-09-10-a",
+                "created_at": "2026-09-10T10:00:00.000Z",
+                "coverage": {
+                  "status": "partial",
+                  "gaps": [
+                    "no measurement record"
+                  ]
+                },
+                "upstream_evidence_ids": [
+                  "rart_amz_col_01",
+                  "rart_amz_col_02"
+                ],
+                "upstream_report_ids": []
+              },
+              {
+                "id": "rart_report_col_comp_01",
+                "version": 1,
+                "record_type": "report",
+                "report_kind": "competitor_research",
+                "schema_revision": "competitor_research/1",
+                "skill_revision": "intgral-research/competitor@1",
+                "runbook_revision": "intgral-research@1",
+                "template_revision": "competitor_research@1",
+                "save_key": "colander-competitor-2026-09-06-a",
+                "created_at": "2026-09-06T10:00:00.000Z",
+                "coverage": {
+                  "status": "partial",
+                  "gaps": [
+                    "superseded",
+                    "no review bodies retained"
+                  ]
+                },
+                "upstream_evidence_ids": [
+                  "rart_amz_col_01"
+                ],
+                "upstream_report_ids": []
+              }
+            ],
+            "count": 5,
+            "note": "report history included: competitor_research has two revisions, rart_report_col_comp_01 (version 1) and rart_report_col_comp_02 (version 2, latest)"
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/scopes/rscope_colander_es/artifacts"
+          },
+          "result": {
+            "artifacts": [
+              {
+                "id": "rart_report_col_comp_03",
+                "version": 3,
+                "record_type": "report",
+                "report_kind": "competitor_research",
+                "schema_revision": "competitor_research/1",
+                "skill_revision": "intgral-research/competitor@3",
+                "runbook_revision": "intgral-research@4",
+                "template_revision": "competitor_research@1",
+                "save_key": "colander-competitor-2026-10-04-a",
+                "created_at": "2026-10-04T08:55:00.000Z",
+                "coverage": {
+                  "status": "partial",
+                  "gaps": [
+                    "no review bodies retained"
+                  ]
+                },
+                "upstream_evidence_ids": [
+                  "rart_amz_col_01",
+                  "rart_amz_col_02"
+                ],
+                "upstream_report_ids": []
+              },
+              {
+                "id": "rart_amz_col_01",
+                "record_type": "evidence",
+                "schema_revision": "research-competitor-observation/1",
+                "save_key": "amazon-B0FAKE0C01-2026-09-02",
+                "source_observations": [
+                  {
+                    "source_ref": "B0FAKE0C01",
+                    "source_url": "https://example.test/dp/B0FAKE0C01",
+                    "observed_at": "2026-09-02T09:41:10.000Z"
+                  }
+                ],
+                "coverage": {
+                  "status": "partial",
+                  "gaps": [
+                    "review text was not collected"
+                  ]
+                }
+              },
+              {
+                "id": "rart_amz_col_02",
+                "record_type": "evidence",
+                "schema_revision": "research-competitor-observation/1",
+                "save_key": "amazon-B0FAKE0C02-2026-09-02",
+                "source_observations": [
+                  {
+                    "source_ref": "B0FAKE0C02",
+                    "source_url": "https://example.test/dp/B0FAKE0C02",
+                    "observed_at": "2026-09-02T09:41:32.000Z"
+                  }
+                ],
+                "coverage": {
+                  "status": "partial",
+                  "gaps": [
+                    "review text was not collected"
+                  ]
+                }
+              },
+              {
+                "id": "rart_report_col_comp_02",
+                "version": 2,
+                "record_type": "report",
+                "report_kind": "competitor_research",
+                "schema_revision": "competitor_research/1",
+                "skill_revision": "intgral-research/competitor@1",
+                "runbook_revision": "intgral-research@1",
+                "template_revision": "competitor_research@1",
+                "save_key": "colander-competitor-2026-09-16-a",
+                "created_at": "2026-09-16T10:00:00.000Z",
+                "coverage": {
+                  "status": "partial",
+                  "gaps": [
+                    "no review bodies retained"
+                  ]
+                },
+                "upstream_evidence_ids": [
+                  "rart_amz_col_01",
+                  "rart_amz_col_02"
+                ],
+                "upstream_report_ids": []
+              },
+              {
+                "id": "rart_report_col_market_01",
+                "version": 1,
+                "record_type": "report",
+                "report_kind": "market_research",
+                "schema_revision": "market_research/1",
+                "skill_revision": "intgral-research/market@1",
+                "runbook_revision": "intgral-research@1",
+                "template_revision": "market_research@1",
+                "save_key": "colander-market-2026-09-10-a",
+                "created_at": "2026-09-10T10:00:00.000Z",
+                "coverage": {
+                  "status": "partial",
+                  "gaps": [
+                    "no measurement record"
+                  ]
+                },
+                "upstream_evidence_ids": [
+                  "rart_amz_col_01",
+                  "rart_amz_col_02"
+                ],
+                "upstream_report_ids": []
+              },
+              {
+                "id": "rart_report_col_comp_01",
+                "version": 1,
+                "record_type": "report",
+                "report_kind": "competitor_research",
+                "schema_revision": "competitor_research/1",
+                "skill_revision": "intgral-research/competitor@1",
+                "runbook_revision": "intgral-research@1",
+                "template_revision": "competitor_research@1",
+                "save_key": "colander-competitor-2026-09-06-a",
+                "created_at": "2026-09-06T10:00:00.000Z",
+                "coverage": {
+                  "status": "partial",
+                  "gaps": [
+                    "superseded",
+                    "no review bodies retained"
+                  ]
+                },
+                "upstream_evidence_ids": [
+                  "rart_amz_col_01"
+                ],
+                "upstream_report_ids": []
+              }
+            ],
+            "count": 6,
+            "note": "report history included: competitor_research has three revisions; rart_report_col_comp_03 (version 3, saved 2026-10-04T08:55Z) is latest"
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/artifacts/rart_report_col_comp_02"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_report_col_comp_02",
+              "version": 2,
+              "record_type": "report",
+              "report_kind": "competitor_research",
+              "scope_id": "rscope_colander_es",
+              "schema_revision": "competitor_research/1",
+              "skill_revision": "intgral-research/competitor@1",
+              "runbook_revision": "intgral-research@1",
+              "template_revision": "competitor_research@1",
+              "created_at": "2026-09-16T10:00:00.000Z",
+              "markdown": "# Competitor research (fictional, retained)\n\nTwo single-unit collapsible silicone colanders on Amazon ES, observed 2026-09-02: B0FAKE0C01 at EUR 11.99 and B0FAKE0C02 at EUR 14.50 (current offers, shipping excluded as unknown). Review themes unavailable: no review body retained.",
+              "data": {
+                "price_groups": [
+                  {
+                    "id": "direct-eur-item",
+                    "comparison": {
+                      "currency": "EUR",
+                      "quantity": 1,
+                      "unit": "item",
+                      "shipping": "excluded_unknown"
+                    },
+                    "members": [
+                      {
+                        "evidence_id": "rart_amz_col_01",
+                        "source_ref": "B0FAKE0C01",
+                        "offer_id": "current"
+                      },
+                      {
+                        "evidence_id": "rart_amz_col_02",
+                        "source_ref": "B0FAKE0C02",
+                        "offer_id": "current"
+                      }
+                    ]
+                  }
+                ],
+                "review_analysis": {
+                  "status": "unavailable",
+                  "reason": "No original review body is retained"
+                }
+              },
+              "coverage": {
+                "status": "partial",
+                "gaps": [
+                  "no review bodies retained"
+                ]
+              },
+              "upstream_evidence_ids": [
+                "rart_amz_col_01",
+                "rart_amz_col_02"
+              ],
+              "upstream_report_ids": []
+            },
+            "freshness": {
+              "age_days": 13,
+              "upstream_evidence_age_days": 27,
+              "status": "advisory"
+            }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/artifacts/rart_report_col_comp_01"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_report_col_comp_01",
+              "version": 1,
+              "record_type": "report",
+              "report_kind": "competitor_research",
+              "scope_id": "rscope_colander_es",
+              "schema_revision": "competitor_research/1",
+              "skill_revision": "intgral-research/competitor@1",
+              "runbook_revision": "intgral-research@1",
+              "template_revision": "competitor_research@1",
+              "created_at": "2026-09-06T10:00:00.000Z",
+              "markdown": "# Competitor research (fictional, retained, superseded)\n\nOne listing, B0FAKE0C01 at EUR 11.99, observed 2026-09-02.",
+              "data": {
+                "review_analysis": {
+                  "status": "unavailable",
+                  "reason": "No original review body is retained"
+                }
+              },
+              "coverage": {
+                "status": "partial",
+                "gaps": [
+                  "superseded",
+                  "no review bodies retained"
+                ]
+              },
+              "upstream_evidence_ids": [
+                "rart_amz_col_01"
+              ],
+              "upstream_report_ids": []
+            },
+            "freshness": {
+              "age_days": 23,
+              "upstream_evidence_age_days": 27,
+              "status": "advisory"
+            }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/artifacts/rart_report_col_market_01"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_report_col_market_01",
+              "version": 1,
+              "record_type": "report",
+              "report_kind": "market_research",
+              "scope_id": "rscope_colander_es",
+              "schema_revision": "market_research/1",
+              "skill_revision": "intgral-research/market@1",
+              "runbook_revision": "intgral-research@1",
+              "template_revision": "market_research@1",
+              "created_at": "2026-09-10T10:00:00.000Z",
+              "markdown": "# Market research (fictional, retained)\n\nBadge floors only; no measurement record.",
+              "data": {
+                "measured_metrics": {
+                  "market_size": null,
+                  "sales": null,
+                  "growth": null
+                }
+              },
+              "coverage": {
+                "status": "partial",
+                "gaps": [
+                  "no measurement record"
+                ]
+              },
+              "upstream_evidence_ids": [
+                "rart_amz_col_01",
+                "rart_amz_col_02"
+              ],
+              "upstream_report_ids": []
+            },
+            "freshness": {
+              "age_days": 19,
+              "upstream_evidence_age_days": 27,
+              "status": "advisory"
+            }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/links"
+          },
+          "result": {
+            "links": [
+              {
+                "id": "rlink_fake_col24gr_03",
+                "artifact_id": "rart_report_col_comp_03",
+                "scope_id": "rscope_colander_es",
+                "scope_question": "Which collapsible silicone colander offers compete on Amazon Spain, and what do customers complain about?",
+                "report_kind": "competitor_research",
+                "version": 3,
+                "variant_id": "variant_fake_col24gr",
+                "variant_sku": "CV-COL-24-GR",
+                "reason": "Price check after the September repricing",
+                "state": "current",
+                "erp_url": "https://erp.example.test/app/research/rscope_colander_es?artifact=rart_report_col_comp_03",
+                "product_id": "prod_fake_colander",
+                "listing_id": null,
+                "variant_available": true,
+                "listing_available": false,
+                "created_at": "2026-10-04T08:58:00.000Z"
+              }
+            ],
+            "count": 1,
+            "limit": 20,
+            "offset": 0
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No catalogued admin route matches that path",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_post",
+      "description": "Call a catalogued admin POST route with a JSON body. Medusa's own status and body come back verbatim: `ok: false` with the reason for a 4xx.",
+      "inputSchema": {
+        "path": "string",
+        "body": "object"
+      },
+      "responses": [
+        {
+          "when": {
+            "path": "/admin/research/links"
+          },
+          "result": {
+            "status": 409,
+            "ok": false,
+            "body": {
+              "code": "research_link_revision_conflict",
+              "message": "An equal or newer competitor_research revision (rart_report_col_comp_03, version 3) is already current for variant_fake_col24gr in rscope_colander_es"
+            }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/artifacts"
+          },
+          "result": {
+            "status": 201,
+            "ok": true,
+            "body": {
+              "artifact": {
+                "id": "rart_report_col_comp_04",
+                "version": 4,
+                "record_type": "report",
+                "report_kind": "competitor_research",
+                "scope_id": "rscope_colander_es",
+                "created_at": "2026-10-04T09:30:00.000Z"
+              }
+            }
+          }
+        },
+        {
+          "result": {
+            "status": 404,
+            "ok": false,
+            "body": {
+              "type": "not_found",
+              "message": "No catalogued admin route matches that path"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "host.open_url",
+      "description": "This host's own browser: open a URL in a tab the user can see. Host tool, not an Intgral MCP tool.",
+      "inputSchema": {
+        "url": "string"
+      },
+      "responses": [
+        {
+          "result": {
+            "opened": true
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "medusa.admin_post": {
+        "allowed_args": [
+          "path",
+          "body"
+        ]
+      }
+    },
+    "reads": [
+      "medusa.admin_get",
+      "medusa.list_endpoints",
+      "medusa.describe_endpoint",
+      "medusa.get_product",
+      "medusa.list_product_research_history"
+    ],
+    "forbidden_tools": [
+      "medusa.admin_delete",
+      "medusa.admin_patch",
+      "medusa.update_product",
+      "medusa.update_listing",
+      "medusa.create_listing"
+    ],
+    "forbidden_writes": [
+      {
+        "label": "collection was not authorized",
+        "tool": "medusa.admin_post",
+        "args": {
+          "path": "/admin/research/plans"
+        }
+      },
+      {
+        "label": "a new report revision was saved; only a link was asked for",
+        "tool": "medusa.admin_post",
+        "args": {
+          "path": "/admin/research/artifacts"
+        }
+      },
+      {
+        "label": "a guessed variant id for CV-COL-28-BL: the sibling SKU's variant",
+        "tool": "medusa.admin_post",
+        "args": {
+          "path": "/admin/research/links",
+          "body": {
+            "variant_id": "variant_fake_col26gn"
+          }
+        }
+      },
+      {
+        "label": "a guessed variant id for CV-COL-28-BL: the product id",
+        "tool": "medusa.admin_post",
+        "args": {
+          "path": "/admin/research/links",
+          "body": {
+            "variant_id": "prod_fake_colander"
+          }
+        }
+      },
+      {
+        "label": "a SKU sent as a variant id",
+        "tool": "medusa.admin_post",
+        "args": {
+          "path": "/admin/research/links",
+          "body": {
+            "variant_id": "CV-COL-28-BL"
+          }
+        }
+      },
+      {
+        "label": "the superseded competitor revision was linked",
+        "tool": "medusa.admin_post",
+        "args": {
+          "path": "/admin/research/links",
+          "body": {
+            "artifact_id": "rart_report_col_comp_01"
+          }
+        }
+      },
+      {
+        "label": "a report of another kind was linked",
+        "tool": "medusa.admin_post",
+        "args": {
+          "path": "/admin/research/links",
+          "body": {
+            "artifact_id": "rart_report_col_market_01"
+          }
+        }
+      }
+    ],
+    "required_writes": [
+      {
+        "tool": "medusa.admin_post",
+        "args": {
+          "path": "/admin/research/links",
+          "body": {
+            "artifact_id": "rart_report_col_comp_02",
+            "variant_id": "variant_fake_col24gr",
+            "reason": "*"
+          }
+        }
+      },
+      {
+        "tool": "host.open_url",
+        "args": {
+          "url": "https://erp.example.test/app/products/prod_fake_colander"
+        }
+      }
+    ],
+    "order": [
+      {
+        "label": "the link was sent before the variant was resolved from its SKU",
+        "first": {
+          "tool": "medusa.get_product",
+          "args": {
+            "sku": "CV-COL-24-GR"
+          }
+        },
+        "then": {
+          "tool": "medusa.admin_post",
+          "args": {
+            "path": "/admin/research/links"
+          }
+        }
+      },
+      {
+        "label": "the link was sent without reading the live link schema",
+        "first": {
+          "tool": "medusa.describe_endpoint",
+          "args": {
+            "method": "POST",
+            "path": "/admin/research/links"
+          }
+        },
+        "then": {
+          "tool": "medusa.admin_post",
+          "args": {
+            "path": "/admin/research/links"
+          }
+        }
+      }
+    ],
+    "max_tool_calls": 14,
+    "max_calls": {
+      "medusa.admin_post": 1,
+      "host.open_url": 1
+    },
+    "workspace": {
+      "unchanged": [
+        "merchants/casa-verde-es/preferences.md"
+      ]
+    },
+    "install_unchanged": true
+  },
+  "rubric": [
+    "CV-COL-28-BL is reported as matching no variant (the SKU lookup is not_found): nothing is linked for it, no sibling variant or product id is guessed, and the user is asked to check the SKU.",
+    "The 409 research_link_revision_conflict is reported as-is with its reason — version 3 of the competitor report is already current for CV-COL-24-GR — and never retried, and no new report revision is saved to get around it.",
+    "The answer does not claim CV-COL-24-GR was linked to version 2; if it re-reads state it reports the current link (rart_report_col_comp_03 version 3, state current) as someone else's newer link, not as its own success.",
+    "The product page for CV-COL-24-GR (the erp_url from the SKU lookup) is opened once, unprompted; no page is invented for the missing SKU.",
+    "If the answer mentions changing or removing a link, it says unlinking is done in the ERP, not through this connection."
+  ]
+}

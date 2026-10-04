@@ -1,6 +1,6 @@
 {
   "id": "research-brief-pinned-no-acquisition",
-  "version": 3,
+  "version": 4,
   "skill": "intgral-research",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -2419,9 +2419,11 @@
           "body": {
             "data": {
               "handoff": {
-                "upstream_versions": [
-                  "rart_report_col_market_01@1"
-                ]
+                "upstream_versions": {
+                  "$contains": [
+                    "rart_report_col_market_01@1"
+                  ]
+                }
               }
             }
           }
@@ -2449,11 +2451,13 @@
                 "status": "unknown"
               },
               "handoff": {
-                "upstream_versions": [
-                  "rart_report_col_market_01@2",
-                  "rart_report_col_comp_01@1",
-                  "rart_report_col_supplier_01@1"
-                ]
+                "upstream_versions": {
+                  "$contains": [
+                    "rart_report_col_market_01@2",
+                    "rart_report_col_comp_01@1",
+                    "rart_report_col_supplier_01@1"
+                  ]
+                }
               }
             },
             "skill_revision": "intgral-research/brief@2",
