@@ -152,3 +152,17 @@ test("live listing: writing a non-editable brand is named as a forbidden write",
   assert.match(stdout, /forbidden-write: medusa\.update_listing #3 — writes brand, which is editable:false on a live listing/);
   assert.doesNotMatch(stdout, /required:|scope:/);
 });
+
+test("video label: resuming a failure with retry_action null is named as a forbidden write", () => {
+  const { stdout, status } = evaluate("video-label-missing-no-retry", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /forbidden-write: medusa\.admin_post #4 — resumes a failure whose retry_action is null/);
+  assert.doesNotMatch(stdout, /required:/);
+});
+
+test("listing FBM: saving the FBM policy through the passthrough is forbidden", () => {
+  const { stdout, status } = evaluate("listing-fbm-switch-handoff", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /forbidden: medusa\.admin_post #3 is not allowed in this scenario/);
+  assert.doesNotMatch(stdout, /required:/);
+});
