@@ -1,6 +1,6 @@
 {
   "id": "listing-no-workspace-single-erp",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-listing",
   "workspace": "workspace",
   "merchant": null,
@@ -69,7 +69,7 @@
     },
     {
       "name": "medusa.admin_get",
-      "description": "Call GET on a permitted Medusa admin route (/admin/*). Inert.",
+      "description": "Call GET on a permitted Medusa admin route (/admin/*). Inert. GET /admin/amazon/listings defaults to view=needs_review (the review queue); view=all lists every listing.",
       "inputSchema": {
         "path": "string",
         "query": "object?"
@@ -77,7 +77,10 @@
       "responses": [
         {
           "when": {
-            "path": "/admin/amazon/listings"
+            "path": "/admin/amazon/listings",
+            "query": {
+              "view": "all"
+            }
           },
           "result": {
             "listings": [
@@ -93,6 +96,16 @@
               }
             ],
             "count": 1
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/amazon/listings"
+          },
+          "result": {
+            "listings": [],
+            "count": 0,
+            "view": "needs_review"
           }
         },
         {
@@ -232,7 +245,7 @@
   },
   "rubric": [
     "No private workspace is configured and the ERP connection is the only merchant context: the agent reads the SKU straight away and does not ask which merchant this is.",
-    "The answer gives the product status, the Amazon.es listing status and the draft-image review status exactly as returned (unreviewed, no saved decision), and says the review is the user's to save in the ERP.",
+    "The listing is found with view=all (the route defaults to the review queue); the answer gives the product status, the Amazon.es listing status and the draft-image review status exactly as returned (unreviewed, no saved decision), and says the review is the user's to save in the ERP.",
     "The SKU's page is opened once with the browser tool after the read (or linked when none is offered).",
     "Nothing is written. Chinese."
   ]

@@ -5,8 +5,9 @@
 
 1. 当前 SKU 用 `medusa.get_product`；已知 listing_id 用 `medusa.get_listing_context`。
    两者身份不同，SKU 不当作 listing_id。只知道 SKU 时，用 `medusa.admin_get` 读
-   `GET /admin/amazon/listings?seller_sku=<SKU>` 找站点 listing（精确、区分大小写，可加 marketplace_id /
-   store_id；空页就是没有），不从产品推断 listing_id。产品返回的字段有限，未返回不等于不存在：
+   `GET /admin/amazon/listings?seller_sku=<SKU>&view=all` 找站点 listing（精确、区分大小写，可加 marketplace_id /
+   store_id）。必须带 `view=all`：不带时默认只列待复核队列（`needs_review`），空页不说明没有 listing。
+   带了 `view=all` 仍是空页才是没有。不从产品推断 listing_id。产品返回的字段有限，未返回不等于不存在：
    必须补读时用 `medusa.list_endpoints` / `medusa.describe_endpoint` 发现真实 GET 契约，
    再通过 `medusa.admin_get` 读取已确认范围的数据。
 2. 状态用 `medusa.get_operation_status`；review 用 `medusa.list_listing_reviews` /
