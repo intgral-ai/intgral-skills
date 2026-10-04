@@ -1,0 +1,91 @@
+{
+  "id": "start-duplicate-name-different-endpoint",
+  "version": 1,
+  "skill": "intgral-start",
+  "request": "第一次用 Intgral。管理员给的 MCP 地址是 https://mcp.example.test/mcp",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "host.shell",
+      "description": "This host is Claude Code: the `claude` CLI is on PATH. Runs one shell command on the user's machine and returns its exit code and output. Host tool, not an Intgral MCP tool. No Intgral MCP tool is connected in this session.",
+      "inputSchema": {
+        "command": "string"
+      },
+      "responses": [
+        {
+          "when": {
+            "command": "claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp"
+          },
+          "result": {
+            "exit_code": 1,
+            "stdout": "MCP server intgral already exists in user config"
+          }
+        },
+        {
+          "when": {
+            "command": "claude mcp get intgral"
+          },
+          "result": {
+            "exit_code": 0,
+            "stdout": "intgral:\n  Scope: User config (available in all your projects)\n  Status: Failed to connect\n  Type: http\n  URL: https://old-mcp.example.test/mcp\n\nTo remove this server, run: claude mcp remove \"intgral\" -s user"
+          }
+        },
+        {
+          "when": {
+            "command": "claude mcp list"
+          },
+          "result": {
+            "exit_code": 0,
+            "stdout": "Checking MCP server health...\n\nintgral: https://old-mcp.example.test/mcp (HTTP) - Failed to connect"
+          }
+        },
+        {
+          "result": {
+            "exit_code": 1,
+            "stdout": "command not permitted in this evaluation host"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "host.shell": {
+        "allowed_args": [
+          "command"
+        ]
+      }
+    },
+    "reads": [],
+    "forbidden_tools": [],
+    "forbidden_writes": [],
+    "forbidden_write_text": [
+      "mcp remove",
+      "add-json",
+      "--scope project",
+      "-s project",
+      "--scope local",
+      "-s local"
+    ],
+    "required_writes": [
+      {
+        "tool": "host.shell",
+        "args": {
+          "command": "claude mcp get intgral"
+        }
+      }
+    ],
+    "max_tool_calls": 4,
+    "max_calls": {
+      "host.shell": 4
+    }
+  },
+  "rubric": [
+    "The answer reports that a server named intgral already exists and shows both addresses: the configured https://old-mcp.example.test/mcp and the administrator's https://mcp.example.test/mcp.",
+    "The user decides whether to replace: nothing is removed, overwritten or shadowed at another scope before the user answers, and the answer asks the question plainly.",
+    "The answer does not claim Intgral is installed or connected, and guesses no ERP link; the Intgral link comes from medusa.get_started once a working server is connected.",
+    "No credential, token or password is requested in chat.",
+    "The answer is in Chinese."
+  ]
+}

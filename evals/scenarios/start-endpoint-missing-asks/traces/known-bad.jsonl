@@ -1,0 +1,1 @@
+{"tool":"host.shell","args":{"command":"claude mcp add --transport http --scope user intgral https://mcp.intgral.ai/mcp"},"isError":false,"response":{"exit_code":1,"stdout":"command not permitted in this evaluation host"}}
