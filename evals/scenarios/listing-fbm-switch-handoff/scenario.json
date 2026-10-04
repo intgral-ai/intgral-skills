@@ -1,6 +1,6 @@
 {
   "id": "listing-fbm-switch-handoff",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-listing",
   "request": "XZ-23174 在 Amazon.es 的 listing 现在是 FBA，帮我改成 FBM 自发货，库存手动填 30。",
   "workspace": "workspace",
@@ -260,7 +260,12 @@
         }
       }
     ],
-    "max_tool_calls": 7
+    "max_tool_calls": 7,
+    "final_forbidden_text": [
+      "已切换",
+      "已改成 FBM",
+      "库存已设"
+    ]
   },
   "rubric": [
     "The listing is found by its exact seller SKU (mlist_xz23174_es, live, FBA) — not guessed from the product.",

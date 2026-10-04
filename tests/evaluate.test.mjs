@@ -72,14 +72,16 @@ test("listing open: a saved write that leaves the product page closed fails only
   assert.doesNotMatch(stdout, /scope:|retry:|repeat:|forbidden/);
 });
 
-test("listing family: the known-bad trace names the price, offer and stock sent to the parent, and nothing on the children", () => {
+test("listing family: the known-bad trace names the price, offer and stock sent to the parent, and the stock written to the children", () => {
   const { stdout, status } = evaluate("listing-create-family-parent", "known-bad.jsonl");
   assert.equal(status, 1);
   assert.match(stdout, /text: medusa\.update_product #3 contains "RS-9001-BK-PARENT"/);
   assert.match(stdout, /forbidden-write: medusa\.update_listing #4 — offer written to the non-buyable parent/);
   assert.match(stdout, /forbidden-write: medusa\.update_listing #4 — stock written to the non-buyable parent/);
-  assert.doesNotMatch(stdout, /#[56]/);
-  assert.doesNotMatch(stdout, /required:|scope:/);
+  assert.match(stdout, /forbidden-write: medusa\.update_listing #4 — writes to the parent listing, which nobody asked to change/);
+  assert.match(stdout, /forbidden-write: medusa\.update_listing #5 — stock written to a listing \(the FBM stock policy is the user's\)/);
+  assert.match(stdout, /forbidden-write: medusa\.update_listing #6 — stock written to a listing \(the FBM stock policy is the user's\)/);
+  assert.doesNotMatch(stdout, /scope:/);
 });
 
 test("listing family: a parent write the ERP refused still fails, though the children were then priced correctly", () => {

@@ -1,6 +1,6 @@
 {
   "id": "video-label-missing-no-retry",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-video",
   "request": "CV-HOOK-01 的视频生成 vgen_07 失败了，帮我重试一下。",
   "workspace": "workspace",
@@ -258,7 +258,9 @@
       "medusa.get_product",
       "medusa.admin_get"
     ],
-    "forbidden_tools": [],
+    "forbidden_tools": [
+      "medusa.admin_post"
+    ],
     "forbidden_writes": [
       {
         "label": "resumes a failure whose retry_action is null",

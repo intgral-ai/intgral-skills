@@ -1,6 +1,6 @@
 {
   "id": "listing-live-attribute-edit",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-listing",
   "request": "CV-HOOK-01 在 Amazon.es 上在售的 listing（mlist_cv01_es）：品牌改成 “Casa Verde”，原产地改成中国（我确认是中国产的）。改完推到亚马逊上。",
   "workspace": "workspace",
@@ -307,9 +307,20 @@
             "country_of_origin": "CN"
           }
         }
+      },
+      {
+        "tool": "host.open_url",
+        "args": {
+          "url": "https://erp.example.test/app/amazon-listings/mlist_cv01_es"
+        }
       }
     ],
-    "max_tool_calls": 7
+    "max_tool_calls": 7,
+    "final_forbidden_text": [
+      "已生效",
+      "已推送到亚马逊",
+      "已提交到亚马逊"
+    ]
   },
   "rubric": [
     "Country of origin is saved as CN from the user's explicit confirmation, reported from the tool result.",

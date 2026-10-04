@@ -1,6 +1,6 @@
 {
   "id": "listing-copy-conflict",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-listing",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -560,7 +560,9 @@
       "防水",
       "impermeable",
       "lifetime",
-      "de por vida"
+      "de por vida",
+      "acero",
+      "5 kilos"
     ],
     "forbidden_writes": [
       {

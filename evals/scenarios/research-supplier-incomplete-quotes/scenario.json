@@ -1,6 +1,6 @@
 {
   "id": "research-supplier-incomplete-quotes",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-research",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -1060,7 +1060,9 @@
               "rfq": {
                 "status": "unsent"
               }
-            }
+            },
+            "skill_revision": "intgral-research/supplier@2",
+            "schema_revision": "product_supplier_research/1"
           }
         }
       }

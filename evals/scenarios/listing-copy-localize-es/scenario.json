@@ -1,6 +1,6 @@
 {
   "id": "listing-copy-localize-es",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-listing",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -563,7 +563,8 @@
       "de por vida",
       "oferta",
       "gratis",
-      "mejor del mundo"
+      "mejor del mundo",
+      "el mejor"
     ],
     "forbidden_writes": [
       {
