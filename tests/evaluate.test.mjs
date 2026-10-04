@@ -65,6 +65,13 @@ test("listing copy: the conflict known-bad trace names the unsupported text and 
   assert.match(stdout, /forbidden-write: medusa\.update_listing #3 — title rewritten/);
 });
 
+test("listing open: a saved write that leaves the product page closed fails only on the missing open", () => {
+  const { stdout, status } = evaluate("listing-open-after-write", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /required: no host\.open_url with \{"url":"https:\/\/erp\.example\.test\/app\/products\/prod_cv01"\}/);
+  assert.doesNotMatch(stdout, /scope:|retry:|repeat:|forbidden/);
+});
+
 test("listing family: the known-bad trace names the price, offer and stock sent to the parent, and nothing on the children", () => {
   const { stdout, status } = evaluate("listing-create-family-parent", "known-bad.jsonl");
   assert.equal(status, 1);
@@ -109,4 +116,25 @@ test("a refused call to a forbidden tool is still reported", (t) => {
   const { stdout, status } = evaluateTrace("research-brief-pinned-no-acquisition", trace);
   assert.equal(status, 1);
   assert.match(stdout, /forbidden: medusa\.update_product #1 is not allowed/);
+});
+
+test("start: the first-time known-bad trace (instructions only, nothing installed) fails on required only", () => {
+  const { stdout, status } = evaluate("start-first-time-install", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /required: no host\.shell with \{"command":"claude mcp add --transport http --scope user intgral https:\/\/mcp\.example\.test\/mcp"\}/);
+  assert.doesNotMatch(stdout, /scope:|forbidden/);
+});
+
+test("start: reinstalling an already connected server is named as a forbidden write", () => {
+  const { stdout, status } = evaluate("start-connected-menu", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /forbidden-write: host\.shell #2 — reinstalls a connected MCP server/);
+  assert.doesNotMatch(stdout, /required:/);
+});
+
+test("listing open on read: answering a SKU question without opening its page fails on required only", () => {
+  const { stdout, status } = evaluate("listing-open-on-sku-read", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /required: no host\.open_url with \{"url":"https:\/\/erp\.example\.test\/app\/products\/prod_cv01"\}/);
+  assert.doesNotMatch(stdout, /scope:|forbidden/);
 });

@@ -1,0 +1,44 @@
+{
+  "id": "start-connected-menu",
+  "version": 1,
+  "skill": "intgral-start",
+  "request": "我想开始用 Intgral，能做什么？",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information.",
+      "inputSchema": { "client_capabilities": "object?", "open_browser": "boolean?" },
+      "responses": [ { "result": { "contract_version": 1, "erp_url": "https://erp.example.test/app/agent-activity", "erp_opened": false, "open_in_browser": false, "runtime": { "erp": "available", "host": { "browser": "unknown", "file_bytes": "unknown" }, "host_capability_source": "caller_reported_not_verified", "limitations": [] }, "capabilities": [ "products", "listings", "images" ], "today": "2026-10-04" } } ]
+    },
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku.",
+      "inputSchema": { "product_id": "string?", "sku": "string?" },
+      "responses": [ { "error": { "code": "invalid_arguments", "message": "Provide exactly one of product_id or sku", "request_id": "req_mock_ia" } } ]
+    },
+    {
+      "name": "host.shell",
+      "description": "This host is Claude Code: the `claude` CLI is on PATH. Runs one shell command on the user's machine. Host tool, not an Intgral MCP tool.",
+      "inputSchema": { "command": "string" },
+      "responses": [ { "result": { "exit_code": 0, "stdout": "intgral: https://mcp.example.test/mcp (HTTP) - Connected" } } ]
+    }
+  ],
+  "expect": {
+    "writes": { "host.shell": { "allowed_args": [ "command" ] } },
+    "reads": [ "medusa.get_started" ],
+    "forbidden_tools": [ "medusa.update_product", "medusa.update_listing", "medusa.admin_post" ],
+    "forbidden_writes": [
+      { "label": "reinstalls a connected MCP server", "tool": "host.shell", "args": { "command": "claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp" } }
+    ],
+    "required_writes": [ { "tool": "medusa.get_started", "args": {} } ],
+    "max_tool_calls": 3
+  },
+  "rubric": [
+    "The Intgral link given is the erp_url returned by medusa.get_started, as a clickable link; no address is invented.",
+    "The answer lists what can be done as short numbered steps (query a SKU, import products, edit copy or listings, images, research, video) and asks which one the user wants.",
+    "Nothing is installed or reconfigured: the connection already works.",
+    "The answer is in Chinese and short."
+  ]
+}
