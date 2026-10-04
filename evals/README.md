@@ -73,7 +73,7 @@ Exit 0 means the trace passed the thirteen hard checks; the rubric is printed fo
 
 For a guidance change, record a baseline run first, change the guidance, then rerun. If the baseline already passes, say so; do not manufacture a red result.
 
-A **weaker-model check** (2026-10-04, `-haiku` records) ran the sixteen INT-978 scenarios on claude-haiku-4-5 against the final package: 5/16 pass the hard checks (Opus 16/16), with a cross-merchant leak, an unreviewed plan-hash approval and an unauthorized frame-budget raise among the failures — see each record.
+A **weaker-model check** (2026-10-04) ran the sixteen INT-978 scenarios on claude-haiku-4-5 and fed what failed back into a stop-rules block at the top of each SKILL.md. Hard-check passes: round 1 (`2b7a0a1`, `-haiku`) 5/16; round 2 (`bdcadf7`, `-haiku-r2`) 7/16; round 3 (`1138616`, `-haiku-r3`) 9/16; keyframe round 4 (`53590d4`, `-haiku-r4`) fixed the last money failure. After round 4 every money, permission and cross-merchant decision is right on Haiku; what still fails is the SKU page open (Haiku rarely calls the browser tool) — a model limit recorded, not a rule the package can force. Opus: 16/16.
 
 One run shows what an agent *can* do with the package; it does not show what it *reliably* does. A reliability record repeats the same scenario in independent fresh contexts — `runs/<date>-<scenario>-reliability/` with one `attempts/<n>/` per attempt, the pass rate on the hard checks, the rubric per attempt, and a reading of every failure that says whether it belongs to the package, the model or the harness. State the session merchant in every prompt: it is part of the scenario contract (`merchant` in `scenario.json`), and leaving it out changes the task.
 
