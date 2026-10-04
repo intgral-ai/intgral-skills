@@ -28,4 +28,4 @@ The supported video contract has no speech or voice-over, so never ask the user 
 
 Prompt and frame generation/rendering depend on actual host tools. A URL or image list does not prove visual inspection, and a result observed in a mock, another host or an earlier deployment is not acceptance evidence for this one. All provider submissions go through Intgral's catalogued endpoints; no direct provider fallback when a deployment is missing a capability.
 
-For each new task, record `skill_version: intgral-video@3` when the deployed schema supports it. Keep the version attached to existing tasks unchanged.
+For each new task, record `skill_version: intgral-video@4` when the deployed schema supports it. Keep the version attached to existing tasks unchanged.

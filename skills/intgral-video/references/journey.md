@@ -36,6 +36,8 @@ When the user requests local editing and the host can perform it, upload the res
 
 Use actual returned preview/download URLs in the host. A displayed link is not proof that playback or a download succeeded. Include generation ID, selected output, version, quality state, charges/unknowns and remaining work.
 
+Deleting a version is a person's act in the ERP: the product page's media panel, **Delete version**, with a confirmation. The catalogue lists `DELETE /admin/video-assets/:id`, but agents are not granted it: never call it, and never claim a version was deleted. Tell the user what deletion does: the version row and its stored file go permanently; the generation, its cost and spend record stay (no refund), and its `media_asset_ids` keep the id as history only. A processed version made from the deleted one is its own file and stays. The selected version cannot be deleted (409): the user picks another first — change the selection with `POST /admin/video-assets/:id` only when the user asks. Deleting the newest version frees its number for the next one. Afterwards, read the product's videos again before reporting what remains.
+
 ## Pause
 
 Use the catalogued pause endpoint on user request. Submitted segments may continue and incur cost; pause prevents later submissions according to backend state. Resume only according to [recovery](recovery.md) and the user's existing authorization.

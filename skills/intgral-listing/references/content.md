@@ -37,6 +37,9 @@
    法规/安全声明与原产地只采用用户明确确认的事实，不推断原产地、危险品、电池、认证、保修或 EAN；
    枚举候选来自当前后端 options。`source: agent` 只描述 AI 撰写的文案，不能把推测变成商品事实。
    schema 属性没有专用字段时，按 schema 放入 update_listing 的 attributes.extra。
+   在售（live）listing 改属性前，读它 product type 的 schema（`GET /admin/amazon/product-types/:type`）：
+   `editable:false` 的属性（如 brand、condition）Amazon 不接受在售修改，不写，向用户说明原因；
+   只写可编辑的那部分。新建 listing 不受此限。
 5. 有产品、站点和当前必填输入时，才能 create_listing；不把产品页上的保存误报成 listing 已建立。
    更新后读返回的 compliance，并按[复核与交接](review.md)处理。
    汇报依据 changed / updated 与实际保存结果；即使 isError:true，也检查顶层 write_result：
