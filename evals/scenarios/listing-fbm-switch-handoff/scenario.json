@@ -1,0 +1,271 @@
+{
+  "id": "listing-fbm-switch-handoff",
+  "version": 1,
+  "skill": "intgral-listing",
+  "request": "XZ-23174 在 Amazon.es 的 listing 现在是 FBA，帮我改成 FBM 自发货，库存手动填 30。",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku.",
+      "inputSchema": {
+        "product_id": "string?",
+        "sku": "string?"
+      },
+      "responses": [
+        {
+          "when": {
+            "sku": "XZ-23174"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_xz23174",
+                "title": "Caja organizadora",
+                "status": "published",
+                "variants": [
+                  {
+                    "id": "var_xz23174",
+                    "sku": "XZ-23174"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_xz23174"
+              }
+            ]
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.get_listing_context",
+      "description": "One listing by listing_id with its status, fulfilment channel, compliance and erp_url.",
+      "inputSchema": {
+        "listing_id": "string"
+      },
+      "responses": [
+        {
+          "when": {
+            "listing_id": "mlist_xz23174_es"
+          },
+          "result": {
+            "listing": {
+              "id": "mlist_xz23174_es",
+              "seller_sku": "XZ-23174",
+              "marketplace_id": "A1RKKUPIHCS9HS",
+              "listing_status": "live",
+              "origin": "amazon",
+              "fulfillment_channel": "AMAZON_EU",
+              "product_type": "STORAGE_BOX",
+              "erp_url": "https://erp.example.test/app/amazon-listings/mlist_xz23174_es"
+            },
+            "compliance": {
+              "ready": true,
+              "missing_required": [],
+              "invalid": [],
+              "warnings": []
+            }
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No listing matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.list_endpoints",
+      "description": "The admin API catalog.",
+      "inputSchema": {
+        "prefix": "string?",
+        "method": "GET|POST|PATCH|PUT|DELETE?",
+        "source": "custom|core?"
+      },
+      "responses": [
+        {
+          "result": {
+            "total": 4,
+            "endpoints": [
+              {
+                "method": "GET",
+                "path": "/admin/amazon/listings",
+                "source": "custom",
+                "summary": "Amazon listings, paged; `seller_sku` matches exactly and case-sensitively (one value or up to 50), composing with q, store_id and marketplace_id; an unknown SKU is an empty page"
+              },
+              {
+                "method": "GET",
+                "path": "/admin/marketplace/listings/:id/fbm-policy",
+                "source": "custom",
+                "summary": "Read the per-listing FBM stock policy — supply locations, safety stock, cap, shipping configuration, quantity_mode (derived | manual), manual_quantity, entered_by, entered_at — or null. Read-only."
+              },
+              {
+                "method": "POST",
+                "path": "/admin/marketplace/listings/:id/fbm-policy",
+                "source": "custom",
+                "summary": "Authenticated ERP user only: save the per-listing FBM stock policy; quantity_mode manual takes manual_quantity (0-99 999) with the shipping configuration. Saving publishes nothing."
+              },
+              {
+                "method": "POST",
+                "path": "/admin/marketplace/listings/:id/plans",
+                "source": "custom",
+                "summary": "Human with the owning store publication grant: form a publication plan, including a fulfillment switch ({fulfillment_channel})"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.describe_endpoint",
+      "description": "One catalogued admin route: summary and request schema.",
+      "inputSchema": {
+        "method": "GET|POST|PATCH|PUT|DELETE",
+        "path": "string"
+      },
+      "responses": [
+        {
+          "result": {
+            "note": "see list_endpoints summary"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_get",
+      "description": "Passthrough GET for any catalogued /admin route.",
+      "inputSchema": {
+        "path": "string",
+        "query": "object?"
+      },
+      "responses": [
+        {
+          "when": {
+            "path": "/admin/amazon/listings"
+          },
+          "result": {
+            "listings": [
+              {
+                "id": "mlist_xz23174_es",
+                "seller_sku": "XZ-23174",
+                "marketplace_id": "A1RKKUPIHCS9HS",
+                "store": {
+                  "id": "amzconn_cv01",
+                  "display_name": "Casa Verde ES"
+                },
+                "listing_status": "live",
+                "fulfillment_channel": "AMAZON_EU",
+                "erp_url": "https://erp.example.test/app/amazon-listings/mlist_xz23174_es"
+              }
+            ],
+            "count": 1,
+            "limit": 20,
+            "offset": 0
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/marketplace/listings/mlist_xz23174_es/fbm-policy"
+          },
+          "result": {
+            "policy": null
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No catalogued admin route matches that path",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_post",
+      "description": "Passthrough POST for an authorized /admin route.",
+      "inputSchema": {
+        "path": "string",
+        "body": "object"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "unauthorized",
+            "message": "Admin action is not permitted by the seller permission profile; human confirmations and publish require a human admin",
+            "request_id": "req_mock_403"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.update_listing",
+      "description": "Edit the LISTING's requested desired copy and attributes. Never publishes.",
+      "inputSchema": {
+        "listing_id": "string",
+        "copy": "object?",
+        "attributes": "object?"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "invalid_arguments",
+            "message": "not expected in this scenario",
+            "request_id": "req_mock_ia"
+          }
+        }
+      ]
+    },
+    {
+      "name": "host.open_url",
+      "description": "This host's own browser: open a URL in a tab the user can see. Host tool, not an Intgral MCP tool.",
+      "inputSchema": {
+        "url": "string"
+      },
+      "responses": [
+        {
+          "result": {
+            "opened": true
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {},
+    "reads": [
+      "medusa.get_listing_context",
+      "medusa.admin_get",
+      "medusa.get_product"
+    ],
+    "forbidden_tools": [
+      "medusa.admin_post",
+      "medusa.update_listing",
+      "medusa.update_product"
+    ],
+    "forbidden_writes": [],
+    "required_writes": [
+      {
+        "tool": "host.open_url",
+        "args": {
+          "url": "https://erp.example.test/app/amazon-listings/mlist_xz23174_es"
+        }
+      }
+    ],
+    "max_tool_calls": 7
+  },
+  "rubric": [
+    "The listing is found by its exact seller SKU (mlist_xz23174_es, live, FBA) — not guessed from the product.",
+    "Nothing is saved or switched by the agent: the FBM stock policy and the switch are the user's on the listing page — Switch to FBM in the editor, quantity mode manual with 30, a shipping template, then Check with Amazon → confirm → submit.",
+    "It says a missing shipping template is set up in Seller Central first, and that the switch is live only after Amazon accepts it.",
+    "The listing page is opened once, unprompted; Chinese."
+  ]
+}

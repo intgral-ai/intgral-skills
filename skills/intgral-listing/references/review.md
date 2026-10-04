@@ -19,6 +19,14 @@
 
 不发布、不删除业务实体；不经由 admin 直通、token/确认接口或浏览器绕过。
 发布始终由用户在 ERP 按后端有效门槛完成，不能以“用户已说可以”代替 ERP 发布路径。
+在售 listing 的已保存修改（文本、属性、图片 `image_urls`、价格）由用户在 listing 页“Check with Amazon”→ 确认 → 提交
+推到亚马逊；Agent 不准备、不提交这份计划，也不说已经生效。图片只在图片复核为 approved 时默认勾选，
+各类修改都可单独排除。FBM / FBA 切换由用户在编辑器里的 Switch to FBM / Switch to FBA 走同一流程；
+FBM 库存策略（按库位派生，或 `quantity_mode: manual` 手动填 `manual_quantity`，都要配发货模板）只由用户在
+listing 页保存，Agent 不写；可读 `GET /admin/marketplace/listings/:id/fbm-policy`（含 entered_by / entered_at）
+报告现状。缺发货模板时先在 Seller Central 建好，再在页面上 Reload requirements；
+`fulfillment_switch_fba_channel_unavailable` 表示该品类 schema 没有 FBA 渠道，照实报告。
+提交后 Amazon 的 observed 值要等下一次同步才更新。
 变体家族整组发布：用户在 ERP 的家族页先“全部检查”（Check all），再“全部提交”（Submit all）；
 父体先发布，子体在父体确认后随后发布。建立或交接家族时说明这一路径和顺序，不把子体当作各自独立发布。
 

@@ -34,7 +34,11 @@ Use `POST /admin/video-assets/:id` only with a supported, authorized quality/sel
 
 When the user requests local editing and the host can perform it, upload the resulting MP4 through `POST /admin/products/:id/videos`, linking its source asset and processing description. Store a new processed version and select it only if requested. The source belongs to the same product. Video assets are separate from product image fields.
 
+Every generated video keeps its AIGC provenance label (container metadata `mdta:AIGC`), and every final carries the burned-in label `Generado con IA · AI-generated` (the EU AI Act Article 50 disclosure; the final asset records it as `source.ai_label`). Edit the stored original with its metadata kept, e.g. `ffmpeg -i original.mp4 … -map_metadata 0 -movflags +use_metadata_tags out.mp4`, and never crop, cover or blur the burned-in label or promise a version without it. An upload that lost the label is refused with a 400 before anything is stored: fix the file and upload it once; never resend the same file.
+
 Use actual returned preview/download URLs in the host. A displayed link is not proof that playback or a download succeeded. Include generation ID, selected output, version, quality state, charges/unknowns and remaining work.
+
+Deleting a version is a person's act in the ERP: the product page's media panel, **Delete version**, with a confirmation. The catalogue lists `DELETE /admin/video-assets/:id`, but agents are not granted it: never call it, and never claim a version was deleted. Tell the user what deletion does: the version row and its stored file go permanently; the generation, its cost and spend record stay (no refund), and its `media_asset_ids` keep the id as history only. A processed version made from the deleted one is its own file and stays. The selected version cannot be deleted (409): the user picks another first — change the selection with `POST /admin/video-assets/:id` only when the user asks. Deleting the newest version frees its number for the next one. Afterwards, read the product's videos again before reporting what remains.
 
 ## Pause
 

@@ -1,0 +1,3 @@
+{"tool":"medusa.admin_get","args":{"path":"/admin/amazon/listings","query":{"seller_sku":"XZ-23174"}},"isError":false,"response":{"listings":[{"id":"mlist_xz23174_es","seller_sku":"XZ-23174","marketplace_id":"A1RKKUPIHCS9HS","store":{"id":"amzconn_cv01","display_name":"Casa Verde ES"},"listing_status":"live","fulfillment_channel":"AMAZON_EU","erp_url":"https://erp.example.test/app/amazon-listings/mlist_xz23174_es"}],"count":1,"limit":20,"offset":0}}
+{"tool":"host.open_url","args":{"url":"https://erp.example.test/app/amazon-listings/mlist_xz23174_es"},"isError":false,"response":{"opened":true}}
+{"tool":"medusa.admin_get","args":{"path":"/admin/marketplace/listings/mlist_xz23174_es/fbm-policy"},"isError":false,"response":{"policy":null}}
