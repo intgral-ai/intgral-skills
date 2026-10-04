@@ -10,10 +10,11 @@ metadata:
 
 ## Stop rules (apply to every task)
 
-- **Approve only the reviewed plan.** Before any approval, compare the generation's current `plan_hash` with the hash the user reviewed (task record). If it differs, show what changed and ask — never approve.
+- **Approve only the reviewed plan.** Before any approval, read the generation (`GET /admin/video-generations/:id`) and compare its current `plan_hash` with the hash the user reviewed (task record). If they differ, show what changed and ask — never approve. Never approve without that read.
 - **Money only as the user named it.** Never send `authorized_budget` or a `cost_cap` the user did not state as an amount. A refusal that names a budget goes back to the user; do not retry with a higher number.
-- **No duplicate paid work.** While a generation is queued, running or paused, do not create another one or resume without the user's explicit authorization.
-- **Open the SKU's page.** Once the SKU is read, open its `erp_url` once with the host browser; without one, give the link.
+- **No duplicate paid work.** While a generation is queued, running or paused, never create another one in the same turn — even when the user asked for "a new one": first tell them it is still running and a second one is paid again; only a later request made after hearing that can authorize it.
+- **Undeliverable request → ask before any draft.** If the user wants speech, voice-over or subtitles the deployment cannot deliver, create nothing: explain the gap and ask. "You decide" or "create it directly" does not decide a missing capability.
+- **Open the SKU's page.** When the tool list has a browser tool (such as `host.open_url`), the call right after reading the SKU opens its `erp_url`, once; without one, give the link.
 
 Work on one requested video at a time. The Agent prepares the creative plan; Intgral owns the generation, approval snapshot, spend accounting and media records. Read the installed references as local files, resolving links relative to the containing file.
 

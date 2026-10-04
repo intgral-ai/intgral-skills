@@ -1,6 +1,6 @@
 {
   "id": "research-link-conflict-missing-sku",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-research",
   "request": "把最新竞品报告挂到 SKU CV-COL-24-GR 和 CV-COL-28-BL 上。",
   "workspace": "workspace",
@@ -1227,17 +1227,6 @@
       }
     ],
     "required_writes": [
-      {
-        "tool": "medusa.admin_post",
-        "args": {
-          "path": "/admin/research/links",
-          "body": {
-            "artifact_id": "rart_report_col_comp_02",
-            "variant_id": "variant_fake_col24gr",
-            "reason": "*"
-          }
-        }
-      },
       {
         "tool": "host.open_url",
         "args": {
