@@ -221,6 +221,45 @@
           }
         },
         {
+          "when": {
+            "path": "/admin/research/artifacts/rart_ev_col_listings_01"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_ev_col_listings_01",
+              "record_type": "evidence",
+              "source": "amazon_es",
+              "version": 1,
+              "observed_at": "2026-09-02T09:30:00Z",
+              "items": [
+                {
+                  "asin": "B0FAKE0C01",
+                  "brand": "Plegasa",
+                  "title": "Escurridor plegable 24 cm",
+                  "price": {
+                    "amount": 11.99,
+                    "currency": "EUR"
+                  },
+                  "source_url": "https://example.test/dp/B0FAKE0C01"
+                },
+                {
+                  "asin": "B0FAKE0C02",
+                  "brand": "Cocinova",
+                  "title": "Colador plegable 26 cm",
+                  "price": {
+                    "amount": 14.5,
+                    "currency": "EUR"
+                  },
+                  "source_url": "https://example.test/dp/B0FAKE0C02"
+                }
+              ],
+              "freshness": {
+                "evidence_age_days": 32
+              }
+            }
+          }
+        },
+        {
           "error": {
             "code": "not_found",
             "message": "No catalogued admin route matches that path",
