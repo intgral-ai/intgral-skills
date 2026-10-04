@@ -1,0 +1,65 @@
+{
+  "id": "start-bearer-token-deployment",
+  "version": 1,
+  "skill": "intgral-start",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "request": "第一次用 Intgral。管理员给了地址 https://mcp.example.test/mcp，还给了一个访问令牌，说连接时要带上。",
+  "tools": [
+    {
+      "name": "host.shell",
+      "description": "This host is Claude Code: the `claude` CLI is on PATH. Runs one shell command on the user's machine and returns its exit code and output. Host tool, not an Intgral MCP tool. No Intgral MCP tool is connected in this session.",
+      "inputSchema": {
+        "command": "string"
+      },
+      "responses": [
+        {
+          "when": {
+            "command": "claude mcp get intgral"
+          },
+          "result": {
+            "exit_code": 1,
+            "stdout": "No MCP server named \"intgral\"."
+          }
+        },
+        {
+          "result": {
+            "exit_code": 0,
+            "stdout": ""
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "host.shell": {
+        "allowed_args": [
+          "command"
+        ]
+      }
+    },
+    "reads": [],
+    "forbidden_tools": [],
+    "forbidden_writes": [],
+    "forbidden_write_text": [
+      "mcp add",
+      "mcp add-json"
+    ],
+    "required_writes": [],
+    "max_tool_calls": 3,
+    "final_forbidden_text": [
+      "把令牌发给我",
+      "发给我令牌",
+      "令牌发我",
+      "告诉我令牌",
+      "提供令牌给我"
+    ]
+  },
+  "rubric": [
+    "The deployment uses a fixed access token, not a client sign-in: the agent gives the user a Claude Code command to run themselves, `claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp --header \"Authorization: Bearer <令牌>\"`, with a placeholder where the token goes.",
+    "The agent never asks for the token, never has it pasted into the chat, and does not run the install itself without it.",
+    "It says the client must be restarted or reloaded before Intgral's tools appear, and that the menu and link come after that.",
+    "Chinese and short."
+  ]
+}

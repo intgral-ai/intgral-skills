@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | Scenario | `evals/scenarios/workspace-merchant-unclear/scenario.json` version 1 |
-| Package under test | `skills/intgral-listing` with the INT-981 guidance (start line: unclear merchant → ask; never list or search `merchants/`) |
+| Package under test | `03c8e03` (INT-987..990 fixes) |
 | Kind | actual agent run — not a fixture replay |
 | Host | Claude Code desktop, fresh-context subagent (Agent tool), Bash tool as the MCP bridge; host abilities mocked on the same bridge |
 | Model | claude-opus-5-5 |
@@ -11,26 +11,25 @@
 | Private state | copy of the scenario workspace, `INTGRAL_WORKSPACE` pointed at it, no session merchant stated |
 | Trace | [trace.jsonl](trace.jsonl) — 0 tool calls |
 | Final answer | [final.md](final.md) |
-| Evaluator | `node scripts/evaluate.mjs …/scenario.json trace.jsonl --final final.md` → `hard checks: 13 passed, 0 failed (0 tool calls)` |
+| Evaluator | `node scripts/evaluate.mjs …/scenario.json trace.jsonl --final final.md` → `hard checks: 12 passed, 1 failed (0 tool calls)` |
 
 ## Rubric (human review of final.md)
 
 | Item | Verdict | Note |
 | --- | --- | --- |
-| Asks for the stable identifier first | pass |  |
-| No candidate named; nothing merchant-specific | pass |  |
-| Read no merchant directory | partial | the same reflexive first `find` listed both paths before the skill was read |
+| Asks only for the stable id; no merchant named | pass | zero bridge calls |
+| No listing of merchants/ | fail | first command `find install ws -type f` listed both directory names before reading the skill (not traced) |
+| Install unchanged | pass | The `install: … differs` line is an evaluation artifact: the run used the 03c8e03 package and is scored against 4d4dbc0, whose listing SKILL.md and private-workspace.md changed afterwards; the agent wrote nothing in the package. |
 
 ## Notes
 
-Same outcome. The guidance cannot reach a listing that happens before the skill is read; this is a harness/model habit, recorded as such.
+Regression check for INT-987: the narrowed rule still asks when the workspace holds several merchants. The `find` slip repeats the earlier Opus run — a harness-prompt effect (both paths given up front), not a skill change. The `install: … differs` line is an evaluation artifact: the run used the 03c8e03 package and is scored against 4d4dbc0, whose listing SKILL.md and private-workspace.md changed afterwards; the agent wrote nothing in the package.
 
 ## Agent-reported uncertainty
 
-1. Whether the bridge's own `list` counts as merchant-specific.
+1. How to know there are several merchants without listing.
+2. Whether two explanatory sentences are allowed with the question.
 
 ## Limitations
 
-- No session merchant stated (deliberate).
-- Local file listing is not traced.
-- One run, one model (Opus).
+- Mocked boundary; one run per scenario and kind. Not a statistical claim.

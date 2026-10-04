@@ -5,6 +5,8 @@
 3. Admit each acquisition with a caller-stable request key, one supported capability/source, in-plan input, and a reservation inside remaining limits. List the source in the plan's `approved_spec.sources` before admission. The inspected baseline supports the configurations below; they are deployment limits, not defaults for this merchant. Confirm them through the live plan/acquisition schema before requesting work:
    - `amazon.discovery` + `amazon_es` with `{ "query": "..." }`.
    - `amazon.reviews` + `amazon_es` with `{ "asin": "...", "variant": "..." }`.
+
+   `amazon_es` is the acquisition **source id**. The **market value** that scopes and plans carry in `target_market` is `amazon.es`; filter and create scopes with the market value, never the source id.
    - `alibaba.product_discovery` + `alibaba_com` with `{ "query": "...", "shipping_destination": "ES" }`.
    - `alibaba.supplier_discovery` + `alibaba_com` with `{ "query": "...", "shipping_destination": "ES" }`.
    - `ad_video.discovery` + `meta_ad_library` with `{ "query": "...", "country": "ES" }`.

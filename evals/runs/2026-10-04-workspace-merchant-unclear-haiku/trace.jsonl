@@ -1,3 +1,2 @@
 {"tool":"medusa.get_started","args":{},"isError":false,"response":{"contract_version":1,"erp_url":"https://erp.example.test/app/agent-activity","erp_opened":false,"open_in_browser":false,"runtime":{"erp":"available","host":{"browser":"unknown","file_bytes":"unknown"},"host_capability_source":"caller_reported_not_verified","limitations":[]},"capabilities":["products","listings","images"],"today":"2026-10-04"}}
 {"tool":"medusa.get_product","args":{"sku":"HOOK-01"},"isError":true,"response":{"code":"not_found","message":"No product matches the identifier","request_id":"req_mock_nf"}}
-{"tool":"medusa.get_product","args":{"product_id":"HOOK-01"},"isError":true,"response":{"code":"not_found","message":"No product matches the identifier","request_id":"req_mock_nf"}}

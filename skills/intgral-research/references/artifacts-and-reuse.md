@@ -19,6 +19,8 @@ A link records that one exact saved report revision is relevant to one existing 
 
 Reading: a SKU lookup through `medusa.get_product` adds `research_links` — body-free summaries with `artifact_id`, `scope_id`, `scope_question`, `report_kind`, `version`, `variant_id`, `variant_sku`, `reason`, `state` and an `erp_url` into the Research page. Read the report itself through the artifact detail route before citing what it says. `medusa.list_product_research_history` with a `variant_id` (`limit` 1–50, default 20; `offset`) pages current, historical and unlinked links, newest first. A top-level `research_error: {code}` means the product data is good and only the research part failed: report the code, do not retry blindly. A SKU lookup with no `research_links` key and no `research_error` may lack `research:read` — it is not evidence that nothing is linked; an empty list is. A product-ID lookup never carries links.
 
+Finding research for a SKU: read `research_links` and the variant's research history first. When both are empty, the SKU may still have retained research that was never linked: list scopes (`target_market` with the market value such as `amazon.es`, or no filter) and match each scope's `context.sku`, then read the matching scope's artifacts. An empty list from a filter is evidence only for that filter — a source id such as `amazon_es` in `target_market` matches nothing. Say that this lookup is by scanning scopes when there are many.
+
 ## Video ad evidence
 
 Read retained Meta and TikTok video-ad evidence with `medusa.admin_get` on `/admin/research/scopes/:scopeId/artifacts?record_type=evidence&schema_revision=research-ad-video-observation/1`. In a new session, use these records as context with zero acquisition; reads never collect.

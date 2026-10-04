@@ -17,7 +17,9 @@ if (!contract) { console.error(`tool ${tool} is not available in this scenario`)
 const args = JSON.parse(rawArgs ?? readFileSync(0, "utf8") ?? "{}");
 // Like a real MCP client, refuse a call that omits a required argument (schema values not ending in "?").
 const missing = Object.entries(contract.inputSchema ?? {}).filter(([key, type]) => !String(type).endsWith("?") && !(key in args)).map(([key]) => key);
-const matches = (when = {}, subject = args) => Object.entries(when).every(([key, value]) => subject?.[key] === value);
+// A nested object in `when` matches the call's nested arguments partially (e.g. a query filter).
+const matches = (when = {}, subject = args) => Object.entries(when).every(([key, value]) =>
+  value !== null && typeof value === "object" ? subject?.[key] !== null && typeof subject?.[key] === "object" && matches(value, subject[key]) : subject?.[key] === value);
 const previous = existsSync(tracePath) ? readFileSync(tracePath, "utf8").split(/\r?\n/).filter(Boolean).map((line) => JSON.parse(line)) : [];
 // A "once" response is consumed by an earlier matching call already in the trace.
 const chosen = contract.responses.find((candidate) => matches(candidate.when)

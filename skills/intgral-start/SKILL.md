@@ -27,14 +27,19 @@ metadata:
    命令失败时照原样报告输出。
    其他客户端：给出该客户端自己的添加方式或其连接设置位置；不确定就直说，不编命令。
 3. **登录在客户端里。** 需要授权时由客户端自己的登录页完成；不在聊天里索要 token、密码或密钥。
+   管理员给的是固定访问令牌（不是登录页）时，不替用户安装，给出带令牌请求头的命令让用户自己运行：
+   `claude mcp add --transport http --scope user intgral <地址> --header "Authorization: Bearer <令牌>"`
+   令牌只填在用户自己的终端里：不要令牌、不读令牌，用户贴到聊天里也不用它，建议用户找管理员更换。
 4. **说清下一步。** 新装的 MCP 一般要重启或重新加载客户端后工具才出现。Intgral 的链接由连上后的
    `medusa.get_started` 返回；现在还拿不到就说明重启后会给出，不猜 ERP 地址。
 5. 安装成功后，给出第 2 步的菜单，问用户想先做什么。
 
 ## 2. 菜单和 Intgral 链接
 
-已连接时先调用 `medusa.get_started`（不传 `open_browser`），把返回的 `erp_url` 作为“打开 Intgral”的链接给用户。
-没有返回 `erp_url` 就说明拿不到，不拼路径。然后用编号列出可做的事，问用户选哪个：
+已连接时先调用 `medusa.get_started`（不传 `open_browser`），把返回的 `erp_url` 作为“打开 Intgral”的链接给用户，
+并按地址说清是哪一页（例如以 `/agent-activity` 结尾的是 agent 操作记录页）。没有返回 `erp_url` 就说明拿不到，不拼路径。
+然后用编号列出这个部署能做的事，问用户选哪个。调研和视频两项只在 `medusa.list_endpoints` 列出
+`/admin/research` 或 `/admin/video-generations` 路由时才列；没有的不列：
 
 1. 查 SKU 的状态和现有信息（intgral-listing）
 2. 用表格或资料导入，建产品草稿（intgral-listing）
