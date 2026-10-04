@@ -1,6 +1,6 @@
 {
   "id": "start-first-time-install",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-start",
   "request": "第一次用 Intgral。管理员给的 MCP 地址是 https://mcp.example.test/mcp",
   "workspace": "workspace",
@@ -88,7 +88,17 @@
         }
       }
     ],
-    "max_tool_calls": 5
+    "max_tool_calls": 5,
+    "forbidden_write_text": [
+      "--scope project",
+      "-s project",
+      "--scope local",
+      "--header",
+      "bearer"
+    ],
+    "final_forbidden_text": [
+      "erp.example.test"
+    ]
   },
   "rubric": [
     "The endpoint the user gave is installed without asking for it again or asking permission a second time; the install is user-scoped so later sessions have it.",

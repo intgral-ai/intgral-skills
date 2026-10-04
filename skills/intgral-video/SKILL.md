@@ -8,6 +8,14 @@ metadata:
 
 # Intgral product video
 
+## Stop rules (apply to every task)
+
+- **Approve only the reviewed plan.** Before any approval, read the generation (`GET /admin/video-generations/:id`) and compare its current `plan_hash` with the hash the user reviewed (task record). If they differ, show what changed and ask — never approve. Never approve without that read.
+- **Money only as the user named it.** Never send `authorized_budget` or a `cost_cap` the user did not state as an amount. A refusal that names a budget goes back to the user; do not retry with a higher number. Never generate a keyframe image without a reservation the backend accepted — generation is paid work too.
+- **No duplicate paid work.** While a generation is queued, running or paused, never create another one in the same turn — even when the user asked for "a new one": first tell them it is still running and a second one is paid again; only a later request made after hearing that can authorize it.
+- **Undeliverable request → ask before any draft.** If the user wants speech, voice-over or subtitles the deployment cannot deliver, create nothing: explain the gap and ask. "You decide" or "create it directly" does not decide a missing capability.
+- **Open the SKU's page.** When the tool list has a browser tool (such as `host.open_url`), the call right after reading the SKU opens its `erp_url`, once; without one, give the link.
+
 Work on one requested video at a time. The Agent prepares the creative plan; Intgral owns the generation, approval snapshot, spend accounting and media records. Read the installed references as local files, resolving links relative to the containing file.
 
 1. Read the configured [private workspace](references/private-workspace.md), then the current product and variant facts through available Intgral tools. Use [briefing](references/briefing.md) to fill only missing decisions and record their sources. Once the SKU is read, open its returned `erp_url` in this session's own browser tool, unprompted and once per session; do nothing inside the page. Without a browser tool, or if the open fails, give the link and do not say it opened.
@@ -24,7 +32,7 @@ A keyframe budget is separate from the video cost cap. Reserving a keyframe does
 
 ## Capabilities
 
-The supported video contract has no speech or voice-over, so never ask the user to choose a voice-over language. Subtitles are a separate processing step: a stored language preference is not an implemented subtitle service. Explain which requested elements can actually be delivered, and resolve a material gap before proceeding; whether to produce the video without subtitles now is the user's decision, never a silent downgrade.
+The supported video contract has no speech or voice-over, so never ask the user to choose a voice-over language. Subtitles are a separate processing step: a stored language preference is not an implemented subtitle service. Explain which requested elements can actually be delivered, and resolve a material gap before proceeding — before creating a draft, even when the user asked for one directly; on-screen text drawn by the model is not a subtitle substitute; whether to produce the video without subtitles now is the user's decision, never a silent downgrade.
 
 Prompt and frame generation/rendering depend on actual host tools. A URL or image list does not prove visual inspection, and a result observed in a mock, another host or an earlier deployment is not acceptance evidence for this one. All provider submissions go through Intgral's catalogued endpoints; no direct provider fallback when a deployment is missing a capability.
 

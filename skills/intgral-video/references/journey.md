@@ -16,7 +16,7 @@ Read `GET /admin/video-generations/:id`. Show the current reference images in th
 
 For keyframe mode, record the user's per-frame decisions through the catalogued review endpoint. Reference mode has no keyframe review: the user reviews the reference order and full expert prompt.
 
-After the user authorizes this plan and spend, call the approval endpoint with the exact current `plan_hash` and a `cost_cap` in the estimate currency, at least the estimate. Treat a changed plan hash or conflict as a reason to read, show and obtain approval for the changed plan. Do not retry approval with a new hash the user has not reviewed.
+After the user authorizes this plan and spend, call the approval endpoint with the exact current `plan_hash` and a `cost_cap` in the estimate currency, at least the estimate. Treat a changed plan hash or conflict as a reason to read, show and obtain approval for the changed plan. Do not retry approval with a new hash the user has not reviewed. Record in the task record the `plan_hash` the user actually reviewed; an earlier "approve it" covers only that hash. A frame approved since by another ERP user is not this user's review: show what changed and ask again.
 
 Approval freezes the snapshot and queues backend work. Changing images, actions, duration or review decisions invalidates earlier approval. A local saved note alone is not backend approval.
 

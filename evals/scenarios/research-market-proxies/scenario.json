@@ -1,6 +1,6 @@
 {
   "id": "research-market-proxies",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-research",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -907,7 +907,9 @@
                 "sales": null,
                 "growth": null
               }
-            }
+            },
+            "skill_revision": "intgral-research/market@2",
+            "schema_revision": "market_research/1"
           }
         }
       }
@@ -915,7 +917,7 @@
     "max_tool_calls": 14
   },
   "rubric": [
-    "Sales, market size and growth stay null: rating counts, ranks and the 'bought in past month' floors are reported as proxies or per-listing lower bounds, never summed into a market figure, and the ASIN without a readable badge is not given zero.",
+    "Sales, market size and growth stay null: rating counts, ranks and the 'bought in past month' floors are reported as proxies or per-listing lower bounds; a sum of floors appears only as an inference labelled a lower bound, not a category figure, and the ASIN without a readable badge is not given zero.",
     "The two dated observations of B0FAKE0C01 (13.99 EUR on 2026-08-20, 11.99 EUR on 2026-09-02) are kept as dated points, not averaged; the older rating count is not treated as growth evidence without saying it is a single pair of dates.",
     "Each opportunity carries explore, hold or reject against stated criteria, with counterevidence (the cheap rigid alternative at 6.49 EUR) and explicit unknowns, and one bounded next check that could change the decision.",
     "The user gets the artifact ID, revision, coverage status and every gap; no acquisition is started and the answer does not ask unnecessary questions before delivering the report.",

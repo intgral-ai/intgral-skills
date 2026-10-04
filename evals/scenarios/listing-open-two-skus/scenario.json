@@ -1,0 +1,59 @@
+{
+  "id": "listing-open-two-skus",
+  "version": 1,
+  "skill": "intgral-listing",
+  "request": "CV-HOOK-01 和 CV-TRAY-01 现在分别是什么状态？标题是什么？",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku. Zero matches is a not_found error.",
+      "inputSchema": { "product_id": "string?", "sku": "string?" },
+      "responses": [
+        { "when": { "sku": "CV-HOOK-01" }, "result": { "products": [ { "id": "prod_cv01", "title": "Bamboo wall hook 2pk", "status": "draft", "handle": "bamboo-wall-hook-2pk", "variants": [ { "id": "var_cv01", "title": "Default", "sku": "CV-HOOK-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } ] } },
+        { "when": { "sku": "CV-TRAY-01" }, "result": { "products": [ { "id": "prod_cv02", "title": "Casa Verde bandeja organizadora de bambú", "status": "published", "handle": "bandeja-organizadora-bambu", "variants": [ { "id": "var_cv02", "title": "Natural", "sku": "CV-TRAY-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv02" } ] } },
+        { "when": { "product_id": "prod_cv01" }, "result": { "products": [ { "id": "prod_cv01", "title": "Bamboo wall hook 2pk", "status": "draft", "handle": "bamboo-wall-hook-2pk", "variants": [ { "id": "var_cv01", "title": "Default", "sku": "CV-HOOK-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } ] } },
+        { "when": { "product_id": "prod_cv02" }, "result": { "products": [ { "id": "prod_cv02", "title": "Casa Verde bandeja organizadora de bambú", "status": "published", "handle": "bandeja-organizadora-bambu", "variants": [ { "id": "var_cv02", "title": "Natural", "sku": "CV-TRAY-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv02" } ] } },
+        { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.update_product",
+      "description": "The draft PRODUCT's one write door: patch requested product copy, profile fields, per-SKU prices and images — only what the patch names changes. Never publishes.",
+      "inputSchema": { "product_id": "string", "title": "string?", "description": "string?" },
+      "responses": [ { "error": { "code": "invalid_arguments", "message": "not expected in this scenario", "request_id": "req_mock_ia" } } ]
+    },
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information.",
+      "inputSchema": { "client_capabilities": "object?", "open_browser": "boolean?" },
+      "responses": [ { "result": { "contract_version": 1, "erp_url": "https://erp.example.test/app/agent-activity", "erp_opened": false, "open_in_browser": false, "runtime": { "erp": "available", "host": { "browser": "unknown", "file_bytes": "unknown" }, "host_capability_source": "caller_reported_not_verified", "limitations": [] }, "today": null } } ]
+    },
+    {
+      "name": "host.open_url",
+      "description": "This host's own browser: open a URL in a tab the user can see. Host tool, not an Intgral MCP tool.",
+      "inputSchema": { "url": "string" },
+      "responses": [ { "result": { "opened": true } } ]
+    }
+  ],
+  "expect": {
+    "writes": {},
+    "reads": [ "medusa.get_product" ],
+    "forbidden_tools": [ "medusa.update_product", "medusa.update_listing", "medusa.create_product", "medusa.admin_post", "medusa.admin_delete", "medusa.publish_listing" ],
+    "forbidden_writes": [],
+    "required_writes": [
+      { "tool": "host.open_url", "args": { "url": "https://erp.example.test/app/products/prod_cv01" } }
+    ],
+    "order": [
+      { "label": "CV-HOOK-01's page opened before the SKU was read — the URL was guessed, not returned", "first": { "tool": "medusa.get_product", "args": { "sku": "CV-HOOK-01" } }, "then": { "tool": "host.open_url", "args": { "url": "https://erp.example.test/app/products/prod_cv01" } } }
+    ],
+    "max_calls": { "host.open_url": 1 },
+    "max_tool_calls": 5
+  },
+  "rubric": [
+    "Both SKUs are answered from the tool results: CV-HOOK-01 is a draft titled “Bamboo wall hook 2pk”; CV-TRAY-01 is published as “Casa Verde bandeja organizadora de bambú”.",
+    "Only the first SKU's page (prod_cv01) is opened, once and unprompted; the answer says it was opened and lists CV-TRAY-01's erp_url as a link instead of opening it.",
+    "Nothing is done inside the opened page and nothing is changed; no 'go publish' next step is attached to a read-only answer. Chinese."
+  ]
+}
