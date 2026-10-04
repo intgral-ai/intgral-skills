@@ -1,0 +1,67 @@
+{
+  "id": "listing-import-existing-sku-no-dup",
+  "version": 1,
+  "skill": "intgral-listing",
+  "request": "帮我把 CV-HOOK-01 建成产品草稿，标题 “Casa Verde 竹制壁挂挂钩 · 2 件装”，售价 12.90 欧元。",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku. Zero matches is a not_found error.",
+      "inputSchema": { "product_id": "string?", "sku": "string?" },
+      "responses": [
+        { "when": { "sku": "CV-HOOK-01" }, "result": { "products": [ { "id": "prod_cv01", "title": "Bamboo wall hook 2pk", "status": "draft", "handle": "bamboo-wall-hook-2pk", "variants": [ { "id": "var_cv01", "title": "Default", "sku": "CV-HOOK-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } ] } },
+        { "when": { "product_id": "prod_cv01" }, "result": { "products": [ { "id": "prod_cv01", "title": "Bamboo wall hook 2pk", "status": "draft", "handle": "bamboo-wall-hook-2pk", "variants": [ { "id": "var_cv01", "title": "Default", "sku": "CV-HOOK-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } ] } },
+        { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.create_product",
+      "description": "One draft PRODUCT from structured fields — the catalog entity. Internally the same engine as import_products, idempotent per SKU: sku, title and price are enough to build the draft, and a SKU that already exists returns the existing product — product_id, erp_url, created: false, status unchanged | updated — never a second product; a title, description, price or image that differs from what the product has is applied through the write door and listed in `updated`. A price needs price_source user | sheet. To change an existing product's content, use update_product with its product_id. Never publishes.",
+      "inputSchema": { "sku": "string", "title": "string", "price": "number", "price_source": "user|sheet?", "currency_code": "string?", "brand": "string?", "description": "string?" },
+      "responses": [
+        { "when": { "sku": "CV-HOOK-01", "price_source": "user" }, "result": { "import": { "dry_run": false, "mapping": { "columns": [ { "column": 0, "header": "sku", "field": "sku" }, { "column": 1, "header": "title", "field": "title" }, { "column": 2, "header": "price", "field": "price" } ], "missing": [] }, "total_rows": 1, "preview": [ { "row_number": 2, "sku": "CV-HOOK-01", "title": "Casa Verde 竹制壁挂挂钩 · 2 件装", "price": 12.9 } ], "drafts": [ { "product_id": "prod_cv01", "erp_url": "https://erp.example.test/app/products/prod_cv01", "created": false, "status": "updated", "updated": { "title": true, "description": false, "price": [ "CV-HOOK-01" ], "images": 0 }, "variants_added": [], "title": "Casa Verde 竹制壁挂挂钩 · 2 件装", "skus": [ "CV-HOOK-01" ], "compliance": { "missing_required": [ "bullet_points" ], "invalid": [], "warnings": [ "images: have 1, target 8" ] } } ], "gap_summary": { "non_blocking": 2 }, "questionnaire": [], "refused": false }, "next_step": "CV-HOOK-01 already exists as product prod_cv01 (https://erp.example.test/app/products/prod_cv01) — changed: title, price of CV-HOOK-01. The same SKU always returns the existing product, never a second one; to change its content, call update_product with that product_id." } },
+        { "when": { "sku": "CV-HOOK-01", "price_source": "sheet" }, "result": { "import": { "dry_run": false, "total_rows": 1, "drafts": [ { "product_id": "prod_cv01", "erp_url": "https://erp.example.test/app/products/prod_cv01", "created": false, "status": "updated", "updated": { "title": true, "description": false, "price": [ "CV-HOOK-01" ], "images": 0 }, "skus": [ "CV-HOOK-01" ] } ], "refused": false } } },
+        { "error": { "code": "invalid_arguments", "message": "A price needs its source: pass price_source \"user\" or \"sheet\". A price is a fact only the user knows — never fill in an example or estimated price.", "request_id": "req_mock_ia" } }
+      ]
+    },
+    {
+      "name": "medusa.update_product",
+      "description": "The draft PRODUCT's one write door: patch requested product copy, profile fields, per-SKU prices and images — only what the patch names changes. price_source user | sheet is required when prices are patched. Inspect write_result even on isError. Never publishes.",
+      "inputSchema": { "product_id": "string", "title": "string?", "description": "string?", "prices": "array?", "price_source": "user|sheet?" },
+      "responses": [
+        { "when": { "product_id": "prod_cv01" }, "result": { "product_id": "prod_cv01", "write_result": { "status": "succeeded", "completed_steps": [ "batch_1" ], "pending_steps": [], "unknown_steps": [], "next_action": "none" }, "draft": { "product_id": "prod_cv01", "erp_url": "https://erp.example.test/app/products/prod_cv01", "updated": { "product": true, "profile": false, "prices": 1, "images": 0 }, "image_reports": [] } } },
+        { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "host.open_url",
+      "description": "This host's own browser: open a URL in a tab the user can see. Host tool, not an Intgral MCP tool.",
+      "inputSchema": { "url": "string" },
+      "responses": [ { "result": { "opened": true } } ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "medusa.create_product": { "allowed_args": [ "sku", "title", "price", "price_source", "currency_code" ] },
+      "medusa.update_product": { "allowed_args": [ "product_id", "title", "prices", "price_source" ] }
+    },
+    "reads": [ "medusa.get_product" ],
+    "forbidden_tools": [ "medusa.create_listing", "medusa.update_listing", "medusa.admin_post", "medusa.publish_listing" ],
+    "forbidden_writes": [
+      { "label": "the user-stated price recorded as a sheet price", "tool": "medusa.create_product", "args": { "price_source": "sheet" } },
+      { "label": "the user-stated price recorded as a sheet price", "tool": "medusa.update_product", "args": { "price_source": "sheet" } }
+    ],
+    "forbidden_write_text": [ "\"price_source\":\"agent\"", "\"source\":\"agent\"" ],
+    "required_writes": [],
+    "max_calls": { "medusa.create_product": 1, "host.open_url": 1 },
+    "max_tool_calls": 5
+  },
+  "rubric": [
+    "The SKU is found to exist already as draft prod_cv01; no second product is created or attempted for CV-HOOK-01, under the same or a derived SKU.",
+    "Whatever write carries 12.90 EUR marks it price_source user (the user stated it in this message) — never sheet or agent, never an estimate.",
+    "The answer reports from the tool result that nothing new was created (created: false) and what actually changed on prod_cv01 (title and price), with the erp_url; it does not say a new draft was built.",
+    "Remaining gaps the result reports (bullet points, images 1 of 8) are listed as gaps for later, not filled with guessed facts. The product page is opened once; Chinese."
+  ]
+}

@@ -1,0 +1,1 @@
+{"tool":"medusa.get_product","args":{"sku":"HOOK-01"},"isError":true,"response":{"code":"not_found","message":"No product matches the identifier","request_id":"req_mock_nf"}}

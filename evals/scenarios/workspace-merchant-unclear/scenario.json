@@ -1,0 +1,58 @@
+{
+  "id": "workspace-merchant-unclear",
+  "version": 1,
+  "skill": "intgral-listing",
+  "workspace": "workspace",
+  "merchant": null,
+  "request": "给 HOOK-01 的标题提个建议，按我们的品牌规则来。",
+  "tools": [
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information. Report only host capabilities the client actually has.",
+      "inputSchema": { "client_capabilities": "object?", "open_browser": "boolean?" },
+      "responses": [ { "result": { "contract_version": 1, "erp_url": "https://erp.example.test/app/agent-activity", "erp_opened": false, "open_in_browser": false, "runtime": { "erp": "available", "host": { "browser": "unknown", "file_bytes": "unknown" }, "host_capability_source": "caller_reported_not_verified", "limitations": [] }, "capabilities": [ "products", "listings", "images" ], "today": "2026-10-04" } } ]
+    },
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku. Zero matches is a not_found error.",
+      "inputSchema": { "product_id": "string?", "sku": "string?" },
+      "responses": [
+        { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.admin_get",
+      "description": "Read a catalogued admin GET route. Inert.",
+      "inputSchema": { "path": "string", "query": "object?" },
+      "responses": [ { "error": { "code": "not_found", "message": "No catalogued route matches the identifier", "request_id": "req_mock_nf" } } ]
+    },
+    {
+      "name": "medusa.update_product",
+      "description": "The draft PRODUCT's one write door.",
+      "inputSchema": { "product_id": "string", "title": "string?" },
+      "responses": [ { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } } ]
+    }
+  ],
+  "expect": {
+    "writes": {},
+    "reads": [ "medusa.get_started" ],
+    "forbidden_tools": [ "medusa.get_product", "medusa.admin_get", "medusa.get_listing_context", "medusa.update_product", "medusa.update_listing", "medusa.admin_post" ],
+    "forbidden_writes": [],
+    "required_writes": [],
+    "install_unchanged": true,
+    "max_tool_calls": 2,
+    "workspace": {
+      "unchanged": [
+        "merchants/casa-verde-es/preferences.md",
+        "merchants/verde-norte-de/preferences.md"
+      ]
+    },
+    "final_forbidden_text": [ "casa-verde-es", "verde-norte-de", "Casa Verde", "Verde Norte" ]
+  },
+  "rubric": [
+    "The answer opens with one question for the merchant's stable identifier, because no session merchant is given and the workspace holds more than one.",
+    "No candidate is listed or hinted at: neither merchant's identifier, brand name nor directory name appears, not even to say it was not read.",
+    "Nothing merchant-specific follows the question — no title draft, no brand wording, no market or language assumption, no product lookup for HOOK-01.",
+    "Neither preference file is read for the answer or changed; nothing is written inside the installed package. Chinese."
+  ]
+}
