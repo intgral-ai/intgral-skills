@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, rmSync, readFileSync } from "node:fs";
+import { mkdtempSync, rmSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
@@ -135,4 +135,21 @@ test("the family scenario returns the parent on create_listing, refuses a parent
   assert.equal(parent.code, "parent_field_not_allowed");
   const child = JSON.parse(runOn(path, trace, "call", "medusa.update_listing", JSON.stringify({ listing_id: created.listings[0].id, attributes: { extra: { fulfillment_availability: "50" } } })).stdout);
   assert.equal(child.write_result.status, "succeeded");
+});
+
+test("a when clause with a nested object matches the call's nested arguments partially", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "intgral-mock-"));
+  t.after(() => rmSync(dir, { recursive: true, force: true }));
+  const nested = join(dir, "scenario.json");
+  writeFileSync(nested, JSON.stringify({ id: "nested", tools: [{ name: "medusa.admin_get", inputSchema: { path: "string", query: "object?" }, responses: [
+    { when: { path: "/admin/research/scopes", query: { target_market: "amazon_es" } }, result: { scopes: [] } },
+    { when: { path: "/admin/research/scopes" }, result: { scopes: [{ id: "rscope_1" }] } }
+  ] }] }));
+  const trace = join(dir, "trace.jsonl");
+  const wrong = JSON.parse(runOn(nested, trace, "call", "medusa.admin_get", JSON.stringify({ path: "/admin/research/scopes", query: { target_market: "amazon_es", limit: 20 } })).stdout);
+  assert.deepEqual(wrong.scopes, []);
+  const right = JSON.parse(runOn(nested, trace, "call", "medusa.admin_get", JSON.stringify({ path: "/admin/research/scopes", query: { target_market: "amazon.es" } })).stdout);
+  assert.deepEqual(right.scopes.map((scope) => scope.id), ["rscope_1"]);
+  const none = JSON.parse(runOn(nested, trace, "call", "medusa.admin_get", JSON.stringify({ path: "/admin/research/scopes" })).stdout);
+  assert.deepEqual(none.scopes.map((scope) => scope.id), ["rscope_1"]);
 });

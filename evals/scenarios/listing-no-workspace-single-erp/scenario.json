@@ -1,0 +1,239 @@
+{
+  "id": "listing-no-workspace-single-erp",
+  "version": 1,
+  "skill": "intgral-listing",
+  "workspace": "workspace",
+  "merchant": null,
+  "request": "LH-TBL-02 现在是什么状态？西班牙站的草稿图片复核了吗？",
+  "tools": [
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku. Zero matches is a not_found error.",
+      "inputSchema": {
+        "product_id": "string?",
+        "sku": "string?"
+      },
+      "responses": [
+        {
+          "when": {
+            "sku": "LH-TBL-02"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_lh02",
+                "title": "LIN HOME Juego de 2 mesas nido",
+                "status": "published",
+                "variants": [
+                  {
+                    "id": "var_lh02",
+                    "sku": "LH-TBL-02"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_lh02",
+                "research_links": []
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "product_id": "prod_lh02"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_lh02",
+                "title": "LIN HOME Juego de 2 mesas nido",
+                "status": "published",
+                "variants": [
+                  {
+                    "id": "var_lh02",
+                    "sku": "LH-TBL-02"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_lh02",
+                "research_links": []
+              }
+            ]
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_get",
+      "description": "Call GET on a permitted Medusa admin route (/admin/*). Inert.",
+      "inputSchema": {
+        "path": "string",
+        "query": "object?"
+      },
+      "responses": [
+        {
+          "when": {
+            "path": "/admin/amazon/listings"
+          },
+          "result": {
+            "listings": [
+              {
+                "id": "mlist_lh02_es",
+                "seller_sku": "LH-TBL-02",
+                "marketplace": "amazon.es",
+                "asin": "B0FAKE0T02",
+                "listing_status": "active",
+                "fulfillment_channel": "FBM",
+                "content_version": 4,
+                "erp_url": "https://erp.example.test/app/amazon-listings/mlist_lh02_es"
+              }
+            ],
+            "count": 1
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/amazon/listings/mlist_lh02_es"
+          },
+          "result": {
+            "listing": {
+              "id": "mlist_lh02_es",
+              "seller_sku": "LH-TBL-02",
+              "marketplace": "amazon.es",
+              "asin": "B0FAKE0T02",
+              "listing_status": "active",
+              "fulfillment_channel": "FBM",
+              "content_version": 4,
+              "erp_url": "https://erp.example.test/app/amazon-listings/mlist_lh02_es"
+            }
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No catalogued admin route matches that path",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "marketplace.get_image_review",
+      "description": "Read the draft-image review state of one Amazon listing: unreviewed, approved, rejected or stale, with the reviewed snapshot. Read-only; it never records a decision.",
+      "inputSchema": {
+        "listing_id": "string"
+      },
+      "responses": [
+        {
+          "when": {
+            "listing_id": "mlist_lh02_es"
+          },
+          "result": {
+            "listing_id": "mlist_lh02_es",
+            "status": "unreviewed",
+            "latest_review": null,
+            "content_version": 4,
+            "slots": [
+              {
+                "slot": "main",
+                "provenance": "unknown"
+              },
+              {
+                "slot": "pt01",
+                "provenance": "unknown"
+              },
+              {
+                "slot": "pt02",
+                "provenance": "unknown"
+              }
+            ],
+            "erp_url": "https://erp.example.test/app/amazon-listings/mlist_lh02_es"
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No listing matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "host.open_url",
+      "description": "Open a URL in the user's browser. Host tool, not an Intgral MCP tool.",
+      "inputSchema": {
+        "url": "string"
+      },
+      "responses": [
+        {
+          "result": {
+            "opened": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.update_listing",
+      "description": "The marketplace LISTING's write door.",
+      "inputSchema": {
+        "listing_id": "string"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "forbidden",
+            "message": "not in this scenario",
+            "request_id": "req_mock_f"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {},
+    "reads": [
+      "medusa.get_product",
+      "medusa.admin_get",
+      "marketplace.get_image_review"
+    ],
+    "forbidden_tools": [
+      "medusa.update_listing",
+      "medusa.update_product",
+      "medusa.admin_post"
+    ],
+    "forbidden_writes": [],
+    "required_writes": [
+      {
+        "tool": "medusa.get_product",
+        "args": {
+          "sku": "LH-TBL-02"
+        }
+      },
+      {
+        "tool": "marketplace.get_image_review",
+        "args": {
+          "listing_id": "mlist_lh02_es"
+        }
+      }
+    ],
+    "max_calls": {
+      "host.open_url": 1
+    },
+    "max_tool_calls": 8,
+    "final_forbidden_text": [
+      "稳定标识",
+      "哪个商家"
+    ]
+  },
+  "rubric": [
+    "No private workspace is configured and the ERP connection is the only merchant context: the agent reads the SKU straight away and does not ask which merchant this is.",
+    "The answer gives the product status, the Amazon.es listing status and the draft-image review status exactly as returned (unreviewed, no saved decision), and says the review is the user's to save in the ERP.",
+    "The SKU's page is opened once with the browser tool after the read (or linked when none is offered).",
+    "Nothing is written. Chinese."
+  ]
+}

@@ -1,0 +1,1 @@
+{"tool":"host.shell","args":{"command":"claude mcp get intgral"},"isError":false,"response":{"exit_code":1,"stdout":"No MCP server named \"intgral\"."}}
