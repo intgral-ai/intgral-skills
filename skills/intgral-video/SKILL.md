@@ -24,7 +24,7 @@ A keyframe budget is separate from the video cost cap. Reserving a keyframe does
 
 ## Capabilities
 
-The supported video contract has no speech or voice-over, so never ask the user to choose a voice-over language. Subtitles are a separate processing step: a stored language preference is not an implemented subtitle service. Explain which requested elements can actually be delivered, and resolve a material gap before proceeding; whether to produce the video without subtitles now is the user's decision, never a silent downgrade.
+The supported video contract has no speech or voice-over, so never ask the user to choose a voice-over language. Subtitles are a separate processing step: a stored language preference is not an implemented subtitle service. Explain which requested elements can actually be delivered, and resolve a material gap before proceeding — before creating a draft, even when the user asked for one directly; on-screen text drawn by the model is not a subtitle substitute; whether to produce the video without subtitles now is the user's decision, never a silent downgrade.
 
 Prompt and frame generation/rendering depend on actual host tools. A URL or image list does not prove visual inspection, and a result observed in a mock, another host or an earlier deployment is not acceptance evidence for this one. All provider submissions go through Intgral's catalogued endpoints; no direct provider fallback when a deployment is missing a capability.
 
