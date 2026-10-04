@@ -37,10 +37,10 @@ get_listing_context 的关联复核不包含图片复核，也不隐式增加 HT
 原样报告 scope=draft_images_only、status、snapshot（hash、content_version、槽位/URL）与
 latest_review、limitations。unreviewed 表示未复核；approved / rejected 是已记录的决定；
 stale 表示已记录的复核不再对应当前快照，即使 latest_review.decision 仍为 approved。
-provenance=unknown 或 content_sha256=null 不代表原图/生成图或图片字节已验证；
-同一外部 URL 的图片字节也可能变化，不自行补造来源或哈希。
-hash_evidence=product_image_metadata 仅表示哈希来自产品图片元数据，unavailable 表示无证据；
-非空哈希也不代表本次读取验证了图片字节或拥有不可变副本，原图/生成图来源仍为 unknown。
+provenance 原样报告：verified_bytes 表示 ERP 抓取了图片字节并据此算出哈希（hash_evidence=fresh_bytes）；
+unverified 表示这次没有取到字节，哈希只来自产品图片元数据（product_image_metadata）或没有（unavailable）；
+unknown 是旧部署的说法，同样未验证。三者都不说明是原图还是生成图；verified_bytes 只对应 ERP 抓取那一刻的字节，
+同一外部 URL 之后仍可能变化。content_sha256=null 就是没有哈希，不自行补造来源或哈希。
 
 决定必须由已认证的人类 ERP 用户在返回的 erp_url 页面保存，记录 authority=authenticated_user；
 聊天确认不等于已持久化的 ERP 人工批准，网关身份不能代写复核。

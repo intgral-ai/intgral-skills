@@ -4,7 +4,7 @@ Use `medusa.list_endpoints` and `medusa.describe_endpoint` to discover exact met
 
 ## Create a draft
 
-Read the target product/variant and available media. Create through `POST /admin/video-generations` with the actual product identity, duration, aspect ratio and resolution from the deployed schema, prompt path, optional language/placement preferences, skill version and a stable idempotency key. Record the desired result and the executable result separately when they differ, and report both.
+Read the target product/variant and available media, and the product's existing generations when the deployment lists `GET /admin/video-generations` (filters `product_id`, `variant_id`, `status`; newest first; summaries with status, plan hash and cost, never prompts — read one by id for those). Create through `POST /admin/video-generations` with the actual product identity, duration, aspect ratio and resolution from the deployed schema, prompt path, optional language/placement preferences, skill version and a stable idempotency key. Record the desired result and the executable result separately when they differ, and report both.
 
 Reference mode supplies product reference asset IDs and segment expert prompts, omitting a keyframe budget. Keyframe mode supplies the authorized frame budget and structured brief/beats as required; see [prompting](prompting.md). Do not copy both modes into one request.
 

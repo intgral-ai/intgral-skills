@@ -12,7 +12,7 @@ metadata:
 
 - **Approve only the reviewed plan.** Before any approval, read the generation (`GET /admin/video-generations/:id`) and compare its current `plan_hash` with the hash the user reviewed (task record). If they differ, show what changed and ask — never approve. Never approve without that read.
 - **Money only as the user named it.** Never send `authorized_budget` or a `cost_cap` the user did not state as an amount. A refusal that names a budget goes back to the user; do not retry with a higher number. Never generate a keyframe image without a reservation the backend accepted — generation is paid work too.
-- **No duplicate paid work.** While a generation is queued, running or paused, never create another one in the same turn — even when the user asked for "a new one": first tell them it is still running and a second one is paid again; only a later request made after hearing that can authorize it.
+- **No duplicate paid work.** Before a new draft, look for the product's existing generations: when `medusa.list_endpoints` lists `GET /admin/video-generations`, read it with `product_id` (or `variant_id`); otherwise use the generation ids in the task record. While a generation is queued, running or paused, never create another one in the same turn — even when the user asked for "a new one": first tell them it is still running and a second one is paid again; only a later request made after hearing that can authorize it.
 - **Undeliverable request → ask before any draft.** If the user wants speech, voice-over or subtitles the deployment cannot deliver, create nothing: explain the gap and ask. "You decide" or "create it directly" does not decide a missing capability.
 - **Price from the backend only.** A video estimate exists only on a draft. When the user asks what it costs before a draft exists, say the draft is free and generates nothing, and ask whether to create it; never quote a price from memory or an earlier video.
 - **Open the SKU's page.** When the tool list has a browser tool (such as `host.open_url`), the call right after reading the SKU opens its `erp_url`, once; without one, give the link.
@@ -37,4 +37,4 @@ The supported video contract has no speech or voice-over, so never ask the user 
 
 Prompt and frame generation/rendering depend on actual host tools. A URL or image list does not prove visual inspection, and a result observed in a mock, another host or an earlier deployment is not acceptance evidence for this one. All provider submissions go through Intgral's catalogued endpoints; no direct provider fallback when a deployment is missing a capability.
 
-For each new task, record `skill_version: intgral-video@5` when the deployed schema supports it. Keep the version attached to existing tasks unchanged.
+For each new task, record `skill_version: intgral-video@6` when the deployed schema supports it. Keep the version attached to existing tasks unchanged.
