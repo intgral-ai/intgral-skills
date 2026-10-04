@@ -1,16 +1,11 @@
-# HOOK-01 标题建议
+# Title suggestion for HOOK-01
 
-我需要先确认一个问题：**HOOK-01 属于哪个商家？**
+## Status: Waiting for merchant clarification
 
-我在工作区里找到两个商家的品牌规则：
+Your private workspace has multiple merchant directories. Before I can read the brand rules and suggest a title for HOOK-01, please provide the stable identifier (merchant ID) for the merchant you're working with.
 
-1. **casa-verde-es**（亚马逊西班牙站）
-   - 品牌名："Casa Verde"（保留拉丁字母）
-   - 件数分隔：用 "·"
+This is the unique ID used by the system—not a display name or directory guess.
 
-2. **verde-norte-de**（亚马逊德国站）
-   - 品牌名："VERDE NORTE"（全大写）
-   - 件数分隔：用 "|"
-   - 德语表示数量用 "2er Set" 而不是 "2 Stück"
+---
 
-请告诉我 HOOK-01 是哪个商家的产品，我就能根据相应的品牌规则给出标题建议。
+**Next step:** Reply with the merchant identifier, and I'll read your brand rules and provide a title suggestion for HOOK-01 that follows them.

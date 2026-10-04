@@ -1,0 +1,3 @@
+{"tool":"host.shell","args":{"command":"claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp"},"isError":false,"response":{"exit_code":0,"stdout":""}}
+{"tool":"host.shell","args":{"command":"claude mcp get intgral"},"isError":false,"response":{"exit_code":1,"stdout":"No MCP server named \"intgral\"."}}
+{"tool":"host.shell","args":{"command":"claude mcp list"},"isError":false,"response":{"exit_code":0,"stdout":""}}
