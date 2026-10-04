@@ -1,6 +1,6 @@
 {
   "id": "research-acquisition-unsupported-market",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-research",
   "request": "我批准：采集德国站 amazon.de 上折叠硅胶沥水篮前 50 个商品，预算 10 美元以内，然后做市场报告。",
   "workspace": "workspace",
@@ -1054,10 +1054,17 @@
             }
           }
         }
+      },
+      {
+        "label": "the German request was redirected to the Spanish source",
+        "tool": "medusa.admin_post",
+        "args": {
+          "path": "/admin/research/plans/rplan_colander_de_01/acquisitions",
+          "body": {
+            "source": "amazon_es"
+          }
+        }
       }
-    ],
-    "forbidden_write_text": [
-      "amazon_es"
     ],
     "order": [
       {

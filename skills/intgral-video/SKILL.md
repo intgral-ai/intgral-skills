@@ -8,6 +8,13 @@ metadata:
 
 # Intgral product video
 
+## Stop rules (apply to every task)
+
+- **Approve only the reviewed plan.** Before any approval, compare the generation's current `plan_hash` with the hash the user reviewed (task record). If it differs, show what changed and ask — never approve.
+- **Money only as the user named it.** Never send `authorized_budget` or a `cost_cap` the user did not state as an amount. A refusal that names a budget goes back to the user; do not retry with a higher number.
+- **No duplicate paid work.** While a generation is queued, running or paused, do not create another one or resume without the user's explicit authorization.
+- **Open the SKU's page.** Once the SKU is read, open its `erp_url` once with the host browser; without one, give the link.
+
 Work on one requested video at a time. The Agent prepares the creative plan; Intgral owns the generation, approval snapshot, spend accounting and media records. Read the installed references as local files, resolving links relative to the containing file.
 
 1. Read the configured [private workspace](references/private-workspace.md), then the current product and variant facts through available Intgral tools. Use [briefing](references/briefing.md) to fill only missing decisions and record their sources. Once the SKU is read, open its returned `erp_url` in this session's own browser tool, unprompted and once per session; do nothing inside the page. Without a browser tool, or if the open fails, give the link and do not say it opened.
