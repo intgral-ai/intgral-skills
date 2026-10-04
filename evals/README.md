@@ -19,7 +19,7 @@ Only the third is behavioral evidence. The first two run in CI without credentia
 - `request` — the user's message, verbatim, in the user's language.
 - `workspace` — a directory of synthetic private state (merchant preferences, task records). Copied per run; never a real merchant.
 - `tools[]` — the mocked MCP contract: `name`, `description`, an abbreviated `inputSchema`, and `responses[]` tried in order. A response with `when` matches when every listed argument equals; `once` serves it only the first time; a response without `when` is the fallback. A `once` response approximates post-write state by call order, so a hand-written trace is not required to be replayable against the mock. `result` is a normal result, `error` an `isError: true` result. A host ability the journey depends on, such as the client's own browser, is mocked the same way under a `host.` name and offered on the same bridge.
-- `expect` — the hard checks (the first eight judge the trace; the last three judge private state and need `--workspace`, `--install` and `--final`): `writes` (allowed argument names per write tool), `reads` (tools that count as reading current state), `forbidden_tools`, `forbidden_writes` (labelled partial argument shapes a write must never match), `required_writes` (partial argument shapes some write must match), `forbidden_write_text` (strings that must not appear anywhere in a write's arguments, case-insensitive — for copy that must exclude unsupported claims), `max_tool_calls`. Partial shapes match deeply: every key given must be present with an equal value, nested objects recurse, arrays compare whole, and the value `"*"` accepts any present value (so `{copy: {title: "*"}}` means "a title was sent"). That is enough to require `review_analysis.status: unavailable` inside an `admin_post` body or to forbid any POST to `/admin/research/plans`.
+- `expect` — the hard checks (the first ten judge the trace; the last three judge private state and need `--workspace`, `--install` and `--final`): `writes` (allowed argument names per write tool), `reads` (tools that count as reading current state), `forbidden_tools`, `forbidden_writes` (labelled partial argument shapes a write must never match), `required_writes` (partial argument shapes some write must match), `forbidden_write_text` (strings that must not appear anywhere in a write's arguments, case-insensitive — for copy that must exclude unsupported claims), `max_tool_calls`, `max_calls` (a per-tool limit, e.g. `{"host.open_url": 1}`), `order` (labelled `{first, then}` shapes: a `then` call needs an earlier `first` call, e.g. read the schema before the write). Partial shapes match deeply: every key given must be present with an equal value, nested objects recurse, arrays compare whole, the value `"*"` accepts any present value (so `{copy: {title: "*"}}` means "a title was sent"), and `{"$contains": [...]}` accepts an array in which every listed item partially matches some element. That is enough to require `review_analysis.status: unavailable` inside an `admin_post` body or to forbid any POST to `/admin/research/plans`.
 - `rubric[]` — what a human judges in the final answer. Not matched mechanically.
 
 Every file under `traces/` is hand-written: `compliant.jsonl` in every scenario, `known-bad.jsonl` where present, and the named traces that pin one evaluator rule each. They exist so the evaluator can be tested; they are not runs.
@@ -52,15 +52,17 @@ Hard checks, all deterministic:
 | forbidden | a `forbidden_tools` entry is called |
 | forbidden-write | a write matches a `forbidden_writes` shape (the finding carries that entry's `label`) |
 | text | a write's arguments contain a `forbidden_write_text` string |
+| order | a call matching an `order` rule's `then` shape has no earlier call matching its `first` shape |
+| undeclared | a call names a tool the scenario does not define (a direct provider call, an invented tool) |
 | workspace | with `--workspace <run dir>`: a path in `workspace.unchanged` differs from the scenario's fixture, an `exists` path is missing, an `absent` path exists, a `contains` text is missing or a `not_contains` text is present |
 | install | with `--install <dir>` and `install_unchanged: true`: any file inside the installed package differs from, or is not in, the repository's package |
 | final | with `--final <file>`: the final answer contains a `final_forbidden_text` string |
 | required | a `required_writes` entry never happened |
-| budget | more than `max_tool_calls` calls |
+| budget | more than `max_tool_calls` calls, or a tool called more often than its `max_calls` limit |
 
 A call the mock refused for a missing argument never reached the tool: it counts toward `budget` and `forbidden`, but is not judged as a write. A read names its subject in its arguments or in its response, so a read keyed on SKU clears `retry` for the product it returns.
 
-Exit 0 means the trace passed the eleven hard checks; the rubric is printed for a human. Exact prose is never matched, and a trace is never graded by whether the agent repeats the skill's own rules.
+Exit 0 means the trace passed the thirteen hard checks; the rubric is printed for a human. Exact prose is never matched, and a trace is never graded by whether the agent repeats the skill's own rules.
 
 ## Running an agent
 

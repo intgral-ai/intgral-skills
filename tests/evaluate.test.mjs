@@ -16,7 +16,7 @@ for (const id of readdirSync(scenarios)) {
   test(`${id}: the hand-written compliant trace passes every hard check`, () => {
     const result = evaluate(id, "compliant.jsonl");
     assert.equal(result.status, 0, result.stderr + result.stdout);
-    assert.match(result.stdout, /hard checks: 11 passed, 0 failed/);
+    assert.match(result.stdout, /hard checks: 13 passed, 0 failed/);
     assert.match(result.stdout, /human review/);
   });
   if (existsSync(join(scenarios, id, "traces", "known-bad.jsonl"))) {
@@ -86,19 +86,19 @@ test("listing family: a parent write the ERP refused still fails, though the chi
   const { stdout, status } = evaluate("listing-create-family-parent", "parent-write-refused.jsonl");
   assert.equal(status, 1);
   assert.match(stdout, /forbidden-write: medusa\.update_listing #4 — stock written to the non-buyable parent/);
-  assert.match(stdout, /hard checks: 10 passed, 1 failed/);
+  assert.match(stdout, /hard checks: 12 passed, 1 failed/);
 });
 
 test("listing: a retry cleared by a read keyed on SKU whose response names the subject passes", () => {
   const { stdout, status } = evaluate("listing-title-only-two-skus", "retry-after-sku-read.jsonl");
   assert.equal(status, 0, stdout);
-  assert.match(stdout, /hard checks: 11 passed, 0 failed/);
+  assert.match(stdout, /hard checks: 13 passed, 0 failed/);
 });
 
 test("research brief: the save the mock refused for a missing argument is not judged as a completed write", () => {
   const { stdout, status } = evaluate("research-brief-pinned-no-acquisition", "refused-then-corrected.jsonl");
   assert.equal(status, 0, stdout);
-  assert.match(stdout, /hard checks: 11 passed, 0 failed \(6 tool calls\)/);
+  assert.match(stdout, /hard checks: 13 passed, 0 failed \(6 tool calls\)/);
 });
 
 test("listing copy: a refused write is judged on the text it tried to send, not on its scope", () => {

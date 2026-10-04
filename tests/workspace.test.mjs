@@ -59,7 +59,7 @@ const run = (root) => spawnSync(process.execPath, [evaluator, join(root, "scenar
 test("a run that preserves the other merchant, creates the new one and leaves the install alone passes the workspace checks", (t) => {
   const result = run(fixture(t));
   assert.equal(result.status, 0, result.stdout);
-  assert.match(result.stdout, /hard checks: 11 passed, 0 failed/);
+  assert.match(result.stdout, /hard checks: 13 passed, 0 failed/);
 });
 
 test("a run that overwrites another merchant, writes into the install and promises memory is rejected with named findings", (t) => {
