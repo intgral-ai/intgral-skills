@@ -138,3 +138,17 @@ test("listing open on read: answering a SKU question without opening its page fa
   assert.match(stdout, /required: no host\.open_url with \{"url":"https:\/\/erp\.example\.test\/app\/products\/prod_cv01"\}/);
   assert.doesNotMatch(stdout, /scope:|forbidden/);
 });
+
+test("video delete: calling the refused DELETE route is named as forbidden, nothing else", () => {
+  const { stdout, status } = evaluate("video-delete-version-handoff", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /forbidden: medusa\.admin_delete #4 is not allowed in this scenario/);
+  assert.doesNotMatch(stdout, /required:|forbidden-write:/);
+});
+
+test("live listing: writing a non-editable brand is named as a forbidden write", () => {
+  const { stdout, status } = evaluate("listing-live-attribute-edit", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /forbidden-write: medusa\.update_listing #3 — writes brand, which is editable:false on a live listing/);
+  assert.doesNotMatch(stdout, /required:|scope:/);
+});
