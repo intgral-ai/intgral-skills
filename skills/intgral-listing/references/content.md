@@ -37,6 +37,8 @@
    法规/安全声明与原产地只采用用户明确确认的事实，不推断原产地、危险品、电池、认证、保修或 EAN；
    枚举候选来自当前后端 options。`source: agent` 只描述 AI 撰写的文案，不能把推测变成商品事实。
    schema 属性没有专用字段时，按 schema 放入 update_listing 的 attributes.extra。
+   用户给的 EAN 原样传入：服务端去掉空格、点、横线后存数字，不是 8–14 位时以 `invalid_identifier`
+   （`attribute: "ean"`）拒绝，报告该字段，不猜数字重试；20–29 开头的店内码 Amazon 不收（`restricted_prefix`）。
    在售（live）listing 改属性前，读它 product type 的 schema（`GET /admin/amazon/product-types/:type`）：
    `editable:false` 的属性（如 brand、condition）Amazon 不接受在售修改，不写，向用户说明原因；
    只写可编辑的那部分。新建 listing 不受此限。

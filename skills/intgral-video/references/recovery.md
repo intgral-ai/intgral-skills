@@ -13,6 +13,7 @@ Start a new session by reading the private task record and the existing generati
 | failed with retry_action=resume | Read stage and attempts, confirm this resumes known work within the existing authorization, then use the catalogued resume endpoint |
 | failed with retry_action=new_attempt or submission_unknown | Explain that provider acceptance/charges may be unknown; a new paid attempt needs the user's explicit authorization |
 | failed with retry_action=new_attempt and no provider task ID | The provider rejected the request before creating work; show the returned message, correct the plan, and let the user decide whether to authorize a new attempt |
+| failed at `composing` because the joined cut lost its AIGC provenance label (retry_action=null) | Nothing was published, and no resume can add the label to the stored segments. Say so and why the label is required; the segments stay as product media. A whole video needs a new generation — a new paid attempt that needs the user's explicit approval of plan and cost |
 | failed with retry_action=null | Report the supported limitation; preserve already stored assets and do not repeat an ineffective resume. Segments that cannot be composed because their stored specifications differ stay as product media; a whole video needs a new generation with matching keyframe ratios |
 | completed but visually unsuitable | Record the issue if authorized; a new generation is a separately approved paid plan |
 

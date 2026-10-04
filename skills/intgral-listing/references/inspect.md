@@ -4,7 +4,9 @@
 需要状态或事实时用最小范围的读取，结果不足就说明缺口；检查本身不授权导入、刷新、编辑或发布。
 
 1. 当前 SKU 用 `medusa.get_product`；已知 listing_id 用 `medusa.get_listing_context`。
-   两者身份不同，SKU 不当作 listing_id。产品返回的字段有限，未返回不等于不存在：
+   两者身份不同，SKU 不当作 listing_id。只知道 SKU 时，用 `medusa.admin_get` 读
+   `GET /admin/amazon/listings?seller_sku=<SKU>` 找站点 listing（精确、区分大小写，可加 marketplace_id /
+   store_id；空页就是没有），不从产品推断 listing_id。产品返回的字段有限，未返回不等于不存在：
    必须补读时用 `medusa.list_endpoints` / `medusa.describe_endpoint` 发现真实 GET 契约，
    再通过 `medusa.admin_get` 读取已确认范围的数据。
 2. 状态用 `medusa.get_operation_status`；review 用 `medusa.list_listing_reviews` /
