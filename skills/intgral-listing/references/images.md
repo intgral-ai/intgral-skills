@@ -11,7 +11,8 @@ unverified / unknown 与 null 哈希都是未验证，product_image_metadata 只
 不能根据 URL 或看过图片就补填 provenance/content_sha256；任何取值都不说明是原图还是生成图。
 复核决定由已认证的人类 ERP 用户在 erp_url 页面保存，authority=authenticated_user；
 聊天确认不等于已持久化的 ERP 人工批准，网关身份不能代写决定。
-approved 仅涉及指定草稿图片快照，不构成 Amazon 发布许可；不调用 publish/confirmations。
+approved 仅涉及指定草稿图片快照，不构成 Amazon 发布许可；新的发布计划里图片随最终确认一起授权，
+不等这份复核。不调用 publish/confirmations。
 
 1. 数量、槽位、像素/格式等要求从当前 inputSchema、questionnaire 的 have / target、
    compliance 与后端产品类型要求读取。不要把显示数量当总数，也不在本手册固定图片数量。

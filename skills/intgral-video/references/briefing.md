@@ -46,7 +46,7 @@ After each round's answers and before writing any request, check the storyboard 
 | 7 | Constraint in evidence | An identity constraint is not visible in any product image | Which image shows it? Unseen details cannot be constraints |
 | 8 | Text within limits | On-screen text exceeds the limit, or text or action carries a claim the product evidence cannot support | Replace with an evidenced claim, or record as unverified and keep it off screen? |
 | 9 | Simple motion | Spinning, splashing, several hands moving at once, particle bursts | One hand, one action — acceptable? |
-| 10 | Minimum beat length | Any beat shorter than the supported minimum (the deployed endpoint description states it; one second on the current backend, so compiled whole-second beats always meet it, while an expert prompt's half-second timestamp does not) | Merge into the neighbour or extend to one second? |
+| 10 | Minimum beat length | Any beat shorter than the supported minimum (the deployed endpoint description states it; one second on the current backend, so compiled whole-second beats always meet it, while an expert prompt's half-second timestamp does not) | Merge into the neighbour or extend to one second? The beats still sum to segments that make a video of at least four seconds |
 | 11 | No cuts inside a segment | An action says "cut to" or "switch shot" | Write the change as one movement of the subject (a single turn that ends in the new color), or move the cut to a segment boundary? |
 | 12 | One product name | The product is called different things across beats | Use one full name throughout? With several products, one look is one shot with its own text line |
 
