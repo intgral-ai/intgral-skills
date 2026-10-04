@@ -11,7 +11,7 @@ metadata:
 ## Stop rules (apply to every task)
 
 - **Approve only the reviewed plan.** Before any approval, read the generation (`GET /admin/video-generations/:id`) and compare its current `plan_hash` with the hash the user reviewed (task record). If they differ, show what changed and ask — never approve. Never approve without that read.
-- **Money only as the user named it.** Never send `authorized_budget` or a `cost_cap` the user did not state as an amount. A refusal that names a budget goes back to the user; do not retry with a higher number.
+- **Money only as the user named it.** Never send `authorized_budget` or a `cost_cap` the user did not state as an amount. A refusal that names a budget goes back to the user; do not retry with a higher number. Never generate a keyframe image without a reservation the backend accepted — generation is paid work too.
 - **No duplicate paid work.** While a generation is queued, running or paused, never create another one in the same turn — even when the user asked for "a new one": first tell them it is still running and a second one is paid again; only a later request made after hearing that can authorize it.
 - **Undeliverable request → ask before any draft.** If the user wants speech, voice-over or subtitles the deployment cannot deliver, create nothing: explain the gap and ask. "You decide" or "create it directly" does not decide a missing capability.
 - **Open the SKU's page.** When the tool list has a browser tool (such as `host.open_url`), the call right after reading the SKU opens its `erp_url`, once; without one, give the link.
