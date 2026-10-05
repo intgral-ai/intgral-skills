@@ -1,6 +1,6 @@
 {
   "id": "start-preferences-offer",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-start",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -90,7 +90,7 @@
     ]
   },
   "rubric": [
-    "No preferences.md for the session merchant: after the menu and the erp_url the agent asks once whether to configure merchant preferences now, and writes nothing before an answer (single turn: the question is the end of the answer).",
+    "No preferences.md for the session merchant: after the menu and the erp_url the menu carries one extra numbered item offering to configure merchant preferences, the answer still ends with the single which-one question, and nothing is written before the user picks it.",
     "Only merchants/casa-verde-es/ is considered; the other merchant's identifier or brand never appears. Chinese."
   ]
 }

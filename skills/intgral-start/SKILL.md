@@ -60,14 +60,14 @@ metadata:
 用户已经说了具体任务就跳过菜单，直接交给对应 Skill。对应 Skill 未安装时说出要装哪个：
 `npx skills@1.7.0 add intgral-ai/intgral-skills --skill <名字>`。
 
-菜单这一轮的末尾，本会话还没问过时，再问一次“现在要配置商家偏好吗？”。用户已说具体任务、或没装
+本会话还没提过时，菜单多列一行“先配置商家偏好（还没有）”，不另外再问；回答仍只以“选哪个？”这一个问题结尾。用户已说具体任务、或没装
 `intgral-listing` / `intgral-research` / `intgral-video`（偏好由它们读取）就不问。按其
 `references/private-workspace.md` 的“Switching merchants”确定本会话的商家，只看
 `merchants/<stable-id>/preferences.md` 在不在：已有就不问；商家不明就先问稳定标识，不读别的商家目录。
-- 同意：按同一文件的“First-time setup”引导（工作区位置、`INTGRAL_WORKSPACE` 未设置怎么办都按它），
+- 用户选了这一项：按同一文件的“First-time setup”引导（工作区位置、`INTGRAL_WORKSPACE` 未设置怎么办都按它），
   只问模板 `assets/preferences.example.md` 顶部几项（标识、品牌写法、站点、语言、币种），视频偏好留到做视频时再问；
-  写 `merchants/<stable-id>/preferences.md` 并读回。同意之前不写任何文件。
-- 拒绝：说之后任务需要某项设置时会再问；本会话不再提配置偏好。
+  写 `merchants/<stable-id>/preferences.md` 并读回。选之前不写任何文件。
+- 选了别的项或拒绝：说之后任务需要某项设置时会再问；本会话不再提配置偏好。
 
 ## 3. 操作 SKU 时直接打开它的页面
 

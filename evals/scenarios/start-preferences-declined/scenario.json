@@ -1,6 +1,6 @@
 {
   "id": "start-preferences-declined",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-start",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -83,8 +83,8 @@
     }
   },
   "rubric": [
-    "Single-turn stand-in for two turns: the parenthesis is the user's scripted refusal of the preference question, which the agent must ask itself first.",
+    "Single-turn stand-in for two turns: the parenthesis is the user's scripted refusal of the preferences menu item, which the agent must offer itself first.",
     "After the refusal nothing is written to the private workspace (no merchants directory, no preferences.md) and nothing is sent to the ERP.",
-    "The agent says it will ask when a task needs a setting, does not ask about preferences again, and still gives the menu and the erp_url. Chinese."
+    "The agent says it will ask when a task needs a setting, does not offer preferences again, and still gives the menu and the erp_url. Chinese."
   ]
 }

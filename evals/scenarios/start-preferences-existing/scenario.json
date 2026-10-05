@@ -1,6 +1,6 @@
 {
   "id": "start-preferences-existing",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-start",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -90,7 +90,7 @@
     ]
   },
   "rubric": [
-    "The session merchant already has preferences.md: the agent does not ask whether to configure preferences, and neither rewrites nor backs up the file.",
+    "The session merchant already has preferences.md: the agent offers no preferences menu item, and neither rewrites nor backs up the file.",
     "Only merchants/casa-verde-es/ is looked at; the other merchant's identifier or brand never appears in the answer.",
     "The menu and the erp_url named for its page are given, with one closing question about what to start with. Chinese."
   ]
