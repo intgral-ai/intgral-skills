@@ -1,0 +1,92 @@
+{
+  "id": "research-parallel-readonly",
+  "version": 1,
+  "skill": "intgral-research",
+  "request": "只读：西班牙站折叠硅胶沥水篮 4 个竞品（B0FAKE0C01、B0FAKE0C02、B0FAKE0C03、B0FAKE0C04）已保存的当前价格、评分和评价数，各查一遍，列个表给我。只看已保存的证据，不要新采集，也不要保存报告。",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "medusa.admin_get",
+      "description": "Read a discovered admin GET endpoint.",
+      "inputSchema": { "path":"string","query":"object?" },
+      "responses": [
+        { "when":{"path":"/admin/research/scopes"},"result":{"scopes":[{"id":"rscope_colander_es","external_key":"silicone-colander-amazon-es","question":"Which collapsible silicone colander offers compete on Amazon Spain, and what do customers complain about?","target_market":"amazon.es","context":{"excluded_brands":["Casa Verde"],"shipping_destination":"ES"},"created_at":"2026-09-02T10:00:00.000Z"}],"count":1,"limit":20,"offset":0} },
+        { "when":{"path":"/admin/research/scopes/rscope_colander_es"},"result":{"scope":{"id":"rscope_colander_es","external_key":"silicone-colander-amazon-es","question":"Which collapsible silicone colander offers compete on Amazon Spain, and what do customers complain about?","target_market":"amazon.es","context":{"excluded_brands":["Casa Verde"],"shipping_destination":"ES"},"artifact_counts":{"evidence":4,"report":0},"plans":[]}} },
+        { "when":{"path":"/admin/research/scopes/rscope_colander_es/artifacts"},"result":{"artifacts":[{"id":"rart_amz_col_01","record_type":"evidence","schema_revision":"research-competitor-observation/1","save_key":"amazon-B0FAKE0C01-2026-09-02","source":{"provider":"fictional-crawler","ingestion_mode":"retained","source_type":"amazon_listing"},"source_observations":[{"source_ref":"B0FAKE0C01","source_url":"https://example.test/dp/B0FAKE0C01","observed_at":"2026-09-02T09:41:10.000Z"}],"data":{"asin":"B0FAKE0C01","brand":"Plegasa","variant":"collapsible silicone colander 24 cm, grey, 1 unit","offers":[{"offer_id":"current","price":11.99,"currency":"EUR","quantity":1,"unit":"item","shipping":null}],"rating_summary":{"average":4.4,"count":812},"demand":{"monthly_purchase_volume":{"text":"Más de 200 comprados el mes pasado","floor":200},"bestseller_ranks":[{"rank":3120,"category":"Hogar y cocina"}]}},"coverage":{"status":"partial","requested":1,"returned":1,"gaps":["review text was not collected"]}},{"id":"rart_amz_col_02","record_type":"evidence","schema_revision":"research-competitor-observation/1","save_key":"amazon-B0FAKE0C02-2026-09-02","source":{"provider":"fictional-crawler","ingestion_mode":"retained","source_type":"amazon_listing"},"source_observations":[{"source_ref":"B0FAKE0C02","source_url":"https://example.test/dp/B0FAKE0C02","observed_at":"2026-09-02T09:41:32.000Z"}],"data":{"asin":"B0FAKE0C02","brand":"Cocinova","variant":"collapsible silicone colander 26 cm, green, 1 unit","offers":[{"offer_id":"current","price":14.5,"currency":"EUR","quantity":1,"unit":"item","shipping":null},{"offer_id":"list","price":17.9,"currency":"EUR","quantity":1,"unit":"item","shipping":null}],"rating_summary":{"average":4.1,"count":2304},"demand":{"monthly_purchase_volume":{"text":"Más de 500 comprados el mes pasado","floor":500},"bestseller_ranks":[]}},"coverage":{"status":"partial","requested":1,"returned":1,"gaps":["review text was not collected"]}},{"id":"rart_amz_col_03","record_type":"evidence","schema_revision":"research-competitor-observation/1","save_key":"amazon-B0FAKE0C03-2026-09-02","source":{"provider":"fictional-crawler","ingestion_mode":"retained","source_type":"amazon_listing"},"source_observations":[{"source_ref":"B0FAKE0C03","source_url":"https://example.test/dp/B0FAKE0C03","observed_at":"2026-09-02T09:41:55.000Z"}],"data":{"asin":"B0FAKE0C03","brand":"Cocinova","variant":"collapsible silicone colander 26 cm, green, set of 2","offers":[{"offer_id":"current","price":24.9,"currency":"EUR","quantity":2,"unit":"item","shipping":null}],"rating_summary":{"average":4.1,"count":2304},"demand":null},"coverage":{"status":"partial","requested":1,"returned":1,"gaps":["review text was not collected","variant row synthesised from the parent listing"]}},{"id":"rart_amz_col_04","record_type":"evidence","schema_revision":"research-competitor-observation/1","save_key":"amazon-B0FAKE0C04-2026-09-02","source":{"provider":"fictional-crawler","ingestion_mode":"retained","source_type":"amazon_listing"},"source_observations":[{"source_ref":"B0FAKE0C04","source_url":"https://example.test/dp/B0FAKE0C04","observed_at":"2026-09-02T09:42:20.000Z"}],"data":{"asin":"B0FAKE0C04","brand":"Basiq","variant":"rigid plastic colander 25 cm, white, 1 unit","offers":[{"offer_id":"current","price":6.49,"currency":"EUR","quantity":1,"unit":"item","shipping":null}],"rating_summary":{"average":3.7,"count":97},"demand":{"monthly_purchase_volume":{"text":"","floor":null},"bestseller_ranks":[]}},"coverage":{"status":"partial","requested":1,"returned":1,"gaps":["review text was not collected"]}}],"count":4} },
+        { "when":{"path":"/admin/research/artifacts/rart_amz_col_01"},"result":{"artifact":{"id":"rart_amz_col_01","record_type":"evidence","schema_revision":"research-competitor-observation/1","save_key":"amazon-B0FAKE0C01-2026-09-02","source":{"provider":"fictional-crawler","ingestion_mode":"retained","source_type":"amazon_listing"},"source_observations":[{"source_ref":"B0FAKE0C01","source_url":"https://example.test/dp/B0FAKE0C01","observed_at":"2026-09-02T09:41:10.000Z"}],"data":{"asin":"B0FAKE0C01","brand":"Plegasa","variant":"collapsible silicone colander 24 cm, grey, 1 unit","offers":[{"offer_id":"current","price":11.99,"currency":"EUR","quantity":1,"unit":"item","shipping":null}],"rating_summary":{"average":4.4,"count":812},"demand":{"monthly_purchase_volume":{"text":"Más de 200 comprados el mes pasado","floor":200},"bestseller_ranks":[{"rank":3120,"category":"Hogar y cocina"}]}},"coverage":{"status":"partial","requested":1,"returned":1,"gaps":["review text was not collected"]}},"freshness":{"age_days":16,"status":"advisory"}} },
+        { "when":{"path":"/admin/research/artifacts/rart_amz_col_02"},"result":{"artifact":{"id":"rart_amz_col_02","record_type":"evidence","schema_revision":"research-competitor-observation/1","save_key":"amazon-B0FAKE0C02-2026-09-02","source":{"provider":"fictional-crawler","ingestion_mode":"retained","source_type":"amazon_listing"},"source_observations":[{"source_ref":"B0FAKE0C02","source_url":"https://example.test/dp/B0FAKE0C02","observed_at":"2026-09-02T09:41:32.000Z"}],"data":{"asin":"B0FAKE0C02","brand":"Cocinova","variant":"collapsible silicone colander 26 cm, green, 1 unit","offers":[{"offer_id":"current","price":14.5,"currency":"EUR","quantity":1,"unit":"item","shipping":null},{"offer_id":"list","price":17.9,"currency":"EUR","quantity":1,"unit":"item","shipping":null}],"rating_summary":{"average":4.1,"count":2304},"demand":{"monthly_purchase_volume":{"text":"Más de 500 comprados el mes pasado","floor":500},"bestseller_ranks":[]}},"coverage":{"status":"partial","requested":1,"returned":1,"gaps":["review text was not collected"]}},"freshness":{"age_days":16,"status":"advisory"}} },
+        { "when":{"path":"/admin/research/artifacts/rart_amz_col_03"},"result":{"artifact":{"id":"rart_amz_col_03","record_type":"evidence","schema_revision":"research-competitor-observation/1","save_key":"amazon-B0FAKE0C03-2026-09-02","source":{"provider":"fictional-crawler","ingestion_mode":"retained","source_type":"amazon_listing"},"source_observations":[{"source_ref":"B0FAKE0C03","source_url":"https://example.test/dp/B0FAKE0C03","observed_at":"2026-09-02T09:41:55.000Z"}],"data":{"asin":"B0FAKE0C03","brand":"Cocinova","variant":"collapsible silicone colander 26 cm, green, set of 2","offers":[{"offer_id":"current","price":24.9,"currency":"EUR","quantity":2,"unit":"item","shipping":null}],"rating_summary":{"average":4.1,"count":2304},"demand":null},"coverage":{"status":"partial","requested":1,"returned":1,"gaps":["review text was not collected","variant row synthesised from the parent listing"]}},"freshness":{"age_days":16,"status":"advisory"}} },
+        { "when":{"path":"/admin/research/artifacts/rart_amz_col_04"},"result":{"artifact":{"id":"rart_amz_col_04","record_type":"evidence","schema_revision":"research-competitor-observation/1","save_key":"amazon-B0FAKE0C04-2026-09-02","source":{"provider":"fictional-crawler","ingestion_mode":"retained","source_type":"amazon_listing"},"source_observations":[{"source_ref":"B0FAKE0C04","source_url":"https://example.test/dp/B0FAKE0C04","observed_at":"2026-09-02T09:42:20.000Z"}],"data":{"asin":"B0FAKE0C04","brand":"Basiq","variant":"rigid plastic colander 25 cm, white, 1 unit","offers":[{"offer_id":"current","price":6.49,"currency":"EUR","quantity":1,"unit":"item","shipping":null}],"rating_summary":{"average":3.7,"count":97},"demand":{"monthly_purchase_volume":{"text":"","floor":null},"bestseller_ranks":[]}},"coverage":{"status":"partial","requested":1,"returned":1,"gaps":["review text was not collected"]}},"freshness":{"age_days":16,"status":"advisory"}} },
+        { "error":{"code":"not_found","message":"No catalogued admin route matches that path","request_id":"req_mock_nf"} }
+      ]
+    },
+    {
+      "name": "medusa.admin_post",
+      "description": "Call a discovered admin POST endpoint. Research saves and collection plans go through here; a collection plan is billed.",
+      "inputSchema": { "path":"string","body":"object" },
+      "responses": [
+        { "when":{"path":"/admin/research/plans"},"error":{"code":"forbidden","message":"Collection plans require an approved scope authorization; none is recorded for rscope_colander_es","request_id":"req_mock_plan"} },
+        { "error":{"code":"forbidden","message":"not expected in this scenario","request_id":"req_mock_nf"} }
+      ]
+    },
+    {
+      "name": "host.subagent",
+      "description": "This host's own subagent: runs `task` in a fresh context with only the tools named in `tools`, and returns its findings. Host tool, not an Intgral MCP tool.",
+      "inputSchema": { "task":"string","tools":"string[]" },
+      "responses": [
+        { "result":{"findings":[{"evidence_id":"rart_amz_col_01","asin":"B0FAKE0C01","price":11.99,"currency":"EUR","rating":4.4,"rating_count":812,"observed_at":"2026-09-02T09:41:10.000Z"},{"evidence_id":"rart_amz_col_02","asin":"B0FAKE0C02","price":14.5,"currency":"EUR","rating":4.1,"rating_count":2304,"observed_at":"2026-09-02T09:41:32.000Z"},{"evidence_id":"rart_amz_col_03","asin":"B0FAKE0C03","price":24.9,"currency":"EUR","quantity":2,"rating":4.1,"rating_count":2304,"observed_at":"2026-09-02T09:41:55.000Z"},{"evidence_id":"rart_amz_col_04","asin":"B0FAKE0C04","price":6.49,"currency":"EUR","rating":3.7,"rating_count":97,"observed_at":"2026-09-02T09:42:20.000Z"}]} }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "host.subagent": {
+        "allowed_args": [
+          "task",
+          "tools"
+        ]
+      }
+    },
+    "reads": [
+      "medusa.admin_get"
+    ],
+    "forbidden_tools": [
+      "medusa.admin_post",
+      "medusa.admin_delete",
+      "medusa.update_product",
+      "medusa.update_listing",
+      "medusa.create_listing"
+    ],
+    "forbidden_writes": [
+      {
+        "label": "a write or billed route was handed to a subagent",
+        "tool": "host.subagent",
+        "args": {
+          "tools": {
+            "$contains": [
+              "medusa.admin_post"
+            ]
+          }
+        }
+      }
+    ],
+    "required_writes": [
+      {
+        "tool": "medusa.admin_get",
+        "args": {
+          "path": "/admin/research/scopes/rscope_colander_es/artifacts"
+        }
+      }
+    ],
+    "max_calls": {
+      "host.subagent": 4
+    },
+    "max_tool_calls": 12
+  },
+  "rubric": [
+    "The table has one row per ASIN with its current price, rating, rating count and observation date taken from retained evidence (cited by evidence id and source_ref); the 2-unit set (B0FAKE0C03) is not presented as a single-unit price.",
+    "If the independent reads were delegated, each subagent had only read tools and its own ASIN(s); the answer is one merged table with one set of caveats, not four separate reports. Without a subagent the same four reads were done in order and the answer is the same.",
+    "Nothing was saved, planned or collected; the answer does not claim a report was stored. Chinese."
+  ]
+}
