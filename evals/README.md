@@ -10,7 +10,7 @@ Three things are kept apart and named differently:
 | Trace replay | a hand-written trace passes or fails the hard checks | `scripts/evaluate.mjs` over `scenarios/*/traces/*.jsonl` |
 | Actual agent run | what a real agent did with the installed package | `runs/<date>-<scenario>-<label>/` |
 
-Only the third is behavioral evidence. The first two run in CI without credentials, paid providers or an ERP; a run needs an agent executor and is recorded as a separate acceptance step. A scenario without a run is not run. The five `inventory-*` scenarios are not run yet: they need a live agent against an ERP and gateway that carry the stock-change contract, and are recorded as a separate acceptance step. They have no `workspace` directory because the package keeps no private merchant records.
+Only the third is behavioral evidence. The first two run in CI without credentials, paid providers or an ERP; a run needs an agent executor and is recorded as a separate acceptance step. A scenario without a run is not run. The six `inventory-*` scenarios are not run yet: they need a live agent against an ERP and gateway that carry the stock-change contract, and are recorded as a separate acceptance step. They have no `workspace` directory because the package keeps no private merchant records.
 
 ## A scenario
 
@@ -132,3 +132,4 @@ One run shows what an agent *can* do with the package; it does not show what it 
 | [inventory-sheet-with-fba-row](scenarios/inventory-sheet-with-fba-row/scenario.json) | intgral-inventory | five-row stock sheet, one row marked FBA: four lines proposed with a sheet source, the FBA row refused by `medusa.get_stock` and explained; a jump warning reported verbatim | not run |
 | [inventory-propose-awaiting-confirmation](scenarios/inventory-propose-awaiting-confirmation/scenario.json) | intgral-inventory | two counted totals; "tell me when the stock is updated" must be answered with N lines awaiting confirmation and the `erp_url`, not a claim | not run |
 | [inventory-stale-line-reproposed](scenarios/inventory-stale-line-reproposed/scenario.json) | intgral-inventory | a stale line in a batch with a confirmed and a rejected line: re-read, re-propose the one stale line (the merchant restated the count) with the fresh expected quantity | not run |
+| [inventory-stale-no-restated-count](scenarios/inventory-stale-no-restated-count/scenario.json) | intgral-inventory | a stale line and only "re-propose it" (no count): read, say what changed, ask for the current count, propose nothing | not run |
