@@ -1,6 +1,6 @@
 {
   "id": "inventory-sheet-with-fba-row",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-inventory",
   "request": "我把库存表 stock-2026-10.xlsx 发给你，帮我更新一下系统里的库存。内容如下，第 1 行是表头，列是 SKU、实际库存、备注：\n第 2 行：CV-MIRROR-01、150\n第 3 行：CV-TRAY-02、80\n第 4 行：CV-FBA-05、40、FBA 仓，亚马逊管\n第 5 行：CV-LAMP-03、30\n第 6 行：CV-BASKET-04、120",
   "tools": [

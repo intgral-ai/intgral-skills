@@ -1,5 +1,7 @@
 # Run: inventory-stale-no-restated-count — updated
 
+This run used scenario version 1 as of d48188e; the scenario is now version 3 (mocks and tool descriptions follow the gateway's result shape, 88c074a).
+
 | Field | Value |
 | --- | --- |
 | Scenario | `evals/scenarios/inventory-stale-no-restated-count/scenario.json` version 1 |

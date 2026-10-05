@@ -1,6 +1,6 @@
 {
   "id": "inventory-propose-awaiting-confirmation",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-inventory",
   "request": "[2026-10-02 14:05] 刚盘点完：CV-MIRROR-01 现在 150 个，CV-TRAY-02 是 80 个。帮我记到系统里，弄好告诉我库存更新好了没有。",
   "tools": [

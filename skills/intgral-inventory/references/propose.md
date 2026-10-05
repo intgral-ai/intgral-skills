@@ -40,10 +40,9 @@ Pick the kind from what the merchant said, not from what is easier.
 ```
 
 - `delta` is a signed whole number from the merchant's words: received is positive, damaged or lost negative, a correction either way.
-- `reason` is one of `received`, `damaged`, `count_correction`, `other`. Take it from what the merchant said. If they gave no reason, ask; do not pick `other` to avoid asking. `reason_note` is a short factual note in the merchant's words; always include it, and never leave it out for `other`.
+- `reason` is one of `received`, `damaged`, `count_correction`, `other`. Take it from what the merchant said. If they gave no reason, ask; do not pick `other` to avoid asking. `reason_note` is a short factual note in the merchant's words; always include it.
 - An `adjust` needs an existing level (`has_level: true`). With none, ask the merchant for the counted total and propose a `set` instead.
 - No `expected_stocked_quantity`: an adjustment is applied to the stock as it is at confirmation.
-
 
 ## Locations
 
@@ -53,7 +52,7 @@ Pick the kind from what the merchant said, not from what is easier.
 
 ## One call, one source
 
-Send one `medusa.propose_stock_changes` per source: `{ source: { kind, reference }, lines: [...] }`, one line per SKU and location, at most 200 lines. Never send `kind: "agent"`. If every line is refused the ERP stores nothing and returns only the reasons.
+Send one `medusa.propose_stock_changes` per source: `{ source: { kind, reference }, lines: [...] }`, one line per SKU and location, at most 200 lines. Never send `kind: "agent"`.
 
 After a network or 5xx error whose outcome is unknown, do not send the same call again. Look for a batch the call may have created (`medusa.admin_get` on `/admin/stock-changes` with `status=proposed`, when that route is catalogued) and compare its source reference before deciding. `medusa_error` is the backend's answer, not a lost connection: keep its code and message and request ID.
 
@@ -68,7 +67,7 @@ Tell the merchant, in this order:
 5. **Warnings**, from each line's `warnings[]` in the returned batch, as `code` and `message` verbatim (for example a very large jump or an active FBM listing), and nothing added: no paraphrase, no promise about Amazon. A warning does not block the line and never changes the number you proposed; a human sees it on the review page.
 6. Lines you left out yourself (already matching, out of scope, awaiting a missing fact) with the reason.
 
-Never write "updated", "saved to stock", "synced", "now 150" or "stock is 150" for a proposed line. "Proposed 150 for CV-MIRROR-01 (now 120), waiting for confirmation" is accurate.
+An accurate report reads: "Proposed 150 for CV-MIRROR-01 (now 120), waiting for confirmation."
 
 When every line was refused the call is an error: there is no batch and no `erp_url`, and the structured `refused[]` carries the reasons. Report them only, and say nothing was stored.
 

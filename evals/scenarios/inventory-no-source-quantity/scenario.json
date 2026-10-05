@@ -1,6 +1,6 @@
 {
   "id": "inventory-no-source-quantity",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-inventory",
   "request": "新货到了，帮我把 CV-MIRROR-01 的库存加上去，数量你按上次的来就行。",
   "tools": [

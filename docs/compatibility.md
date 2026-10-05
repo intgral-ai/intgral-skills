@@ -40,6 +40,7 @@ When a task touches a specific SKU — a read or a write — the agent opens tha
 ## First connection
 
 `intgral-start` connects a client that has no Intgral tools yet. It needs the administrator-provided MCP endpoint (asked once, never inferred) and a host it can configure: on Claude Code it runs `claude mcp add --transport http --scope user intgral <endpoint>`; on other clients it names that client's own setting. Sign-in happens in the client. New tools usually appear only after the client restarts, so the Intgral link — the `erp_url` from `medusa.get_started` — is given once connected, never guessed from the endpoint.
+
 ## Inventory
 
 | Stage | Required capability | Discovered by | Preparation-only fallback | Stop when |
@@ -91,7 +92,8 @@ Both use the same fictional merchant, `casa-verde-es`, and product `CV-HOOK-01`.
 | Installer copy and replacement preserve a private preference file | Skills CLI 1.7.0, Codex target, copy mode, Windows | 2026-09-17 | [validation](validation.md) |
 | Behavior against a mocked MCP boundary (listing, research, video) | Claude Code desktop, claude-opus-5, scripted mock | 2026-09-18 | [evals](../evals/README.md) |
 | Behavior against a live authenticated ERP | — | — | **not verified**; deliberately separate acceptance |
-| Inventory behavior (the six `inventory-*` scenarios), against a live ERP or a mock | — | — | **not run**; scenarios and hand-written traces exist, no agent run is recorded |
+| Behavior against a mocked MCP boundary (the six `inventory-*` scenarios), baseline and updated | Claude Code desktop, claude-opus-5-5, scripted mock | 2026-10-05 | [evals](../evals/README.md) |
+| Inventory behavior against a live ERP and gateway with the stock-change contract | — | — | **not verified** |
 | Any client other than the Codex install target and the Claude Code subagent | — | — | **not verified**; discovery and UI support must be checked per client |
 | Paid video or image generation, real report saves, supplier contact | — | — | **not exercised** |
 

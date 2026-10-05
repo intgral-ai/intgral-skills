@@ -1,6 +1,6 @@
 {
   "id": "inventory-stale-no-restated-count",
-  "version": 1,
+  "version": 3,
   "skill": "intgral-inventory",
   "request": "[2026-10-02 14:20] 批次 scb_01SYNOLD 里 CV-MIRROR-01 那一行变成 stale 了，帮我重新提一下。",
   "tools": [

@@ -1,5 +1,7 @@
 # Run: inventory-estimate-not-a-count — baseline
 
+This run used scenario version 2 as of d48188e; the scenario is now version 3 (mocks and tool descriptions follow the gateway's result shape, 88c074a).
+
 | Field | Value |
 | --- | --- |
 | Scenario | `evals/scenarios/inventory-estimate-not-a-count/scenario.json` version 2 |
