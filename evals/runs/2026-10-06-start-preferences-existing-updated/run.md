@@ -23,6 +23,8 @@
 
 ## Notes
 
+Superseded by [the final run on `e4e95a4`](../2026-10-06-start-preferences-existing-final/run.md).
+
 The new step correctly stays silent when the file exists.
 
 ## Agent-reported uncertainty

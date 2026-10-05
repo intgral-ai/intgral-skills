@@ -23,6 +23,8 @@
 
 ## Notes
 
+Superseded by [the final run on `e4e95a4`](../2026-10-06-start-menu-from-capability-final/run.md).
+
 Regression rerun on the INT-1014 package. The capability behaviour is unchanged. The "one question" rubric line fails by its letter because the updated start skill adds the preference question to the menu turn when the session merchant has no `preferences.md` (this scenario's workspace has none). Either the skill or this rubric line has to change; which one is a review decision, not settled by this run.
 
 ## Agent-reported uncertainty

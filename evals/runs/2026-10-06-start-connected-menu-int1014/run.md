@@ -24,6 +24,8 @@
 
 ## Notes
 
+Superseded by [the final run on `e4e95a4`](../2026-10-06-start-connected-menu-final/run.md).
+
 Regression rerun on the INT-1014 package. The updated start skill now ends the menu turn with two questions: the menu pick and, because `casa-verde-es` has no `preferences.md` here, "现在要配置商家偏好吗？". This scenario's rubric has no "one question" line, so the second question is a note, not a failure. Against the 2026-10-04 updated run the menu lost research and video; that comes from the INT-985 capability rule already on develop, and leaves the rubric's list stale for a mock without `list_endpoints`.
 
 ## Agent-reported uncertainty

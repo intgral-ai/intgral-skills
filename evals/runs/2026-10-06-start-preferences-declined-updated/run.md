@@ -23,6 +23,8 @@
 
 ## Notes
 
+Superseded by [the final run on `e4e95a4`](../2026-10-06-start-preferences-declined-final/run.md).
+
 Against the baseline: the same hard-check result; the refusal is now answered with the skill's wording (ask when a task needs it) instead of an echo.
 
 ## Agent-reported uncertainty

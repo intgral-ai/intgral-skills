@@ -23,6 +23,8 @@
 
 ## Notes
 
+Superseded by [the final run on `e4e95a4`](../2026-10-06-research-parallel-readonly-final/run.md).
+
 The only run of the four parallel runs that delegated: the four independent artifact reads went to four subagents with read tools only, and the merge produced the same table and caveats as the sequential baseline. Writes were never delegated in any run.
 
 Fixture gap: the mocked `host.subagent` returns one canned answer covering all four ASINs to every call. The merge was therefore never tested against per-subagent partial results or conflicting answers, and no subagent actually ran, so "read tools only" is shown by the tool list handed over, not by observed subagent calls.

@@ -22,6 +22,8 @@
 
 ## Notes
 
+Superseded by [the final run on `e4e95a4`](../2026-10-06-start-preferences-offer-final/run.md).
+
 Against the baseline: the offer now appears (`final_required_text` passes), once, after the menu, with no write. The answer ends with two questions: which menu item, then whether to configure preferences.
 
 Cross-run observation: the agent ran `ls -laR ws/merchants` over the workspace and so saw the other merchant's directory name. It did not read that directory and the name is not in the answer (the `final_forbidden_text` check passed). `references/private-workspace.md` says to read only the session merchant's directory and, where the merchant is not settled, to count directories without listing their names; here the merchant was settled, so the counting rule did not strictly apply. Recorded as an observation; the guidance is unchanged.

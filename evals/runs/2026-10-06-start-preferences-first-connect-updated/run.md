@@ -24,6 +24,8 @@
 
 ## Notes
 
+Superseded by [the final run on `e4e95a4`](../2026-10-06-start-preferences-first-connect-final/run.md).
+
 Same outcome as the baseline on this pre-answered request; the file differs only in wording of the source line. The absolute workspace path in the answer is replaced by `<workspace>` in final.md.
 
 Cross-run observation: the agent ran `find ws/` over the workspace and so saw the other merchant's directory name. It did not read that directory and the name is not in the answer (the `final_forbidden_text` check passed). `references/private-workspace.md` says to read only the session merchant's directory and, where the merchant is not settled, to count directories without listing their names; here the merchant was settled, so the counting rule did not strictly apply. Recorded as an observation; the guidance is unchanged.

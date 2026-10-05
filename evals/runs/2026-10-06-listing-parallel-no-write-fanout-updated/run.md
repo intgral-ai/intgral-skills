@@ -23,6 +23,8 @@
 
 ## Notes
 
+Superseded by [the final run on `e4e95a4`](../2026-10-06-listing-parallel-no-write-fanout-final/run.md).
+
 Same trace shape as the baseline. The write-fanout ban was not exercised: no run tried to hand `medusa.update_product` to a subagent, so the `forbidden_writes` rule stayed untriggered in actual runs (it is covered by the hand-written traces).
 
 ## Agent-reported uncertainty
