@@ -33,7 +33,7 @@ const declared = new Set((scenario.tools ?? []).map((tool) => tool.name));
 for (const call of calls) {
   const label = `${call.tool} #${call.n}`;
   if (!declared.has(call.tool)) failures.push(`undeclared: ${label} is not a tool of this scenario`);
-  for (const rule of order) if (call.tool === rule.then.tool && matches(call.args, rule.then.args) && !reached.some((earlier) => earlier.n < call.n && earlier.tool === rule.first.tool && matches(earlier.args, rule.first.args))) failures.push(`order: ${label} — ${rule.label}`);
+  for (const rule of order) if (call.tool === rule.then.tool && matches(call.args, rule.then.args) && ![].concat(rule.first).some((first) => reached.some((earlier) => earlier.n < call.n && earlier.tool === first.tool && matches(earlier.args, first.args)))) failures.push(`order: ${label} — ${rule.label}`);
   if (forbidden_tools.includes(call.tool)) failures.push(`forbidden: ${label} is not allowed in this scenario`);
   if (reads.includes(call.tool) && !refused(call)) {
     // A read names its subject in the arguments (product_id) or only in the response (a read keyed on SKU).

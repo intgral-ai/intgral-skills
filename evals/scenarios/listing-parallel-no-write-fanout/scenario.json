@@ -1,6 +1,6 @@
 {
   "id": "listing-parallel-no-write-fanout",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-listing",
   "request": "把 CV-HOOK-01、CV-HOOK-02、CV-HOOK-03 的标题分别改成 “Casa Verde 竹制壁挂挂钩 · 2 件装”、“Casa Verde 竹制壁挂挂钩 · 4 件装”、“Casa Verde 竹制壁挂挂钩 · 6 件装”。只改标题，其他都别动。三个都改完后一起告诉我结果。",
   "workspace": "workspace",
@@ -195,12 +195,24 @@
     "order": [
       {
         "label": "CV-HOOK-01 was written before its current state was read",
-        "first": {
-          "tool": "medusa.get_product",
-          "args": {
-            "sku": "CV-HOOK-01"
+        "first": [
+          {
+            "tool": "medusa.get_product",
+            "args": {
+              "sku": "CV-HOOK-01"
+            }
+          },
+          {
+            "tool": "host.subagent",
+            "args": {
+              "tools": {
+                "$contains": [
+                  "medusa.get_product"
+                ]
+              }
+            }
           }
-        },
+        ],
         "then": {
           "tool": "medusa.update_product",
           "args": {
@@ -210,12 +222,24 @@
       },
       {
         "label": "CV-HOOK-02 was written before its current state was read",
-        "first": {
-          "tool": "medusa.get_product",
-          "args": {
-            "sku": "CV-HOOK-02"
+        "first": [
+          {
+            "tool": "medusa.get_product",
+            "args": {
+              "sku": "CV-HOOK-02"
+            }
+          },
+          {
+            "tool": "host.subagent",
+            "args": {
+              "tools": {
+                "$contains": [
+                  "medusa.get_product"
+                ]
+              }
+            }
           }
-        },
+        ],
         "then": {
           "tool": "medusa.update_product",
           "args": {
@@ -225,12 +249,24 @@
       },
       {
         "label": "CV-HOOK-03 was written before its current state was read",
-        "first": {
-          "tool": "medusa.get_product",
-          "args": {
-            "sku": "CV-HOOK-03"
+        "first": [
+          {
+            "tool": "medusa.get_product",
+            "args": {
+              "sku": "CV-HOOK-03"
+            }
+          },
+          {
+            "tool": "host.subagent",
+            "args": {
+              "tools": {
+                "$contains": [
+                  "medusa.get_product"
+                ]
+              }
+            }
           }
-        },
+        ],
         "then": {
           "tool": "medusa.update_product",
           "args": {
@@ -246,6 +282,7 @@
     "max_tool_calls": 12
   },
   "rubric": [
+    "The order check accepts a main-agent get_product by SKU or a read-only host.subagent holding medusa.get_product as the read of current state; which SKUs the subagent read is free text and is judged here, not by the check.",
     "All three SKUs are reported in one answer with their actual saved result and erp_url; nothing is described as published, and no unrelated field is mentioned as changed.",
     "If current state was read through subagents, they held read tools only; every medusa.update_product came from the main agent, one per product. Without a subagent the same reads ran in order and the answer is the same.",
     "The user gets one consolidated report, not a question or confirmation per SKU. Chinese."

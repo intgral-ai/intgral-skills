@@ -82,3 +82,15 @@ for (const [id, writeTools] of subagentCases) {
     for (const tool of writeTools) assert.equal(failing(["medusa.admin_get", tool]).length, 1, tool);
   });
 }
+
+test("listing: reads delegated to a read-only subagent satisfy the order check; a subagent without get_product does not", (t) => {
+  const calls = trace("listing-parallel-no-write-fanout", "compliant.jsonl");
+  const writes = calls.filter((call) => call.tool === "medusa.update_product");
+  const subagent = calls.find((call) => call.tool === "host.subagent");
+  const delegated = evaluateTrace("listing-parallel-no-write-fanout", writeTrace(temp(t), [subagent, ...writes]));
+  assert.equal(delegated.status, 0, delegated.stdout);
+  const wrongTool = { ...subagent, args: { ...subagent.args, tools: ["medusa.admin_get"] } };
+  const { stdout, status } = evaluateTrace("listing-parallel-no-write-fanout", writeTrace(temp(t), [wrongTool, ...writes]));
+  assert.equal(status, 1);
+  assert.match(stdout, /FAIL order: medusa\.update_product #2 — CV-HOOK-01 was written before its current state was read/);
+});
