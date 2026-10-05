@@ -460,6 +460,72 @@
           }
         },
         {
+          "when": {
+            "sku": "CV-TRAY-02"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cv_tray02",
+                "title": "Bamboo serving tray",
+                "status": "published",
+                "variants": [
+                  {
+                    "id": "var_cv_tray02",
+                    "title": "Default",
+                    "sku": "CV-TRAY-02"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cv_tray02"
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "sku": "CV-LAMP-03"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cv_lamp03",
+                "title": "Rattan table lamp",
+                "status": "draft",
+                "variants": [
+                  {
+                    "id": "var_cv_lamp03",
+                    "title": "Default",
+                    "sku": "CV-LAMP-03"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cv_lamp03"
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "sku": "CV-BASKET-04"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cv_basket04",
+                "title": "Seagrass storage basket",
+                "status": "draft",
+                "variants": [
+                  {
+                    "id": "var_cv_basket04",
+                    "title": "Default",
+                    "sku": "CV-BASKET-04"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cv_basket04"
+              }
+            ]
+          }
+        },
+        {
           "error": {
             "code": "not_found",
             "message": "No product matches the identifier",
@@ -502,9 +568,22 @@
       "medusa.admin_patch",
       "medusa.admin_delete"
     ],
-    "forbidden_writes": [],
+    "forbidden_writes": [
+      {
+        "label": "a stock line proposed for the FBA SKU CV-FBA-05 (Amazon holds its stock)",
+        "tool": "medusa.propose_stock_changes",
+        "args": {
+          "lines": {
+            "$contains": [
+              {
+                "sku": "CV-FBA-05"
+              }
+            ]
+          }
+        }
+      }
+    ],
     "forbidden_write_text": [
-      "CV-FBA-05",
       "\"kind\":\"agent\"",
       "\"kind\":\"user\""
     ],

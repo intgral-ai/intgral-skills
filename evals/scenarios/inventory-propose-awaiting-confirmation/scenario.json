@@ -306,6 +306,28 @@
           }
         },
         {
+          "when": {
+            "sku": "CV-TRAY-02"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cv_tray02",
+                "title": "Bamboo serving tray",
+                "status": "published",
+                "variants": [
+                  {
+                    "id": "var_cv_tray02",
+                    "title": "Default",
+                    "sku": "CV-TRAY-02"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cv_tray02"
+              }
+            ]
+          }
+        },
+        {
           "error": {
             "code": "not_found",
             "message": "No product matches the identifier",
