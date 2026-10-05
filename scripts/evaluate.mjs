@@ -15,8 +15,9 @@ const { writes = {}, reads = [], forbidden_tools = [], forbidden_writes = [], fo
 const failures = [];
 const subjectOf = (call) => call.args?.product_id ?? call.args?.listing_id ?? "";
 // Deep partial match: every key in `wanted` must be present in `actual` with an equal value; objects recurse; "*" accepts any present value;
-// {"$contains": [...]} accepts an array in which every listed item partially matches some element.
+// {"$absent": true} accepts only a missing key; {"$contains": [...]} accepts an array in which every listed item partially matches some element.
 const matches = (actual, wanted) => wanted === "*" ? actual !== undefined
+  : wanted !== null && typeof wanted === "object" && wanted.$absent === true ? actual === undefined
   : wanted !== null && typeof wanted === "object" && Array.isArray(wanted.$contains) ? Array.isArray(actual) && wanted.$contains.every((item) => actual.some((element) => matches(element, item)))
   : wanted !== null && typeof wanted === "object" && !Array.isArray(wanted)
   ? actual !== null && typeof actual === "object" && Object.entries(wanted).every(([key, value]) => matches(actual[key], value))
@@ -90,6 +91,7 @@ if (finalPath && existsSync(finalPath)) {
   for (const needle of final_forbidden_text) if (answer.includes(needle.toLowerCase())) failures.push(`final: contains "${needle}"`);
   for (const needle of final_required_text) if (!answer.includes(needle.toLowerCase())) failures.push(`final: missing "${needle}"`);
 }
+else if (final_required_text.length) failures.push("final: final_required_text is declared but no --final answer was given to check");
 
 const checks = ["scope", "retry", "repeat", "forbidden", "forbidden-write", "text", "order", "undeclared", "required", "budget", "workspace", "install", "final"];
 const failed = new Set(failures.map((line) => line.split(":")[0]));

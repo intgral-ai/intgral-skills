@@ -61,9 +61,9 @@ metadata:
 `npx skills@1.7.0 add intgral-ai/intgral-skills --skill <名字>`。
 
 本会话还没提过时，菜单多列一行“先配置商家偏好（还没有）”，不另外再问；回答仍只以“选哪个？”这一个问题结尾。用户已说具体任务、或没装
-`intgral-listing` / `intgral-research` / `intgral-video`（偏好由它们读取）就不问。按其
-`references/private-workspace.md` 的“Switching merchants”确定本会话的商家，只看
-`merchants/<stable-id>/preferences.md` 在不在：已有就不问；商家不明就先问稳定标识，不读别的商家目录。
+`intgral-listing` / `intgral-research` / `intgral-video`（偏好由它们读取）就不列。按其
+`references/private-workspace.md` 的“Switching merchants”确定本会话的商家：商家已定时只检查这一个路径（如
+`test -f merchants/<id>/preferences.md`），不列出 `merchants/`；已有就不列；商家不明就不列这一行。
 - 用户选了这一项：按同一文件的“First-time setup”引导（工作区位置、`INTGRAL_WORKSPACE` 未设置怎么办都按它），
   只问模板 `assets/preferences.example.md` 顶部几项（标识、品牌写法、站点、语言、币种），视频偏好留到做视频时再问；
   写 `merchants/<stable-id>/preferences.md` 并读回。选之前不写任何文件。

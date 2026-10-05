@@ -6,11 +6,13 @@ import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
-// INT-1014: intgral-start asks once whether to configure merchant preferences after the first connect.
+// INT-1014: intgral-start adds one menu item "先配置商家偏好（还没有）" after the first connect when the session merchant has no preferences.md.
 const repository = fileURLToPath(new URL("..", import.meta.url));
 const evaluator = join(repository, "scripts", "evaluate.mjs");
 const scenarios = join(repository, "evals", "scenarios");
-const first = "start-preferences-first-connect", declined = "start-preferences-declined", existing = "start-preferences-existing";
+const first = "start-preferences-first-connect", declined = "start-preferences-declined", existing = "start-preferences-existing", offer = "start-preferences-offer";
+const menuItem = "先配置商家偏好（还没有）";
+const finalWith = (dir, text) => { const path = join(dir, "final.md"); writeFileSync(path, text); return path; };
 const evaluate = (id, trace, ...options) => spawnSync(process.execPath, [evaluator, join(scenarios, id, "scenario.json"), join(scenarios, id, "traces", trace), ...options], { encoding: "utf8" });
 const temp = (t) => { const dir = mkdtempSync(join(tmpdir(), "intgral-int1014-")); t.after(() => rmSync(dir, { recursive: true, force: true })); return dir; };
 // A copy of the scenario's workspace as the agent left it: `edit` applies the run's writes.
@@ -24,8 +26,8 @@ const run = (t, id, edit = () => {}, answer = "给你菜单。\n") => {
 const put = (workspace, path, text) => { const full = join(workspace, path); mkdirSync(join(full, ".."), { recursive: true }); writeFileSync(full, text); };
 
 for (const id of [first, declined, existing, "start-preferences-offer"]) {
-  test(`${id}: the known-bad trace (preferences sent to the ERP) fails on forbidden only`, () => {
-    const { stdout, status } = evaluate(id, "known-bad.jsonl");
+  test(`${id}: the known-bad trace (preferences sent to the ERP) fails on forbidden only`, (t) => {
+    const { stdout, status } = evaluate(id, "known-bad.jsonl", ...(id === offer ? ["--final", finalWith(temp(t), `菜单 ${menuItem}`)] : []));
     assert.equal(status, 1);
     assert.match(stdout, /FAIL forbidden: medusa\.admin_post #2 is not allowed/);
     assert.match(stdout, /hard checks: 12 passed, 1 failed/);
@@ -78,14 +80,18 @@ test("existing preferences: reading only and showing the menu passes", (t) => {
   assert.equal(status, 0, stdout);
 });
 
-const offer = "start-preferences-offer";
-
-test("offer: an answer that never asks about preferences fails on final missing, one that asks passes", (t) => {
-  const silent = run(t, offer, () => {}, "菜单：1. 查 SKU\n");
+test("offer: an answer without the preferences menu item fails on final missing, one with it passes", (t) => {
+  const silent = run(t, offer, () => {}, "菜单：1. 查 SKU\n选哪个？\n");
   assert.equal(silent.status, 1);
   assert.match(silent.stdout, /final: missing "偏好"/);
-  const asked = run(t, offer, () => {}, "菜单：1. 查 SKU\n现在要配置商家偏好吗？\n");
-  assert.equal(asked.status, 0, asked.stdout);
+  const listed = run(t, offer, () => {}, `菜单：1. 查 SKU\n2. ${menuItem}\n选哪个？\n`);
+  assert.equal(listed.status, 0, listed.stdout);
+});
+
+test("offer: a second question about preferences after the menu fails on final", (t) => {
+  const { stdout, status } = run(t, offer, () => {}, `菜单：1. 查 SKU\n2. ${menuItem}\n选哪个？\n现在要配置商家偏好吗？\n`);
+  assert.equal(status, 1);
+  assert.match(stdout, /final: contains "要配置商家偏好吗"/);
 });
 
 test("offer: writing a preference file before an answer fails on workspace", (t) => {

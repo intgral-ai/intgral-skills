@@ -1,6 +1,6 @@
 {
   "id": "start-preferences-offer",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-start",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -83,7 +83,8 @@
       ]
     },
     "final_forbidden_text": [
-      "verde-norte"
+      "verde-norte",
+      "要配置商家偏好吗"
     ],
     "final_required_text": [
       "偏好"
