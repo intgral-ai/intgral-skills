@@ -168,3 +168,17 @@ test("listing FBM: saving the FBM policy through the passthrough is forbidden", 
   assert.match(stdout, /forbidden: medusa\.admin_post #3 is not allowed in this scenario/);
   assert.doesNotMatch(stdout, /required:/);
 });
+
+test("final_required_text: an answer lacking a required string fails on final, case-insensitively", () => {
+  const dir = mkdtempSync(join(tmpdir(), "intgral-final-required-"));
+  try {
+    const scenario = join(dir, "scenario.json");
+    writeFileSync(scenario, JSON.stringify({ id: "x", version: 1, skill: "intgral-start", request: "x", tools: [], expect: { writes: {}, reads: [], forbidden_tools: [], required_writes: [], final_required_text: ["Preferences"] }, rubric: [] }));
+    writeFileSync(join(dir, "trace.jsonl"), "");
+    const run = (answer) => { writeFileSync(join(dir, "final.md"), answer); return spawnSync(process.execPath, [evaluator, scenario, join(dir, "trace.jsonl"), "--final", join(dir, "final.md")], { encoding: "utf8" }); };
+    const missing = run("Here is the menu.\n");
+    assert.equal(missing.status, 1);
+    assert.match(missing.stdout, /FAIL final: missing "Preferences"/);
+    assert.equal(run("Configure PREFERENCES now?\n").status, 0);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});

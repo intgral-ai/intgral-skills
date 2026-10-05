@@ -11,7 +11,7 @@ if (!scenarioPath || !tracePath) { console.error("usage: evaluate.mjs <scenario.
 const scenario = JSON.parse(readFileSync(scenarioPath, "utf8"));
 // A run that made no tool call has no trace file; that is an empty trace, not an error.
 const calls = (existsSync(tracePath) ? readFileSync(tracePath, "utf8") : "").split(/\r?\n/).filter(Boolean).map((line, index) => ({ n: index + 1, ...JSON.parse(line) }));
-const { writes = {}, reads = [], forbidden_tools = [], forbidden_writes = [], forbidden_write_text = [], required_writes = [], max_tool_calls = Infinity, max_calls = {}, order = [], workspace = {}, install_unchanged = false, final_forbidden_text = [] } = scenario.expect;
+const { writes = {}, reads = [], forbidden_tools = [], forbidden_writes = [], forbidden_write_text = [], required_writes = [], max_tool_calls = Infinity, max_calls = {}, order = [], workspace = {}, install_unchanged = false, final_forbidden_text = [], final_required_text = [] } = scenario.expect;
 const failures = [];
 const subjectOf = (call) => call.args?.product_id ?? call.args?.listing_id ?? "";
 // Deep partial match: every key in `wanted` must be present in `actual` with an equal value; objects recurse; "*" accepts any present value;
@@ -88,6 +88,7 @@ const finalPath = option("--final");
 if (finalPath && existsSync(finalPath)) {
   const answer = readFileSync(finalPath, "utf8").toLowerCase();
   for (const needle of final_forbidden_text) if (answer.includes(needle.toLowerCase())) failures.push(`final: contains "${needle}"`);
+  for (const needle of final_required_text) if (!answer.includes(needle.toLowerCase())) failures.push(`final: missing "${needle}"`);
 }
 
 const checks = ["scope", "retry", "repeat", "forbidden", "forbidden-write", "text", "order", "undeclared", "required", "budget", "workspace", "install", "final"];

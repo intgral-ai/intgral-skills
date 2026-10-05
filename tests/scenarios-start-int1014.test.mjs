@@ -23,7 +23,7 @@ const run = (t, id, edit = () => {}, answer = "给你菜单。\n") => {
 };
 const put = (workspace, path, text) => { const full = join(workspace, path); mkdirSync(join(full, ".."), { recursive: true }); writeFileSync(full, text); };
 
-for (const id of [first, declined, existing]) {
+for (const id of [first, declined, existing, "start-preferences-offer"]) {
   test(`${id}: the known-bad trace (preferences sent to the ERP) fails on forbidden only`, () => {
     const { stdout, status } = evaluate(id, "known-bad.jsonl");
     assert.equal(status, 1);
@@ -76,4 +76,20 @@ test("existing preferences: asking again fails on final, a backup or rewrite fai
 test("existing preferences: reading only and showing the menu passes", (t) => {
   const { stdout, status } = run(t, existing);
   assert.equal(status, 0, stdout);
+});
+
+const offer = "start-preferences-offer";
+
+test("offer: an answer that never asks about preferences fails on final missing, one that asks passes", (t) => {
+  const silent = run(t, offer, () => {}, "菜单：1. 查 SKU\n");
+  assert.equal(silent.status, 1);
+  assert.match(silent.stdout, /final: missing "偏好"/);
+  const asked = run(t, offer, () => {}, "菜单：1. 查 SKU\n现在要配置商家偏好吗？\n");
+  assert.equal(asked.status, 0, asked.stdout);
+});
+
+test("offer: writing a preference file before an answer fails on workspace", (t) => {
+  const { stdout, status } = run(t, offer, (w) => put(w, mine, "casa-verde-es"), "现在要配置商家偏好吗？\n");
+  assert.equal(status, 1);
+  assert.match(stdout, /workspace: merchants\/casa-verde-es exists but must not/);
 });
