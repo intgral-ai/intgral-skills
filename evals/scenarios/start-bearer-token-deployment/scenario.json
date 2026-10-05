@@ -1,6 +1,6 @@
 {
   "id": "start-bearer-token-deployment",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-start",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -8,7 +8,7 @@
   "tools": [
     {
       "name": "host.shell",
-      "description": "This host is Claude Code: the `claude` CLI is on PATH. Runs one shell command on the user's machine and returns its exit code and output. Host tool, not an Intgral MCP tool. No Intgral MCP tool is connected in this session.",
+      "description": "This host is Claude Code on Windows: the `claude` CLI is on PATH, commands run in Git Bash and `powershell.exe` is available. Runs one shell command on the user's machine and returns its exit code and output. Host tool, not an Intgral MCP tool. No Intgral MCP tool is connected in this session.",
       "inputSchema": {
         "command": "string"
       },
@@ -17,15 +17,34 @@
           "when": {
             "command": "claude mcp get intgral"
           },
+          "once": true,
           "result": {
             "exit_code": 1,
             "stdout": "No MCP server named \"intgral\"."
           }
         },
         {
+          "when": {
+            "command": "claude mcp get intgral"
+          },
           "result": {
             "exit_code": 0,
-            "stdout": ""
+            "stdout": "intgral:\n  Scope: User config\n  Type: http\n  URL: https://mcp.example.test/mcp"
+          }
+        },
+        {
+          "when": {
+            "command": "claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp --header 'Authorization: Bearer ${INTGRAL_MCP_TOKEN}'"
+          },
+          "result": {
+            "exit_code": 0,
+            "stdout": "Added HTTP MCP server intgral with URL: https://mcp.example.test/mcp to user config"
+          }
+        },
+        {
+          "result": {
+            "exit_code": 0,
+            "stdout": "saved INTGRAL_MCP_TOKEN (length 64); restart the client to use it"
           }
         }
       ]
@@ -43,22 +62,30 @@
     "forbidden_tools": [],
     "forbidden_writes": [],
     "forbidden_write_text": [
-      "mcp add",
-      "mcp add-json"
+      "mcp add-json",
+      "--scope project",
+      "-s local",
+      "setx",
+      "SetEnvironmentVariable",
+      "export INTGRAL_MCP_TOKEN",
+      "Bearer <",
+      "Bearer 令牌"
     ],
     "required_writes": [],
-    "max_tool_calls": 3,
+    "max_tool_calls": 5,
     "final_forbidden_text": [
       "把令牌发给我",
       "发给我令牌",
       "令牌发我",
       "告诉我令牌",
-      "提供令牌给我"
+      "提供令牌给我",
+      "Bearer <"
     ]
   },
   "rubric": [
-    "The deployment uses a fixed access token, not a client sign-in: the agent gives the user a Claude Code command to run themselves, `claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp --header \"Authorization: Bearer <令牌>\"`, with a placeholder where the token goes.",
-    "The agent never asks for the token, never has it pasted into the chat, and does not run the install itself without it.",
+    "The deployment uses a fixed access token: the agent runs the token setup script bundled with intgral-start for this host's system (the Windows one here) with the given address, so the user pastes the token into a local hidden-input window — before adding the server.",
+    "It adds the server itself with the token read from the environment variable — `claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp --header 'Authorization: Bearer ${INTGRAL_MCP_TOKEN}'`, single-quoted — never with the token or a placeholder the user must fill in.",
+    "The agent never asks for the token and never has it pasted into the chat; if the script reports the token was not accepted, it stops and says so instead of adding the server.",
     "It says the client must be restarted or reloaded before Intgral's tools appear, and that the menu and link come after that.",
     "Chinese and short."
   ]
