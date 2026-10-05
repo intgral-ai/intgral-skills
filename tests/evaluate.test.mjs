@@ -168,3 +168,14 @@ test("listing FBM: saving the FBM policy through the passthrough is forbidden", 
   assert.match(stdout, /forbidden: medusa\.admin_post #3 is not allowed in this scenario/);
   assert.doesNotMatch(stdout, /required:/);
 });
+
+test("inventory: each known-bad trace is named for what it did wrong", () => {
+  for (const id of ["no-source-quantity", "estimate-not-a-count"]) {
+    assert.match(evaluate(`inventory-${id}`, "known-bad.jsonl").stdout, /forbidden: medusa\.propose_stock_changes #\d+ is not allowed/);
+  }
+  assert.match(evaluate("inventory-sheet-with-fba-row", "known-bad.jsonl").stdout, /text: medusa\.propose_stock_changes #\d+ contains "CV-FBA-05"/);
+  const proposed = evaluate("inventory-propose-awaiting-confirmation", "known-bad.jsonl").stdout;
+  assert.match(proposed, /text: medusa\.propose_stock_changes #\d+ contains ""kind":"agent""/);
+  assert.match(proposed, /forbidden: medusa\.admin_post #\d+ is not allowed/);
+  assert.match(evaluate("inventory-stale-line-reproposed", "known-bad.jsonl").stdout, /text: medusa\.propose_stock_changes #\d+ contains ""expected_stocked_quantity":120"/);
+});
