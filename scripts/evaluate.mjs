@@ -11,11 +11,14 @@ if (!scenarioPath || !tracePath) { console.error("usage: evaluate.mjs <scenario.
 const scenario = JSON.parse(readFileSync(scenarioPath, "utf8"));
 // A run that made no tool call has no trace file; that is an empty trace, not an error.
 const calls = (existsSync(tracePath) ? readFileSync(tracePath, "utf8") : "").split(/\r?\n/).filter(Boolean).map((line, index) => ({ n: index + 1, ...JSON.parse(line) }));
-const { writes = {}, reads = [], forbidden_tools = [], forbidden_writes = [], forbidden_write_text = [], required_writes = [], max_tool_calls = Infinity, workspace = {}, install_unchanged = false, final_forbidden_text = [] } = scenario.expect;
+const { writes = {}, reads = [], forbidden_tools = [], forbidden_writes = [], forbidden_write_text = [], required_writes = [], max_tool_calls = Infinity, max_calls = {}, order = [], workspace = {}, install_unchanged = false, final_forbidden_text = [] } = scenario.expect;
 const failures = [];
 const subjectOf = (call) => call.args?.product_id ?? call.args?.listing_id ?? "";
-// Deep partial match: every key in `wanted` must be present in `actual` with an equal value; objects recurse; "*" accepts any present value.
-const matches = (actual, wanted) => wanted === "*" ? actual !== undefined : wanted !== null && typeof wanted === "object" && !Array.isArray(wanted)
+// Deep partial match: every key in `wanted` must be present in `actual` with an equal value; objects recurse; "*" accepts any present value;
+// {"$contains": [...]} accepts an array in which every listed item partially matches some element.
+const matches = (actual, wanted) => wanted === "*" ? actual !== undefined
+  : wanted !== null && typeof wanted === "object" && Array.isArray(wanted.$contains) ? Array.isArray(actual) && wanted.$contains.every((item) => actual.some((element) => matches(element, item)))
+  : wanted !== null && typeof wanted === "object" && !Array.isArray(wanted)
   ? actual !== null && typeof actual === "object" && Object.entries(wanted).every(([key, value]) => matches(actual[key], value))
   : JSON.stringify(actual) === JSON.stringify(wanted);
 
@@ -25,8 +28,11 @@ const completed = new Set(); // subjects with a confirmed write
 // became the authorized write, and it leaves the retry/repeat bookkeeping alone — but what it tried to send is judged.
 const refused = (call) => call.isError && call.response?.code === "invalid_arguments";
 const reached = calls.filter((call) => !refused(call));
+const declared = new Set((scenario.tools ?? []).map((tool) => tool.name));
 for (const call of calls) {
   const label = `${call.tool} #${call.n}`;
+  if (!declared.has(call.tool)) failures.push(`undeclared: ${label} is not a tool of this scenario`);
+  for (const rule of order) if (call.tool === rule.then.tool && matches(call.args, rule.then.args) && !reached.some((earlier) => earlier.n < call.n && earlier.tool === rule.first.tool && matches(earlier.args, rule.first.args))) failures.push(`order: ${label} — ${rule.label}`);
   if (forbidden_tools.includes(call.tool)) failures.push(`forbidden: ${label} is not allowed in this scenario`);
   if (reads.includes(call.tool) && !refused(call)) {
     // A read names its subject in the arguments (product_id) or only in the response (a read keyed on SKU).
@@ -54,6 +60,10 @@ for (const wanted of required_writes) {
   if (!reached.some((call) => call.tool === wanted.tool && matches(call.args, wanted.args))) failures.push(`required: no ${wanted.tool} with ${JSON.stringify(wanted.args)}`);
 }
 if (calls.length > max_tool_calls) failures.push(`budget: ${calls.length} tool calls exceed ${max_tool_calls}`);
+for (const [name, limit] of Object.entries(max_calls)) {
+  const count = calls.filter((call) => call.tool === name).length;
+  if (count > limit) failures.push(`budget: ${name} called ${count} times, more than ${limit}`);
+}
 
 // Private state after the run: compared against the scenario's own workspace fixture and the repository's package.
 const files = (dir) => existsSync(dir) ? readdirSync(dir, { recursive: true }).map(String).filter((entry) => statSync(join(dir, entry)).isFile()).map((entry) => entry.replaceAll("\\", "/")).sort() : [];
@@ -80,7 +90,7 @@ if (finalPath && existsSync(finalPath)) {
   for (const needle of final_forbidden_text) if (answer.includes(needle.toLowerCase())) failures.push(`final: contains "${needle}"`);
 }
 
-const checks = ["scope", "retry", "repeat", "forbidden", "forbidden-write", "text", "required", "budget", "workspace", "install", "final"];
+const checks = ["scope", "retry", "repeat", "forbidden", "forbidden-write", "text", "order", "undeclared", "required", "budget", "workspace", "install", "final"];
 const failed = new Set(failures.map((line) => line.split(":")[0]));
 for (const line of failures) console.log("FAIL " + line);
 console.log(`hard checks: ${checks.length - failed.size} passed, ${failed.size} failed (${calls.length} tool calls)`);

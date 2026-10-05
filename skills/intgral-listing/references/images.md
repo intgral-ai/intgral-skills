@@ -5,13 +5,14 @@
 
 需要已有 listing 的人工图片复核状态时，显式调用只读 `marketplace.get_image_review`。
 scope=draft_images_only；保留 unreviewed / approved / rejected / stale 原状态及 snapshot、
-latest_review 和 limitations。stale 不能沿用旧 approved；unknown 来源或 null 字节哈希仍是未知，
-不能根据 URL 或看过图片就补填 provenance/content_sha256。此读取不抓取图片字节。
-hash_evidence=product_image_metadata 是元数据提供的哈希，unavailable 表示无证据；
-即使哈希非空，也不证明当前外部图片字节已经验证或不可变，原图/生成图来源仍为 unknown。
+latest_review 和 limitations。stale 不能沿用旧 approved。provenance 只有 verified_bytes
+（hash_evidence=fresh_bytes：ERP 抓取字节算出的哈希）才表示字节经过校验，且只对应抓取那一刻；
+unverified / unknown 与 null 哈希都是未验证，product_image_metadata 只是元数据里的哈希，unavailable 表示无证据。
+不能根据 URL 或看过图片就补填 provenance/content_sha256；任何取值都不说明是原图还是生成图。
 复核决定由已认证的人类 ERP 用户在 erp_url 页面保存，authority=authenticated_user；
 聊天确认不等于已持久化的 ERP 人工批准，网关身份不能代写决定。
-approved 仅涉及指定草稿图片快照，不构成 Amazon 发布许可；不调用 publish/confirmations。
+approved 仅涉及指定草稿图片快照，不构成 Amazon 发布许可；新的发布计划里图片随最终确认一起授权，
+不等这份复核。不调用 publish/confirmations。
 
 1. 数量、槽位、像素/格式等要求从当前 inputSchema、questionnaire 的 have / target、
    compliance 与后端产品类型要求读取。不要把显示数量当总数，也不在本手册固定图片数量。

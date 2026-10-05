@@ -16,7 +16,7 @@ for (const id of readdirSync(scenarios)) {
   test(`${id}: the hand-written compliant trace passes every hard check`, () => {
     const result = evaluate(id, "compliant.jsonl");
     assert.equal(result.status, 0, result.stderr + result.stdout);
-    assert.match(result.stdout, /hard checks: 11 passed, 0 failed/);
+    assert.match(result.stdout, /hard checks: 13 passed, 0 failed/);
     assert.match(result.stdout, /human review/);
   });
   if (existsSync(join(scenarios, id, "traces", "known-bad.jsonl"))) {
@@ -65,33 +65,42 @@ test("listing copy: the conflict known-bad trace names the unsupported text and 
   assert.match(stdout, /forbidden-write: medusa\.update_listing #3 — title rewritten/);
 });
 
-test("listing family: the known-bad trace names the price, offer and stock sent to the parent, and nothing on the children", () => {
+test("listing open: a saved write that leaves the product page closed fails only on the missing open", () => {
+  const { stdout, status } = evaluate("listing-open-after-write", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /required: no host\.open_url with \{"url":"https:\/\/erp\.example\.test\/app\/products\/prod_cv01"\}/);
+  assert.doesNotMatch(stdout, /scope:|retry:|repeat:|forbidden/);
+});
+
+test("listing family: the known-bad trace names the price, offer and stock sent to the parent, and the stock written to the children", () => {
   const { stdout, status } = evaluate("listing-create-family-parent", "known-bad.jsonl");
   assert.equal(status, 1);
   assert.match(stdout, /text: medusa\.update_product #3 contains "RS-9001-BK-PARENT"/);
   assert.match(stdout, /forbidden-write: medusa\.update_listing #4 — offer written to the non-buyable parent/);
   assert.match(stdout, /forbidden-write: medusa\.update_listing #4 — stock written to the non-buyable parent/);
-  assert.doesNotMatch(stdout, /#[56]/);
-  assert.doesNotMatch(stdout, /required:|scope:/);
+  assert.match(stdout, /forbidden-write: medusa\.update_listing #4 — writes to the parent listing, which nobody asked to change/);
+  assert.match(stdout, /forbidden-write: medusa\.update_listing #5 — stock written to a listing \(the FBM stock policy is the user's\)/);
+  assert.match(stdout, /forbidden-write: medusa\.update_listing #6 — stock written to a listing \(the FBM stock policy is the user's\)/);
+  assert.doesNotMatch(stdout, /scope:/);
 });
 
 test("listing family: a parent write the ERP refused still fails, though the children were then priced correctly", () => {
   const { stdout, status } = evaluate("listing-create-family-parent", "parent-write-refused.jsonl");
   assert.equal(status, 1);
   assert.match(stdout, /forbidden-write: medusa\.update_listing #4 — stock written to the non-buyable parent/);
-  assert.match(stdout, /hard checks: 10 passed, 1 failed/);
+  assert.match(stdout, /hard checks: 12 passed, 1 failed/);
 });
 
 test("listing: a retry cleared by a read keyed on SKU whose response names the subject passes", () => {
   const { stdout, status } = evaluate("listing-title-only-two-skus", "retry-after-sku-read.jsonl");
   assert.equal(status, 0, stdout);
-  assert.match(stdout, /hard checks: 11 passed, 0 failed/);
+  assert.match(stdout, /hard checks: 13 passed, 0 failed/);
 });
 
 test("research brief: the save the mock refused for a missing argument is not judged as a completed write", () => {
   const { stdout, status } = evaluate("research-brief-pinned-no-acquisition", "refused-then-corrected.jsonl");
   assert.equal(status, 0, stdout);
-  assert.match(stdout, /hard checks: 11 passed, 0 failed \(6 tool calls\)/);
+  assert.match(stdout, /hard checks: 13 passed, 0 failed \(6 tool calls\)/);
 });
 
 test("listing copy: a refused write is judged on the text it tried to send, not on its scope", () => {
@@ -109,4 +118,53 @@ test("a refused call to a forbidden tool is still reported", (t) => {
   const { stdout, status } = evaluateTrace("research-brief-pinned-no-acquisition", trace);
   assert.equal(status, 1);
   assert.match(stdout, /forbidden: medusa\.update_product #1 is not allowed/);
+});
+
+test("start: the first-time known-bad trace (instructions only, nothing installed) fails on required only", () => {
+  const { stdout, status } = evaluate("start-first-time-install", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /required: no host\.shell with \{"command":"claude mcp add --transport http --scope user intgral https:\/\/mcp\.example\.test\/mcp"\}/);
+  assert.doesNotMatch(stdout, /scope:|forbidden/);
+});
+
+test("start: reinstalling an already connected server is named as a forbidden write", () => {
+  const { stdout, status } = evaluate("start-connected-menu", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /forbidden-write: host\.shell #2 — reinstalls a connected MCP server/);
+  assert.doesNotMatch(stdout, /required:/);
+});
+
+test("listing open on read: answering a SKU question without opening its page fails on required only", () => {
+  const { stdout, status } = evaluate("listing-open-on-sku-read", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /required: no host\.open_url with \{"url":"https:\/\/erp\.example\.test\/app\/products\/prod_cv01"\}/);
+  assert.doesNotMatch(stdout, /scope:|forbidden/);
+});
+
+test("video delete: calling the refused DELETE route is named as forbidden, nothing else", () => {
+  const { stdout, status } = evaluate("video-delete-version-handoff", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /forbidden: medusa\.admin_delete #4 is not allowed in this scenario/);
+  assert.doesNotMatch(stdout, /required:|forbidden-write:/);
+});
+
+test("live listing: writing a non-editable brand is named as a forbidden write", () => {
+  const { stdout, status } = evaluate("listing-live-attribute-edit", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /forbidden-write: medusa\.update_listing #3 — writes brand, which is editable:false on a live listing/);
+  assert.doesNotMatch(stdout, /required:|scope:/);
+});
+
+test("video label: resuming a failure with retry_action null is named as a forbidden write", () => {
+  const { stdout, status } = evaluate("video-label-missing-no-retry", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /forbidden-write: medusa\.admin_post #4 — resumes a failure whose retry_action is null/);
+  assert.doesNotMatch(stdout, /required:/);
+});
+
+test("listing FBM: saving the FBM policy through the passthrough is forbidden", () => {
+  const { stdout, status } = evaluate("listing-fbm-switch-handoff", "known-bad.jsonl");
+  assert.equal(status, 1);
+  assert.match(stdout, /forbidden: medusa\.admin_post #3 is not allowed in this scenario/);
+  assert.doesNotMatch(stdout, /required:/);
 });

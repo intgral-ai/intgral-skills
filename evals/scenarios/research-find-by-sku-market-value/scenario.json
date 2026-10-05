@@ -1,0 +1,335 @@
+{
+  "id": "research-find-by-sku-market-value",
+  "version": 1,
+  "skill": "intgral-research",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "request": "CV-COL-24-GR 在西班牙站做过竞品研究吗？结论是什么？",
+  "tools": [
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants, plus current research link summaries. Provide exactly one of product_id or sku.",
+      "inputSchema": {
+        "product_id": "string?",
+        "sku": "string?"
+      },
+      "responses": [
+        {
+          "when": {
+            "sku": "CV-COL-24-GR"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_fake_colander",
+                "title": "Escurridor plegable de silicona",
+                "status": "published",
+                "variants": [
+                  {
+                    "id": "variant_fake_col24gr",
+                    "sku": "CV-COL-24-GR"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_fake_colander",
+                "research_links": []
+              }
+            ]
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.list_product_research_history",
+      "description": "A variant's research links, current and historical.",
+      "inputSchema": {
+        "variant_id": "string"
+      },
+      "responses": [
+        {
+          "result": {
+            "links": [],
+            "count": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.list_endpoints",
+      "description": "List the admin routes the passthrough tools can call.",
+      "inputSchema": {
+        "prefix": "string?",
+        "method": "string?",
+        "source": "string?"
+      },
+      "responses": [
+        {
+          "result": {
+            "endpoints": [
+              {
+                "method": "GET",
+                "path": "/admin/research/scopes",
+                "source": "custom",
+                "summary": "List research scopes; filter by external_key or target_market (a market value such as amazon.es)."
+              },
+              {
+                "method": "GET",
+                "path": "/admin/research/scopes/:scopeId/artifacts",
+                "source": "custom",
+                "summary": "Evidence and report revisions retained in a scope."
+              },
+              {
+                "method": "GET",
+                "path": "/admin/research/artifacts/:id",
+                "source": "custom",
+                "summary": "One artifact with its freshness."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.describe_endpoint",
+      "description": "The request schema and summary of one admin route.",
+      "inputSchema": {
+        "method": "string",
+        "path": "string"
+      },
+      "responses": [
+        {
+          "result": {
+            "method": "GET",
+            "path": "/admin/research/scopes",
+            "query": {
+              "external_key": "string?",
+              "target_market": "string? — a market value, e.g. amazon.es",
+              "limit": "number?",
+              "offset": "number?"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_get",
+      "description": "Call GET on a permitted Medusa admin route (/admin/*). Inert.",
+      "inputSchema": {
+        "path": "string",
+        "query": "object?"
+      },
+      "responses": [
+        {
+          "when": {
+            "path": "/admin/research/scopes",
+            "query": {
+              "target_market": "amazon_es"
+            }
+          },
+          "result": {
+            "scopes": [],
+            "count": 0
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/scopes"
+          },
+          "result": {
+            "scopes": [
+              {
+                "id": "rscope_colander_es",
+                "target_market": "amazon.es",
+                "question": "¿Vale la pena el escurridor plegable de silicona en Amazon.es?",
+                "context": {
+                  "sku": "CV-COL-24-GR",
+                  "product_id": "prod_fake_colander"
+                },
+                "created_at": "2026-09-02T10:00:00Z"
+              }
+            ],
+            "count": 1
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/scopes/rscope_colander_es"
+          },
+          "result": {
+            "scope": {
+              "id": "rscope_colander_es",
+              "target_market": "amazon.es",
+              "question": "¿Vale la pena el escurridor plegable de silicona en Amazon.es?",
+              "context": {
+                "sku": "CV-COL-24-GR",
+                "product_id": "prod_fake_colander"
+              },
+              "created_at": "2026-09-02T10:00:00Z"
+            }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/scopes/rscope_colander_es/artifacts"
+          },
+          "result": {
+            "artifacts": [
+              {
+                "id": "rart_ev_col_listings_01",
+                "record_type": "evidence",
+                "source": "amazon_es",
+                "version": 1
+              },
+              {
+                "id": "rart_report_col_comp_02",
+                "record_type": "report",
+                "report_kind": "competitor_research",
+                "version": 2,
+                "coverage": "partial",
+                "latest": true,
+                "created_at": "2026-09-16T09:00:00Z"
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/artifacts/rart_report_col_comp_02"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_report_col_comp_02",
+              "record_type": "report",
+              "report_kind": "competitor_research",
+              "version": 2,
+              "coverage": "partial",
+              "coverage_gaps": [
+                "no review text retained"
+              ],
+              "markdown": "## Resumen\nDos competidores directos: Plegasa 24 cm a 11.99 EUR y Cocinova 26 cm a 14.50 EUR (2026-09-02, envío desconocido). Ambos se pliegan; plegable no diferencia.",
+              "freshness": {
+                "report_age_days": 18,
+                "evidence_age_days": 32
+              }
+            }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/research/artifacts/rart_ev_col_listings_01"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_ev_col_listings_01",
+              "record_type": "evidence",
+              "source": "amazon_es",
+              "version": 1,
+              "observed_at": "2026-09-02T09:30:00Z",
+              "items": [
+                {
+                  "asin": "B0FAKE0C01",
+                  "brand": "Plegasa",
+                  "title": "Escurridor plegable 24 cm",
+                  "price": {
+                    "amount": 11.99,
+                    "currency": "EUR"
+                  },
+                  "source_url": "https://example.test/dp/B0FAKE0C01"
+                },
+                {
+                  "asin": "B0FAKE0C02",
+                  "brand": "Cocinova",
+                  "title": "Colador plegable 26 cm",
+                  "price": {
+                    "amount": 14.5,
+                    "currency": "EUR"
+                  },
+                  "source_url": "https://example.test/dp/B0FAKE0C02"
+                }
+              ],
+              "freshness": {
+                "evidence_age_days": 32
+              }
+            }
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No catalogued admin route matches that path",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "host.open_url",
+      "description": "Open a URL in the user's browser. Host tool, not an Intgral MCP tool.",
+      "inputSchema": {
+        "url": "string"
+      },
+      "responses": [
+        {
+          "result": {
+            "opened": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_post",
+      "description": "Call POST on a permitted admin route.",
+      "inputSchema": {
+        "path": "string",
+        "body": "object?"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "forbidden",
+            "message": "not in this scenario",
+            "request_id": "req_mock_f"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {},
+    "reads": [
+      "medusa.get_product",
+      "medusa.list_product_research_history",
+      "medusa.list_endpoints",
+      "medusa.describe_endpoint",
+      "medusa.admin_get"
+    ],
+    "forbidden_tools": [
+      "medusa.admin_post"
+    ],
+    "forbidden_writes": [],
+    "required_writes": [
+      {
+        "tool": "medusa.admin_get",
+        "args": {
+          "path": "/admin/research/scopes/rscope_colander_es/artifacts"
+        }
+      }
+    ],
+    "max_calls": {
+      "host.open_url": 1
+    },
+    "max_tool_calls": 14
+  },
+  "rubric": [
+    "The SKU has no linked research, but a retained Amazon.es scope for it exists: the agent finds it (market value amazon.es, or no filter and a check of context.sku) and does not report that no research exists.",
+    "The answer gives the latest competitor report's conclusion with its version, coverage (partial, no review text) and age, and does not present it as fresh.",
+    "No collection, save or link is made or proposed as already done; offering to link the report to the SKU is a question to the user.",
+    "The SKU page is opened once (or linked). Chinese."
+  ]
+}

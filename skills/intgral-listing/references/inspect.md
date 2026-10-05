@@ -1,10 +1,16 @@
 # 查询与连接
 
-只读问题直接回答，不要求 get_started 或打开浏览器。已有上下文能回答时无需多余调用。
+只读问题直接回答，不要求 get_started。已有上下文能回答时无需多余调用。
 需要状态或事实时用最小范围的读取，结果不足就说明缺口；检查本身不授权导入、刷新、编辑或发布。
 
 1. 当前 SKU 用 `medusa.get_product`；已知 listing_id 用 `medusa.get_listing_context`。
-   两者身份不同，SKU 不当作 listing_id。产品返回的字段有限，未返回不等于不存在：
+   两者身份不同，SKU 不当作 listing_id。只知道 SKU 时，用 `medusa.admin_get` 读
+   `GET /admin/amazon/listings?seller_sku=<SKU>&view=all` 找站点 listing（精确、区分大小写，可加 marketplace_id /
+   store_id）。必须带 `view=all`：不带时默认只列待复核队列（`needs_review`），空页不说明没有 listing。
+   带了 `view=all` 仍是空页才是没有。`marketplace.list_listings` / `marketplace.get_listing` 的行带
+   `listing_id`（`mlist_…`）时，它就是 ERP listing id，直接传给 `medusa.get_listing_context` 和
+   `marketplace.get_image_review`；行里没有 `listing_id`（独立 Connector 部署）时才用上面的 admin_get 查找。
+   不从产品推断 listing_id。产品返回的字段有限，未返回不等于不存在：
    必须补读时用 `medusa.list_endpoints` / `medusa.describe_endpoint` 发现真实 GET 契约，
    再通过 `medusa.admin_get` 读取已确认范围的数据。
 2. 状态用 `medusa.get_operation_status`；review 用 `medusa.list_listing_reviews` /
@@ -18,10 +24,11 @@
    runtime.erp 为 available / unavailable / unconfigured；缺少 ERP 时 capabilities=[]，按实情说明。
    today=null 仅说明简报未取到，不能取代 runtime.erp 判断所有能力。
    local_path_scope=gateway；hostname 不证明本机文件和网关共享磁盘。
-4. 仅用户明确要求打开页面且当前能力支持时传 open_browser=true；随后查看 erp_opened /
-   open_in_browser / runtime.limitations，有主机打开能力且仍需打开时用返回的 erp_url，已开不重复。
-   无已确认的打开能力时给深链，不能承诺已打开。部署 ERP_OPEN_ON_INIT 是已有显式 opt-in，
-   不在任务里擅自开关。其余情况给深链即可，不猜路径、不操作 ERP 写按钮、不要求卡片或聊天图片。
+4. 涉及具体 SKU 时，读到后用该 SKU 返回的 erp_url 在本会话的浏览器工具里打开，不等用户要求，
+   按 [SKILL.md](../SKILL.md) 的“操作 SKU 就打开它的页面”。这与 get_started 的 open_browser 参数无关：
+   open_browser=true 只在用户明确要求打开入口页且能力支持时传；随后查看 erp_opened / open_in_browser /
+   runtime.limitations，已开不重复。无已确认的打开能力时给深链，不能承诺已打开。部署 ERP_OPEN_ON_INIT
+   是已有显式 opt-in，不在任务里擅自开关。不猜路径、不操作 ERP 写按钮、不要求卡片或聊天图片。
 
 仅使用目标 SKU/站点的有来源事实。相似 SKU 可以解释术语或文案结构，不能提供目标商品事实。
 错误照返回的原因/next_step/request_id 报告；medusa_error 是后端响应错误，勿编造成断线，

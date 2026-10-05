@@ -4,6 +4,7 @@ Install the merchant workflows you need in your AI client, then connect that cli
 
 | Skill | Use it for |
 | --- | --- |
+| [intgral-start](skills/intgral-start/SKILL.md) | First use: connect Intgral MCP, see what can be done, get the Intgral link; open a SKU's page when a task touches it |
 | [intgral-inventory](skills/intgral-inventory/SKILL.md) | Record merchant-stated stock counts, receipts, damage and stock sheets as sourced proposals that a human confirms in the ERP (unreleased: not in `v0.2.0`) |
 | [intgral-listing](skills/intgral-listing/SKILL.md) | Query products, import files, edit catalog/listing drafts, work with images and recover partial writes |
 | [intgral-research](skills/intgral-research/SKILL.md) | Market, competitor and supplier research; product briefs; retained evidence and report reuse |
@@ -16,14 +17,14 @@ Each package includes its references and templates and can be installed alone. R
 Use the open-source [Skills CLI](https://github.com/vercel-labs/skills):
 
 ```bash
-npx skills@1.7.0 add intgral-ai/intgral-skills --skill intgral-listing
+npx skills@1.7.0 add intgral-ai/intgral-skills --skill intgral-start --skill intgral-listing
 ```
 
 The installer lets you select a client and installation scope. See [installation](docs/installation.md) for a fixed release/commit, Windows copies, local installation, updates and rollback.
 
 **Install a tagged release.** `v0.2.0` is the latest reviewed release (see the [changelog](CHANGELOG.md)); the [installation guide](docs/installation.md) shows the clone-at-tag path. `develop` is the integration branch and can be ahead of the last reviewed tag, so pin the tag rather than the branch for anything that has to be reproducible.
 
-Installing a Skill does not connect or authenticate to your ERP. Add your administrator-provided Intgral MCP endpoint in your client's connection settings and authenticate there. Provider credentials stay on the service; do not put them in this repository or a task record.
+Installing a Skill does not by itself connect to your ERP. On first use, `intgral-start` asks for your administrator-provided Intgral MCP endpoint and adds it to the client (on Claude Code, user-wide); sign-in happens in the client. Provider credentials stay on the service; do not put them in this repository or a task record.
 
 ## Compatibility and private settings
 

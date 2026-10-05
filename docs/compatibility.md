@@ -35,6 +35,11 @@ Every workflow discovers the same way. Later steps refine earlier ones; a stop a
 
 Publication is never a capability of this package: the user publishes in the ERP.
 
+When a task touches a specific SKU — a read or a write — the agent opens that SKU's returned `erp_url` with the host's own browser tool, unprompted, once per SKU per session, so the user lands on the page where review and publication happen; without a browser tool it gives the link. This is a host capability, not the gateway's: `open_browser` and the deployment switch `ERP_OPEN_ON_INIT` launch a browser on the gateway's machine, which reaches the user only when the gateway runs on their computer.
+
+## First connection
+
+`intgral-start` connects a client that has no Intgral tools yet. It needs the administrator-provided MCP endpoint (asked once, never inferred) and a host it can configure: on Claude Code it runs `claude mcp add --transport http --scope user intgral <endpoint>`; on other clients it names that client's own setting. Sign-in happens in the client. New tools usually appear only after the client restarts, so the Intgral link — the `erp_url` from `medusa.get_started` — is given once connected, never guessed from the endpoint.
 ## Inventory
 
 | Stage | Required capability | Discovered by | Preparation-only fallback | Stop when |
@@ -100,7 +105,7 @@ Two kinds of change travel separately and are announced separately.
 
 | Kind | Identified by | Changes when | Requires a backend change |
 | --- | --- | --- | --- |
-| Content and method | package `metadata.version` (repository version `0.2.0`, tag `v0.2.0`); research `skill_revision: intgral-research/<function>@N` (`@2` since INT-725, competitor `@3` since INT-777); `runbook_revision: intgral-research@4` (`@2` since INT-702, `@3` since INT-738, `@4` since the intgral-erp-seam#385 port); `template_revision: <report_kind>@1`; report `schema_revision: <report_kind>/1` (the package's declaration — the deployed route stores any non-empty string); video `skill_version: intgral-video@3` (`@2` since INT-777, `@3` since INT-799) | the guidance, examples or analysis method change | no |
+| Content and method | package `metadata.version` (repository version `0.2.0`, tag `v0.2.0`); research `skill_revision: intgral-research/<function>@N` (`@2` since INT-725, competitor `@3` since INT-777); `runbook_revision: intgral-research@4` (`@2` since INT-702, `@3` since INT-738, `@4` since the intgral-erp-seam#385 port); `template_revision: <report_kind>@1`; report `schema_revision: <report_kind>/1` (the package's declaration — the deployed route stores any non-empty string); video `skill_version: intgral-video@4` (`@2` since INT-777, `@3` since INT-799, `@4` since INT-975) | the guidance, examples or analysis method change | no |
 | Deployment requirement | the routes and tool schemas in the tables above; the plan schema's supported capability/source pairs; approval, review and recovery endpoints | the ERP or gateway exposes, removes or reshapes a route | yes — and until it is deployed, the package must describe it as unverified |
 
 Release notes name which kind each entry is. A content revision never claims a route exists; a deployment requirement never changes a historical report's or task's declared identities — every saved report keeps the `runbook`, `skill`, `template` and `schema` revisions it was saved with, and every task keeps its `skill_version`. Reading an older artifact with a newer package is expected and does not rewrite it.

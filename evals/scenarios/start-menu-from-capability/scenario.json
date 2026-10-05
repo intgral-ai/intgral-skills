@@ -1,0 +1,150 @@
+{
+  "id": "start-menu-from-capability",
+  "version": 1,
+  "skill": "intgral-start",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "request": "Intgral 能帮我做什么？",
+  "tools": [
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information. Report only host capabilities the client actually has.",
+      "inputSchema": {
+        "client_capabilities": "object?",
+        "open_browser": "boolean?"
+      },
+      "responses": [
+        {
+          "result": {
+            "contract_version": 1,
+            "erp_url": "https://erp.example.test/app/agent-activity",
+            "erp_opened": false,
+            "open_in_browser": false,
+            "runtime": {
+              "erp": "available",
+              "permissions": {
+                "read": true,
+                "draft_write": true,
+                "publish": false
+              },
+              "host": {
+                "browser": "unknown"
+              },
+              "host_capability_source": "caller_reported_not_verified",
+              "limitations": []
+            },
+            "capabilities": [
+              "xlsx 批量导入（映射自检 → 草稿 + 合规报告）",
+              "单品创建/补字段",
+              "已有图片入库与替换",
+              "listing 全貌查询与预览卡"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.list_endpoints",
+      "description": "List the admin routes this deployment exposes; filter by path prefix, method or source.",
+      "inputSchema": {
+        "prefix": "string?",
+        "method": "string?",
+        "source": "string?"
+      },
+      "responses": [
+        {
+          "when": {
+            "prefix": "/admin/video"
+          },
+          "result": {
+            "endpoints": []
+          }
+        },
+        {
+          "when": {
+            "prefix": "/admin/video-generations"
+          },
+          "result": {
+            "endpoints": []
+          }
+        },
+        {
+          "when": {
+            "prefix": "/admin/research"
+          },
+          "result": {
+            "endpoints": [
+              {
+                "method": "GET",
+                "path": "/admin/research/scopes",
+                "source": "custom",
+                "summary": "List research scopes."
+              },
+              {
+                "method": "POST",
+                "path": "/admin/research/plans",
+                "source": "custom",
+                "summary": "Freeze an approved collection plan."
+              }
+            ]
+          }
+        },
+        {
+          "result": {
+            "endpoints": [
+              {
+                "method": "GET",
+                "path": "/admin/research/scopes",
+                "source": "custom",
+                "summary": "List research scopes."
+              },
+              {
+                "method": "POST",
+                "path": "/admin/research/plans",
+                "source": "custom",
+                "summary": "Freeze an approved collection plan."
+              },
+              {
+                "method": "GET",
+                "path": "/admin/amazon/listings",
+                "source": "custom",
+                "summary": "List Amazon listings."
+              },
+              {
+                "method": "GET",
+                "path": "/admin/products/:id/listing-profile",
+                "source": "custom",
+                "summary": "A product's listing profile."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {},
+    "reads": [
+      "medusa.get_started",
+      "medusa.list_endpoints"
+    ],
+    "forbidden_tools": [],
+    "forbidden_writes": [],
+    "required_writes": [
+      {
+        "tool": "medusa.get_started",
+        "args": {}
+      }
+    ],
+    "max_tool_calls": 4,
+    "final_forbidden_text": [
+      "视频",
+      "video"
+    ]
+  },
+  "rubric": [
+    "The menu lists only what this deployment exposes: listing work and research appear; product video does not, because no video route is offered.",
+    "The link is the returned erp_url, named for what it is (the agent activity page); no other ERP path is constructed.",
+    "One question at the end: which item to start with. Chinese."
+  ]
+}

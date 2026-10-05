@@ -1,0 +1,3 @@
+{"tool":"host.shell","args":{"command":"claude mcp list"},"isError":false,"response":{"exit_code":0,"stdout":"No MCP servers configured. Use `claude mcp add` to add a server."}}
+{"tool":"host.shell","args":{"command":"claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp"},"isError":false,"response":{"exit_code":0,"stdout":"Added HTTP MCP server intgral with URL: https://mcp.example.test/mcp to user config\nFile modified: ~/.claude.json"}}
+{"tool":"host.shell","args":{"command":"claude mcp list"},"isError":false,"response":{"exit_code":0,"stdout":"intgral: https://mcp.example.test/mcp (HTTP) - Needs restart to load in this session"}}

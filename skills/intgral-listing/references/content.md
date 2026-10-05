@@ -31,12 +31,18 @@
    使用场景、适用房间、效果形容只用描述或用户确认过的事实，不加通用填充。
    用户在请求里顺带写的数值或材质不等于已确认事实：与 ERP 冲突时一次列清；
    无产品依据时在写入前指出并请用户确认来源，确认后才进文案，不当作“无冲突”直接写。
-   整字段写入（如 bullet_points 数组整体替换）时，搁置某条主张不等于删除该字段里已有且有依据的内容，保留它。
+   整字段写入（如 bullet_points 数组整体替换）时，因缺依据搁置某条新主张，不等于删除该字段里已有且有依据的内容，保留它。
+   用户陈述与 ERP 事实相矛盾时（如材质），那个事实本身有争议：两边都不写，列清冲突，等用户确认。
    本地化不是翻译：品牌名保持原写法，单位公制，不把承诺、认证、最高级和站点 compliance
    点名的促销词带进目标语言；每个站点的限制和品类字段重新读取。
    法规/安全声明与原产地只采用用户明确确认的事实，不推断原产地、危险品、电池、认证、保修或 EAN；
    枚举候选来自当前后端 options。`source: agent` 只描述 AI 撰写的文案，不能把推测变成商品事实。
    schema 属性没有专用字段时，按 schema 放入 update_listing 的 attributes.extra。
+   用户给的 EAN 原样传入：服务端去掉空格、点、横线后存数字，不是 8–14 位时以 `invalid_identifier`
+   （`attribute: "ean"`）拒绝，报告该字段，不猜数字重试；20–29 开头的店内码 Amazon 不收（`restricted_prefix`）。
+   在售（live）listing 改属性前，读它 product type 的 schema（`GET /admin/amazon/product-types/:type`）：
+   `editable:false` 的属性（如 brand、condition）Amazon 不接受在售修改，不写，向用户说明原因；
+   只写可编辑的那部分。新建 listing 不受此限。
 5. 有产品、站点和当前必填输入时，才能 create_listing；不把产品页上的保存误报成 listing 已建立。
    更新后读返回的 compliance，并按[复核与交接](review.md)处理。
    汇报依据 changed / updated 与实际保存结果；即使 isError:true，也检查顶层 write_result：

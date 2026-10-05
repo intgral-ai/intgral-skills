@@ -1,0 +1,284 @@
+{
+  "id": "video-brief-first-round-cap",
+  "version": 1,
+  "skill": "intgral-video",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "request": "给 CV-HOOK-01 做一条 10 秒竖版视频，先给我方案和估价，别直接生成。",
+  "tools": [
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku.",
+      "inputSchema": {
+        "product_id": "string?",
+        "sku": "string?"
+      },
+      "responses": [
+        {
+          "when": {
+            "sku": "CV-HOOK-01"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cv01",
+                "title": "Casa Verde 竹制壁挂挂钩 · 2 件装",
+                "status": "draft",
+                "variants": [
+                  {
+                    "id": "var_cv01",
+                    "sku": "CV-HOOK-01"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cv01"
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "product_id": "prod_cv01"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cv01",
+                "title": "Casa Verde 竹制壁挂挂钩 · 2 件装",
+                "status": "draft",
+                "variants": [
+                  {
+                    "id": "var_cv01",
+                    "sku": "CV-HOOK-01"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cv01"
+              }
+            ]
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.view_product_images",
+      "description": "A product's images: total_images, urls and erp_url.",
+      "inputSchema": {
+        "product_id": "string"
+      },
+      "responses": [
+        {
+          "result": {
+            "total_images": 3,
+            "images": [
+              {
+                "id": "img_cv01_main",
+                "rank": 0,
+                "url": "https://cdn.example.test/cv01/main.jpg"
+              },
+              {
+                "id": "img_cv01_side",
+                "rank": 1,
+                "url": "https://cdn.example.test/cv01/side.jpg"
+              },
+              {
+                "id": "img_cv01_detail",
+                "rank": 2,
+                "url": "https://cdn.example.test/cv01/detail.jpg"
+              }
+            ],
+            "erp_url": "https://erp.example.test/app/products/prod_cv01"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.list_endpoints",
+      "description": "List the admin routes the passthrough tools can call.",
+      "inputSchema": {
+        "prefix": "string?",
+        "method": "string?",
+        "source": "string?"
+      },
+      "responses": [
+        {
+          "result": {
+            "endpoints": [
+              {
+                "method": "POST",
+                "path": "/admin/video-generations",
+                "source": "custom",
+                "summary": "Freeze one SKU's video request into a drafting job. The draft carries the backend's estimate (amount, currency, price source) or null when unknown. Creating a draft is free; nothing is generated or charged until an approval with a cost cap."
+              },
+              {
+                "method": "GET",
+                "path": "/admin/video-generations/:id",
+                "source": "custom",
+                "summary": "One generation with its plan, plan_hash, estimate and status."
+              },
+              {
+                "method": "POST",
+                "path": "/admin/video-generations/:id/approve",
+                "source": "custom",
+                "summary": "Approve the reviewed plan_hash with a cost cap; starts paid generation."
+              },
+              {
+                "method": "GET",
+                "path": "/admin/products/:id/videos",
+                "source": "custom",
+                "summary": "A product's video assets."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.describe_endpoint",
+      "description": "The request schema and summary of one admin route.",
+      "inputSchema": {
+        "method": "string",
+        "path": "string"
+      },
+      "responses": [
+        {
+          "result": {
+            "method": "POST",
+            "path": "/admin/video-generations",
+            "summary": "Freeze one SKU's video request into a drafting job. The draft carries the backend's estimate (amount, currency, price source) or null when unknown. Creating a draft is free; nothing is generated or charged until an approval with a cost cap.",
+            "body": {
+              "product_id": "string",
+              "variant_id": "string",
+              "prompt": "string",
+              "duration_seconds": "integer 4–35",
+              "aspect_ratio": "9:16 | 16:9 | 1:1 | …",
+              "resolution": "768P | 2K",
+              "reference_asset_ids": "string[]?",
+              "idempotency_key": "string"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_get",
+      "description": "Call GET on a permitted admin route. Inert.",
+      "inputSchema": {
+        "path": "string",
+        "query": "object?"
+      },
+      "responses": [
+        {
+          "when": {
+            "path": "/admin/products/prod_cv01/videos"
+          },
+          "result": {
+            "videos": [],
+            "count": 0
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No catalogued admin route matches that path",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_post",
+      "description": "Call POST on a permitted admin route.",
+      "inputSchema": {
+        "path": "string",
+        "body": "object?"
+      },
+      "responses": [
+        {
+          "when": {
+            "path": "/admin/video-generations"
+          },
+          "result": {
+            "video_generation": {
+              "id": "vgen_31",
+              "status": "drafting",
+              "plan_hash": "ph_31a",
+              "estimate": {
+                "amount": 1.2,
+                "currency": "USD",
+                "price_source": "provider price table 2026-10-01"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "host.open_url",
+      "description": "Open a URL in the user's browser. Host tool, not an Intgral MCP tool.",
+      "inputSchema": {
+        "url": "string"
+      },
+      "responses": [
+        {
+          "result": {
+            "opened": true
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "medusa.admin_post": {
+        "allowed_args": [
+          "path",
+          "body"
+        ]
+      }
+    },
+    "reads": [
+      "medusa.get_product",
+      "medusa.view_product_images",
+      "medusa.list_endpoints",
+      "medusa.describe_endpoint",
+      "medusa.admin_get"
+    ],
+    "forbidden_tools": [],
+    "forbidden_writes": [
+      {
+        "tool": "medusa.admin_post",
+        "args": {
+          "path": "/admin/video-generations"
+        },
+        "label": "a draft was created before the user agreed to one"
+      }
+    ],
+    "required_writes": [
+      {
+        "tool": "medusa.get_product",
+        "args": {
+          "sku": "CV-HOOK-01"
+        }
+      }
+    ],
+    "max_calls": {
+      "host.open_url": 1
+    },
+    "max_tool_calls": 12,
+    "final_forbidden_text": [
+      "vgen_"
+    ]
+  },
+  "rubric": [
+    "No draft, approval or generation: the user asked for a plan and an estimate first.",
+    "The first round asks at most five questions, only decisions that change the plan (principal message, duration/aspect/resolution, references or keyframes); style, setting, light and sound come as labelled proposals with reasons, not as questions.",
+    "On price: says the estimate comes from the backend on a draft, the draft is free and generates nothing, and asks whether to create it. No price is invented or taken from memory.",
+    "Product facts come from the read; the SKU page is opened once (or linked). Chinese."
+  ]
+}

@@ -4,15 +4,16 @@ Start a new session by reading the private task record and the existing generati
 
 | Observed state | Action |
 | --- | --- |
-| queued or running | Continue reading the same generation; do not recreate or resume active work |
+| queued or running | Continue reading the same generation; do not recreate or resume active work. A slow provider task with a current worker heartbeat is not stuck; a replacement would pay twice for the same video. Nothing re-reads it after this answer: tell the user to ask again later, never promise to keep watching |
 | running with a registered pause | Read until the worker reaches the pause; a held lease can cause resume to conflict |
-| paused for cost | Show actual reason, spent/held usage and cap; resume with a higher cap only after explicit authorization |
+| paused for cost | Show actual reason, spent/held usage and cap, and the minimum cap that would finish (spent + held); resume with a higher cap only after the user names the new cap — "continue" without an amount is not that authorization |
 | paused because the provider refused the account balance | Nothing was submitted or charged; report it to the user or operator, and after the balance is restored resume the same work — this is not a new paid attempt |
 | price or provider configuration unavailable | Report the deployment limitation; do not ask for provider keys or bypass Intgral |
 | failed with retry_action=resume after a provider rate limit | The backend already retried with backoff; the segment is still queued, nothing was charged; wait, then use the catalogued resume endpoint — not a new attempt |
 | failed with retry_action=resume | Read stage and attempts, confirm this resumes known work within the existing authorization, then use the catalogued resume endpoint |
 | failed with retry_action=new_attempt or submission_unknown | Explain that provider acceptance/charges may be unknown; a new paid attempt needs the user's explicit authorization |
 | failed with retry_action=new_attempt and no provider task ID | The provider rejected the request before creating work; show the returned message, correct the plan, and let the user decide whether to authorize a new attempt |
+| failed at `composing` because the joined cut lost its AIGC provenance label (retry_action=null) | Nothing was published, and no resume can add the label to the stored segments. Say so and why the label is required; the segments stay as product media. The provider stamps every segment, so a lost label points at the deployment's compose step: suggest the operator confirms it before paying again. A whole video needs a new generation — a new paid attempt that needs the user's explicit approval of plan and cost |
 | failed with retry_action=null | Report the supported limitation; preserve already stored assets and do not repeat an ineffective resume. Segments that cannot be composed because their stored specifications differ stay as product media; a whole video needs a new generation with matching keyframe ratios |
 | completed but visually unsuitable | Record the issue if authorized; a new generation is a separately approved paid plan |
 

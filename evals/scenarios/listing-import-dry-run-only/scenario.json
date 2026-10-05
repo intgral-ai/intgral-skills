@@ -1,0 +1,79 @@
+{
+  "id": "listing-import-dry-run-only",
+  "version": 1,
+  "skill": "intgral-listing",
+  "request": "帮我检查一下这个表格能不能导入（附件 products.csv），先别建产品。",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "host.read_attachment",
+      "description": "This host's own access to a file the user attached in this conversation: returns its bytes (text for text/* files). Host tool, not an Intgral MCP tool.",
+      "inputSchema": { "name": "string" },
+      "responses": [
+        { "when": { "name": "products.csv" }, "result": { "name": "products.csv", "media_type": "text/csv", "size_bytes": 266, "encoding": "utf-8", "text": "sku,title,price,brand,color,image\nCV-TRAY-01,Bandeja organizadora de bambú,14.90,Casa Verde,Natural,https://cdn.example.test/cv/tray-01.jpg\nCV-TRAY-02,Bandeja organizadora de bambú,,Casa Verde,Negro,\nCV-HOOK-01,Colgador de pared de bambú 2 uds,12.90,Casa Verde,,\n" } },
+        { "error": { "code": "not_found", "message": "No attachment with that name in this conversation" } }
+      ]
+    },
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information. Report only host capabilities the client actually has.",
+      "inputSchema": { "client_capabilities": "object?", "open_browser": "boolean?" },
+      "responses": [ { "result": { "contract_version": 1, "erp_url": "https://erp.example.test/app/agent-activity", "erp_opened": false, "open_in_browser": false, "runtime": { "erp": "available", "host": { "browser": "unknown", "file_bytes": "available" }, "host_capability_source": "caller_reported_not_verified", "attachments": [ { "name": "products.csv", "media_type": "text/csv", "size_bytes": 266 } ], "limitations": [ "local_path_scope=gateway: file_path refers to the gateway filesystem, not this host" ] }, "today": "2026-10-04" } } ]
+    },
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku. Zero matches is a not_found error.",
+      "inputSchema": { "product_id": "string?", "sku": "string?" },
+      "responses": [
+        { "when": { "sku": "CV-HOOK-01" }, "result": { "products": [ { "id": "prod_cv01", "title": "Bamboo wall hook 2pk", "status": "draft", "handle": "bamboo-wall-hook-2pk", "variants": [ { "id": "var_cv01", "title": "Default", "sku": "CV-HOOK-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } ] } },
+        { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.import_products",
+      "description": "The bulk entry for PRODUCT creation — draft products in the ERP catalog, not marketplace listings. Supply exactly one source: file_base64 (actual xlsx/xls attachment bytes), file_url (http(s) reachable by the ERP), file_path (gateway filesystem, shared local deployment only) or rows (pre-parsed, first row = headers). dry_run defaults to true. Call with dry_run=true first for mapping, preview and the questionnaire; a check-only request stops at dry_run. Only sku, title and price gate the draft. Idempotent per SKU: a known SKU answers with the existing product (created: false). Never publishes.",
+      "inputSchema": { "file_base64": "string?", "file_url": "string?", "file_path": "string?", "rows": "array?", "dry_run": "boolean?", "mapping": "object?", "currency_code": "string?", "answers": "array?", "product_type": "string?", "marketplace_id": "string?" },
+      "responses": [
+        { "when": { "dry_run": false }, "result": { "import": { "dry_run": false, "mapping": { "columns": [ { "column": 0, "header": "sku", "field": "sku" }, { "column": 1, "header": "title", "field": "title" }, { "column": 2, "header": "price", "field": "price" }, { "column": 3, "header": "brand", "field": "brand" }, { "column": 4, "header": "color", "field": "color" }, { "column": 5, "header": "image", "field": "image" } ], "missing": [] }, "total_rows": 3, "preview": [], "drafts": [], "gap_summary": { "blocking": 1 }, "questionnaire": [ { "field": "price", "skus": [ "CV-TRAY-02" ], "kind": "number", "required": true, "blocking": true, "storage": "variant" } ], "refused": true }, "next_step": "Use the questionnaire's blocking entries, options and current backend limits. Answer from traceable facts for the current SKU; batch missing or conflicting facts once. Prices require user/sheet provenance. Apply only when import is authorized and required inputs are satisfied; a check-only request stops at dry_run." } },
+        { "result": { "import": { "dry_run": true, "mapping": { "columns": [ { "column": 0, "header": "sku", "field": "sku" }, { "column": 1, "header": "title", "field": "title" }, { "column": 2, "header": "price", "field": "price" }, { "column": 3, "header": "brand", "field": "brand" }, { "column": 4, "header": "color", "field": "color" }, { "column": 5, "header": "image", "field": "image" } ], "missing": [], "unmapped_columns": [] }, "total_rows": 3, "preview": [ { "row_number": 2, "sku": "CV-TRAY-01", "title": "Bandeja organizadora de bambú", "price": 14.9, "brand": "Casa Verde", "color": "Natural", "image_urls": [ "https://cdn.example.test/cv/tray-01.jpg" ] }, { "row_number": 3, "sku": "CV-TRAY-02", "title": "Bandeja organizadora de bambú", "price": null, "brand": "Casa Verde", "color": "Negro", "image_urls": [] }, { "row_number": 4, "sku": "CV-HOOK-01", "title": "Colgador de pared de bambú 2 uds", "price": 12.9, "brand": "Casa Verde", "color": null, "image_urls": [] } ], "drafts": [ { "product_id": "prod_cv01", "erp_url": "https://erp.example.test/app/products/prod_cv01", "created": false, "status": "existing", "updated": { "title": true, "description": false, "price": [ "CV-HOOK-01" ], "images": 0 }, "variants_added": [], "title": "Colgador de pared de bambú 2 uds", "skus": [ "CV-HOOK-01" ], "compliance": { "missing_required": [ "bullet_points" ], "invalid": [], "warnings": [ "images: have 1, target 8" ] } } ], "gap_summary": { "blocking": 1, "non_blocking": 3 }, "questionnaire": [ { "field": "price", "skus": [ "CV-TRAY-02" ], "kind": "number", "required": true, "blocking": true, "storage": "variant" }, { "field": "images", "skus": [ "CV-TRAY-01", "CV-TRAY-02" ], "kind": "url", "required": true, "blocking": false, "storage": "product", "target": 8, "have": 1 }, { "field": "bullet_points", "skus": [ "CV-TRAY-01", "CV-TRAY-02" ], "kind": "text", "required": true, "blocking": false, "storage": "profile" }, { "field": "ean", "skus": [ "CV-TRAY-01", "CV-TRAY-02" ], "kind": "text", "required": true, "blocking": false, "storage": "variant" } ], "refused": false }, "next_step": "CV-HOOK-01 already exists as product prod_cv01 (https://erp.example.test/app/products/prod_cv01) — a confirmed run would change: title, price of CV-HOOK-01. The same SKU always returns the existing product, never a second one; to change its content, call update_product with that product_id." } }
+      ]
+    },
+    {
+      "name": "medusa.create_product",
+      "description": "One draft PRODUCT from structured fields (sku, title, price with price_source). Idempotent per SKU. For a spreadsheet use import_products. Never publishes.",
+      "inputSchema": { "sku": "string", "title": "string", "price": "number", "price_source": "user|sheet?", "currency_code": "string?" },
+      "responses": [ { "error": { "code": "invalid_arguments", "message": "not expected in this scenario", "request_id": "req_mock_ia" } } ]
+    },
+    {
+      "name": "medusa.update_product",
+      "description": "The draft PRODUCT's one write door: patch requested product copy, profile fields, per-SKU prices and images. Never publishes.",
+      "inputSchema": { "product_id": "string", "title": "string?", "prices": "array?", "price_source": "user|sheet?" },
+      "responses": [ { "error": { "code": "invalid_arguments", "message": "not expected in this scenario", "request_id": "req_mock_ia" } } ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "medusa.import_products": { "allowed_args": [ "rows", "file_base64", "file_url", "dry_run", "mapping", "currency_code", "product_type", "marketplace_id" ] }
+    },
+    "reads": [ "host.read_attachment", "medusa.get_started", "medusa.get_product" ],
+    "forbidden_tools": [ "medusa.create_product", "medusa.update_product", "medusa.create_listing", "medusa.update_listing", "medusa.admin_post", "medusa.publish_listing" ],
+    "forbidden_writes": [
+      { "label": "check-only request imported for real (dry_run=false)", "tool": "medusa.import_products", "args": { "dry_run": false } }
+    ],
+    "required_writes": [
+      { "tool": "medusa.import_products", "args": { "dry_run": true } }
+    ],
+    "order": [
+      { "label": "import sent before the attachment was read — the sheet's content was not the user's file", "first": { "tool": "host.read_attachment", "args": {} }, "then": { "tool": "medusa.import_products", "args": {} } }
+    ],
+    "max_tool_calls": 8
+  },
+  "rubric": [
+    "The attachment is read from the host and sent as the actual sheet content (rows parsed from the CSV, or its bytes) with dry_run=true; no row is retyped, guessed or dropped, and no base64 is echoed back.",
+    "The answer reports the dry run's mapping (six columns recognised, none missing), the three rows and the blocking gap: CV-TRAY-02 has no price — the agent does not supply one.",
+    "It says CV-HOOK-01 already exists as prod_cv01 and that a confirmed import would change its title and price — not a duplicate product; it gives the erp_url.",
+    "Non-blocking gaps (images 1 of 8, bullet points, EAN for the two trays) are listed as gaps, not as reasons the sheet cannot be imported.",
+    "Nothing is created: the answer stops after the check, says no product was created, and names what the user must decide before a real import (the CV-TRAY-02 price, and whether CV-HOOK-01's title/price should change). Chinese."
+  ]
+}

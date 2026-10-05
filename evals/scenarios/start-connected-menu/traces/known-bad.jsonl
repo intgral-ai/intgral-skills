@@ -1,0 +1,2 @@
+{"tool":"medusa.get_started","args":{},"isError":false,"response":{"contract_version":1,"erp_url":"https://erp.example.test/app/agent-activity"}}
+{"tool":"host.shell","args":{"command":"claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp"},"isError":false,"response":{"exit_code":1,"stdout":"MCP server intgral already exists in user config"}}

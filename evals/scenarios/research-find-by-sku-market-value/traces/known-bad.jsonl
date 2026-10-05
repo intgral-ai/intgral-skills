@@ -1,0 +1,4 @@
+{"tool":"medusa.get_product","args":{"sku":"CV-COL-24-GR"},"isError":false,"response":{"products":[{"id":"prod_fake_colander","title":"Escurridor plegable de silicona","status":"published","variants":[{"id":"variant_fake_col24gr","sku":"CV-COL-24-GR"}],"erp_url":"https://erp.example.test/app/products/prod_fake_colander","research_links":[]}]}}
+{"tool":"host.open_url","args":{"url":"https://erp.example.test/app/products/prod_fake_colander"},"isError":false,"response":{"opened":true}}
+{"tool":"medusa.list_product_research_history","args":{"variant_id":"variant_fake_col24gr"},"isError":false,"response":{"links":[],"count":0}}
+{"tool":"medusa.admin_get","args":{"path":"/admin/research/scopes","query":{"target_market":"amazon_es"}},"isError":false,"response":{"scopes":[],"count":0}}

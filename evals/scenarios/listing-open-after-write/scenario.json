@@ -1,0 +1,65 @@
+{
+  "id": "listing-open-after-write",
+  "version": 2,
+  "skill": "intgral-listing",
+  "request": "把 CV-HOOK-01 的标题改成 “Casa Verde 竹制壁挂挂钩 · 2 件装”，只改标题。",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku.",
+      "inputSchema": { "product_id": "string?", "sku": "string?" },
+      "responses": [
+        { "when": { "sku": "CV-HOOK-01" }, "result": { "products": [ { "id": "prod_cv01", "title": "Bamboo wall hook 2pk", "status": "draft", "handle": "bamboo-wall-hook-2pk", "variants": [ { "id": "var_cv01", "title": "Default", "sku": "CV-HOOK-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } ] } },
+        { "when": { "product_id": "prod_cv01" }, "result": { "products": [ { "id": "prod_cv01", "title": "Bamboo wall hook 2pk", "status": "draft", "handle": "bamboo-wall-hook-2pk", "variants": [ { "id": "var_cv01", "title": "Default", "sku": "CV-HOOK-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } ] } },
+        { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.update_product",
+      "description": "The draft PRODUCT's one write door: patch requested product copy, profile fields, per-SKU prices and images — only what the patch names changes. Inspect write_result even on isError. Earlier confirmed writes remain; there is no atomic rollback. Never publishes.",
+      "inputSchema": { "product_id": "string", "title": "string?", "description": "string?", "profile": "object?", "prices": "array?", "images": "array?", "price_source": "user|sheet?" },
+      "responses": [
+        { "when": { "product_id": "prod_cv01" }, "result": { "product_id": "prod_cv01", "write_result": { "status": "succeeded", "completed_steps": [ "batch_1" ], "pending_steps": [], "unknown_steps": [], "next_action": "none" }, "draft": { "product_id": "prod_cv01", "erp_url": "https://erp.example.test/app/products/prod_cv01", "updated": { "product": true, "profile": false, "prices": 0, "images": 0 }, "image_reports": [] } } },
+        { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information.",
+      "inputSchema": { "client_capabilities": "object?", "open_browser": "boolean?" },
+      "responses": [ { "result": { "contract_version": 1, "erp_url": "https://erp.example.test/app/agent-activity", "erp_opened": false, "open_in_browser": false, "runtime": { "erp": "available", "host": { "browser": "unknown", "file_bytes": "unknown" }, "host_capability_source": "caller_reported_not_verified", "limitations": [] }, "today": null } } ]
+    },
+    {
+      "name": "medusa.update_listing",
+      "description": "Edit a marketplace LISTING's desired copy and attributes. Listing edits only; product fields use update_product.",
+      "inputSchema": { "listing_id": "string", "copy": "object?", "attributes": "object?" },
+      "responses": [ { "error": { "code": "not_found", "message": "No listing matches the identifier", "request_id": "req_mock_nf" } } ]
+    },
+    {
+      "name": "host.open_url",
+      "description": "This host's own browser: open a URL in a tab the user can see. Host tool, not an Intgral MCP tool.",
+      "inputSchema": { "url": "string" },
+      "responses": [ { "result": { "opened": true } } ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "medusa.update_product": { "allowed_args": [ "product_id", "title" ] }
+    },
+    "reads": [ "medusa.get_product" ],
+    "forbidden_tools": [ "medusa.update_listing", "medusa.create_listing", "medusa.admin_post", "medusa.admin_delete", "medusa.publish_listing", "medusa.import_products" ],
+    "required_writes": [
+      { "tool": "medusa.update_product", "args": { "product_id": "prod_cv01", "title": "Casa Verde 竹制壁挂挂钩 · 2 件装" } },
+      { "tool": "host.open_url", "args": { "url": "https://erp.example.test/app/products/prod_cv01" } }
+    ],
+    "max_tool_calls": 6
+  },
+  "rubric": [
+    "The saved title is reported from the tool result, with the erp_url as a link.",
+    "The product page is opened once, without being asked (when the SKU is first read or after the save); the answer says it was opened and that review and publication happen there.",
+    "Nothing is done inside the opened page: no save, submit or publish is claimed, and nothing is described as published.",
+    "No unrelated field is changed or mentioned as changed."
+  ]
+}

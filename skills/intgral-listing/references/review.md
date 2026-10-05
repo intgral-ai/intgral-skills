@@ -19,8 +19,18 @@
 
 不发布、不删除业务实体；不经由 admin 直通、token/确认接口或浏览器绕过。
 发布始终由用户在 ERP 按后端有效门槛完成，不能以“用户已说可以”代替 ERP 发布路径。
+在售 listing 的已保存修改（文本、属性、图片 `image_urls`、价格）由用户在 listing 页“Check with Amazon”→ 确认 → 提交
+推到亚马逊；Agent 不准备、不提交这份计划，也不说已经生效。改过的图片和其他修改一样默认勾选，
+各类修改都可单独排除；图片随整份计划由用户在最终确认时授权，新计划不再需要单独的草稿图片复核（旧计划仍需要）。FBM / FBA 切换由用户在编辑器里的 Switch to FBM / Switch to FBA 走同一流程；
+FBM 库存策略（按库位派生，或 `quantity_mode: manual` 手动填 `manual_quantity`，都要配发货模板）只由用户在
+listing 页保存，Agent 不写；可读 `GET /admin/marketplace/listings/:id/fbm-policy`（含 entered_by / entered_at）
+报告现状。缺发货模板时先在 Seller Central 建好，再在页面上 Reload requirements；
+`fulfillment_switch_fba_channel_unavailable` 表示该品类 schema 没有 FBA 渠道，照实报告。
+提交后 Amazon 的 observed 值要等下一次同步才更新。
 变体家族整组发布：用户在 ERP 的家族页先“全部检查”（Check all），再“全部提交”（Submit all）；
 父体先发布，子体在父体确认后随后发布。建立或交接家族时说明这一路径和顺序，不把子体当作各自独立发布。
+家族检查不带图片，也不带发不出去的属性：页面在结果和最终确认里列出“本次检查或提交未包含”的内容，
+图片要在各子体自己的 listing 页检查提交。
 
 ## 草稿图片人工复核
 
@@ -29,14 +39,14 @@ get_listing_context 的关联复核不包含图片复核，也不隐式增加 HT
 原样报告 scope=draft_images_only、status、snapshot（hash、content_version、槽位/URL）与
 latest_review、limitations。unreviewed 表示未复核；approved / rejected 是已记录的决定；
 stale 表示已记录的复核不再对应当前快照，即使 latest_review.decision 仍为 approved。
-provenance=unknown 或 content_sha256=null 不代表原图/生成图或图片字节已验证；
-同一外部 URL 的图片字节也可能变化，不自行补造来源或哈希。
-hash_evidence=product_image_metadata 仅表示哈希来自产品图片元数据，unavailable 表示无证据；
-非空哈希也不代表本次读取验证了图片字节或拥有不可变副本，原图/生成图来源仍为 unknown。
+provenance 原样报告：verified_bytes 表示 ERP 抓取了图片字节并据此算出哈希（hash_evidence=fresh_bytes）；
+unverified 表示这次没有取到字节，哈希只来自产品图片元数据（product_image_metadata）或没有（unavailable）；
+unknown 是旧部署的说法，同样未验证。三者都不说明是原图还是生成图；verified_bytes 只对应 ERP 抓取那一刻的字节，
+同一外部 URL 之后仍可能变化。content_sha256=null 就是没有哈希，不自行补造来源或哈希。
 
 决定必须由已认证的人类 ERP 用户在返回的 erp_url 页面保存，记录 authority=authenticated_user；
 聊天确认不等于已持久化的 ERP 人工批准，网关身份不能代写复核。
-approved 只涉及该草稿图片快照，不是 Amazon 审核通过或发布许可；
+approved 只涉及该草稿图片快照，不是 Amazon 审核通过或发布许可，也不是在售图片修改的前提；
 不提供复核写工具，不调用 publish/confirmations，也不经直通或浏览器替用户保存决定。
 
 ## 部分写入与恢复
