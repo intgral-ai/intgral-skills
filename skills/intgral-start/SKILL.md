@@ -3,7 +3,7 @@ name: intgral-start
 description: Start using Intgral — connect the Intgral MCP server on first use, then show what can be done with a link to Intgral, and open a SKU's Intgral page whenever a task touches that SKU.
 license: MIT
 metadata:
-  version: "0.1.0"
+  version: "0.2.0"
 ---
 
 # 开始使用 Intgral
@@ -27,9 +27,18 @@ metadata:
    命令失败时照原样报告输出。
    其他客户端：给出该客户端自己的添加方式或其连接设置位置；不确定就直说，不编命令。
 3. **登录在客户端里。** 需要授权时由客户端自己的登录页完成；不在聊天里索要 token、密码或密钥。
-   管理员给的是固定访问令牌（不是登录页）时，不替用户安装，给出带令牌请求头的命令让用户自己运行：
-   `claude mcp add --transport http --scope user intgral <地址> --header "Authorization: Bearer <令牌>"`
-   令牌只填在用户自己的终端里：不要令牌、不读令牌，用户贴到聊天里也不用它，建议用户找管理员更换。
+   管理员给的是固定访问令牌（不是登录页）时，令牌只进本机的隐藏输入窗口，不进聊天、命令或输出：
+   1. 先运行本 Skill 自带的脚本（用本 Skill 安装目录下的实际路径）。Windows：
+      `powershell.exe -NoProfile -ExecutionPolicy Bypass -File <本 Skill 目录>/scripts/set-token.ps1 -Url <地址>`
+      （[set-token.ps1](scripts/set-token.ps1)）；macOS：`bash <本 Skill 目录>/scripts/set-token.sh <地址>`
+      （[set-token.sh](scripts/set-token.sh)）。告诉用户会弹出窗口，请在窗口里粘贴令牌。脚本先用网关校验，
+      通过才存进环境变量 `INTGRAL_MCP_TOKEN`，只回报长度。脚本说没保存（被拒、窗口关闭）就照原样转告，这一轮停下。
+   2. 保存成功后，让客户端从这个变量读令牌。Claude Code：
+      `claude mcp add --transport http --scope user intgral <地址> --header 'Authorization: Bearer ${INTGRAL_MCP_TOKEN}'`
+      （单引号，命令里没有令牌）；Codex：在 `config.toml` 的 `[mcp_servers.intgral]` 里写
+      `bearer_token_env_var = "INTGRAL_MCP_TOKEN"`。
+   3. 其他系统或窗口打不开：说明情况，请用户自己在终端里设置这个变量；不给带令牌占位符的命令让用户填。
+   不要令牌、不读令牌、不自己设置这个变量；用户贴到聊天里也不用它，建议用户找管理员更换。
 4. **说清下一步。** 新装的 MCP 一般要重启或重新加载客户端后工具才出现。Intgral 的链接由连上后的
    `medusa.get_started` 返回；现在还拿不到就说明重启后会给出，不猜 ERP 地址。
 5. 安装成功后，给出第 2 步的菜单，问用户想先做什么。

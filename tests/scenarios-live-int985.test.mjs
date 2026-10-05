@@ -24,7 +24,7 @@ const knownBad = [
   ["listing-no-workspace-single-erp", 'FAIL required: no marketplace.get_image_review with {"listing_id":"mlist_lh02_es"}'],
   ["research-find-by-sku-market-value", 'FAIL required: no medusa.admin_get with {"path":"/admin/research/scopes/rscope_colander_es/artifacts"}'],
   ["video-brief-first-round-cap", "FAIL forbidden-write: medusa.admin_post #4 — a draft was created before the user agreed to one"],
-  ["start-bearer-token-deployment", 'FAIL text: host.shell #1 contains "mcp add"'],
+  ["start-bearer-token-deployment", 'FAIL text: host.shell #1 contains "Bearer <"'],
   ["start-menu-from-capability", "FAIL required: no medusa.get_started with {}"]
 ];
 for (const [id, line] of knownBad) {
