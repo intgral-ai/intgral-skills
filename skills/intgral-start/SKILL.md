@@ -9,7 +9,7 @@ metadata:
 # 开始使用 Intgral
 
 用户第一次用 Intgral、问“能做什么”、或连接出问题时用这个 Skill。具体的上架、调研、视频工作由
-`intgral-listing` / `intgral-research` / `intgral-video` 完成；本 Skill 只负责连接、入口和打开页面。
+`intgral-listing` / `intgral-research` / `intgral-video` / `intgral-inventory`（库存盘点）完成；本 Skill 只负责连接、入口和打开页面。
 
 ## 1. 先看是否已连接
 
@@ -48,7 +48,7 @@ metadata:
 已连接时先调用 `medusa.get_started`（不传 `open_browser`），把返回的 `erp_url` 作为“打开 Intgral”的链接给用户，
 并按地址说清是哪一页（例如以 `/agent-activity` 结尾的是 agent 操作记录页）。没有返回 `erp_url` 就说明拿不到，不拼路径。
 然后用编号列出这个部署能做的事，问用户选哪个。调研和视频两项只在 `medusa.list_endpoints` 列出
-`/admin/research` 或 `/admin/video-generations` 路由时才列；没有的不列：
+`/admin/research` 或 `/admin/video-generations` 路由时才列，库存一项只在工具列表里有 `medusa.propose_stock_changes` 时才列；没有的不列：
 
 1. 查 SKU 的状态和现有信息（intgral-listing）
 2. 用表格或资料导入，建产品草稿（intgral-listing）
@@ -56,6 +56,7 @@ metadata:
 4. 看图、补图、调整图片（intgral-listing）
 5. 市场、竞品、供应商调研和产品简报（intgral-research）
 6. 产品视频（intgral-video）
+7. 记录盘点、收货、损坏或库存表，提交给人在 ERP 确认（intgral-inventory）
 
 用户已经说了具体任务就跳过菜单，直接交给对应 Skill。对应 Skill 未安装时说出要装哪个：
 `npx skills@1.7.0 add intgral-ai/intgral-skills --skill <名字>`。

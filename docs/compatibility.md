@@ -44,11 +44,11 @@ When a task touches a specific SKU — a read or a write — the agent opens tha
 
 | Stage | Required capability | Discovered by | Preparation-only fallback | Stop when |
 | --- | --- | --- | --- | --- |
-| Read stock | `medusa.get_stock` (a read in every permission profile) | step 3; step 5 is the read itself | answer from the merchant's own statement, labelled as not read from the ERP | the read returns `not_found` for the SKU: unknown or not stockable, no line for it |
-| Propose | `medusa.propose_stock_changes`; the line shapes its `inputSchema` accepts (`set`; `adjust` with a reason where the deployment has it); a permission profile that is not read-only | step 3 — read `kind` and the required fields in the schema, never assume `adjust` | the prepared lines, source reference and read stock shown in the answer, marked *not proposed* | the tool is absent, the profile refuses the write, or the merchant has stated no sourced quantity |
+| Read stock | `medusa.get_stock` (a read in every permission profile) | step 3; step 5 is the read itself | answer from the merchant's own statement, labelled as not read from the ERP | the read returns `not_found` (unknown SKU) or `invalid_arguments` (exists but cannot hold stock: `fba_listing`, `kit_variant`, ...): no line for it |
+| Propose | `medusa.propose_stock_changes`; `set` and `adjust` lines (read the required fields in its `inputSchema`); a permission profile that is not read-only | step 3 | the prepared lines, source reference and read stock shown in the answer, marked *not proposed* | the tool is absent, the profile refuses the write, or the merchant has stated no sourced quantity |
 | Read back | `medusa.get_stock_change` | step 3 | the batch id and the `erp_url` from the proposal | the batch is `not_found` |
 
-Confirming or rejecting a line is never a capability of this package: a human does it in the ERP, and the gateway refuses both for every permission profile. A confirmed stock change reaches Amazon only through a human-confirmed publication plan. A deployment that lists the tools but not the stock-change backend rules (the refusal codes, warnings and `adjust` lines the package describes) answers with whatever the ERP actually returns; the package reports that and does not assume the rest.
+Confirming or rejecting a line is never a capability of this package: a human does it in the ERP, and the gateway refuses both for every permission profile. A deployment that lists the tools but not the stock-change backend rules (the refusal codes and warnings the package describes) answers with whatever the ERP actually returns; the package reports that and does not assume the rest.
 
 ## Research
 

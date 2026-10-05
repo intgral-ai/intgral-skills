@@ -11,7 +11,7 @@ For every SKU in the request call `medusa.get_stock { sku }` before building a l
 | `available_quantity` | Stocked minus reserved: what can still be sold |
 | `has_level` | `false` means the SKU has no inventory level there yet. The zeros are **not** a counted zero |
 
-A `not_found` error means the SKU is unknown or not stockable here. Tell the merchant; do not propose a line for it and do not guess a similar SKU.
+A `not_found` error means the SKU is unknown: tell the merchant, do not guess a similar SKU. `invalid_arguments` means the SKU exists but cannot hold stock here (its message starts with the reason, e.g. `fba_listing` or `kit_variant`): relay the reason and propose nothing for it.
 
 ## Two kinds of line
 
@@ -44,17 +44,16 @@ Pick the kind from what the merchant said, not from what is easier.
 - An `adjust` needs an existing level (`has_level: true`). With none, ask the merchant for the counted total and propose a `set` instead.
 - No `expected_stocked_quantity`: an adjustment is applied to the stock as it is at confirmation.
 
-> **Deployment note.** Reasoned `adjust` lines belong to the stock-change contract, but the gateway tool shipped first with `set` lines only. Read the `inputSchema` of `medusa.propose_stock_changes`: if `kind` accepts only `set`, say that this deployment cannot yet record reasoned adjustments. Offer to show the arithmetic ("current 120 + received 30 = 150") and propose a `set` only if the merchant confirms the resulting total in their own words; never convert silently.
 
 ## Locations
 
 - One writable location in the `get_stock` result: omit `location_id`.
-- Several: ask the merchant which one the count is for, then pass `location_id`. Never pick one. `location_required` and `location_not_allowed` are refusals, see [refusal codes](refusals-and-scope.md#refusal-codes).
+- Several: ask the merchant which one the count is for, then pass `location_id`. Never pick one. `location_required` is a refusal, see [refusal codes](refusals.md).
 - You never create a location. A location absent from `get_stock` is not writable here.
 
 ## One call, one source
 
-Send one `medusa.propose_stock_changes` per source: `{ source: { kind, reference }, lines: [...] }`, one line per SKU and location, at most 200 lines. Never send `kind: "agent"`. Lines you already know to be out of scope (a row marked FBA, a kit) are not sent: tell the merchant why. If every line is refused the ERP stores nothing and returns only the reasons.
+Send one `medusa.propose_stock_changes` per source: `{ source: { kind, reference }, lines: [...] }`, one line per SKU and location, at most 200 lines. Never send `kind: "agent"`. If every line is refused the ERP stores nothing and returns only the reasons.
 
 After a network or 5xx error whose outcome is unknown, do not send the same call again. Look for a batch the call may have created (`medusa.admin_get` on `/admin/stock-changes` with `status=proposed`, when that route is catalogued) and compare its source reference before deciding. `medusa_error` is the backend's answer, not a lost connection: keep its code and message and request ID.
 
@@ -64,9 +63,9 @@ Tell the merchant, in this order:
 
 1. **"N lines awaiting confirmation"**, where N is the result's `awaiting_confirmation`, and the batch's `erp_url` (the ERP review page where a human confirms or rejects).
 2. **Nothing is in effect yet.** Stock changes only when a person confirms the batch in the ERP. The batch expires if nobody decides in time (`expires_at`).
-3. **Amazon is untouched.** Amazon quantity changes only through a human-confirmed publication plan, never from this proposal.
-4. **Refused lines**, each with its `sku`, `code` and `message` exactly as the ERP wrote them, and what the code means for the merchant (see [refusal codes](refusals-and-scope.md#refusal-codes)).
-5. **Warnings**, from each line's `warnings[]` in the returned batch, as `code` and `message` verbatim: a very large jump (more than 10 times, or more than 1000 units) or an active FBM listing. A warning does not block the line; a human sees it on the review page. Do not rephrase it into reassurance or alarm.
+3. **Nothing is written to Amazon** by this proposal. Do not say when or whether Amazon's quantity will change.
+4. **Refused lines**, each with its `sku`, `code` and `message` exactly as the ERP wrote them, and the follow-up the [refusal codes](refusals.md) call for.
+5. **Warnings**, from each line's `warnings[]` in the returned batch, as `code` and `message` verbatim (for example a very large jump or an active FBM listing), and nothing added: no paraphrase, no promise about Amazon. A warning does not block the line and never changes the number you proposed; a human sees it on the review page.
 6. Lines you left out yourself (already matching, out of scope, awaiting a missing fact) with the reason.
 
 Never write "updated", "saved to stock", "synced", "now 150" or "stock is 150" for a proposed line. "Proposed 150 for CV-MIRROR-01 (now 120), waiting for confirmation" is accurate.

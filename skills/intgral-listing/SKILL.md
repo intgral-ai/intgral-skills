@@ -35,7 +35,7 @@ metadata:
 | 表格/附件导入，或从资料建产品草稿 | [产品导入](references/import.md) | 映射、逐 SKU 结果和待补事实 |
 | 改产品字段，创建或编辑站点 listing | [文案与 listing](references/content.md) | 请求字段的保存结果和合规缺口 |
 | 看图、补图或调整图片 | [图片处理](references/images.md) | 实际张数、保存结果和验收限制 |
-| 改配送方式（FBA / FBM）、FBM 库存或手动数量 | [复核与交接](references/review.md) | 当前状态和用户在 listing 页的操作步骤 |
+| 改配送方式（FBA / FBM）、FBM 库存策略或手动数量（`manual_quantity`）；库位上的实物盘点不在此，归 `intgral-inventory` | [复核与交接](references/review.md) | 当前状态和用户在 listing 页的操作步骤 |
 | 核对完整度、处理部分/未知写入、追踪操作、准备交接 | [复核与交接](references/review.md) | 后端报告、未决问题和下一步 |
 
 只改一个字段（如仅改标题）也走[文案与 listing](references/content.md)：读目标实体，只写该字段，

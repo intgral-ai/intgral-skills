@@ -44,10 +44,12 @@ Ask instead of proposing. All of these are common, and none is a count of what i
 3. Ask for the exact number and where it comes from: "Is that the exact count? Please tell me the number as you counted it and when or where you counted — or send the sheet." Do not offer your own figure to be agreed to. If they reply with an exact number, that reply is the quote.
 4. Stop there. The turn is complete without a proposal.
 
+Example. Merchant: "CV-HOOK-01 大概还有 200 吧". Read `medusa.get_stock`, then reply: "ERP 里 CV-HOOK-01 现在记录的是 118 个（已预留 6）。'大概 200' 是估计，我不能把估计提交成库存。请告诉我实际数过的确切数字，以及什么时候、怎么数的（或者把库存表发给我，我引用文件名和行号）。" No `propose_stock_changes` call.
+
 ## Sheets
 
 - Only rows you actually read. Name each row as numbered in the file (a header usually makes the first data row 2) and say how you numbered it if it could be ambiguous.
 - One quantity cell per SKU. If a quantity needs arithmetic or a unit conversion (cartons times pieces per carton, pairs, dozens), ask the merchant to confirm the resulting total and quote that reply as a `user` source, citing the sheet only as context.
 - A SKU that appears twice, a SKU not in the ERP, or a row that mixes several SKUs: ask which is meant; do not pick.
-- A column that is not a quantity (a note, a channel, a location) is context, not a number. A note such as "FBA" or "bundle" marks the row as out of scope: see [out of scope](refusals-and-scope.md#out-of-scope).
+- A column that is not a quantity (a note, a channel, a location) is context, not a number. A note such as "FBA" or "bundle" is a hint, not a ruling: `medusa.get_stock` says whether the SKU can hold stock; if it answers `invalid_arguments`, relay its reason and leave the row out.
 - Do not copy a whole sheet into the reference. File name and rows are the source.
