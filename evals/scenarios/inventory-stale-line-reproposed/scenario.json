@@ -6,7 +6,7 @@
   "tools": [
     {
       "name": "medusa.get_stock",
-      "description": "Read one SKU's stock at every location the store can sell from, straight from the ERP. Per location: stocked_quantity (units counted there), reserved_quantity (held for open orders) and available_quantity (stocked minus reserved, what can still be sold); has_level false means the SKU has no inventory level at that location yet, so its zeros are not a counted zero. This reads current stock only: it never changes it. An unknown SKU is a not_found error; a SKU that exists but cannot hold stock here is an invalid_arguments error whose message starts with the ERP's code (ambiguous_sku: several variants share it; not_inventory_managed; kit_variant: stock lives on the kit's parts; fba_listing: Amazon holds the stock). Relay that reason to the user and do not propose stock for the SKU.",
+      "description": "Read one SKU's stock at every location the store can sell from, straight from the ERP. Per location: stocked_quantity (units counted there), reserved_quantity (held for open orders) and available_quantity (stocked minus reserved, what can still be sold); has_level false means the SKU has no inventory level at that location yet, so its zeros are not a counted zero. This reads current stock only: it never changes it. An unknown SKU is a not_found error; a SKU that exists but cannot hold stock here is an invalid_arguments error whose message carries the ERP's code (ambiguous_sku: several variants share it; not_inventory_managed; kit_variant: stock lives on the kit's parts; fba_listing: Amazon holds the stock). Relay that reason to the user and do not propose stock for the SKU.",
       "inputSchema": {
         "sku": "string"
       },
@@ -34,7 +34,7 @@
         {
           "error": {
             "code": "not_found",
-            "message": "No stockable variant has the SKU requested",
+            "message": "Not found",
             "request_id": "req_mock_nf"
           }
         }
@@ -42,7 +42,7 @@
     },
     {
       "name": "medusa.propose_stock_changes",
-      "description": "Propose stock changes; a human confirms them in the ERP. Two kinds of line. kind \"set\" sets one SKU's stocked quantity at a location (quantity, and expected_stocked_quantity: the stocked quantity there now, read it with medusa.get_stock; 0 when the SKU has no level at that location yet; a set line without it is refused). kind \"adjust\" is a relative change (delta: a signed non-zero integer, e.g. 12 received or -3 broken) with a reason: received, damaged, count_correction or other (other needs a reason_note saying what happened); it is applied to the stock as it is when a human confirms, so it needs no expected_stocked_quantity, and a missing reason refuses that line. Use set for a counted total and adjust for a movement the merchant described. This never changes stock: quantities take effect only after a human confirms the batch in the ERP at erp_url. Afterwards tell the user \"N lines awaiting confirmation\" (N is awaiting_confirmation) and give them the erp_url; report every refused[] line with its reason and every line warning (large_jump, active_fbm_listing) as the ERP wrote them, and never say stock was updated. A source is required and is checked before anything is sent: kind \"user\" with a reference that quotes the merchant's own words and when or on what occasion they said them (e.g. \"Mia, 2 Oct 14:00, counting the shelf: 150 pcs\"), or kind \"sheet\" with a reference citing the file and row (e.g. \"stock-2026-10.xlsx row 12\"). Never invent or estimate a quantity, and never use kind \"agent\": your own inference is not a source, so when the merchant has not said or written the number, ask. If every line is refused nothing is stored. Read the result back later with medusa.get_stock_change.",
+      "description": "Propose stock changes; a human confirms them in the ERP. Two kinds of line. kind \"set\" sets one SKU's stocked quantity at a location (quantity, and expected_stocked_quantity: the stocked quantity there now, read it with medusa.get_stock; 0 when the SKU has no level at that location yet; a set line without it is refused). kind \"adjust\" is a relative change (delta: a signed non-zero integer, e.g. 12 received or -3 broken) with a reason: received, damaged, count_correction or other (other needs a reason_note saying what happened); it is applied to the stock as it is when a human confirms, so it needs no expected_stocked_quantity, and a missing reason refuses that line. Use set for a counted total and adjust for a movement the merchant described. This never changes stock: quantities take effect only after a human confirms the batch in the ERP at batch.erp_url. Afterwards tell the user \"N lines awaiting confirmation\" (N is batch.counts.proposed) and give them batch.erp_url; report every refused[] line with its reason and every line warning (large_jump, active_fbm_listing) as the ERP wrote them, and never say stock was updated. A source is required and is checked before anything is sent: kind \"user\" with a reference that quotes the merchant's own words and when or on what occasion they said them (e.g. \"Mia, 2 Oct 14:00, counting the shelf: 150 pcs\"), or kind \"sheet\" with a reference citing the file and row (e.g. \"stock-2026-10.xlsx row 12\"). Never invent or estimate a quantity, and never use kind \"agent\": your own inference is not a source, so when the merchant has not said or written the number, ask. If every line is refused nothing is stored. Read the result back later with medusa.get_stock_change.",
       "inputSchema": {
         "source": "object",
         "lines": "array"
@@ -98,9 +98,7 @@
                 }
               ]
             },
-            "refused": [],
-            "erp_url": "https://erp.example.test/app/stock-changes/scb_01SYNNEW",
-            "awaiting_confirmation": 1
+            "refused": []
           }
         }
       ]
@@ -277,7 +275,7 @@
         {
           "error": {
             "code": "not_found",
-            "message": "No stock-change batch has the id requested",
+            "message": "Not found",
             "request_id": "req_mock_nf"
           }
         }

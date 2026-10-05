@@ -30,7 +30,7 @@ A stock quantity is a fact only the merchant knows. The Agent reads current stoc
 1. **Source.** Every quantity needs one: the merchant's own words with when or on what occasion, or a sheet file and row. [Source rules](references/sources.md).
 2. **Read first.** `medusa.get_stock` for every SKU. A counted total is a `set`; a movement (received, damaged) is an `adjust` with a reason. [Reading and building lines](references/propose.md).
 3. **Propose.** One `medusa.propose_stock_changes` call per source.
-4. **Report.** "N lines awaiting confirmation" and the `erp_url`, then refused lines and warnings verbatim. [After the proposal](references/propose.md#after-the-proposal), [refusal codes](references/refusals.md).
+4. **Report.** "N lines awaiting confirmation" and the batch's `erp_url`, then refused lines and warnings verbatim. [After the proposal](references/propose.md#after-the-proposal), [refusal codes](references/refusals.md).
 5. **Stale or expired.** [Stale and expired lines](references/recovery.md).
 
 ## Boundaries

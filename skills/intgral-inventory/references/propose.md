@@ -11,7 +11,7 @@ For every SKU in the request call `medusa.get_stock { sku }` before building a l
 | `available_quantity` | Stocked minus reserved: what can still be sold |
 | `has_level` | `false` means the SKU has no inventory level there yet. The zeros are **not** a counted zero |
 
-A `not_found` error means the SKU is unknown: tell the merchant, do not guess a similar SKU. `invalid_arguments` means the SKU exists but cannot hold stock here (its message starts with the reason, e.g. `fba_listing` or `kit_variant`): relay the reason and propose nothing for it.
+A `not_found` error means the SKU is unknown: tell the merchant, do not guess a similar SKU. `invalid_arguments` means the SKU exists but cannot hold stock here (its message carries the ERP's code and reason, e.g. `invalid_data: fba_listing: …` or `kit_variant`): relay the reason and propose nothing for it.
 
 ## Two kinds of line
 
@@ -61,7 +61,7 @@ After a network or 5xx error whose outcome is unknown, do not send the same call
 
 Tell the merchant, in this order:
 
-1. **"N lines awaiting confirmation"**, where N is the result's `awaiting_confirmation`, and the batch's `erp_url` (the ERP review page where a human confirms or rejects).
+1. **"N lines awaiting confirmation"**, where N is `batch.counts.proposed`, and `batch.erp_url` (the ERP review page where a human confirms or rejects).
 2. **Nothing is in effect yet.** Stock changes only when a person confirms the batch in the ERP. The batch expires if nobody decides in time (`expires_at`).
 3. **Nothing is written to Amazon** by this proposal. Do not say when or whether Amazon's quantity will change.
 4. **Refused lines**, each with its `sku`, `code` and `message` exactly as the ERP wrote them, and the follow-up the [refusal codes](refusals.md) call for.
@@ -70,7 +70,7 @@ Tell the merchant, in this order:
 
 Never write "updated", "saved to stock", "synced", "now 150" or "stock is 150" for a proposed line. "Proposed 150 for CV-MIRROR-01 (now 120), waiting for confirmation" is accurate.
 
-When every line was refused there is no batch and no `erp_url`: report the reasons only, and say nothing was stored.
+When every line was refused the call is an error: there is no batch and no `erp_url`, and the structured `refused[]` carries the reasons. Report them only, and say nothing was stored.
 
 ## Reading a batch back
 
