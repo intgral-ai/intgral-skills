@@ -1,6 +1,6 @@
 {
   "id": "video-delegated-draft",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-video",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -850,6 +850,37 @@
         "query": "object?"
       },
       "responses": [
+        {
+          "when": {
+            "path": "/admin/video-generations/vgen_31"
+          },
+          "result": {
+            "video_generation": {
+              "id": "vgen_31",
+              "status": "drafting",
+              "mode": "reference",
+              "product_id": "prod_cv01",
+              "variant_id": "var_cv01",
+              "plan_hash": "ph_31a",
+              "input": {
+                "duration_seconds": 8,
+                "aspect_ratio": "9:16",
+                "resolution": "768P",
+                "reference_asset_ids": [
+                  "img_cv01_main"
+                ]
+              },
+              "cost": {
+                "estimate": {
+                  "amount": 1.2,
+                  "currency": "USD",
+                  "price_source": "provider price table 2026-10-01"
+                }
+              },
+              "approval": null
+            }
+          }
+        },
         {
           "when": {
             "path": "/admin/products/prod_cv01/videos"

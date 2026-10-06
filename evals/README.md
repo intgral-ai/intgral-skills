@@ -85,6 +85,8 @@ The INT-1095 ratified decisions (2026-10-06: five Standard modules, image text o
 
 The INT-1094 delegated-draft scenario (2026-10-06) was run on the shipped wording (`57c07b3`, `-baseline`) and on the INT-1094 wording (`402da97`, `-final`), with Haiku runs of both: Opus baseline 11/13 (no draft, no estimate; it asked the merchant to describe the product), Opus final 13/13, both Haiku runs 13/13 (Haiku already drafts on the baseline, and in both it invents the hook's appearance, which the rubric records as a failure). The ChatGPT conversation that motivated it was reproduced across six multi-turn runs in [one record](runs/2026-10-06-int1094-chatgpt-multiturn/run.md): the free draft is created at merchant message 3 / 4 (v0.2.0, cooperative / delegating), 2 / 4 (wave 2) and 2 / 2 (INT-1094).
 
+Scenarios `video-delegated-draft` (v2) and `video-delete-version-handoff` (v3) answered `GET /admin/video-generations/<id>` with `not_found` for the generation they hand out until INT-1104 (2026-10-06); every earlier recorded run of them ran without that read-back, so a read-back failure in those records is the fixture's, not the agent's.
+
 One run shows what an agent *can* do with the package; it does not show what it *reliably* does. A reliability record repeats the same scenario in independent fresh contexts — `runs/<date>-<scenario>-reliability/` with one `attempts/<n>/` per attempt, the pass rate on the hard checks, the rubric per attempt, and a reading of every failure that says whether it belongs to the package, the model or the harness. State the session merchant in every prompt: it is part of the scenario contract (`merchant` in `scenario.json`), and leaving it out changes the task.
 
 ## Scenarios

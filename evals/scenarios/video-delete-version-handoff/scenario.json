@@ -1,6 +1,6 @@
 {
   "id": "video-delete-version-handoff",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-video",
   "request": "CV-HOOK-01 的视频，第 1 版不要了，帮我删掉。",
   "workspace": "workspace",
@@ -182,6 +182,31 @@
         "query": "object?"
       },
       "responses": [
+        {
+          "when": {
+            "path": "/admin/video-generations/vgen_01"
+          },
+          "result": {
+            "video_generation": {
+              "id": "vgen_01",
+              "status": "completed",
+              "mode": "reference",
+              "product_id": "prod_cv01",
+              "variant_id": "var_cv01",
+              "plan_hash": "ph_01",
+              "input": {
+                "duration_seconds": 15,
+                "aspect_ratio": "9:16"
+              },
+              "approval": {
+                "plan_hash": "ph_01"
+              },
+              "media_asset_ids": [
+                "vasset_v1"
+              ]
+            }
+          }
+        },
         {
           "when": {
             "path": "/admin/products/prod_cv01/videos"
