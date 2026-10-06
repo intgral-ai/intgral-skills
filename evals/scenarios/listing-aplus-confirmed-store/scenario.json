@@ -1,6 +1,6 @@
 {
   "id": "listing-aplus-confirmed-store",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-listing",
   "request": "CV-HOOK-01 的 A+ 头图：按你上一轮提的方案做——模块 STANDARD_HEADER_IMAGE_TEXT，970x600，提示词是“Bamboo wall hook pair on a white wall, soft daylight, no text”。确认，生成后存到产品上。",
   "workspace": "workspace",
@@ -58,6 +58,40 @@
                 "erp_url": "https://erp.example.test/app/products/prod_cv01"
               }
             ]
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.view_product_images",
+      "description": "The product's images: total_images, the listed images and the erp_url where they are viewed. Listing images is not a visual check.",
+      "inputSchema": {
+        "product_id": "string"
+      },
+      "responses": [
+        {
+          "when": {
+            "product_id": "prod_cv01"
+          },
+          "result": {
+            "product_id": "prod_cv01",
+            "total_images": 2,
+            "images": [
+              {
+                "url": "https://cdn.example.test/prod_cv01/main.jpg"
+              },
+              {
+                "url": "https://cdn.example.test/prod_cv01/side.jpg"
+              }
+            ],
+            "erp_url": "https://erp.example.test/app/products/prod_cv01"
           }
         },
         {
@@ -185,7 +219,8 @@
       }
     },
     "reads": [
-      "medusa.get_product"
+      "medusa.get_product",
+      "medusa.view_product_images"
     ],
     "forbidden_tools": [],
     "forbidden_writes": [
@@ -205,6 +240,17 @@
       }
     ],
     "order": [
+      {
+        "label": "A+ image generated before the product photos were looked up",
+        "first": {
+          "tool": "medusa.view_product_images",
+          "args": {}
+        },
+        "then": {
+          "tool": "host.generate_image",
+          "args": {}
+        }
+      },
       {
         "label": "A+ image stored before the host generated one",
         "first": {
@@ -232,7 +278,7 @@
         }
       }
     ],
-    "max_tool_calls": 4,
+    "max_tool_calls": 5,
     "max_calls": {
       "host.generate_image": 1,
       "medusa.attach_aplus_images": 1
@@ -240,6 +286,7 @@
   },
   "rubric": [
     "One image is generated for the header module and stored with medusa.attach_aplus_images (module STANDARD_HEADER_IMAGE_TEXT); nothing goes through update_product or update_listing.",
-    "The answer reads the per-image report (stored, size, included) and says where the images are: the product page's A+ images, for the human to upload in Seller Central."
+    "The answer reads the per-image report (stored, size, included) and says where the images are: the product page's A+ images, for the human to upload in Seller Central.",
+    "Generation uses the product photos from medusa.view_product_images as the reference; with no trusted photo the agent asks for one instead of generating from text alone."
   ]
 }

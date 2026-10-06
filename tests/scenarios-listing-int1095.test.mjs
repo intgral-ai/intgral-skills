@@ -19,7 +19,7 @@ const writeFinal = (dir, text) => { const path = join(dir, "final.md"); writeFil
 
 const knownBad = [
   ["listing-aplus-propose-first", "FAIL forbidden: host.generate_image #3 is not allowed in this scenario"],
-  ["listing-aplus-confirmed-store", "FAIL forbidden-write: medusa.update_product #4 — A+ image stored through medusa.update_product (the Amazon listing gallery)"],
+  ["listing-aplus-confirmed-store", "FAIL forbidden-write: medusa.update_product #5 — A+ image stored through medusa.update_product (the Amazon listing gallery)"],
   ["listing-aplus-tool-missing", "FAIL forbidden-write: medusa.update_product #2 — A+ image stored through medusa.update_product (the Amazon listing gallery)"]
 ];
 for (const [id, line] of knownBad) {
@@ -41,9 +41,9 @@ test("propose first: an answer without the exact pixel size fails on final", (t)
 
 test("confirmed store: storing before any image was generated fails on order", (t) => {
   const calls = trace("listing-aplus-confirmed-store", "compliant.jsonl");
-  const { stdout, status } = evaluateTrace("listing-aplus-confirmed-store", writeTrace(temp(t), [calls[0], calls[2]]));
+  const { stdout, status } = evaluateTrace("listing-aplus-confirmed-store", writeTrace(temp(t), [calls[0], calls[1], calls[3]]));
   assert.equal(status, 1);
-  assert.deepEqual(failLines(stdout), ["FAIL order: medusa.attach_aplus_images #2 — A+ image stored before the host generated one"]);
+  assert.deepEqual(failLines(stdout), ["FAIL order: medusa.attach_aplus_images #3 — A+ image stored before the host generated one"]);
 });
 
 test("confirmed store: the listing gallery is refused too", (t) => {
@@ -51,5 +51,12 @@ test("confirmed store: the listing gallery is refused too", (t) => {
   const bad = { tool: "medusa.update_listing", args: { listing_id: "mlist_cv01_es", images: [{ path: "C:/Users/merchant/generated/aplus-hdr.png" }] }, isError: false, response: { write_result: { changed: true } } };
   const { stdout, status } = evaluateTrace("listing-aplus-confirmed-store", writeTrace(temp(t), [...calls, bad]));
   assert.equal(status, 1);
-  assert.deepEqual(failLines(stdout), ["FAIL forbidden-write: medusa.update_listing #4 — A+ image stored through medusa.update_listing (the Amazon listing gallery)"]);
+  assert.deepEqual(failLines(stdout), ["FAIL forbidden-write: medusa.update_listing #5 — A+ image stored through medusa.update_listing (the Amazon listing gallery)"]);
+});
+
+test("confirmed store: generating without looking at the product photos fails on order", (t) => {
+  const calls = trace("listing-aplus-confirmed-store", "compliant.jsonl");
+  const { stdout, status } = evaluateTrace("listing-aplus-confirmed-store", writeTrace(temp(t), [calls[0], calls[2], calls[3]]));
+  assert.equal(status, 1);
+  assert.deepEqual(failLines(stdout), ["FAIL order: host.generate_image #2 — A+ image generated before the product photos were looked up"]);
 });

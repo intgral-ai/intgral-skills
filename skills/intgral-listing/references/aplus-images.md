@@ -17,8 +17,8 @@ A+（EBC、品牌内容）图片存在产品的 A+ 图片区，与 listing 图�
 
 以上是 Amazon 的最小像素，按它作为目标尺寸；Premium 模块的尺寸没有依据，不提供。
 
-1. 用 `medusa.get_product` 确定 SKU 对应的产品；产品外观取自它已有的图片（`medusa.view_product_images`）和已确认事实，不添加没有来源的卖点。
+1. 用 `medusa.get_product` 确定 SKU 对应的产品，再用 `medusa.view_product_images` 取它的图片作为参考图；外观只取自这些图和已确认事实，不添加没有来源的卖点。没有可信参考图就请用户先给产品照片，这一轮不生成。
 2. 提议模块、精确像素和完整提示词，然后只问一个问题：按此生成吗？图里不放文字（文字由模块的文字栏承载，图上文字有审核风险）。得到“是”之前，不生成、不存。
-3. 确认后按该模块的宽高比生成，生成能力和“已生成”的说法按[图片处理](images.md)第 2 条，只报主机实际返回的。主机能缩放就调到精确像素；不能就照样存，并如实报实际尺寸。
+3. 确认后带着第 1 步的参考图、按该模块的宽高比生成，生成能力和“已生成”的说法按[图片处理](images.md)第 2 条，只报主机实际返回的。主机能缩放就调到精确像素；不能就照样存，并如实报实际尺寸。
 4. 调用 `medusa.attach_aplus_images`：`product_id` 加 `images: [{module, path | url | data_base64}]`，`module` 填上表的模块类型。读返回的逐张报告（`included`、`reason`: duplicate / rejected、`findings`），说清哪些存了、哪些没有。
 5. 告诉用户去产品页（`erp_url`）的 A+ 图片区取图，自己在 Seller Central 上传。
