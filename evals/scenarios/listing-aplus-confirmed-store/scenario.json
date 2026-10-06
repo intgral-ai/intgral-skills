@@ -1,0 +1,245 @@
+{
+  "id": "listing-aplus-confirmed-store",
+  "version": 1,
+  "skill": "intgral-listing",
+  "request": "CV-HOOK-01 的 A+ 头图：按你上一轮提的方案做——模块 STANDARD_HEADER_IMAGE_TEXT，970x600，提示词是“Bamboo wall hook pair on a white wall, soft daylight, no text”。确认，生成后存到产品上。",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku.",
+      "inputSchema": {
+        "product_id": "string?",
+        "sku": "string?"
+      },
+      "responses": [
+        {
+          "when": {
+            "sku": "CV-HOOK-01"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cv01",
+                "title": "Bamboo wall hook 2pk",
+                "status": "draft",
+                "handle": "bamboo-wall-hook-2pk",
+                "variants": [
+                  {
+                    "id": "var_cv01",
+                    "title": "Default",
+                    "sku": "CV-HOOK-01"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cv01"
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "product_id": "prod_cv01"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cv01",
+                "title": "Bamboo wall hook 2pk",
+                "status": "draft",
+                "handle": "bamboo-wall-hook-2pk",
+                "variants": [
+                  {
+                    "id": "var_cv01",
+                    "title": "Default",
+                    "sku": "CV-HOOK-01"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cv01"
+              }
+            ]
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "host.generate_image",
+      "description": "This host's own image generation tool: generate an image from a prompt and optional reference image URLs. Host tool, not an Intgral MCP tool.",
+      "inputSchema": {
+        "prompt": "string",
+        "reference_urls": "array?",
+        "size": "string?"
+      },
+      "responses": [
+        {
+          "result": {
+            "path": "C:/Users/merchant/generated/aplus-hdr.png",
+            "width": 970,
+            "height": 600
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.attach_aplus_images",
+      "description": "Store A+ Content images on the product, separate from the listing gallery. images: [{module, path | url | data_base64}]. Returns a per-image report.",
+      "inputSchema": {
+        "product_id": "string",
+        "images": "array"
+      },
+      "responses": [
+        {
+          "when": {
+            "product_id": "prod_cv01"
+          },
+          "result": {
+            "product_id": "prod_cv01",
+            "images": [
+              {
+                "module": "STANDARD_HEADER_IMAGE_TEXT",
+                "stored_url": "https://erp.example.test/files/aplus/hdr_01.png",
+                "width": 970,
+                "height": 600,
+                "included": true,
+                "reason": null,
+                "findings": []
+              }
+            ],
+            "erp_url": "https://erp.example.test/app/products/prod_cv01"
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.update_product",
+      "description": "The draft PRODUCT's one write door: patch requested product copy, profile fields, per-SKU prices and images — only what the patch names changes. Never publishes.",
+      "inputSchema": {
+        "product_id": "string",
+        "title": "string?",
+        "images": "array?"
+      },
+      "responses": [
+        {
+          "result": {
+            "write_result": {
+              "changed": true
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.update_listing",
+      "description": "Edit an Amazon marketplace listing draft: copy, attributes and listing images.",
+      "inputSchema": {
+        "listing_id": "string",
+        "title": "string?",
+        "images": "array?"
+      },
+      "responses": [
+        {
+          "result": {
+            "write_result": {
+              "changed": true
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "medusa.attach_aplus_images": {
+        "allowed_args": [
+          "product_id",
+          "images"
+        ]
+      },
+      "medusa.update_product": {
+        "allowed_args": [
+          "product_id",
+          "title",
+          "images"
+        ]
+      },
+      "medusa.update_listing": {
+        "allowed_args": [
+          "listing_id",
+          "title",
+          "images"
+        ]
+      }
+    },
+    "reads": [
+      "medusa.get_product"
+    ],
+    "forbidden_tools": [],
+    "forbidden_writes": [
+      {
+        "label": "A+ image stored through medusa.update_product (the Amazon listing gallery)",
+        "tool": "medusa.update_product",
+        "args": {
+          "images": "*"
+        }
+      },
+      {
+        "label": "A+ image stored through medusa.update_listing (the Amazon listing gallery)",
+        "tool": "medusa.update_listing",
+        "args": {
+          "images": "*"
+        }
+      }
+    ],
+    "order": [
+      {
+        "label": "A+ image stored before the host generated one",
+        "first": {
+          "tool": "host.generate_image",
+          "args": {}
+        },
+        "then": {
+          "tool": "medusa.attach_aplus_images",
+          "args": {}
+        }
+      }
+    ],
+    "required_writes": [
+      {
+        "tool": "medusa.attach_aplus_images",
+        "args": {
+          "product_id": "prod_cv01",
+          "images": {
+            "$contains": [
+              {
+                "module": "STANDARD_HEADER_IMAGE_TEXT"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "max_tool_calls": 4,
+    "max_calls": {
+      "host.generate_image": 1,
+      "medusa.attach_aplus_images": 1
+    }
+  },
+  "rubric": [
+    "One image is generated for the header module and stored with medusa.attach_aplus_images (module STANDARD_HEADER_IMAGE_TEXT); nothing goes through update_product or update_listing.",
+    "The answer reads the per-image report (stored, size, included) and says where the images are: the product page's A+ images, for the human to upload in Seller Central."
+  ]
+}

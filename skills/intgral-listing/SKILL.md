@@ -41,6 +41,7 @@ metadata:
 | 表格/附件导入，或从资料建产品草稿 | [产品导入](references/import.md) | 映射、逐 SKU 结果和待补事实 |
 | 改产品字段，创建或编辑站点 listing | [文案与 listing](references/content.md) | 请求字段的保存结果和合规缺口 |
 | 看图、补图或调整图片 | [图片处理](references/images.md) | 实际张数、保存结果和验收限制 |
+| A+ / EBC / 品牌内容图片 | [A+ 图片](references/aplus-images.md) | 模块、像素和提示词的提议；确认后的存放报告 |
 | 改配送方式（FBA / FBM）、FBM 库存或手动数量 | [复核与交接](references/review.md) | 当前状态和用户在 listing 页的操作步骤 |
 | 核对完整度、处理部分/未知写入、追踪操作、准备交接 | [复核与交接](references/review.md) | 后端报告、未决问题和下一步 |
 
