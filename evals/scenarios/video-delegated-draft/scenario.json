@@ -863,9 +863,6 @@
               "variant_id": "var_cv01",
               "plan_hash": "ph_31a",
               "input": {
-                "duration_seconds": 8,
-                "aspect_ratio": "9:16",
-                "resolution": "768P",
                 "reference_asset_ids": [
                   "img_cv01_main"
                 ]
