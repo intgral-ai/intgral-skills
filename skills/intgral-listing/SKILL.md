@@ -22,7 +22,8 @@ metadata:
   哪些要求算、怎么写：[私有工作区](references/private-workspace.md)。
 - **产品查不到，先查 listing。** `medusa.get_product` 返回 `not_found` 时，先按[查询与连接](references/inspect.md)第 1 步
   用 seller SKU 查 listing（`view=all`），再下结论；bootstrap 导入只作为选项交给用户，这一轮不执行。
-- **A+ 图片单独存。** 用户要 A+ / EBC / 品牌内容图片时按 [A+ 图片](references/aplus-images.md)：先提议模块、像素和提示词并问一次，
+- **A+ 图片单独存。** 用户要 A+ / EBC / 品牌内容图片时按 [A+ 图片](references/aplus-images.md)：图上文字只用用户原话，
+  含价格、促销、配送、保证、竞品或无依据说法就先拒绝并说明；先提议模块、像素、提示词和原话并问一次，
   确认后才生成，只用 `medusa.attach_aplus_images` 存；部署没列出这个工具就说明不支持，不生成。
 - **不替人做决定。** 不发布、不删除、不写图片复核结果；用户在聊天里说"通过"不等于复核已保存。
 - **结果照实说。** 只按工具返回报告；写入被拒绝或返回错误时，就说没有保存。
