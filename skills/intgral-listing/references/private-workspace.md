@@ -29,8 +29,6 @@ Read the current merchant's `preferences.md` (and `rules.md` if present) before 
 
 ## Lasting instructions and one-off choices
 
-What the user said decides, not how long the rule might last:
-
 - **Explicit lasting words** ("from now on", "always", "remember"): write it now, by the procedure below, then read back and report.
 - **A requirement that could outlive this task** — brand wording, a banned word or claim, market or language, a style correction, or the same correction a second time — stated without those words: finish the task with it applied, then offer once. The offer is part of the answer's single final question, never a second question: quote the exact row, in the user's words, that would be written ("Save «<their words>» to your preferences?"). Write nothing until the user says yes; then follow the procedure below. Without a settled merchant or a writable private location, no offer.
 - **Clearly one-off** ("this time", "just for this"): applies to this task only; no offer, no write — say it is not recorded.
