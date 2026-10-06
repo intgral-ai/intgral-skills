@@ -79,7 +79,7 @@ Read the returned compiled `segments[].prompt`: that is what the user approves a
 
 ## Positive phrasing
 
-Every sentence in a request says what is wanted. A negative ("no hands", "without a fancy transition") is remembered by the model as the noun it names. A recurring problem the user states as lasting goes into the private preference file's avoid list in the user's own words, and is written into requests as a positive sentence:
+Every sentence in a request says what is wanted. A negative ("no hands", "without a fancy transition") is remembered by the model as the noun it names. A recurring problem the user states (saved through the lasting-instruction rule in [private workspace](private-workspace.md)) goes into the private preference file's avoid list in the user's own words, and is written into requests as a positive sentence:
 
 | Avoid-list entry | Sentence in the request |
 | --- | --- |

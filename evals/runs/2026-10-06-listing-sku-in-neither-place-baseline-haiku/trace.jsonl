@@ -1,0 +1,2 @@
+{"tool":"medusa.get_product","args":{"sku":"CV-LAMP-99"},"isError":true,"response":{"code":"not_found","message":"No product matches the identifier","request_id":"req_mock_nf"}}
+{"tool":"medusa.admin_get","args":{"path":"/admin/amazon/listings","query":{"seller_sku":"CV-LAMP-99","view":"all"}},"isError":false,"response":{"listings":[],"count":0,"limit":20,"offset":0}}

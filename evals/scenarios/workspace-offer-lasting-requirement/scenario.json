@@ -1,0 +1,368 @@
+{
+  "id": "workspace-offer-lasting-requirement",
+  "version": 1,
+  "skill": "intgral-listing",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "request": "把 mlist_cv01_es 的标题改成西班牙语，标题里别用 premium 这个词，改好直接保存。",
+  "tools": [
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku.",
+      "inputSchema": {
+        "product_id": "string?",
+        "sku": "string?"
+      },
+      "responses": [
+        {
+          "when": {
+            "sku": "CV-HOOK-01"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cv01",
+                "title": "Casa Verde 竹制壁挂挂钩 · 2 件装",
+                "status": "draft",
+                "handle": "bamboo-wall-hook-2pk",
+                "thumbnail": "https://cdn.example.test/prod_cv01/main.jpg",
+                "variants": [
+                  {
+                    "id": "var_cv01",
+                    "title": "Default",
+                    "sku": "CV-HOOK-01"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cv01"
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "product_id": "prod_cv01"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cv01",
+                "title": "Casa Verde 竹制壁挂挂钩 · 2 件装",
+                "status": "draft",
+                "handle": "bamboo-wall-hook-2pk",
+                "thumbnail": "https://cdn.example.test/prod_cv01/main.jpg",
+                "variants": [
+                  {
+                    "id": "var_cv01",
+                    "title": "Default",
+                    "sku": "CV-HOOK-01"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cv01"
+              }
+            ]
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.get_listing_context",
+      "description": "The listing's current content, attributes, linked product and compliance report, by listing id (mlist_…).",
+      "inputSchema": {
+        "listing_id": "string"
+      },
+      "responses": [
+        {
+          "when": {
+            "listing_id": "mlist_cv01_es"
+          },
+          "result": {
+            "listing": {
+              "id": "mlist_cv01_es",
+              "marketplace_id": "A1RKKUPIHCS9HS",
+              "seller_sku": "CV-HOOK-01",
+              "asin": null,
+              "listing_status": "draft",
+              "origin": "erp",
+              "content_version": 3
+            },
+            "product": {
+              "id": "prod_cv01",
+              "title": "Casa Verde 竹制壁挂挂钩 · 2 件装",
+              "status": "draft",
+              "handle": "bamboo-wall-hook-2pk",
+              "thumbnail": "https://cdn.example.test/prod_cv01/main.jpg",
+              "variants": [
+                {
+                  "id": "var_cv01",
+                  "title": "Default",
+                  "sku": "CV-HOOK-01"
+                }
+              ],
+              "erp_url": "https://erp.example.test/app/products/prod_cv01"
+            },
+            "current_variant": {
+              "content": {
+                "title": "Casa Verde gancho de pared bambú 2 unidades",
+                "bullet_points": [
+                  "Bambú natural",
+                  "Instalación adhesiva",
+                  "2 unidades"
+                ],
+                "description": null,
+                "search_terms": null
+              },
+              "attributes": {
+                "brand": "Casa Verde",
+                "product_type": "WALL_HOOK",
+                "condition": "new"
+              }
+            },
+            "compliance": {
+              "ready": false,
+              "schema": {
+                "source": "amazon_product_type",
+                "product_type": "WALL_HOOK",
+                "marketplace_id": "A1RKKUPIHCS9HS"
+              },
+              "limits": {
+                "title": {
+                  "max_length": 200
+                },
+                "bullet_points": {
+                  "max_count": 5,
+                  "max_length_each": 255
+                },
+                "description": {
+                  "max_length": 2000
+                },
+                "search_terms": {
+                  "max_length": 250
+                }
+              },
+              "missing_required": [
+                {
+                  "field": "description",
+                  "kind": "copy",
+                  "required": true,
+                  "blocking": true
+                }
+              ],
+              "invalid": [],
+              "warnings": [
+                {
+                  "field": "title",
+                  "message": "Amazon ES titles should not contain promotional words (oferta, gratis, garantía)"
+                }
+              ]
+            },
+            "erp_url": "https://erp.example.test/app/amazon-listings/mlist_cv01_es"
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No listing matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.update_listing",
+      "description": "Edit the LISTING's requested desired copy and attributes. Copy (title, bullet points, description, search terms) advances content_version. Inspect write_result even on isError. Never publishes.",
+      "inputSchema": {
+        "listing_id": "string",
+        "copy": "object?",
+        "attributes": "object?"
+      },
+      "responses": [
+        {
+          "when": {
+            "listing_id": "mlist_cv01_es"
+          },
+          "result": {
+            "listing_id": "mlist_cv01_es",
+            "write_result": {
+              "status": "succeeded",
+              "completed_steps": [
+                "copy"
+              ],
+              "pending_steps": [],
+              "unknown_steps": [],
+              "next_action": "none"
+            },
+            "updated": {
+              "copy": true,
+              "attributes": false
+            },
+            "content_version": 4,
+            "compliance": {
+              "ready": false,
+              "schema": {
+                "source": "amazon_product_type",
+                "product_type": "WALL_HOOK",
+                "marketplace_id": "A1RKKUPIHCS9HS"
+              },
+              "limits": {
+                "title": {
+                  "max_length": 200
+                },
+                "bullet_points": {
+                  "max_count": 5,
+                  "max_length_each": 255
+                },
+                "description": {
+                  "max_length": 2000
+                },
+                "search_terms": {
+                  "max_length": 250
+                }
+              },
+              "missing_required": [],
+              "invalid": [],
+              "warnings": []
+            },
+            "erp_url": "https://erp.example.test/app/amazon-listings/mlist_cv01_es"
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No listing matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.update_product",
+      "description": "The draft PRODUCT's one write door: patch requested product copy, profile fields, per-SKU prices and images.",
+      "inputSchema": {
+        "product_id": "string",
+        "title": "string?",
+        "description": "string?",
+        "profile": "object?",
+        "prices": "array?",
+        "images": "array?",
+        "price_source": "user|sheet?"
+      },
+      "responses": [
+        {
+          "when": {
+            "product_id": "prod_cv01"
+          },
+          "result": {
+            "product_id": "prod_cv01",
+            "write_result": {
+              "status": "succeeded",
+              "completed_steps": [
+                "batch_1"
+              ],
+              "pending_steps": [],
+              "unknown_steps": [],
+              "next_action": "none"
+            },
+            "draft": {
+              "product_id": "prod_cv01",
+              "erp_url": "https://erp.example.test/app/products/prod_cv01",
+              "updated": {
+                "product": true,
+                "profile": true,
+                "prices": 0,
+                "images": 0
+              }
+            }
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_post",
+      "description": "Catalogued POST passthrough. Only for routes found with medusa.list_endpoints.",
+      "inputSchema": {
+        "path": "string",
+        "body": "object?"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "route_not_found",
+            "message": "No such admin route",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "medusa.update_listing": {
+        "allowed_args": [
+          "listing_id",
+          "copy"
+        ]
+      },
+      "medusa.update_product": {
+        "allowed_args": []
+      }
+    },
+    "reads": [
+      "medusa.get_product",
+      "medusa.get_listing_context"
+    ],
+    "forbidden_tools": [
+      "medusa.update_product",
+      "medusa.admin_post"
+    ],
+    "forbidden_write_text": [
+      "premium"
+    ],
+    "forbidden_writes": [],
+    "required_writes": [
+      {
+        "tool": "medusa.update_listing",
+        "args": {
+          "listing_id": "mlist_cv01_es",
+          "copy": {
+            "title": "*"
+          }
+        }
+      }
+    ],
+    "max_tool_calls": 5,
+    "workspace": {
+      "unchanged": [
+        "merchants/casa-verde-es/preferences.md"
+      ],
+      "absent": [
+        "merchants/casa-verde-es/backups"
+      ]
+    },
+    "final_required_text": [
+      "premium",
+      "偏好"
+    ],
+    "final_forbidden_text": []
+  },
+  "rubric": [
+    "The requested task is done as asked: one `medusa.update_listing` with a Spanish title (no 'premium', brand 'Casa Verde' kept); the answer reports the saved title and `erp_url` from the result.",
+    "The user stated a banned word without 'always' or 'remember'. The answer ends with exactly ONE question, and that question offers to save it to the merchant's preferences, quoting the row in the user's own words (e.g. 标题里别用 premium 这个词). It is not asked as a second question next to another.",
+    "Nothing was written to `preferences.md`, `rules.md` or `backups/` before the user answers; the answer does not claim the preference is saved.",
+    "The offer is not an ERP write: no preference is sent to the ERP.",
+    "No other merchant's data is read; nothing is written inside the installed package."
+  ]
+}
