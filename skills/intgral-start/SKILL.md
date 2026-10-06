@@ -8,8 +8,8 @@ metadata:
 
 # 开始使用 Intgral
 
-用户第一次用 Intgral、问“能做什么”、或连接出问题时用这个 Skill。具体的上架、调研、视频工作由
-`intgral-listing` / `intgral-research` / `intgral-video` 完成；本 Skill 只负责连接、入口和打开页面。
+具体的上架、调研、视频工作由 `intgral-listing` / `intgral-research` / `intgral-video` 完成；
+本 Skill 负责连接、入口，以及找到并打开 SKU 的页面。
 
 ## 1. 先看是否已连接
 
@@ -79,4 +79,4 @@ metadata:
 `medusa.get_product` 返回 `not_found` 不等于没有：listing 可以没有目录产品。先用 seller SKU 查 listing
 （`medusa.admin_get` 读 `GET /admin/amazon/listings?seller_sku=<SKU>&view=all`，不带 `view=all` 只返回待复核队列），
 找到就读 `medusa.get_listing_context` 并按上面的规则打开它的 `listing_erp_url`；告知目录里还没有该产品，是否
-bootstrap 导入由用户决定，这一轮不执行。两处都没有才说没找到，不猜相近 SKU。
+bootstrap 导入由用户决定，这一轮不执行。两处都没有就照实说没找到，请用户核对 SKU；不拿相近 SKU 代替。
