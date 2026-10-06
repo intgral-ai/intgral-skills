@@ -10,7 +10,12 @@
    带了 `view=all` 仍是空页才是没有。`marketplace.list_listings` / `marketplace.get_listing` 的行带
    `listing_id`（`mlist_…`）时，它就是 ERP listing id，直接传给 `medusa.get_listing_context` 和
    `marketplace.get_image_review`；行里没有 `listing_id`（独立 Connector 部署）时才用上面的 admin_get 查找。
-   不从产品推断 listing_id。产品返回的字段有限，未返回不等于不存在：
+   不从产品推断 listing_id。
+   **`get_product` 返回 `not_found` 不等于没有**：Amazon 导入的 listing 可以没有目录产品。
+   先做上面的 `view=all` 查找，再下结论：找到就以该 listing 为准——`medusa.get_listing_context` 读事实（`product: null`
+   即目录里还没有对应产品），打开它的 `listing_erp_url`，告诉用户目录暂无该产品，把 bootstrap 导入
+   （`medusa.request_bootstrap_preview` / `medusa.request_bootstrap_apply`）作为选项交给用户决定；
+   这一轮不调用二者。目录和 listing 里都没有，才说“两处都没找到”，不猜相近 SKU。产品返回的字段有限，未返回不等于不存在：
    必须补读时用 `medusa.list_endpoints` / `medusa.describe_endpoint` 发现真实 GET 契约，
    再通过 `medusa.admin_get` 读取已确认范围的数据。
 2. 状态用 `medusa.get_operation_status`；review 用 `medusa.list_listing_reviews` /

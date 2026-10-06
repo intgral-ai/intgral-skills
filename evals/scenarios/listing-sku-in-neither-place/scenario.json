@@ -1,0 +1,258 @@
+{
+  "id": "listing-sku-in-neither-place",
+  "version": 1,
+  "skill": "intgral-listing",
+  "request": "CV-LAMP-99 现在是什么状态？",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa catalog products with their status and trimmed variants. Provide exactly one of product_id or sku. Searches the product catalog only, not marketplace listings.",
+      "inputSchema": {
+        "product_id": "string?",
+        "sku": "string?"
+      },
+      "responses": [
+        {
+          "when": {
+            "sku": "CV-LAMP-98"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cvlamp98",
+                "title": "Lámpara de pie de bambú",
+                "status": "draft",
+                "variants": [
+                  {
+                    "id": "var_cvlamp98",
+                    "sku": "CV-LAMP-98"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cvlamp98"
+              }
+            ]
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_get",
+      "description": "GET a catalogued admin route.",
+      "inputSchema": {
+        "path": "string",
+        "query": "object?"
+      },
+      "responses": [
+        {
+          "when": {
+            "path": "/admin/amazon/listings"
+          },
+          "result": {
+            "listings": [],
+            "count": 0,
+            "limit": 20,
+            "offset": 0
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No catalogued admin route matches that path",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.get_listing_context",
+      "description": "Read a listing's trimmed facts, its product (null when the catalog has none) and compliance. Takes listing_id.",
+      "inputSchema": {
+        "listing_id": "string"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No listing matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.request_bootstrap_preview",
+      "description": "Preview importing a marketplace listing into the catalog as a product (a bootstrap import).",
+      "inputSchema": {
+        "listing_id": "string"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "invalid_arguments",
+            "message": "not expected in this scenario",
+            "request_id": "req_mock_ia"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.request_bootstrap_apply",
+      "description": "Apply a bootstrap import: creates the catalog product from the listing. A write.",
+      "inputSchema": {
+        "listing_id": "string"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "invalid_arguments",
+            "message": "not expected in this scenario",
+            "request_id": "req_mock_ia"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.create_product",
+      "description": "A write tool; not expected in this scenario.",
+      "inputSchema": {},
+      "responses": [
+        {
+          "error": {
+            "code": "invalid_arguments",
+            "message": "not expected in this scenario",
+            "request_id": "req_mock_ia"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.create_listing",
+      "description": "A write tool; not expected in this scenario.",
+      "inputSchema": {},
+      "responses": [
+        {
+          "error": {
+            "code": "invalid_arguments",
+            "message": "not expected in this scenario",
+            "request_id": "req_mock_ia"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.update_product",
+      "description": "A write tool; not expected in this scenario.",
+      "inputSchema": {},
+      "responses": [
+        {
+          "error": {
+            "code": "invalid_arguments",
+            "message": "not expected in this scenario",
+            "request_id": "req_mock_ia"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.update_listing",
+      "description": "A write tool; not expected in this scenario.",
+      "inputSchema": {},
+      "responses": [
+        {
+          "error": {
+            "code": "invalid_arguments",
+            "message": "not expected in this scenario",
+            "request_id": "req_mock_ia"
+          }
+        }
+      ]
+    },
+    {
+      "name": "host.open_url",
+      "description": "This host's own browser: open a URL in a tab the user can see. Host tool, not an Intgral MCP tool.",
+      "inputSchema": {
+        "url": "string"
+      },
+      "responses": [
+        {
+          "result": {
+            "opened": true
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {},
+    "reads": [
+      "medusa.get_product",
+      "medusa.get_listing_context",
+      "medusa.admin_get"
+    ],
+    "forbidden_tools": [
+      "medusa.request_bootstrap_preview",
+      "medusa.request_bootstrap_apply",
+      "medusa.create_product",
+      "medusa.update_product",
+      "medusa.update_listing",
+      "medusa.create_listing",
+      "host.open_url"
+    ],
+    "required_writes": [
+      {
+        "tool": "medusa.admin_get",
+        "args": {
+          "path": "/admin/amazon/listings",
+          "query": {
+            "seller_sku": "CV-LAMP-99",
+            "view": "all"
+          }
+        }
+      }
+    ],
+    "order": [
+      {
+        "label": "the listing lookup came before the catalog read of the SKU",
+        "first": {
+          "tool": "medusa.get_product",
+          "args": {
+            "sku": "CV-LAMP-99"
+          }
+        },
+        "then": {
+          "tool": "medusa.admin_get",
+          "args": {
+            "path": "/admin/amazon/listings"
+          }
+        }
+      }
+    ],
+    "max_calls": {
+      "medusa.get_product": 1,
+      "medusa.admin_get": 1
+    },
+    "max_tool_calls": 3,
+    "final_required_text": [
+      "CV-LAMP-99",
+      "listing"
+    ],
+    "final_forbidden_text": [
+      "CV-LAMP-98",
+      "已创建"
+    ]
+  },
+  "rubric": [
+    "The catalog read returns not_found; the agent then looks the SKU up as an exact seller SKU among listings with view=all, and the page is empty.",
+    "It says plainly that CV-LAMP-99 was found in neither the catalog nor the listings, and asks the user to check the SKU or give another identifier.",
+    "It does not guess a near-match (CV-LAMP-98 is a different lamp in the catalog and is not offered), create anything, offer an import or open a page. Chinese."
+  ]
+}

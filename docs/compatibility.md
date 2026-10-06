@@ -26,7 +26,7 @@ Every workflow discovers the same way. Later steps refine earlier ones; a stop a
 
 | Stage | Required capability | Discovered by | Preparation-only fallback | Stop when |
 | --- | --- | --- | --- | --- |
-| Query | `medusa.get_product` / `medusa.get_listing_context`; `medusa.admin_get` for fields the trimmed read omits | steps 1, 3, 4 | answer from the user's supplied facts, labelled as unsourced | the read returns `not_found` for the identifier the user gave |
+| Query | `medusa.get_product` / `medusa.get_listing_context`; `medusa.admin_get` for fields the trimmed read omits | steps 1, 3, 4 | answer from the user's supplied facts, labelled as unsourced | `get_product` returns `not_found` for the SKU the user gave **and** the seller-SKU lookup (`medusa.admin_get` `GET /admin/amazon/listings?seller_sku=<SKU>&view=all`) finds no listing either; a listing without a product is worked from the listing and the catalog gap reported |
 | Import | `medusa.import_products` (or `medusa.create_product`) with a readable file or structured fields | step 3; `client_capabilities.file_bytes` for attachments | mapping table and per-SKU gaps without a write | the tool is absent or the host cannot read the file's bytes |
 | Edit product fields | `medusa.update_product` | step 3 (its `inputSchema` names the patchable fields) | proposed copy in the answer, marked suggested, nothing saved | the field is not in the schema, or `price_source` is required and unknown |
 | Edit listing copy/attributes | `medusa.update_listing`; category constraints through the discovered GET route | steps 3, 4 | draft copy with the constraints that could not be checked listed as gaps | the listing route is absent or the category schema is `unknown`/`none` for a blocking field |
