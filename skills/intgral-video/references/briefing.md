@@ -4,13 +4,13 @@ Read existing product facts, this merchant's private preferences and any resumed
 
 Each decision records a source: user, saved preference, product evidence, delegated creative choice, Agent proposal, or unverified. A creative choice is delegated only when the user authorized the Agent to decide it. The principal message and product identity constraints need product/user evidence, not an invented marketing claim.
 
-When the user delegates a choice ("you decide"), fill it, state the choice in one sentence and continue. When the user delegates the principal message or the identity constraints, decline in one sentence, ask the question and wait. An unverified claim counts as a recorded decision, but it never enters an action, an on-screen text or a prompt sentence.
+When the user delegates a choice ("you decide"), fill it, state the choice in one sentence and continue. When the user delegates the principal message, propose one fact already in the product data (title, attributes, confirmed facts) with source "product evidence" and continue; decline in one sentence and ask only when the product data holds no usable fact. An unverified claim counts as a recorded decision, but it never enters an action, an on-screen text or a prompt sentence.
 
 | Decision | Record |
 | --- | --- |
 | Purpose | Audience, placement and intended use; suggests the default duration and aspect ratio |
 | Principal message | The one product fact the viewer should remember |
-| Identity constraints | Visible shape, color, material, packaging and details that must stay consistent. Draft the appearance description from the product images first (form, material, surface, details); the user corrects it line by line and names what must never change |
+| Identity constraints | Visible shape, color, material, packaging and details that must stay consistent. Draft the appearance description from the product images you have seen (form, material, surface, details); what you cannot draft that way, including every image on a host that cannot view images, is "exactly as in Picture 1" with the main image as Picture 1 (source: product image), stated in one sentence — never ask the user to describe the product. The user corrects it line by line and names what must never change |
 | Creative flexibility | Permitted setting, props, lighting and transformations, including whether hands may appear |
 | Style | Six axes, one answer each: art direction (photoreal product photography, illustrated, CG), palette (two or three named colors or a reference image), tone (quiet, playful or dramatic, one only), era (contemporary, a named decade, or timeless), rhythm (few slow peaks or many fast ones), tier (a named brand or campaign as the visual reference, never "premium feel") |
 | Setting and lighting | One sentence for where the scene is; the key light and its direction, with optional fill and rim |

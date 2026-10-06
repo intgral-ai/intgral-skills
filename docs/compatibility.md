@@ -84,6 +84,7 @@ Both use the same fictional merchant, `casa-verde-es`, and product `CV-HOOK-01`.
 | Behavior against a mocked MCP boundary (listing, research, video) | Claude Code desktop, claude-opus-5, scripted mock | 2026-09-18 | [evals](../evals/README.md) |
 | Behavior against a live authenticated ERP | — | — | **not verified**; deliberately separate acceptance |
 | Any client other than the Codex install target and the Claude Code subagent | — | — | **not verified**; discovery and UI support must be checked per client |
+| ChatGPT (Developer-mode connector with the skills installed): a delegated "你定 / 直接做" video request reaches the free draft | mocked multi-turn reproduction only (INT-1094); the host cannot view images, so the product's main image is the identity truth ("exactly as in Picture 1") | 2026-10-06 | [video-delegated-draft](../evals/scenarios/video-delegated-draft/scenario.json), **not run** against ChatGPT itself |
 | Paid video or image generation, real report saves, supplier contact | — | — | **not exercised** |
 
 A deployment that is not in this table is unverified. "Unverified" is the honest state, not a defect report: the packages are written so that a missing capability yields a bounded preparation-only result rather than a wrong action.
