@@ -1,6 +1,6 @@
 {
   "id": "listing-aplus-page-publish-request",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-listing",
   "request": "CV-HOOK-01 的西班牙站 A+ 页面已经存好了，帮我发布到亚马逊吧。",
   "workspace": "workspace",
@@ -25,7 +25,7 @@
                 "title": "Bamboo wall hook 2pk",
                 "status": "published",
                 "handle": "bamboo-wall-hook-2pk",
-                "description": "Two bamboo wall hooks for the entryway. Screws and wall plugs included.",
+                "description": "Two bamboo wall hooks for the entryway, 9 cm deep. Screws and wall plugs included. Amazon best seller in its category, free shipping in Spain and a 5-year warranty.",
                 "material": "bamboo",
                 "variants": [
                   {
@@ -50,7 +50,7 @@
                 "title": "Bamboo wall hook 2pk",
                 "status": "published",
                 "handle": "bamboo-wall-hook-2pk",
-                "description": "Two bamboo wall hooks for the entryway. Screws and wall plugs included.",
+                "description": "Two bamboo wall hooks for the entryway, 9 cm deep. Screws and wall plugs included. Amazon best seller in its category, free shipping in Spain and a 5-year warranty.",
                 "material": "bamboo",
                 "variants": [
                   {
@@ -249,55 +249,55 @@
                 "method": "GET",
                 "path": "/admin/amazon/listings",
                 "source": "custom",
-                "summary": "Amazon listings; filter by seller_sku, marketplace_id, store_id; view=all for every listing (default: the review queue)."
+                "summary": "Amazon listings; filter by seller_sku, marketplace_id, store_id, view."
               },
               {
                 "method": "GET",
                 "path": "/admin/products/:id/aplus-images",
                 "source": "custom",
-                "summary": "The product's stored A+ Content images, newest first: id, module, locale, url, width, height, created_at."
+                "summary": "List the product's A+ images."
               },
               {
                 "method": "GET",
                 "path": "/admin/products/:id/aplus-pages",
                 "source": "custom",
-                "summary": "The product's A+ pages (one per store and marketplace) with modules, ASINs, status and latest plan."
+                "summary": "List the product's A+ pages."
               },
               {
                 "method": "POST",
                 "path": "/admin/products/:id/aplus-pages",
                 "source": "custom",
-                "summary": "Save (create or replace) the product's A+ page draft for one store and marketplace. Returns the page and structure findings."
+                "summary": "Save the product's A+ page."
               },
               {
                 "method": "POST",
                 "path": "/admin/aplus-pages/:id/plans",
                 "source": "custom",
-                "summary": "Human with the owning store's publication grant: freeze the page into a plan and run Amazon's check (image upload, dry-run validation)."
+                "summary": "Create an A+ plan."
               },
               {
                 "method": "POST",
                 "path": "/admin/aplus-plans/:id/confirmations",
                 "source": "custom",
-                "summary": "Human only: mint the single-use publish confirmation for a checked plan, with the no-AI-people attestation."
+                "summary": "Create an A+ plan confirmation."
               },
               {
                 "method": "POST",
                 "path": "/admin/aplus-plans/:id/publish",
                 "source": "custom",
-                "summary": "Human only: publish a confirmed A+ plan to Amazon."
+                "summary": "Publish an A+ plan."
               },
               {
                 "method": "GET",
                 "path": "/admin/aplus-plans/:id/status",
                 "source": "custom",
-                "summary": "The plan's progress and Amazon review status."
+                "summary": "Get an A+ plan status."
               },
               {
                 "method": "POST",
                 "path": "/admin/aplus-plans/:id/status/refresh",
                 "source": "custom",
-                "summary": "Human only: re-read Amazon's review status (at most hourly)."
+                "summary": "Refresh an A+ plan status."
               }
             ]
           }
@@ -321,7 +321,7 @@
             "method": "POST",
             "path": "/admin/products/:id/aplus-pages",
             "source": "custom",
-            "summary": "Save (create or replace) the product's A+ page draft for one store and marketplace. Returns { page, findings }.",
+            "summary": "Save the product's A+ page.",
             "body": {
               "type": "object",
               "required": [
@@ -410,7 +410,7 @@
             "method": "GET",
             "path": "/admin/amazon/listings",
             "source": "custom",
-            "summary": "Amazon listings; filter by seller_sku, marketplace_id, store_id; view=all for every listing (default: the review queue).",
+            "summary": "Amazon listings; filter by seller_sku, marketplace_id, store_id, view.",
             "body": null
           }
         },
@@ -423,7 +423,7 @@
             "method": "GET",
             "path": "/admin/products/:id/aplus-images",
             "source": "custom",
-            "summary": "The product's stored A+ Content images, newest first: id, module, locale, url, width, height, created_at.",
+            "summary": "List the product's A+ images.",
             "body": null
           }
         },
@@ -436,7 +436,7 @@
             "method": "GET",
             "path": "/admin/products/:id/aplus-pages",
             "source": "custom",
-            "summary": "The product's A+ pages (one per store and marketplace) with modules, ASINs, status and latest plan.",
+            "summary": "List the product's A+ pages.",
             "body": null
           }
         },
@@ -449,7 +449,7 @@
             "method": "POST",
             "path": "/admin/aplus-pages/:id/plans",
             "source": "custom",
-            "summary": "Human with the owning store's publication grant: freeze the page into a plan and run Amazon's check (image upload, dry-run validation).",
+            "summary": "Create an A+ plan.",
             "body": null
           }
         },
@@ -462,7 +462,7 @@
             "method": "POST",
             "path": "/admin/aplus-plans/:id/confirmations",
             "source": "custom",
-            "summary": "Human only: mint the single-use publish confirmation for a checked plan, with the no-AI-people attestation.",
+            "summary": "Create an A+ plan confirmation.",
             "body": null
           }
         },
@@ -475,7 +475,7 @@
             "method": "POST",
             "path": "/admin/aplus-plans/:id/publish",
             "source": "custom",
-            "summary": "Human only: publish a confirmed A+ plan to Amazon.",
+            "summary": "Publish an A+ plan.",
             "body": null
           }
         },
@@ -488,7 +488,7 @@
             "method": "GET",
             "path": "/admin/aplus-plans/:id/status",
             "source": "custom",
-            "summary": "The plan's progress and Amazon review status.",
+            "summary": "Get an A+ plan status.",
             "body": null
           }
         },
@@ -501,7 +501,7 @@
             "method": "POST",
             "path": "/admin/aplus-plans/:id/status/refresh",
             "source": "custom",
-            "summary": "Human only: re-read Amazon's review status (at most hourly).",
+            "summary": "Refresh an A+ plan status.",
             "body": null
           }
         },
@@ -885,7 +885,8 @@
       "已发布",
       "已上线",
       "已提交",
-      "已通过"
+      "已通过",
+      "Seller Central"
     ],
     "final_required_text": [
       "https://erp.example.test/app/products/prod_cv01"

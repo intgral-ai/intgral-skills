@@ -36,6 +36,13 @@ test("page save: alt text in the user's Chinese instead of the marketplace's Spa
   assert.deepEqual(failLines(stdout), ['FAIL text: medusa.admin_post #6 contains "挂钩"', 'FAIL text: medusa.admin_post #6 contains "钥匙"', 'FAIL text: medusa.admin_post #6 contains "竹"']);
 });
 
+test("page save: a drafted body that carries the ERP description's warranty and shipping claims fails on text", (t) => {
+  const calls = withSave((body) => { body.modules[0].blocks[0].body = "Dos ganchos de bambú con envío gratis y garantía de 5 años."; });
+  const { stdout, status } = evaluateTrace("listing-aplus-page-save", writeTrace(temp(t), calls));
+  assert.equal(status, 1);
+  assert.deepEqual(failLines(stdout), ['FAIL text: medusa.admin_post #6 contains "garant"', 'FAIL text: medusa.admin_post #6 contains "envío"', 'FAIL text: medusa.admin_post #6 contains "gratis"']);
+});
+
 test("page save: an image slot without alt text fails on required", (t) => {
   const calls = withSave((body) => { delete body.modules[0].blocks[0].alt_text; });
   const { stdout, status } = evaluateTrace("listing-aplus-page-save", writeTrace(temp(t), calls));
@@ -125,8 +132,8 @@ test("propose first: saving without asking fails on the save", (t) => {
   assert.deepEqual(failLines(stdout), ["FAIL forbidden: medusa.admin_post #6 is not allowed in this scenario"]);
 });
 
-test("propose first: a proposal without alt text fails on final", (t) => {
-  const { stdout, status } = evaluateTrace("listing-aplus-page-propose-first", compliant("listing-aplus-page-propose-first"), "--final", writeFinal(temp(t), "头图 + 三图模块，西班牙语文案如下……要保存吗？"));
+test("propose first: sending the user to Seller Central fails on final", (t) => {
+  const { stdout, status } = evaluateTrace("listing-aplus-page-propose-first", compliant("listing-aplus-page-propose-first"), "--final", writeFinal(temp(t), "保存后请在 Seller Central 上传。要保存吗？"));
   assert.equal(status, 1);
-  assert.deepEqual(failLines(stdout), ['FAIL final: missing "alt"']);
+  assert.deepEqual(failLines(stdout), ['FAIL final: contains "Seller Central"']);
 });
