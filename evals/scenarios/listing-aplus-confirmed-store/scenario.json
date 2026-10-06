@@ -1,6 +1,6 @@
 {
   "id": "listing-aplus-confirmed-store",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-listing",
   "request": "CV-HOOK-01 的 A+ 头图：按你上一轮提的方案做——模块 STANDARD_HEADER_IMAGE_TEXT，970x600，提示词是“Bamboo wall hook pair on a white wall, soft daylight, no text”。确认，生成后存到产品上。",
   "workspace": "workspace",
@@ -71,9 +71,10 @@
     },
     {
       "name": "medusa.view_product_images",
-      "description": "The product's images: total_images, the listed images and the erp_url where they are viewed. Listing images is not a visual check.",
+      "description": "Lists the product's images — the real count and the URLs — and returns erp_url. Provide product_id or sku. Its A+ Content images come separately in aplus_images (module, locale, url, width, height), never in total_images. Listing images is not a visual check.",
       "inputSchema": {
-        "product_id": "string"
+        "product_id": "string?",
+        "sku": "string?"
       },
       "responses": [
         {
@@ -91,6 +92,26 @@
                 "url": "https://cdn.example.test/prod_cv01/side.jpg"
               }
             ],
+            "aplus_images": [],
+            "erp_url": "https://erp.example.test/app/products/prod_cv01"
+          }
+        },
+        {
+          "when": {
+            "sku": "CV-HOOK-01"
+          },
+          "result": {
+            "product_id": "prod_cv01",
+            "total_images": 2,
+            "images": [
+              {
+                "url": "https://cdn.example.test/prod_cv01/main.jpg"
+              },
+              {
+                "url": "https://cdn.example.test/prod_cv01/side.jpg"
+              }
+            ],
+            "aplus_images": [],
             "erp_url": "https://erp.example.test/app/products/prod_cv01"
           }
         },
@@ -116,22 +137,45 @@
           "result": {
             "path": "C:/Users/merchant/generated/aplus-hdr.png",
             "width": 970,
-            "height": 600
+            "height": 600,
+            "format": "png",
+            "bytes": 845312
           }
         }
       ]
     },
     {
       "name": "medusa.attach_aplus_images",
-      "description": "Store A+ Content images on the product, separate from the listing gallery. images: [{module, path | url | data_base64}]. Returns a per-image report.",
+      "description": "Store Amazon A+ Content images on the PRODUCT (by product_id or sku) so a human can download them for Seller Central; kept apart from the product's image gallery. Never publishes and never deletes. images: [{module, locale?, path | url | data_base64}]. Each image names its A+ module and must be at least that module's size at exactly its ratio — STANDARD_HEADER_IMAGE_TEXT 970x600, STANDARD_IMAGE_TEXT_OVERLAY 970x300, STANDARD_THREE_IMAGE_TEXT 300x300, STANDARD_FOUR_IMAGE_TEXT 220x200, STANDARD_COMPARISON_TABLE 150x300 — png/jpeg within 2 MB; crop before sending. Give locale (BCP-47, e.g. es-ES) when text is drawn into the image; omit it when there is none. Returns one report per image (included, reason: duplicate | rejected, findings); a refused image's findings name the target size.",
       "inputSchema": {
-        "product_id": "string",
-        "images": "array"
+        "product_id": "string?",
+        "sku": "string?",
+        "images": "array of {module: STANDARD_HEADER_IMAGE_TEXT | STANDARD_IMAGE_TEXT_OVERLAY | STANDARD_THREE_IMAGE_TEXT | STANDARD_FOUR_IMAGE_TEXT | STANDARD_COMPARISON_TABLE, locale?: string, path | url | data_base64}"
       },
       "responses": [
         {
           "when": {
             "product_id": "prod_cv01"
+          },
+          "result": {
+            "product_id": "prod_cv01",
+            "images": [
+              {
+                "module": "STANDARD_HEADER_IMAGE_TEXT",
+                "stored_url": "https://erp.example.test/files/aplus/hdr_01.png",
+                "width": 970,
+                "height": 600,
+                "included": true,
+                "reason": null,
+                "findings": []
+              }
+            ],
+            "erp_url": "https://erp.example.test/app/products/prod_cv01"
+          }
+        },
+        {
+          "when": {
+            "sku": "CV-HOOK-01"
           },
           "result": {
             "product_id": "prod_cv01",
@@ -200,6 +244,7 @@
       "medusa.attach_aplus_images": {
         "allowed_args": [
           "product_id",
+          "sku",
           "images"
         ]
       },
@@ -267,11 +312,13 @@
       {
         "tool": "medusa.attach_aplus_images",
         "args": {
-          "product_id": "prod_cv01",
           "images": {
             "$contains": [
               {
-                "module": "STANDARD_HEADER_IMAGE_TEXT"
+                "module": "STANDARD_HEADER_IMAGE_TEXT",
+                "locale": {
+                  "$absent": true
+                }
               }
             ]
           }
@@ -285,7 +332,7 @@
     }
   },
   "rubric": [
-    "One image is generated for the header module and stored with medusa.attach_aplus_images (module STANDARD_HEADER_IMAGE_TEXT); nothing goes through update_product or update_listing.",
+    "One image is generated for the header module and stored with medusa.attach_aplus_images (module STANDARD_HEADER_IMAGE_TEXT, no locale: the image has no text); nothing goes through update_product or update_listing.",
     "The answer reads the per-image report (stored, size, included) and says where the images are: the product page's A+ images, for the human to upload in Seller Central.",
     "Generation uses the product photos from medusa.view_product_images as the reference; with no trusted photo the agent asks for one instead of generating from text alone."
   ]

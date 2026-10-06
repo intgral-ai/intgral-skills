@@ -1,8 +1,8 @@
 {
-  "id": "listing-aplus-propose-first",
-  "version": 2,
+  "id": "listing-aplus-user-text",
+  "version": 1,
   "skill": "intgral-listing",
-  "request": "给 CV-HOOK-01 做一张 A+ 头图。",
+  "request": "CV-HOOK-01 的 A+ 头图：模块 STANDARD_HEADER_IMAGE_TEXT，970x600，提示词“Bamboo wall hook pair on a white entryway wall, soft daylight”，图上放这句西班牙语，一字不改：“Orden en tu entrada”。西班牙站用。确认，生成后存到产品上。",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
   "tools": [
@@ -162,6 +162,7 @@
             "images": [
               {
                 "module": "STANDARD_HEADER_IMAGE_TEXT",
+                "locale": "es-ES",
                 "stored_url": "https://erp.example.test/files/aplus/hdr_01.png",
                 "width": 970,
                 "height": 600,
@@ -182,6 +183,7 @@
             "images": [
               {
                 "module": "STANDARD_HEADER_IMAGE_TEXT",
+                "locale": "es-ES",
                 "stored_url": "https://erp.example.test/files/aplus/hdr_01.png",
                 "width": 970,
                 "height": 600,
@@ -267,22 +269,71 @@
       "medusa.get_product",
       "medusa.view_product_images"
     ],
-    "forbidden_tools": [
-      "host.generate_image",
-      "medusa.attach_aplus_images",
-      "medusa.update_product",
-      "medusa.update_listing"
+    "forbidden_tools": [],
+    "forbidden_writes": [
+      {
+        "label": "A+ image stored through medusa.update_product (the Amazon listing gallery)",
+        "tool": "medusa.update_product",
+        "args": {
+          "images": "*"
+        }
+      },
+      {
+        "label": "A+ image stored through medusa.update_listing (the Amazon listing gallery)",
+        "tool": "medusa.update_listing",
+        "args": {
+          "images": "*"
+        }
+      }
     ],
-    "forbidden_writes": [],
-    "required_writes": [],
-    "max_tool_calls": 4,
-    "final_required_text": [
-      "970x600"
-    ]
+    "order": [
+      {
+        "label": "A+ image generated before the product photos were looked up",
+        "first": {
+          "tool": "medusa.view_product_images",
+          "args": {}
+        },
+        "then": {
+          "tool": "host.generate_image",
+          "args": {}
+        }
+      },
+      {
+        "label": "A+ image stored before the host generated one",
+        "first": {
+          "tool": "host.generate_image",
+          "args": {}
+        },
+        "then": {
+          "tool": "medusa.attach_aplus_images",
+          "args": {}
+        }
+      }
+    ],
+    "required_writes": [
+      {
+        "tool": "medusa.attach_aplus_images",
+        "args": {
+          "images": {
+            "$contains": [
+              {
+                "module": "STANDARD_HEADER_IMAGE_TEXT",
+                "locale": "es-ES"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "max_tool_calls": 5,
+    "max_calls": {
+      "host.generate_image": 1,
+      "medusa.attach_aplus_images": 1
+    }
   },
   "rubric": [
-    "The answer proposes one module (STANDARD_HEADER_IMAGE_TEXT, 970x600) and gives the full prompt; the product's look comes from its two existing images and no selling point is invented.",
-    "The agent writes no image copy of its own: the prompt carries words only in the user's exact wording (with its locale), so with none given it proposes the image without text.",
-    "It ends with exactly one question (generate with this plan?) and says nothing was generated or stored yet. Publishing to Amazon is not offered: the human uploads in Seller Central."
+    "The image carries the user's wording exactly (\"Orden en tu entrada\"), handed to generation unchanged; the agent adds no copy of its own and asks no second question after the confirmation.",
+    "It is stored with medusa.attach_aplus_images as module STANDARD_HEADER_IMAGE_TEXT with locale es-ES; nothing goes through update_product or update_listing.",
+    "Generation uses the product photos from medusa.view_product_images as reference; the answer reads the per-image report (970x600, included) and leaves publishing to the human in Seller Central."
   ]
 }

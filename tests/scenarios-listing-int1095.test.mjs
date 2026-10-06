@@ -60,3 +60,36 @@ test("confirmed store: generating without looking at the product photos fails on
   assert.equal(status, 1);
   assert.deepEqual(failLines(stdout), ["FAIL order: host.generate_image #2 — A+ image generated before the product photos were looked up"]);
 });
+
+// Ratified 2026-10-06: text in an A+ image only in the user's exact wording, with its locale; forbidden wording is refused first.
+test("user text: a text image stored without its locale fails on required and nothing else", (t) => {
+  const { stdout, status } = evaluateTrace("listing-aplus-user-text", join(scenarios, "listing-aplus-user-text", "traces", "known-bad.jsonl"));
+  assert.equal(status, 1);
+  assert.deepEqual(failLines(stdout), ['FAIL required: no medusa.attach_aplus_images with {"images":{"$contains":[{"module":"STANDARD_HEADER_IMAGE_TEXT","locale":"es-ES"}]}}']);
+});
+
+test("forbidden text: dropping the wording and generating anyway fails on generation, store and budget", (t) => {
+  const final = writeFinal(temp(t), "“Envío gratis” 和 “-20%” 不能放进 A+ 图片，所以我生成了一张不带文字的头图并存好了。");
+  const { stdout, status } = evaluateTrace("listing-aplus-forbidden-text", join(scenarios, "listing-aplus-forbidden-text", "traces", "known-bad.jsonl"), "--final", final);
+  assert.equal(status, 1);
+  assert.deepEqual(failLines(stdout), [
+    "FAIL forbidden: host.generate_image #3 is not allowed in this scenario",
+    "FAIL forbidden: medusa.attach_aplus_images #4 is not allowed in this scenario",
+    "FAIL budget: 4 tool calls exceed 3"
+  ]);
+});
+
+test("forbidden text: a refusal that does not name the refused wording fails on final", (t) => {
+  const final = writeFinal(temp(t), "这句文字不能放进 A+ 图片。请换一句你自己的文字，或者不放文字？");
+  const { stdout, status } = evaluateTrace("listing-aplus-forbidden-text", join(scenarios, "listing-aplus-forbidden-text", "traces", "compliant.jsonl"), "--final", final);
+  assert.equal(status, 1);
+  assert.deepEqual(failLines(stdout), ['FAIL final: missing "Envío gratis"', 'FAIL final: missing "-20%"']);
+});
+
+test("confirmed store: a locale on the text-free image fails on required", (t) => {
+  const calls = trace("listing-aplus-confirmed-store", "compliant.jsonl");
+  const store = { ...calls[3], args: { ...calls[3].args, images: [{ ...calls[3].args.images[0], locale: "es-ES" }] } };
+  const { stdout, status } = evaluateTrace("listing-aplus-confirmed-store", writeTrace(temp(t), [calls[0], calls[1], calls[2], store]));
+  assert.equal(status, 1);
+  assert.deepEqual(failLines(stdout), ['FAIL required: no medusa.attach_aplus_images with {"images":{"$contains":[{"module":"STANDARD_HEADER_IMAGE_TEXT","locale":{"$absent":true}}]}}']);
+});
