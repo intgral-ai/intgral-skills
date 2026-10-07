@@ -11,12 +11,13 @@ if (!scenarioPath || !tracePath) { console.error("usage: evaluate.mjs <scenario.
 const scenario = JSON.parse(readFileSync(scenarioPath, "utf8"));
 // A run that made no tool call has no trace file; that is an empty trace, not an error.
 const calls = (existsSync(tracePath) ? readFileSync(tracePath, "utf8") : "").split(/\r?\n/).filter(Boolean).map((line, index) => ({ n: index + 1, ...JSON.parse(line) }));
-const { writes = {}, reads = [], forbidden_tools = [], forbidden_writes = [], forbidden_write_text = [], required_writes = [], max_tool_calls = Infinity, max_calls = {}, order = [], workspace = {}, install_unchanged = false, final_forbidden_text = [] } = scenario.expect;
+const { writes = {}, reads = [], forbidden_tools = [], forbidden_writes = [], forbidden_write_text = [], required_writes = [], max_tool_calls = Infinity, max_calls = {}, order = [], workspace = {}, install_unchanged = false, final_forbidden_text = [], final_required_text = [] } = scenario.expect;
 const failures = [];
 const subjectOf = (call) => call.args?.product_id ?? call.args?.listing_id ?? "";
 // Deep partial match: every key in `wanted` must be present in `actual` with an equal value; objects recurse; "*" accepts any present value;
-// {"$contains": [...]} accepts an array in which every listed item partially matches some element.
+// {"$absent": true} accepts only a missing key; {"$contains": [...]} accepts an array in which every listed item partially matches some element.
 const matches = (actual, wanted) => wanted === "*" ? actual !== undefined
+  : wanted !== null && typeof wanted === "object" && wanted.$absent === true ? actual === undefined
   : wanted !== null && typeof wanted === "object" && Array.isArray(wanted.$contains) ? Array.isArray(actual) && wanted.$contains.every((item) => actual.some((element) => matches(element, item)))
   : wanted !== null && typeof wanted === "object" && !Array.isArray(wanted)
   ? actual !== null && typeof actual === "object" && Object.entries(wanted).every(([key, value]) => matches(actual[key], value))
@@ -32,7 +33,7 @@ const declared = new Set((scenario.tools ?? []).map((tool) => tool.name));
 for (const call of calls) {
   const label = `${call.tool} #${call.n}`;
   if (!declared.has(call.tool)) failures.push(`undeclared: ${label} is not a tool of this scenario`);
-  for (const rule of order) if (call.tool === rule.then.tool && matches(call.args, rule.then.args) && !reached.some((earlier) => earlier.n < call.n && earlier.tool === rule.first.tool && matches(earlier.args, rule.first.args))) failures.push(`order: ${label} — ${rule.label}`);
+  for (const rule of order) if (call.tool === rule.then.tool && matches(call.args, rule.then.args) && ![].concat(rule.first).some((first) => reached.some((earlier) => earlier.n < call.n && earlier.tool === first.tool && matches(earlier.args, first.args)))) failures.push(`order: ${label} — ${rule.label}`);
   if (forbidden_tools.includes(call.tool)) failures.push(`forbidden: ${label} is not allowed in this scenario`);
   if (reads.includes(call.tool) && !refused(call)) {
     // A read names its subject in the arguments (product_id) or only in the response (a read keyed on SKU).
@@ -88,7 +89,9 @@ const finalPath = option("--final");
 if (finalPath && existsSync(finalPath)) {
   const answer = readFileSync(finalPath, "utf8").toLowerCase();
   for (const needle of final_forbidden_text) if (answer.includes(needle.toLowerCase())) failures.push(`final: contains "${needle}"`);
+  for (const needle of final_required_text) if (!answer.includes(needle.toLowerCase())) failures.push(`final: missing "${needle}"`);
 }
+else if (final_required_text.length) failures.push("final: final_required_text is declared but no --final answer was given to check");
 
 const checks = ["scope", "retry", "repeat", "forbidden", "forbidden-write", "text", "order", "undeclared", "required", "budget", "workspace", "install", "final"];
 const failed = new Set(failures.map((line) => line.split(":")[0]));

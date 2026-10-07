@@ -56,3 +56,9 @@ test("undeclared: a call to a tool the scenario does not define fails", (t) => {
   assert.equal(result.status, 1);
   assert.match(result.stdout, /FAIL undeclared: medusa\.create_product #2 is not a tool of this scenario/);
 });
+
+test("order: `first` may be a list of alternatives; any earlier match satisfies it", (t) => {
+  const either = [{ ...order[0], first: [{ tool: "medusa.get_listing_context", args: { listing_id: "l2" } }, order[0].first] }];
+  assert.equal(run(t, { order: either }, [read, write]).status, 0);
+  assert.equal(run(t, { order: either }, [write, read]).status, 1);
+});

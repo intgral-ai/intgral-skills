@@ -81,7 +81,8 @@ Both use the same fictional merchant, `casa-verde-es`, and product `CV-HOOK-01`.
 | The three packages install alone and their references resolve | Windows 11, Node 24.14.0; GitHub CI on ubuntu-latest and windows-latest, Node 24 | 2026-09-17 | [validation](validation.md) |
 | Installer copy and replacement preserve a private preference file | Skills CLI 1.7.0, Codex target, copy mode, Windows | 2026-09-17 | [validation](validation.md) |
 | Behavior against a mocked MCP boundary (listing, research, video) | Claude Code desktop, claude-opus-5, scripted mock | 2026-09-18 | [evals](../evals/README.md) |
-| Behavior against a live authenticated ERP | — | — | **not verified**; deliberately separate acceptance |
+| Read-only behavior against a live authenticated ERP (start, listing, research, video; one prompt each) | Claude Code desktop, claude-opus-5-5; erp-dev through a local `mcp-gateway` with the deployed mcp-dev's tool catalogue | 2026-10-04 | [live runs](../evals/runs/2026-10-04-live-dev-listing-after/run.md) (`evals/runs/2026-10-04-live-dev-*`) |
+| Writes against a live authenticated ERP | — | — | **not verified**; deliberately separate acceptance |
 | Any client other than the Codex install target and the Claude Code subagent | — | — | **not verified**; discovery and UI support must be checked per client |
 | Paid video or image generation, real report saves, supplier contact | — | — | **not exercised** |
 
@@ -95,7 +96,7 @@ Two kinds of change travel separately and are announced separately.
 
 | Kind | Identified by | Changes when | Requires a backend change |
 | --- | --- | --- | --- |
-| Content and method | package `metadata.version` (repository version `0.2.0`, tag `v0.2.0`); research `skill_revision: intgral-research/<function>@N` (`@2` since INT-725, competitor `@3` since INT-777); `runbook_revision: intgral-research@4` (`@2` since INT-702, `@3` since INT-738, `@4` since the intgral-erp-seam#385 port); `template_revision: <report_kind>@1`; report `schema_revision: <report_kind>/1` (the package's declaration — the deployed route stores any non-empty string); video `skill_version: intgral-video@4` (`@2` since INT-777, `@3` since INT-799, `@4` since INT-975) | the guidance, examples or analysis method change | no |
+| Content and method | package `metadata.version` (repository version `0.3.0`, tag `v0.3.0`); research `skill_revision: intgral-research/<function>@N` (`@2` since INT-725, competitor `@3` since INT-777); `runbook_revision: intgral-research@4` (`@2` since INT-702, `@3` since INT-738, `@4` since the intgral-erp-seam#385 port); `template_revision: <report_kind>@1`; report `schema_revision: <report_kind>/1` (the package's declaration — the deployed route stores any non-empty string); video `skill_version: intgral-video@6` (`@2` since INT-777, `@3` since INT-799, `@4` since INT-975, `@5` since INT-985, `@6` since INT-995) | the guidance, examples or analysis method change | no |
 | Deployment requirement | the routes and tool schemas in the tables above; the plan schema's supported capability/source pairs; approval, review and recovery endpoints | the ERP or gateway exposes, removes or reshapes a route | yes — and until it is deployed, the package must describe it as unverified |
 
 Release notes name which kind each entry is. A content revision never claims a route exists; a deployment requirement never changes a historical report's or task's declared identities — every saved report keeps the `runbook`, `skill`, `template` and `schema` revisions it was saved with, and every task keeps its `skill_version`. Reading an older artifact with a newer package is expected and does not rewrite it.

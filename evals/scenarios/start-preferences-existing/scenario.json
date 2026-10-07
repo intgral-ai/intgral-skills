@@ -1,0 +1,97 @@
+{
+  "id": "start-preferences-existing",
+  "version": 2,
+  "skill": "intgral-start",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "request": "Intgral 刚连好了，开始吧。",
+  "tools": [
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information. Report only host capabilities the client actually has.",
+      "inputSchema": {
+        "client_capabilities": "object?",
+        "open_browser": "boolean?"
+      },
+      "responses": [
+        {
+          "result": {
+            "contract_version": 1,
+            "runtime": {
+              "erp": "available",
+              "host": {
+                "browser": "unknown"
+              },
+              "host_capability_source": "caller_reported_not_verified",
+              "limitations": []
+            },
+            "capabilities": [
+              "products",
+              "listings",
+              "images"
+            ],
+            "today": "2026-10-06",
+            "erp_url": "https://erp.example.test/app/agent-activity"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_post",
+      "description": "POST to a catalogued admin route.",
+      "inputSchema": {
+        "path": "string",
+        "body": "object?"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "route_not_found",
+            "message": "No such admin route",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {},
+    "reads": [
+      "medusa.get_started"
+    ],
+    "forbidden_tools": [
+      "medusa.update_listing",
+      "medusa.update_product",
+      "medusa.admin_post"
+    ],
+    "forbidden_writes": [],
+    "required_writes": [
+      {
+        "tool": "medusa.get_started",
+        "args": {}
+      }
+    ],
+    "max_tool_calls": 3,
+    "install_unchanged": true,
+    "workspace": {
+      "unchanged": [
+        ".keep",
+        "merchants/casa-verde-es/preferences.md",
+        "merchants/verde-norte-de/preferences.md"
+      ],
+      "absent": [
+        "merchants/casa-verde-es/backups",
+        "merchants/casa-verde-es/rules.md"
+      ]
+    },
+    "final_forbidden_text": [
+      "配置商家偏好",
+      "verde-norte"
+    ]
+  },
+  "rubric": [
+    "The session merchant already has preferences.md: the agent offers no preferences menu item, and neither rewrites nor backs up the file.",
+    "Only merchants/casa-verde-es/ is looked at; the other merchant's identifier or brand never appears in the answer.",
+    "The menu and the erp_url named for its page are given, with one closing question about what to start with. Chinese."
+  ]
+}

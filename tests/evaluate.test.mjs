@@ -9,7 +9,15 @@ import { spawnSync } from "node:child_process";
 const repository = fileURLToPath(new URL("..", import.meta.url));
 const evaluator = join(repository, "scripts", "evaluate.mjs");
 const scenarios = join(repository, "evals", "scenarios");
-const evaluateTrace = (id, tracePath) => spawnSync(process.execPath, [evaluator, join(scenarios, id, "scenario.json"), tracePath], { encoding: "utf8" });
+// A scenario that declares final_required_text needs a final answer to judge: give it one holding every required string.
+const finalFor = (id) => {
+  const required = JSON.parse(readFileSync(join(scenarios, id, "scenario.json"), "utf8")).expect.final_required_text ?? [];
+  if (!required.length) return [];
+  const path = join(mkdtempSync(join(tmpdir(), "intgral-final-")), "final.md");
+  writeFileSync(path, required.join(" "));
+  return ["--final", path];
+};
+const evaluateTrace = (id, tracePath) => spawnSync(process.execPath, [evaluator, join(scenarios, id, "scenario.json"), tracePath, ...finalFor(id)], { encoding: "utf8" });
 const evaluate = (id, trace) => evaluateTrace(id, join(scenarios, id, "traces", trace));
 
 for (const id of readdirSync(scenarios)) {
@@ -167,4 +175,30 @@ test("listing FBM: saving the FBM policy through the passthrough is forbidden", 
   assert.equal(status, 1);
   assert.match(stdout, /forbidden: medusa\.admin_post #3 is not allowed in this scenario/);
   assert.doesNotMatch(stdout, /required:/);
+});
+
+test("final_required_text: an answer lacking a required string fails on final, case-insensitively", () => {
+  const dir = mkdtempSync(join(tmpdir(), "intgral-final-required-"));
+  try {
+    const scenario = join(dir, "scenario.json");
+    writeFileSync(scenario, JSON.stringify({ id: "x", version: 1, skill: "intgral-start", request: "x", tools: [], expect: { writes: {}, reads: [], forbidden_tools: [], required_writes: [], final_required_text: ["Preferences"] }, rubric: [] }));
+    writeFileSync(join(dir, "trace.jsonl"), "");
+    const run = (answer) => { writeFileSync(join(dir, "final.md"), answer); return spawnSync(process.execPath, [evaluator, scenario, join(dir, "trace.jsonl"), "--final", join(dir, "final.md")], { encoding: "utf8" }); };
+    const missing = run("Here is the menu.\n");
+    assert.equal(missing.status, 1);
+    assert.match(missing.stdout, /FAIL final: missing "Preferences"/);
+    assert.equal(run("Configure PREFERENCES now?\n").status, 0);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test("final_required_text: declared but no --final answer given fails on final", () => {
+  const dir = mkdtempSync(join(tmpdir(), "intgral-final-required-"));
+  try {
+    const scenario = join(dir, "scenario.json");
+    writeFileSync(scenario, JSON.stringify({ id: "x", version: 1, skill: "intgral-start", request: "x", tools: [], expect: { writes: {}, reads: [], forbidden_tools: [], required_writes: [], final_required_text: ["x"] }, rubric: [] }));
+    writeFileSync(join(dir, "trace.jsonl"), "");
+    const result = spawnSync(process.execPath, [evaluator, scenario, join(dir, "trace.jsonl")], { encoding: "utf8" });
+    assert.equal(result.status, 1);
+    assert.match(result.stdout, /FAIL final: final_required_text is declared but no --final answer/);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
 });

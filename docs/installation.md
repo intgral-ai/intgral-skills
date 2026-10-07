@@ -7,11 +7,11 @@ Use a client that supports local Agent Skills and an authenticated Intgral MCP c
 Clone the reviewed tag explicitly, then install into your current client workspace:
 
 ```bash
-git clone --branch v0.2.0 --single-branch https://github.com/intgral-ai/intgral-skills.git intgral-skills-source
+git clone --branch v0.3.0 --single-branch https://github.com/intgral-ai/intgral-skills.git intgral-skills-source
 npx skills@1.7.0 add ./intgral-skills-source --skill intgral-listing --agent codex --copy
 ```
 
-Replace the skill name with `intgral-research` or `intgral-video`, or select several. These are independent packages. `--copy` avoids symlink requirements on Windows. Omit `--agent` to use the installer's client selection. The example targets a project; add `--global` only when you want user-wide installation.
+Replace the skill name with `intgral-start`, `intgral-research` or `intgral-video`, or select several. These are independent packages. `--copy` avoids symlink requirements on Windows. Omit `--agent` to use the installer's client selection. The example targets a project; add `--global` only when you want user-wide installation.
 
 Skills CLI 1.7.0 splits a GitHub tree URL at a slash in the ref name, so a branch such as `feat/…` cannot be installed by URL; the clone command above works for any tag or branch. If the source directory already exists, update its checkout deliberately rather than cloning over it.
 
@@ -25,7 +25,7 @@ The path is an example: use the actual checkout. Restart or reload the client as
 
 ## Fixed versions and upgrades
 
-For reproducible installation, clone this repository, check out a reviewed tag or commit, and install from that local checkout. Record the commit in your private task workspace. Tags are published only after release review; `v0.1.0` was the first and `v0.2.0` is the latest, and the [changelog](../CHANGELOG.md) says what each tag carries.
+For reproducible installation, clone this repository, check out a reviewed tag or commit, and install from that local checkout. Record the commit in your private task workspace. Tags are published only after release review; `v0.1.0` was the first and `v0.3.0` is the latest, and the [changelog](../CHANGELOG.md) says what each tag carries.
 
 Before upgrading, preserve private preferences and customer-edited rules outside the installed package. Reinstall from the selected checkout, start a fresh client session and confirm that the same private merchant workspace is read. To roll back, install the prior reviewed checkout; keep historical task and report revision identities unchanged.
 
