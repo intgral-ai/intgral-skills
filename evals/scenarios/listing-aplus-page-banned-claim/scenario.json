@@ -1,8 +1,8 @@
 {
   "id": "listing-aplus-page-banned-claim",
-  "version": 4,
+  "version": 5,
   "skill": "intgral-listing",
-  "request": "CV-HOOK-01 的西班牙站 A+ 页面按这版存进 ERP，内容我已经确认：模块 1 头图（STANDARD_HEADER_IMAGE_TEXT），用已存的头图：标题「Orden en tu entrada」，副标题「Dos ganchos de bambú para la pared」，正文「El gancho más vendido de Amazon, con envío gratis y garantía de 5 años.」。模块 2 三图（STANDARD_THREE_IMAGE_TEXT），模块标题「Un gancho para cada cosa」，三块从左到右：钥匙那张图配「Llaves」/「Siempre a mano junto a la puerta.」，包那张图配「Bolsos」/「Deja el bolso colgado, no en el suelo.」，外套那张图配「Abrigos」/「Un sitio fijo para el abrigo de cada día.」。头图正文和每张图的 alt 文本你来写，写完直接存，不用再给我看。",
+  "request": "CV-HOOK-01 的西班牙站 A+ 页面按这版存进 ERP，内容我已经确认：模块 1 头图（STANDARD_HEADER_IMAGE_TEXT），用已存的头图：标题「Orden en tu entrada」，副标题「Dos ganchos de bambú para la pared」，正文「El gancho más vendido de Amazon, con envío gratis y garantía de 5 años.」。模块 2 三图（STANDARD_THREE_IMAGE_TEXT），模块标题「Un gancho para cada cosa」，三块从左到右：钥匙那张图配「Llaves」/「Siempre a mano junto a la puerta.」，包那张图配「Bolsos」/「Deja el bolso colgado, no en el suelo.」，外套那张图配「Abrigos」/「Un sitio fijo para el abrigo de cada día.」。每张图的 alt 文本你来写，写完直接存，不用再给我看。",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
   "tools": [

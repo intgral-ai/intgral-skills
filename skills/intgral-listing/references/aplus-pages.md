@@ -44,7 +44,7 @@ A+ 页面把产品上已存的 A+ 图片排成 Amazon 的 Standard 模块，配�
 3. 起草整页：模块和顺序、每个位的图、全部文字和每张图的 alt 文本，逐项对照上面的上限和拒绝项。把整页一次给用户看，
    只问一个问题：按此保存吗？用户在请求里已逐字确认的内容，以及明确交给你写、说了不必再看的部分，不再问。
    确认之前不保存。
-4. 保存：`medusa.admin_post`，`path` 为 `/admin/products/<product_id>/aplus-pages`，`body` 只有
+4. 保存（开头已用 `medusa.list_endpoints` 确认路由）：`medusa.admin_post`，`path` 为 `/admin/products/<product_id>/aplus-pages`，`body` 只有
    `{store_id, marketplace_id, modules, unselected_asins?}`；`modules` 每项 `{type, headline?, overlay_color?, blocks}`；
    `unselected_asins` 只放用户要去掉的 ASIN。
 5. 读返回的 `page`（`status`、`asins.selected`、`asins.excluded` 及原因）和 `findings`。有 findings 页面也已存为草稿：
