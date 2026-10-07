@@ -65,3 +65,8 @@ A+ 页面把产品上已存的 A+ 图片排成 Amazon 的 Standard 模块，配�
 `approved`、`rejected` 和 `rejection_reasons`）。没有读到这些状态，就不说页面已检查、已提交、已发布或已上线。
 `rejected` 时报告 Amazon 的原因，按原因改草稿并重新保存，再请人重新检查和发布。`approved`、`rejected` 或发送已升级给人处理之后，
 页面可以再保存；改一页已上线的页面，人发布后更新的是同一个 Amazon 文档，新版获批前旧版继续在线。
+
+`live_since` 不为空，表示这一页有一个获批版本自该时间起在 Amazon 上线。此时 `status` 若是 `draft`、`checked`、
+`rejected`、`publishing` 或 `submitted`，意思是有修改待生效，不是页面已下线：报告为「已上线，修改待生效」。`live_since`
+为空就不说页面已上线。`rejection_reasons_from_previous_submission: true` 表示 `rejection_reasons` 来自上一次提交，
+不是当前状态，报告时要说明是上一次的拒绝原因。
