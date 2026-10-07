@@ -49,7 +49,10 @@ A+ 页面把产品上已存的 A+ 图片排成 Amazon 的 Standard 模块，配�
    `unselected_asins` 只放用户要去掉的 ASIN。
 5. 读返回的 `page`（`status`、`asins.selected`、`asins.excluded` 及原因）和 `findings`。有 findings 页面也已存为草稿：
    每条写明第几个模块和怎么改，改好后对同一路由再存一次；改动会改变用户确认过的文字或图片时，先问用户。
-   400 是形状错误，按消息修正，不原样重发。
+   400 是形状错误（未知模块类型的 400 会列出允许的类型），按消息修正，不原样重发。finding 里的 "Unknown store …" 表示
+   `store_id` 不是已连接的 Amazon 店铺：回到第 2 步重查 listing 的店铺，不猜。
+   409 `aplus_page_in_flight` 表示这一页正在发布或在 Amazon 审核中（页面 `in_flight: true`，`status` 为 `publishing` 或
+   `submitted`）：告诉用户页面在 Amazon 那边，等 `approved` 或 `rejected` 再改；不重试、不另存一页、不绕过。
 6. 报告：已存为草稿、包含和被排除的 ASIN、剩余 findings、产品页 `erp_url`，以及下一步由人在 A+ 卡片里检查和发布。
 
 ## 检查和发布是人的事
@@ -60,4 +63,5 @@ A+ 页面把产品上已存的 A+ 图片排成 Amazon 的 Standard 模块，配�
 
 状态只从 `medusa.view_product_images` 的 `aplus_pages` 读，按原值报告（`draft`、`checked`、`publishing`、`submitted`、
 `approved`、`rejected` 和 `rejection_reasons`）。没有读到这些状态，就不说页面已检查、已提交、已发布或已上线。
-`rejected` 时报告 Amazon 的原因，按原因改草稿并重新保存，再请人重新检查和发布。
+`rejected` 时报告 Amazon 的原因，按原因改草稿并重新保存，再请人重新检查和发布。`approved`、`rejected` 或发送已升级给人处理之后，
+页面可以再保存；改一页已上线的页面，人发布后更新的是同一个 Amazon 文档，新版获批前旧版继续在线。
