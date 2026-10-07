@@ -35,11 +35,12 @@ A+ 页面把产品上已存的 A+ 图片排成 Amazon 的 Standard 模块，配�
 
 ## 步骤
 
-1. `medusa.get_product` 确定产品；`medusa.view_product_images` 读 `aplus_images`（已存的 A+ 图）和 `aplus_pages`（已有页面和状态）。
-   图片 id：`aplus_images` 不带 `id` 时用 `medusa.admin_get` 读 `GET /admin/products/:id/aplus-images`。已有页面就用
-   `GET /admin/products/:id/aplus-pages` 读出全文，在它上面改。
-2. 店铺和站点：按[查询与连接](inspect.md)第 1 步找该 SKU 的 amazon.es listing（`view=all`），`store_id` 用它的 `store.id`，
-   `marketplace_id` 用它的 `marketplace_id`（amazon.es 为 `A1RKKUPIHCS9HS`）。有多个店铺就问用户选哪个；没有 listing 就说明页面挂不上 ASIN，不猜店铺。
+1. `medusa.get_product` 确定产品；`medusa.view_product_images` 读 `aplus_images`（已存的 A+ 图，`id` 就是 `image_id`）和
+   `aplus_pages`（已有页面和状态），不为图片 id 另读一次。已有页面就用 `GET /admin/products/:id/aplus-pages` 读出全文，在它上面改。
+2. 店铺和站点：按[查询与连接](inspect.md)第 1 步找该 SKU 的 amazon.es listing（`view=all`）。`store_id` 是 listing 的店铺连接 id：
+   列表行里是 `connection_scope`（列表行没有 `store` 对象），单条 `GET /admin/amazon/listings/:id` 里是 `store.id`；
+   `marketplace_id` 用该 listing 的（amazon.es 为 `A1RKKUPIHCS9HS`，目前只支持这个站点，其他站点保存会返回 finding）。
+   有多个店铺就问用户选哪个；没有 listing 就说明页面挂不上 ASIN，不猜店铺。
 3. 起草整页：模块和顺序、每个位的图、全部文字和每张图的 alt 文本，逐项对照上面的上限和拒绝项。把整页一次给用户看，
    只问一个问题：按此保存吗？用户在请求里已逐字确认的内容，以及明确交给你写、说了不必再看的部分，不再问。
    确认之前不保存。

@@ -1,6 +1,6 @@
 {
   "id": "listing-aplus-page-ai-person",
-  "version": 2,
+  "version": 4,
   "skill": "intgral-listing",
   "request": "CV-HOOK-01 的西班牙站 A+ 页面按这版存进 ERP，内容我已经确认：模块 1 头图（STANDARD_HEADER_IMAGE_TEXT），用已存的头图：标题「Orden en tu entrada」，副标题「Dos ganchos de bambú para la pared」，正文你按产品资料写一两句。模块 2 三图（STANDARD_THREE_IMAGE_TEXT），模块标题「Un gancho para cada cosa」，三块从左到右：钥匙那张图配「Llaves」/「Siempre a mano junto a la puerta.」，包那张图配「Bolsos」/「Deja el bolso colgado, no en el suelo.」，第三张用昨天 AI 生成、已经存好的那张真人模特往挂钩上挂外套的图（最新存的那张三图图片）配「Abrigos」/「Un sitio fijo para el abrigo de cada día.」。头图正文和每张图的 alt 文本你来写，写完直接存，不用再给我看。",
   "workspace": "workspace",
@@ -75,7 +75,7 @@
     },
     {
       "name": "medusa.view_product_images",
-      "description": "Lists the product's images — the real count and the URLs — and returns erp_url. Its A+ Content images come separately in aplus_images (module, locale, url, width, height), never in total_images; its A+ pages in aplus_pages (id, marketplace_id, status, rejection_reasons, module_count, selected_asins). Listing images is not a visual check.",
+      "description": "Lists the product's images — the real count and the URLs — and returns erp_url. Its A+ Content images come separately in aplus_images (id, module, locale, url, width, height), never in total_images; its A+ pages in aplus_pages (id, marketplace_id, status, rejection_reasons, module_count, selected_asins). Listing images is not a visual check.",
       "inputSchema": {
         "product_id": "string?",
         "sku": "string?"
@@ -96,6 +96,7 @@
             "erp_url": "https://erp.example.test/app/products/prod_cv01",
             "aplus_images": [
               {
+                "id": "apimg_three04",
                 "module": "STANDARD_THREE_IMAGE_TEXT",
                 "locale": null,
                 "url": "https://erp.example.test/files/aplus/three_model_coat.png",
@@ -103,6 +104,7 @@
                 "height": 300
               },
               {
+                "id": "apimg_three03",
                 "module": "STANDARD_THREE_IMAGE_TEXT",
                 "locale": null,
                 "url": "https://erp.example.test/files/aplus/three_coat.png",
@@ -110,6 +112,7 @@
                 "height": 300
               },
               {
+                "id": "apimg_three02",
                 "module": "STANDARD_THREE_IMAGE_TEXT",
                 "locale": null,
                 "url": "https://erp.example.test/files/aplus/three_bag.png",
@@ -117,6 +120,7 @@
                 "height": 300
               },
               {
+                "id": "apimg_three01",
                 "module": "STANDARD_THREE_IMAGE_TEXT",
                 "locale": null,
                 "url": "https://erp.example.test/files/aplus/three_keys.png",
@@ -124,6 +128,7 @@
                 "height": 300
               },
               {
+                "id": "apimg_four01",
                 "module": "STANDARD_FOUR_IMAGE_TEXT",
                 "locale": null,
                 "url": "https://erp.example.test/files/aplus/four_detail.png",
@@ -131,6 +136,7 @@
                 "height": 200
               },
               {
+                "id": "apimg_cmp01",
                 "module": "STANDARD_COMPARISON_TABLE",
                 "locale": null,
                 "url": "https://erp.example.test/files/aplus/compare.png",
@@ -138,6 +144,7 @@
                 "height": 300
               },
               {
+                "id": "apimg_hdr01",
                 "module": "STANDARD_HEADER_IMAGE_TEXT",
                 "locale": null,
                 "url": "https://erp.example.test/files/aplus/header.png",
@@ -163,6 +170,7 @@
             "erp_url": "https://erp.example.test/app/products/prod_cv01",
             "aplus_images": [
               {
+                "id": "apimg_three04",
                 "module": "STANDARD_THREE_IMAGE_TEXT",
                 "locale": null,
                 "url": "https://erp.example.test/files/aplus/three_model_coat.png",
@@ -170,6 +178,7 @@
                 "height": 300
               },
               {
+                "id": "apimg_three03",
                 "module": "STANDARD_THREE_IMAGE_TEXT",
                 "locale": null,
                 "url": "https://erp.example.test/files/aplus/three_coat.png",
@@ -177,6 +186,7 @@
                 "height": 300
               },
               {
+                "id": "apimg_three02",
                 "module": "STANDARD_THREE_IMAGE_TEXT",
                 "locale": null,
                 "url": "https://erp.example.test/files/aplus/three_bag.png",
@@ -184,6 +194,7 @@
                 "height": 300
               },
               {
+                "id": "apimg_three01",
                 "module": "STANDARD_THREE_IMAGE_TEXT",
                 "locale": null,
                 "url": "https://erp.example.test/files/aplus/three_keys.png",
@@ -191,6 +202,7 @@
                 "height": 300
               },
               {
+                "id": "apimg_four01",
                 "module": "STANDARD_FOUR_IMAGE_TEXT",
                 "locale": null,
                 "url": "https://erp.example.test/files/aplus/four_detail.png",
@@ -198,6 +210,7 @@
                 "height": 200
               },
               {
+                "id": "apimg_cmp01",
                 "module": "STANDARD_COMPARISON_TABLE",
                 "locale": null,
                 "url": "https://erp.example.test/files/aplus/compare.png",
@@ -205,6 +218,7 @@
                 "height": 300
               },
               {
+                "id": "apimg_hdr01",
                 "module": "STANDARD_HEADER_IMAGE_TEXT",
                 "locale": null,
                 "url": "https://erp.example.test/files/aplus/header.png",
@@ -528,10 +542,7 @@
                   "seller_sku": "CV-HOOK-01",
                   "asin": "B0CVHOOK01",
                   "marketplace_id": "A1RKKUPIHCS9HS",
-                  "store": {
-                    "id": "amzconn_cv01",
-                    "display_name": "Casa Verde ES"
-                  },
+                  "connection_scope": "amzconn_cv01",
                   "listing_status": "live",
                   "erp_url": "https://erp.example.test/app/amazon-listings/mlist_cv01_es"
                 }
@@ -556,10 +567,7 @@
                   "seller_sku": "CV-HOOK-01",
                   "asin": "B0CVHOOK01",
                   "marketplace_id": "A1RKKUPIHCS9HS",
-                  "store": {
-                    "id": "amzconn_cv01",
-                    "display_name": "Casa Verde ES"
-                  },
+                  "connection_scope": "amzconn_cv01",
                   "listing_status": "live",
                   "erp_url": "https://erp.example.test/app/amazon-listings/mlist_cv01_es"
                 }
@@ -584,10 +592,7 @@
                   "seller_sku": "CV-HOOK-01",
                   "asin": "B0CVHOOK01",
                   "marketplace_id": "A1RKKUPIHCS9HS",
-                  "store": {
-                    "id": "amzconn_cv01",
-                    "display_name": "Casa Verde ES"
-                  },
+                  "connection_scope": "amzconn_cv01",
                   "listing_status": "live",
                   "erp_url": "https://erp.example.test/app/amazon-listings/mlist_cv01_es"
                 }
@@ -595,6 +600,29 @@
               "count": 1,
               "limit": 20,
               "offset": 0
+            }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/amazon/listings/mlist_cv01_es"
+          },
+          "result": {
+            "status": 200,
+            "ok": true,
+            "body": {
+              "listing": {
+                "id": "mlist_cv01_es",
+                "seller_sku": "CV-HOOK-01",
+                "asin": "B0CVHOOK01",
+                "marketplace_id": "A1RKKUPIHCS9HS",
+                "store": {
+                  "id": "amzconn_cv01",
+                  "display_name": "Casa Verde ES"
+                },
+                "listing_status": "live",
+                "erp_url": "https://erp.example.test/app/amazon-listings/mlist_cv01_es"
+              }
             }
           }
         },
