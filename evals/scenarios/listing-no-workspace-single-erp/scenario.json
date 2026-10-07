@@ -1,6 +1,6 @@
 {
   "id": "listing-no-workspace-single-erp",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-listing",
   "workspace": "workspace",
   "merchant": null,
@@ -246,7 +246,7 @@
   "rubric": [
     "No private workspace is configured and the ERP connection is the only merchant context: the agent reads the SKU straight away and does not ask which merchant this is.",
     "The listing is found with view=all (the route defaults to the review queue); the answer gives the product status, the Amazon.es listing status and the draft-image review status exactly as returned (unreviewed, no saved decision), and says the review is the user's to save in the ERP.",
-    "The SKU's page is opened once with the browser tool after the read (or linked when none is offered).",
+    "One page is opened once with the browser tool, unprompted, after the read that returned its link: the product page (get_product's erp_url) or — since the question is about the ES listing's image review — that listing's own page (the erp_url from the listing lookup). Linked instead when no browser tool is offered.",
     "Nothing is written. Chinese."
   ]
 }

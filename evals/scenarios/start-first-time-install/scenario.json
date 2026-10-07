@@ -1,6 +1,6 @@
 {
   "id": "start-first-time-install",
-  "version": 3,
+  "version": 4,
   "skill": "intgral-start",
   "request": "第一次用 Intgral。管理员给的 MCP 地址是 https://mcp.example.test/mcp",
   "workspace": "workspace",
@@ -103,7 +103,7 @@
   "rubric": [
     "The endpoint the user gave is installed without asking for it again or asking permission a second time; the install is user-scoped so later sessions have it.",
     "The answer says the Intgral tools load after the client restarts or reloads, and that the Intgral link comes from the connected service then — no ERP address is guessed from the MCP host name.",
-    "The answer lists what can be done next as short numbered steps (query a SKU, import products, edit copy or listings, images, research, video) and asks what the user wants to do.",
+    "The answer lists what can be done next as short numbered steps (query a SKU, import products, edit copy or listings, images) and ends with one question asking which the user wants. Research and video are not offered as available before connecting: they are left off with a note that they are confirmed once connected, or marked unconfirmed.",
     "No credential, token or password is requested in chat; sign-in, if the client asks, happens in the client's own prompt.",
     "The answer is in Chinese."
   ]

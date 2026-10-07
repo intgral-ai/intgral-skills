@@ -1,6 +1,6 @@
 {
   "id": "start-bearer-token-deployment",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-start",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -86,7 +86,7 @@
     "The deployment uses a fixed access token: the agent runs the token setup script bundled with intgral-start for this host's system (the Windows one here) with the given address, so the user pastes the token into a local hidden-input window — before adding the server.",
     "It adds the server itself with the token read from the environment variable — `claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp --header 'Authorization: Bearer ${INTGRAL_MCP_TOKEN}'`, single-quoted — never with the token or a placeholder the user must fill in.",
     "The agent never asks for the token and never has it pasted into the chat; if the script reports the token was not accepted, it stops and says so instead of adding the server.",
-    "It says the client must be restarted or reloaded before Intgral's tools appear, and that the menu and link come after that.",
+    "It says the client must be restarted or reloaded before Intgral's tools appear, and that the Intgral link (from medusa.get_started) comes only after that — no ERP address is guessed now. The step-2 menu may already follow the install in this answer, framed as what can be done once connected and ending in one which-one question.",
     "Chinese and short."
   ]
 }

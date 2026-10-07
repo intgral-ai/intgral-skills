@@ -1,6 +1,6 @@
 {
   "id": "listing-create-family-parent",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-listing",
   "workspace": "workspace",
   "merchant": "lumen-hogar-es",
@@ -1084,7 +1084,7 @@
     "max_tool_calls": 12
   },
   "rubric": [
-    "The family from create_listing is reported: family applied, theme COLOR, parent SKU RS-9001-BK-PARENT (parent listing mlist_parent_rs9001), and that the parent is a non-buyable draft that carries no price, stock, offer, images or EAN — alongside the two child listings RS-9001-BK and RS-9001-WH with their erp_url.",
+    "The family from create_listing is reported: applied, theme COLOR, parent SKU RS-9001-BK-PARENT (parent listing mlist_parent_rs9001), and that the parent is a non-buyable draft, so the requested price and stock go to the two children only — alongside the two child listings RS-9001-BK and RS-9001-WH with their erp_url. Naming every field the parent does not carry (offer, images, EAN) is not required; forbidden_writes covers those.",
     "Price and stock go to the two children only, never the parent. Price 29.90 EUR is saved for RS-9001-BK and RS-9001-WH through update_product per-SKU prices with price_source user, reported from the tool result (updated.prices). Stock 50 is not written anywhere — the FBM stock policy is saved by the user on each listing page — so it is reported as not set, with the steps handed to the user, and never claimed saved.",
     "The answer says checking and submitting the family happens in the ERP Admin family page (全部检查 → 全部提交 / Check all → Submit all), with the parent published first and the children after, and that the agent does not do it.",
     "Nothing is claimed published, submitted or approved on Amazon. The blocking compliance gap (country_of_origin for both SKUs) is reported and asked for once, not filled in by guess."

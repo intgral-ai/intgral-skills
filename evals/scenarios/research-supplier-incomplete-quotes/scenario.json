@@ -1,6 +1,6 @@
 {
   "id": "research-supplier-incomplete-quotes",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-research",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -944,6 +944,25 @@
           }
         },
         {
+          "when": {
+            "path": "/admin/research/artifacts/rart_report_col_supplier_01"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_report_col_supplier_01",
+              "version": 1,
+              "record_type": "report",
+              "report_kind": "product_supplier_research",
+              "created_at": "2026-09-18T08:00:00.000Z"
+            },
+            "freshness": {
+              "age_days": 0,
+              "upstream_evidence_age_days": 16,
+              "status": "advisory"
+            }
+          }
+        },
+        {
           "error": {
             "code": "not_found",
             "message": "No catalogued admin route matches that path",
@@ -1061,7 +1080,7 @@
                 "status": "unsent"
               }
             },
-            "skill_revision": "intgral-research/supplier@2",
+            "skill_revision": "intgral-research/supplier@3",
             "schema_revision": "product_supplier_research/1"
           }
         }
@@ -1073,7 +1092,7 @@
     "No supplier is declared cheapest by omission: A's FOB Ningbo USD quote, B's listing tier with unknown trade basis, and C's CN¥ per set-of-2 catalog price are kept as three different bases, and any per-unit comparison names the conversion or assumption or leaves it unknown.",
     "Unknown cost components (freight to ES, duty and VAT, packaging beyond polybag, inspection) stay unknown with no zero or estimate filled in; no landed-cost total or margin is stated.",
     "Each material claim carries its state: A's quote is a scoped quote (valid until 2026-10-10); B's and C's tiers, MOQ and lead times are observed listing / pending verification; 'Verified Supplier' and isFactory do not become verified manufacturing capability.",
-    "The RFQ is a draft with only unresolved questions (variant, quantity 2000, customization, packaging, sample terms, lead time, delivery basis, evidence for claimed qualifications) and is not sent; the user is told which supplier decision remains theirs.",
+    "The RFQ is an unsent draft that asks each candidate only what its own evidence leaves open (variant, quantity 2000, customization, packaging, sample terms, lead time, delivery basis, evidence for claimed qualifications) — A is not re-asked the sample, lead-time or FOB terms its quote states; the user is told which supplier decision remains theirs.",
     "The user gets the artifact ID, revision, coverage status and every gap, plus a bounded next step (e.g. ask A for an EXW/FOB comparison, ask B and C for a quote on the same basis) without contacting anyone."
   ]
 }

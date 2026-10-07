@@ -1,6 +1,6 @@
 {
   "id": "research-brief-missing-upstream",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-research",
   "request": "用这个 scope 里的市场和竞品报告写产品 brief 并保存，供应商研究还没做，你看着办。",
   "workspace": "workspace",
@@ -1424,6 +1424,26 @@
           }
         },
         {
+          "when": {
+            "path": "/admin/research/artifacts/rart_report_col_brief_01"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_report_col_brief_01",
+              "version": 1,
+              "record_type": "report",
+              "report_kind": "product_brief",
+              "scope_id": "rscope_colander_es",
+              "created_at": "2026-10-04T09:20:00.000Z"
+            },
+            "freshness": {
+              "age_days": 0,
+              "upstream_evidence_age_days": 16,
+              "status": "advisory"
+            }
+          }
+        },
+        {
           "error": {
             "code": "not_found",
             "message": "No catalogued admin route matches that path",
@@ -1626,6 +1646,6 @@
     "The missing supplier stage is named as a gap: target cost, sample cost and supplier choice stay unknown with 'no supplier research retained', and handoff.upstream_versions pins exactly market@2 and competitor@1.",
     "Nothing from the review-less competitor report is written as a customer pain point or customer language; the per-listing 'bought in past month' floors stay lower bounds, never demand.",
     "Proposals (24-26 cm size, price position between the two collapsible offers, drawer-storage positioning) are marked proposed with how each could be tested; all twelve sections are present and unknown ones cite nothing.",
-    "The user gets the artifact ID, revision, coverage partial and every gap; supplier research is offered as a next step that needs its own approval (bounded Alibaba discovery with limits), not started."
+    "The user gets the artifact ID, revision, coverage partial and every gap; supplier research is offered as a next step that needs the user's own approval and is not started (naming its source or limits is welcome but not required)."
   ]
 }

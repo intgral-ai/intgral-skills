@@ -1,6 +1,6 @@
 {
   "id": "video-keyframe-budget-refused",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-video",
   "request": "继续做 vgen_20 的下一张关键帧，第 1 段的结束帧。",
   "workspace": "workspace",
@@ -297,6 +297,33 @@
               ],
               "media_asset_ids": []
             }
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/video-generations"
+          },
+          "result": {
+            "video_generations": [
+              {
+                "id": "vgen_20",
+                "product_id": "prod_cv01",
+                "variant_id": "var_cv01",
+                "status": "draft",
+                "stage": "keyframes",
+                "mode": "keyframe",
+                "plan_hash": "ph_20c",
+                "estimate": {
+                  "currency": "USD",
+                  "amount": 1.7,
+                  "source": "provider price table 2026-10-01"
+                },
+                "cost_cap": null
+              }
+            ],
+            "count": 1,
+            "limit": 20,
+            "offset": 0
           }
         },
         {
