@@ -3,7 +3,7 @@ name: intgral-start
 description: Start using Intgral — connect the Intgral MCP server on first use, then show what can be done with a link to Intgral, and open a SKU's Intgral page whenever a task touches that SKU.
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # 开始使用 Intgral

@@ -3,7 +3,7 @@ name: intgral-research
 description: Research markets, competitors and product suppliers, synthesize product briefs, or resume retained research evidence and reports through connected Intgral MCP tools.
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # Intgral research workflow
