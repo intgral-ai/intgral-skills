@@ -112,10 +112,10 @@ test("publish request: asking for the plan fails on the forbidden POST", (t) => 
   assert.deepEqual(failLines(stdout), ["FAIL forbidden: medusa.admin_post #4 is not allowed in this scenario"]);
 });
 
-test("publish request: claiming submission or leaving out the product page fails on final", (t) => {
-  const { stdout, status } = evaluateTrace("listing-aplus-page-publish-request", compliant("listing-aplus-page-publish-request"), "--final", writeFinal(temp(t), "页面已提交给亚马逊审核。"));
+test("publish request: claiming publication or leaving out the product page fails on final", (t) => {
+  const { stdout, status } = evaluateTrace("listing-aplus-page-publish-request", compliant("listing-aplus-page-publish-request"), "--final", writeFinal(temp(t), "页面已发布到亚马逊。"));
   assert.equal(status, 1);
-  assert.deepEqual(failLines(stdout), ['FAIL final: contains "已提交"', 'FAIL final: missing "https://erp.example.test/app/products/prod_cv01"']);
+  assert.deepEqual(failLines(stdout), ['FAIL final: contains "已发布"', 'FAIL final: missing "https://erp.example.test/app/products/prod_cv01"']);
 });
 
 test("publish request: an answer that never read the page status fails on required", (t) => {

@@ -1,6 +1,6 @@
 {
   "id": "listing-aplus-page-publish-request",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-listing",
   "request": "CV-HOOK-01 的西班牙站 A+ 页面已经存好了，帮我发布到亚马逊吧。",
   "workspace": "workspace",
@@ -884,8 +884,6 @@
     "final_forbidden_text": [
       "已发布",
       "已上线",
-      "已提交",
-      "已通过",
       "Seller Central"
     ],
     "final_required_text": [
