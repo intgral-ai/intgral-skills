@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "workspace-lasting-vs-one-off",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "One-off uppercase title: suggestion only, no listing write, no preference change, says not recorded",
+   "pass": true,
+   "note": "Trace shows only get_listing_context; the diff shows the uppercase rule was not added; the answer says it was not saved and not recorded."
+  },
+  {
+   "item": "Lasting bullets-in-Spanish rule appended as dated row with user as source; existing lines preserved",
+   "pass": true,
+   "note": "The diff shows exactly one new row dated 2026-10-08 with the user's instruction given as the source. The identity lines and the 2026-09-01 rule are unchanged."
+  },
+  {
+   "item": "Re-read before change, dated backup under backups/, read back after, report exact rows added",
+   "pass": true,
+   "note": "backups/preferences.2026-10-08.md exists and matches the pre-change file. The answer quotes the exact added row and says the file was read back."
+  },
+  {
+   "item": "Suggested title keeps the existing brand rule in view; notes the conflict and that the one-off does not change it",
+   "pass": true,
+   "note": "The answer cites the 2026-09-01 'Casa Verde' rule, says it stays unchanged and that future titles keep 'Casa Verde', with all caps used only for this version."
+  },
+  {
+   "item": "No unnecessary questions; nothing written inside installed package",
+   "pass": true,
+   "note": "No questions asked. Only ws/ files changed, nothing under install/."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure about three things: adding the \"·\" separator to the title, skipping the full product fetch, and recording the Spanish-bullets rule as a separate row rather than flagging an overlap with the existing language rule."
+}

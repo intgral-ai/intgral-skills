@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "listing-import-existing-sku-no-dup",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "SKU found to exist as draft prod_cv01; no second product created or attempted",
+   "pass": true,
+   "note": "get_product found prod_cv01 and the agent then called update_product on it. It never called create_product."
+  },
+  {
+   "item": "12.90 EUR write marked price_source user",
+   "pass": true,
+   "note": "update_product was called with price_source \"user\", amount 12.9 and currency_code eur."
+  },
+  {
+   "item": "Reports nothing new created and what changed (title, price) with erp_url; does not claim a new draft",
+   "pass": true,
+   "note": "The answer says no new product was created, shows the title change from old to new and the 12.90 EUR price, and gives the prod_cv01 erp_url."
+  },
+  {
+   "item": "Gaps (bullet points, images 1 of 8) listed for later, not guessed; page opened once; Chinese",
+   "pass": false,
+   "note": "Page opened once, the answer is in Chinese and nothing was guessed, but the gaps are only a vague '描述、图片等'. It does not name missing bullet points or images 1 of 8. The update_product path never returned the compliance gaps, and the agent did not fetch them."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed. The answer misses rubric item 4: by taking the update_product path it never got the compliance gaps, so it names neither the missing bullet points nor images 1 of 8, only a vague '描述、图片等'.",
+ "agent_unsure": "The agent guessed the prices array shape {sku, amount, currency_code}, which was accepted. The tool did not return the old price, so the answer gives none."
+}

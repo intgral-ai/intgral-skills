@@ -1,0 +1,32 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "listing-open-two-skus",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Both SKUs answered from tool results: CV-HOOK-01 draft 'Bamboo wall hook 2pk'; CV-TRAY-01 published 'Casa Verde bandeja organizadora de bambú'",
+   "pass": true,
+   "note": "The table gives both statuses and titles exactly as the tools returned them."
+  },
+  {
+   "item": "Only the first SKU's page (prod_cv01) opened, once and unprompted; answer says it was opened and lists CV-TRAY-01's erp_url as a link instead",
+   "pass": true,
+   "note": "The trace shows one host.open_url call, on prod_cv01. The answer marks that page as opened in the browser and gives prod_cv02 as a link only."
+  },
+  {
+   "item": "Nothing done inside the opened page, nothing changed, no 'go publish' next step; Chinese",
+   "pass": true,
+   "note": "The run made no writes and gave no publish step, and the answer is in Chinese. It offers an optional title edit for the brand rule but does not make it."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The answer gives the catalog status, not the Amazon ES listing status, because medusa.admin_get was not in the tool list; the agent was also unsure whether to add the optional note that CV-HOOK-01's title lacks the 'Casa Verde' brand name."
+}

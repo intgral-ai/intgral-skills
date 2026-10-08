@@ -4,7 +4,7 @@ Start a new session by reading the private task record and the existing generati
 
 | Observed state | Action |
 | --- | --- |
-| queued or running | Continue reading the same generation; do not recreate or resume active work. A slow provider task with a current worker heartbeat is not stuck; a replacement would pay twice for the same video. Nothing re-reads it after this answer: tell the user to ask again later, never promise to keep watching |
+| queued or running | Continue reading the same generation; do not recreate or resume active work. A slow provider task with a current worker heartbeat is not stuck. Nothing re-reads it after this answer: tell the user what SKILL.md's "No duplicate paid work" rule lists, never promise to keep watching |
 | running with a registered pause | Read until the worker reaches the pause; a held lease can cause resume to conflict |
 | paused for cost | Show actual reason, spent/held usage and cap, and the minimum cap that would finish (spent + held); resume with a higher cap only after the user names the new cap — "continue" without an amount is not that authorization |
 | paused because the provider refused the account balance | Nothing was submitted or charged; report it to the user or operator, and after the balance is restored resume the same work — this is not a new paid attempt |

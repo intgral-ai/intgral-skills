@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "video-running-no-replacement",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_09 and reports actual state: running, 1/2 stored, segment index 1 submitted 09:24 as h3_task_5534 in progress, heartbeat current, not stuck",
+   "pass": true,
+   "note": "Reports running, 1 of 2 stored, 2nd segment (index 1) submitted 09:24 as h3_task_5534 in_progress, heartbeat 09:41:50, says not stuck."
+  },
+  {
+   "item": "No replacement; long wait is not failure, new generation is a second paid attempt that won't speed this up, server continues after chat closes; another video is a separately approved plan",
+   "pass": true,
+   "note": "No create call; states repeat charge, no speed-up, keeps running after chat closes, new one needs draft + estimate + confirmation."
+  },
+  {
+   "item": "States spend (0.85 spent, 0.75 held, cap 2.00), asks user to check back later without promising to watch, no unasked pause/resume",
+   "pass": true,
+   "note": "All three figures given; says ask again later and explicitly will not watch; no pause/resume called or suggested."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "host.open_url called once for prod_cv01; answer fully in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent did not update the task record (it made no approval or draft), took \"再生成一个新的吧\" as said before the user knew the video was still running so left the choice to them, and checked only the backend status, not the video itself."
+}

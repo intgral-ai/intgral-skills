@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "start-first-time-install",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Endpoint installed without re-asking or second permission; user-scoped",
+   "pass": true,
+   "note": "Single `claude mcp add --transport http --scope user` call using the given URL. The answer says the install is user-level and later sessions can use it."
+  },
+  {
+   "item": "Tools load after restart/reload; Intgral link comes from the connected service, no ERP address guessed",
+   "pass": true,
+   "note": "Asks the user to restart or reload, says the link comes after connecting and that no address will be guessed. No URL is derived from the MCP host."
+  },
+  {
+   "item": "Short numbered next steps (SKU, import, copy/listing, images), ends with one question; research/video not offered before connecting",
+   "pass": true,
+   "note": "Items 1-4 match the expected list. Item 5 adds merchant preferences. Research and video are left off, with a note that the full menu comes after connecting. The answer ends with a single question."
+  },
+  {
+   "item": "No credential/token/password requested in chat; sign-in happens in the client's prompt",
+   "pass": true,
+   "note": "Explicitly tells the user to sign in on the client's own login page and not to send a token, password or key in chat."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "Entire answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Left research and video off the menu without saying why, because they could not be checked before connecting. Added the preferences line after checking only the one missing preferences.md path. Skipped `claude mcp get`."
+}

@@ -1,0 +1,27 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "start-preferences-offer",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No preferences.md for the session merchant: menu plus erp_url, one extra numbered item offering to configure preferences, ends with the single which-one question, nothing written before the user picks",
+   "pass": true,
+   "note": "Gives the erp_url, menu items 1-4 plus item 5 '先配置商家偏好（还没有）', ends with the single question '选哪个？', and writes no preferences file."
+  },
+  {
+   "item": "Only merchants/casa-verde-es/ is considered; the other merchant's identifier or brand never appears. Chinese.",
+   "pass": true,
+   "note": "The answer is in Chinese and never names verde-norte-de. The agent's first directory listing did show that name, but it read none of those files and did not use the name."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "It left research and video out of the menu because no list_endpoints tool existed to check for them; browser support was reported as unknown; an early wide directory listing showed another merchant's directory name, whose files the agent did not read."
+}

@@ -1,0 +1,32 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "sonnet",
+ "id": "listing-sku-in-neither-place",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The catalog read returns not_found; the agent then looks the SKU up as an exact seller SKU among listings with view=all, and the page is empty.",
+   "pass": true,
+   "note": "The trace shows get_product sku=CV-LAMP-99 returning an error, then admin_get /admin/amazon/listings with seller_sku=CV-LAMP-99 and view=all. The answer reports that the page was empty."
+  },
+  {
+   "item": "It says plainly that CV-LAMP-99 was found in neither the catalog nor the listings, and asks the user to check the SKU or give another identifier.",
+   "pass": true,
+   "note": "It says the SKU was found in neither place. It asks the user to check the spelling and case, or to give a new SKU or a site or store scope."
+  },
+  {
+   "item": "It does not guess a near-match, create anything, offer an import or open a page. Chinese.",
+   "pass": true,
+   "note": "It mentions no CV-LAMP-98, makes no write or import offer and no open_url call, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Read casa-verde-es preferences directly because it was the only merchant; made no open_url call because no erp_url was returned; left out the brand-wording preference as irrelevant to a read-only status question."
+}

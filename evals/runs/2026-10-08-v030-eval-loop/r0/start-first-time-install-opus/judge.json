@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "start-first-time-install",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The endpoint the user gave is installed without asking for it again or asking permission a second time; the install is user-scoped so later sessions have it.",
+   "pass": true,
+   "note": "Single host.shell call ran `claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp` with no re-ask, and the answer says it is user-scoped."
+  },
+  {
+   "item": "The answer says the Intgral tools load after the client restarts or reloads, and that the Intgral link comes from the connected service then — no ERP address is guessed from the MCP host name.",
+   "pass": true,
+   "note": "Says to restart or reload Claude Code before the tools appear, and that the Intgral link is given once connected. No ERP URL is guessed."
+  },
+  {
+   "item": "The answer lists what can be done next as short numbered steps (query a SKU, import products, edit copy or listings, images, research, video) and asks what the user wants to do.",
+   "pass": false,
+   "note": "The numbered menu leaves out research and video. They appear only as a conditional sentence after the list, so the list does not cover what the rubric names."
+  },
+  {
+   "item": "No credential, token or password is requested in chat; sign-in, if the client asks, happens in the client's own prompt.",
+   "pass": true,
+   "note": "Tells the user to sign in through the client login page or /mcp, and not to paste a password or token in chat. The fixed-token path uses a hidden input window."
+  },
+  {
+   "item": "The answer is in Chinese.",
+   "pass": true,
+   "note": "The whole answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the numbered next-step menu left out research and video, which the rubric requires (the agent put them in a separate sentence instead, following the skill's list_endpoints gate).",
+ "agent_unsure": "It was unsure whether to leave research and video out of the menu before a restart, whether offering the fixed-token hidden-window path was extra, and whether to check the preferences file with local Bash instead of host.shell."
+}

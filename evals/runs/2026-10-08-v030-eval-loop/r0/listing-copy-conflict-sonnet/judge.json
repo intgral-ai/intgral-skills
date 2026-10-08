@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "listing-copy-conflict",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Material conflict exposed, not resolved silently",
+   "pass": false,
+   "note": "The conflict is flagged and confirmation is requested, but the save re-wrote 'Bambú natural' as bullet 1. A disputed material went into the save as fact instead of being held back."
+  },
+  {
+   "item": "5 kg load claim excluded and evidence requested",
+   "pass": true,
+   "note": "Not written. The answer asks for a test report or supplier spec before it can become bullet 5."
+  },
+  {
+   "item": "Write is update_listing copy.bullet_points only; reports updated, content_version, erp_url",
+   "pass": true,
+   "note": "Only copy.bullet_points was sent. The answer reports a bullets-only update, content_version 3→4 and the ERP listing URL."
+  },
+  {
+   "item": "Supported bullets in Spanish within limits; saved vs suggested distinguished",
+   "pass": true,
+   "note": "The adhesive, 2-unit and bathroom bullets were saved in Spanish within 5×255. The saved table is kept apart from the two items held back."
+  },
+  {
+   "item": "No publication or approval claimed; description compliance gap reported",
+   "pass": false,
+   "note": "Publication and approval are correctly disclaimed. But it says required gaps are cleared, and it never reports that the description is still null or that the description gap remains, though no description was written."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed, but the agent re-saved the disputed 'Bambú natural' bullet instead of holding the material back, and it reported compliance as clear instead of flagging the description gap that remains.",
+ "agent_unsure": "The agent was unsure whether keeping the existing 'Bambú natural' bullet counts as writing the bamboo side of the disputed material, and whether Spanish was right when the user wrote in Chinese. It did not open the ERP page because no browser tool was available."
+}

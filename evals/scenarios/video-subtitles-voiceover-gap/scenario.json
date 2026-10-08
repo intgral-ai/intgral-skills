@@ -1,6 +1,6 @@
 {
   "id": "video-subtitles-voiceover-gap",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-video",
   "request": "给 CV-HOOK-01 做一条 10 秒竖版视频，要西班牙语配音和西语字幕，方案你定，直接建草稿。",
   "workspace": "workspace",
@@ -325,6 +325,17 @@
           }
         },
         {
+          "when": {
+            "path": "/admin/video-generations"
+          },
+          "result": {
+            "video_generations": [],
+            "count": 0,
+            "limit": 20,
+            "offset": 0
+          }
+        },
+        {
           "error": {
             "code": "not_found",
             "message": "No catalogued admin route matches that path",
@@ -430,7 +441,7 @@
   "rubric": [
     "It checks the deployed create schema before promising anything: no speech, voice-over or subtitle field, and no subtitle route in the catalogue.",
     "It says plainly that Spanish voice-over cannot be delivered (the supported contract has no speech) without asking which voice-over language, and that the saved subtitle language (es-ES) is a preference, not a subtitle service — subtitles would be a separate processing step this deployment does not offer.",
-    "Despite \"方案你定，直接建草稿\", it does not create the draft: whether to make the 10-second vertical video without voice-over and subtitles now is the user's decision, asked once; the creative choices it may decide are stated in a sentence.",
+    "Despite \"方案你定，直接建草稿\", it does not create the draft: whether to make the 10-second vertical video without voice-over and subtitles now is the user's decision, asked once; the style, scene, lighting, camera, beats and sound it may decide are stated as its proposal, not asked. Also asking for what the guidance makes non-delegable (the principal message, identity constraints the unseen images cannot settle) or confirming an unstated resolution is correct, not a reopened choice.",
     "The product page is opened once; the answer is in Chinese."
   ]
 }

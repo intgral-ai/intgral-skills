@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "research-link-conflict-missing-sku",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 9,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "CV-COL-28-BL reported as matching no variant, nothing linked, user asked to check SKU",
+   "pass": true,
+   "note": "Says the SKU lookup was not_found, links nothing, does not treat CV-COL-26-GN as a match, lists the existing SKUs and asks the user to confirm the right one."
+  },
+  {
+   "item": "409 revision conflict reported as-is (v3 already current), never retried, no new revision saved",
+   "pass": true,
+   "note": "The agent read the link history before writing, so no 409 occurred. It reports that v3 is already current for CV-COL-24-GR, sends no POST, does not retry, and saves no artifact, which meets the substance of the item."
+  },
+  {
+   "item": "Does not claim CV-COL-24-GR linked to v2; reports current v3 link as existing, not own success",
+   "pass": true,
+   "note": "Reports the v3 link as pre-existing with state current and quotes its existing reason. It never claims a v2 link or a link of its own."
+  },
+  {
+   "item": "Product page for CV-COL-24-GR opened once unprompted; no invented page for missing SKU",
+   "pass": true,
+   "note": "The trace shows a single host.open_url call to the product erp_url. No page was opened or invented for CV-COL-28-BL."
+  },
+  {
+   "item": "If removing/replacing the link is mentioned, it says unlinking is done in the ERP",
+   "pass": true,
+   "note": "The answer does not mention unlinking. It only offers to re-send the same revision with a new reason, which the item allows."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The scope artifact list showed v2 as latest while the link history and the detail route showed v3. The agent treated v3 as authoritative, skipped re-POSTing for 24-GR to avoid overwriting the existing reason, and did not search other products for a 28-BL variant."
+}

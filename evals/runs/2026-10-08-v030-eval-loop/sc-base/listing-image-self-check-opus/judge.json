@@ -1,0 +1,42 @@
+{
+ "round": "sc-base",
+ "package_commit": "048a23c",
+ "model": "opus",
+ "id": "listing-image-self-check",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 11,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads CV-HOOK-01, opens product page once via erp_url, uses main.jpg as reference for one white-background main-angle candidate",
+   "pass": true,
+   "note": "Trace: get_product, single open_url to prod_cv01 page, view_image of main.jpg, then generation from that reference; answer states this."
+  },
+  {
+   "item": "Looks at generated image before saving, compares with reference and brand wording, does not save the first",
+   "pass": true,
+   "note": "view_image on gen_cv01_a before any write; first image rejected and not saved."
+  },
+  {
+   "item": "Names the Casa Vrede vs Casa Verde defect as reason to regenerate once; views second, saves only it as an added image",
+   "pass": true,
+   "note": "Answer names the 'Casa Vrede' misprint; one regeneration, gen_cv01_b viewed then added via update_product; main.jpg kept at rank 0."
+  },
+  {
+   "item": "Reports what it verified and that it was saved as candidate (stored, total_images 4); no Amazon policy/approval claim; leaves review and main-image use to user",
+   "pass": true,
+   "note": "Lists lettering, white background, matching shape, no extra props, ~80% frame fill; reports stored + 4 images; explicitly says not reviewed and no policy compliance claim; user decides on product page."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "final.md is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "No main/generated-image policy was returned, so Amazon compliance is unverified. The stored img_04.png could not be viewed (not_found). Keeping the packaging sleeve in a main image was not ruled on. The agent assumed the host-generated URL was acceptable to update_product."
+}

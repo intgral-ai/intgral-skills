@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "research-link-report-to-sku",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 10,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Latest competitor revision rart_report_col_comp_02 v2 linked and named with version; v1 and market report not linked",
+   "pass": true,
+   "note": "Answer names rart_report_col_comp_02 第2版 and says v1 rart_report_col_comp_01 was superseded and not linked. The trace shows a single POST, with v2."
+  },
+  {
+   "item": "Correct variant variant_fake_col24gr (24 cm Gris), not the green 26 cm sibling; no listing attached",
+   "pass": true,
+   "note": "The POST used variant_fake_col24gr with no listing_id. The answer says the 26 cm Verde variant was left alone and no listing was attached."
+  },
+  {
+   "item": "Reason states pricing-basis relevance; answer confirms from returned link (state current, variant SKU, report kind, version)",
+   "pass": true,
+   "note": "The reason says the grey 24 cm variant's pricing used this report. The answer reports 201, link id, state current, SKU, competitor_research and version 2 from the response, and flags the reason-text mismatch."
+  },
+  {
+   "item": "Link is relevance not approval; nothing collected or re-saved; contents not presented as newly verified",
+   "pass": true,
+   "note": "The answer says the link only marks relevance and changes neither the report nor the product. The trace has no collection or save calls. The report summary carries the partial-coverage and 27-day-old-price caveats."
+  },
+  {
+   "item": "Unlinking is done in the ERP; a newer competitor revision replaces this link and the old one stays as history",
+   "pass": true,
+   "note": "Both points are stated explicitly in the 说明 section."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent's own notes list five things it was unsure about. It sent a Chinese reason but the returned link's reason was English, and it reported both without retrying. The scopes endpoint takes no SKU or market filter, so it listed all scopes and matched by topic and market. It read no Amazon listing, so it sent no listing_id. It had no browser tool, so it gave the erp_url instead of opening the page. The 27-day evidence age comes from the ERP's freshness block."
+}

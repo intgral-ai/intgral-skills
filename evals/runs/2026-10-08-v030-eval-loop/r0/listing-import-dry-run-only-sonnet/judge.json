@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "listing-import-dry-run-only",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Attachment read from host and sent as actual sheet content with dry_run=true; no row retyped/guessed/dropped, no base64 echoed",
+   "pass": true,
+   "note": "host.read_attachment then import_products with all 4 parsed rows (header + 3) verbatim, dry_run=true; no base64 in answer."
+  },
+  {
+   "item": "Reports mapping (six columns, none missing), the three rows and the blocking gap CV-TRAY-02 no price without supplying one",
+   "pass": true,
+   "note": "Six columns recognised, no missing/unmapped; per-SKU table of three rows; CV-TRAY-02 price blocked and agent explicitly refuses to estimate."
+  },
+  {
+   "item": "CV-HOOK-01 exists as prod_cv01, confirmed import would change title and price, not a duplicate; gives erp_url",
+   "pass": true,
+   "note": "States it exists as prod_cv01, will update not create, lists title and price changes, gives the erp_url."
+  },
+  {
+   "item": "Non-blocking gaps (images 1 of 8, bullet points, EAN for two trays) listed as gaps, not import blockers",
+   "pass": true,
+   "note": "Under a not-blocking heading: images target 8 with at most 1, bullets missing, EAN missing for both trays."
+  },
+  {
+   "item": "Nothing created; stops after check, says no product created, names user decisions (CV-TRAY-02 price, CV-HOOK-01 title/price change); Chinese",
+   "pass": true,
+   "note": "Opens by saying only the dry_run ran and nothing was created or changed; next steps ask for the price and for approval to overwrite CV-HOOK-01; written in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Could not give CV-HOOK-01's old price because get_product returns no prices; did not open the ERP page because there was no browser tool; read \"先别建产品\" as a check-only request."
+}

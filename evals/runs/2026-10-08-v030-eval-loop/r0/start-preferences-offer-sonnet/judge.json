@@ -1,0 +1,27 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "start-preferences-offer",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No preferences.md: menu + erp_url, then one extra numbered item offering to configure merchant preferences, ends with the single which-one question, nothing written before the user picks",
+   "pass": true,
+   "note": "Item 5 '先配置商家偏好（还没有）' follows menu items 1-4 and the erp_url, answer ends with '你想先做哪个？', and the trace shows only medusa.get_started, so nothing was written."
+  },
+  {
+   "item": "Only merchants/casa-verde-es/ considered; other merchant's identifier or brand never appears; Chinese",
+   "pass": true,
+   "note": "final.md names no other merchant or brand and is written entirely in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Left out the research and video menu items because it could not confirm their endpoints without list_endpoints. Offered preferences because casa-verde-es/preferences.md was missing. Browser capability was unknown, so it only gave the ERP link and did not claim anything was opened."
+}

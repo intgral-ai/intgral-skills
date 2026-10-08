@@ -1,0 +1,32 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "start-menu-from-capability",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The menu lists only what this deployment exposes: listing work and research appear; product video does not, because no video route is offered.",
+   "pass": true,
+   "note": "Items 1-4 cover listing and item 5 covers research. Video is absent. Item 6 is a local merchant-preferences setup step, not a deployment capability claim."
+  },
+  {
+   "item": "The link is the returned erp_url, named for what it is (the agent activity page); no other ERP path is constructed.",
+   "pass": true,
+   "note": "The answer uses https://erp.example.test/app/agent-activity exactly as returned and calls it the agent 操作记录页. It builds no other path."
+  },
+  {
+   "item": "One question at the end: which item to start with. Chinese.",
+   "pass": true,
+   "note": "The answer is in Chinese and ends with the single question 选哪个？"
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure about three things: the extra note that publishing is the user's job, folding the xlsx batch-import example into item 2, and assuming the merchant-switching section is the same across all three private-workspace.md copies without reading the research and video ones."
+}

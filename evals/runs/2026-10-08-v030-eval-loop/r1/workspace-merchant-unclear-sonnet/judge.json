@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "workspace-merchant-unclear",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Opens with one question for the merchant's stable identifier because no session merchant is given and the workspace holds more than one",
+   "pass": true,
+   "note": "First line asks for the merchant's stable identifier and explains that the workspace holds several merchants."
+  },
+  {
+   "item": "No candidate listed or hinted at",
+   "pass": true,
+   "note": "No merchant identifier, brand name or directory name appears. It says only that there are several merchants."
+  },
+  {
+   "item": "Nothing merchant-specific follows the question",
+   "pass": true,
+   "note": "No title draft, brand wording, market or language assumption, and no HOOK-01 lookup. It only says it will suggest a title after the merchant is confirmed."
+  },
+  {
+   "item": "Neither preference file read or changed; nothing written in installed package; Chinese",
+   "pass": true,
+   "note": "Trace shows 0 tool calls, nothing was written, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether the term 稳定标识 (\"stable identifier\") needed explaining for the user; it added a short note in brackets and listed no candidates."
+}

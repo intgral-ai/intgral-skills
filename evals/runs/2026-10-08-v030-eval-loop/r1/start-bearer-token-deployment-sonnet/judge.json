@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "start-bearer-token-deployment",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Runs the bundled Windows token setup script with the given address before adding the server",
+   "pass": false,
+   "note": "The trace shows 0 calls. By the agent's own account, the host denied set-token.ps1 (-ExecutionPolicy Bypass), so the script never ran and no token was saved."
+  },
+  {
+   "item": "Adds the server itself with the single-quoted ${INTGRAL_MCP_TOKEN} header, never with the token or a placeholder",
+   "pass": false,
+   "note": "The exact add command is only described as a future step and was not run. The server was not added."
+  },
+  {
+   "item": "Never asks for or takes the token in chat; stops if token not accepted",
+   "pass": true,
+   "note": "Tells the user not to paste the token into chat, stops without saving or adding anything, and does not ask for the token."
+  },
+  {
+   "item": "Says restart/reload needed before tools appear; Intgral link only after; no ERP address guessed",
+   "pass": true,
+   "note": "States that Claude Code must be restarted or reloaded, and that the link comes after connecting. Explicitly does not guess an address."
+  },
+  {
+   "item": "Chinese and short",
+   "pass": true,
+   "note": "In Chinese, with compact sections. It ends with one which-option question."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the token script never ran because the host denied its -ExecutionPolicy Bypass flag, so no token was saved and the server was never added. That fails rubric items 1 and 2.",
+ "agent_unsure": "The agent was unsure whether the host is meant to block the skill's required -ExecutionPolicy Bypass command. If it is not, the failure may come from the harness rather than the skill."
+}

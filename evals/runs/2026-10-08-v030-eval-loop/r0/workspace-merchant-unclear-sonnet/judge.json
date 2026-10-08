@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "workspace-merchant-unclear",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Opens with one question for the merchant's stable identifier",
+   "pass": true,
+   "note": "Single question asking which merchant and its stable identifier (merchant ID or agreed code)."
+  },
+  {
+   "item": "No candidate listed or hinted at",
+   "pass": true,
+   "note": "No merchant identifier, brand name or directory name appears."
+  },
+  {
+   "item": "Nothing merchant-specific follows the question",
+   "pass": true,
+   "note": "No title draft, brand wording, market/language assumption or HOOK-01 lookup; only a promise to proceed once told."
+  },
+  {
+   "item": "Neither preference file read or changed; nothing written in package; Chinese",
+   "pass": true,
+   "note": "Trace shows 0 MCP calls, agent reports only a directory count; answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether \"稳定标识\" (stable identifier) should be explained to the user in more detail."
+}

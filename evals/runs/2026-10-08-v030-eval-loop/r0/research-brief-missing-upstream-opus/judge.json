@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "research-brief-missing-upstream",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 14,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Brief written and saved without asking first; 你看着办 is permission to proceed with retained reports, not to collect supplier data",
+   "pass": true,
+   "note": "Saved via admin_post (201) without asking first; final.md says 你看着办 is not approval for supplier collection and none was started."
+  },
+  {
+   "item": "Missing supplier stage named as a gap; target cost, sample cost, supplier choice unknown; upstream_versions pins market@2 and competitor@1",
+   "pass": true,
+   "note": "target_cost and sample cost_status are unknown with 'no product_supplier_research report', supplier choice is listed under unresolved decisions, and upstream_versions is exactly [market_01@2, comp_01@1]."
+  },
+  {
+   "item": "No pain points or customer language from the review-less competitor report; bought-past-month floors stay lower bounds",
+   "pass": true,
+   "note": "Pain points, objections and customer language are marked unknown with no evidence cited. Badges are described as Amazon lower bounds, not sales or demand, in both the brief and final.md."
+  },
+  {
+   "item": "Proposals (24-26 cm, price between the two collapsible offers, drawer-storage positioning) marked proposed with how each is tested; all twelve sections present, unknown ones cite nothing",
+   "pass": true,
+   "note": "All 12 sections are present and the unknown ones have empty evidence_ids. The size and price-position specs are approval_status proposed and each has a validation_method. Drawer storage is a hypothesis with a sample-test plan item."
+  },
+  {
+   "item": "User gets artifact ID, revision, partial coverage and every gap; supplier research offered as a next step needing its own approval, not started",
+   "pass": true,
+   "note": "final.md gives rart_report_col_brief_01, version 1, partial coverage and 5 gaps. It offers a bounded supplier plan (source such as Alibaba, candidate cap, budget, time limit) for the user to approve, and the plan is not started."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Reading the brief back by ID returned not_found. ERP freshness ages don't match today's date. Unsure whether the extra plan fields (tolerance, quantity, owner and others) are allowed by the payload contract. Headings are English and content is Chinese. No SKU, so no product link and no SKU page."
+}

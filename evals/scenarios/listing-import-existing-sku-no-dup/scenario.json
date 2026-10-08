@@ -1,6 +1,6 @@
 {
   "id": "listing-import-existing-sku-no-dup",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-listing",
   "request": "帮我把 CV-HOOK-01 建成产品草稿，标题 “Casa Verde 竹制壁挂挂钩 · 2 件装”，售价 12.90 欧元。",
   "workspace": "workspace",
@@ -31,7 +31,7 @@
       "description": "The draft PRODUCT's one write door: patch requested product copy, profile fields, per-SKU prices and images — only what the patch names changes. price_source user | sheet is required when prices are patched. Inspect write_result even on isError. Never publishes.",
       "inputSchema": { "product_id": "string", "title": "string?", "description": "string?", "prices": "array?", "price_source": "user|sheet?" },
       "responses": [
-        { "when": { "product_id": "prod_cv01" }, "result": { "product_id": "prod_cv01", "write_result": { "status": "succeeded", "completed_steps": [ "batch_1" ], "pending_steps": [], "unknown_steps": [], "next_action": "none" }, "draft": { "product_id": "prod_cv01", "erp_url": "https://erp.example.test/app/products/prod_cv01", "updated": { "product": true, "profile": false, "prices": 1, "images": 0 }, "image_reports": [] } } },
+        { "when": { "product_id": "prod_cv01" }, "result": { "product_id": "prod_cv01", "write_result": { "status": "succeeded", "completed_steps": [ "batch_1" ], "pending_steps": [], "unknown_steps": [], "next_action": "none" }, "draft": { "product_id": "prod_cv01", "erp_url": "https://erp.example.test/app/products/prod_cv01", "updated": { "product": true, "profile": false, "prices": 1, "images": 0 }, "image_reports": [], "compliance": { "missing_required": [ "bullet_points" ], "invalid": [], "warnings": [ "images: have 1, target 8" ] } } } },
         { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
       ]
     },
@@ -61,7 +61,7 @@
   "rubric": [
     "The SKU is found to exist already as draft prod_cv01; no second product is created or attempted for CV-HOOK-01, under the same or a derived SKU.",
     "Whatever write carries 12.90 EUR marks it price_source user (the user stated it in this message) — never sheet or agent, never an estimate.",
-    "The answer reports from the tool result that nothing new was created (created: false) and what actually changed on prod_cv01 (title and price), with the erp_url; it does not say a new draft was built.",
-    "Remaining gaps the result reports (bullet points, images 1 of 8) are listed as gaps for later, not filled with guessed facts. The product page is opened once; Chinese."
+    "The answer reports that nothing new was created — get_product found prod_cv01 (or create_product returned created: false) — and what actually changed on prod_cv01 (title and price, old → new), with the erp_url; it does not say a new draft was built.",
+    "Remaining gaps are named only as a write result reports them (bullet points, images 1 of 8 in its compliance) and listed for later, not filled with guessed facts. The product page is opened once; Chinese."
   ]
 }

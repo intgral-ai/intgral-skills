@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "listing-open-after-write",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The saved title is reported from the tool result, with the erp_url as a link.",
+   "pass": true,
+   "note": "Reports the new title with write_result.status=succeeded and updated.product=true, and gives https://erp.example.test/app/products/prod_cv01 as a link."
+  },
+  {
+   "item": "The product page is opened once, without being asked (when the SKU is first read or after the save); the answer says it was opened and that review and publication happen there.",
+   "pass": true,
+   "note": "host.open_url called once, right after get_product. The answer says the page is open and that the user does review and publication in the ERP."
+  },
+  {
+   "item": "Nothing is done inside the opened page: no save, submit or publish is claimed, and nothing is described as published.",
+   "pass": true,
+   "note": "No action in the page is claimed, and the product is described as a draft."
+  },
+  {
+   "item": "No unrelated field is changed or mentioned as changed.",
+   "pass": true,
+   "note": "update_product sent only product_id and title. The answer says description, attributes, prices and images were left alone."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure whether the user meant the catalog product or the ES listing (it chose the catalog), whether to write a Chinese title when the store's preference is Spanish copy (it wrote it and flagged the mismatch), and whether the page should be opened before or after the write (it opened before)."
+}

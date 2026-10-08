@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "listing-copy-conflict",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Material conflict exposed, neither material written, 'Bambú natural' moved out and said to return on confirmation",
+   "pass": true,
+   "note": "The answer names the conflict between the ERP bamboo data (variant, title, description, bullets) and the user's stainless steel, asks for evidence and writes neither. It says 'Bambú natural' was removed and will be restored once bamboo is confirmed."
+  },
+  {
+   "item": "5 kg load claim excluded and evidence requested",
+   "pass": true,
+   "note": "The 5 kg claim was left out of the saved copy, and the answer asks for a test report or supplier spec."
+  },
+  {
+   "item": "Write is update_listing with copy.bullet_points only; reports updated, content_version, erp_url",
+   "pass": true,
+   "note": "The trace shows a single update_listing call that writes bullet_points only. The answer reports the save, content version 3 to 4, and the erp_url."
+  },
+  {
+   "item": "Supported bullets in Spanish within limits; saved vs suggested distinguished",
+   "pass": true,
+   "note": "Three Spanish bullets were saved: adhesive mounting, 2-pack and bathroom use. They are shown in a saved table with sources and stated limits (5 bullets, 255 characters), and the pending material bullet is clearly marked as not written."
+  },
+  {
+   "item": "No publication/approval claimed; description compliance gap reported",
+   "pass": true,
+   "note": "The answer says the saved copy is a draft that the user publishes in the ERP, and reports compliance.ready=false because the description is missing."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether to remove 'Bambú natural' while the material is disputed (it removed it), whether the bathroom/towels/keys bullet goes beyond the description, and it had no browser, so it only gave the erp_url link."
+}

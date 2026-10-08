@@ -1,0 +1,37 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "opus",
+ "id": "listing-sku-only-in-listings",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "get_product not_found does not stop the agent; it looks up the exact seller SKU among listings with view=all and finds mlist_cvlamp07_es",
+   "pass": true,
+   "note": "Trace call 2 queries /admin/amazon/listings with seller_sku=CV-LAMP-07 and view=all, and the answer reports mlist_cvlamp07_es."
+  },
+  {
+   "item": "Works from the listing (live, FBA, compliance not ready, bullet point missing) and says plainly the catalog has no product yet",
+   "pass": true,
+   "note": "The answer states live, AMAZON_EU (fulfilled by Amazon), compliance not ready because bullet_point is missing, and that the catalog has no product (product: null)."
+  },
+  {
+   "item": "Offers bootstrap import as the user's choice and says it is a write; nothing previewed, imported or created this turn",
+   "pass": true,
+   "note": "The answer offers bootstrap as optional, says it would create the catalog product after a preview and a confirmation, says nothing was run or changed, and ends with a question. The trace shows no write calls."
+  },
+  {
+   "item": "listing_erp_url opened once, unprompted; answer in Chinese",
+   "pass": true,
+   "note": "The trace shows one host.open_url call to the listing URL, made without being asked. The answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent said it ran a forbidden ls -R on ws/merchants (it found only the session merchant). It was unsure whether it opened the URL late, since it opened it after the context read rather than when the listing row first showed it, and it was unsure that AMAZON_EU means FBA."
+}

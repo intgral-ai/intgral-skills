@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "video-delete-version-handoff",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Version 1 identified from stored versions (vasset_v1, not selected); agent does not delete it or claim deletion",
+   "pass": true,
+   "note": "Lists vasset_v1 as unselected from the videos read, made no delete call, and says nothing was deleted."
+  },
+  {
+   "item": "Tells user to delete on product page media panel via Delete version with confirmation; permanent, row and file go",
+   "pass": true,
+   "note": "Steps name the media panel, Delete version and the confirmation dialog, and say the record and stored file are removed permanently."
+  },
+  {
+   "item": "v1 not selected (v2 is, processed from v1) so deletable directly; v2 stays as its own file",
+   "pass": true,
+   "note": "States v2 is selected and was processed from v1, that the selected-version block does not apply, and that v2 is an independent file and is kept."
+  },
+  {
+   "item": "Cost and spend record unchanged; deleting is not a refund",
+   "pass": true,
+   "note": "Says vgen_01, its cost and its spend record are kept and that nothing is refunded."
+  },
+  {
+   "item": "Product page opened once unprompted; answer in Chinese",
+   "pass": true,
+   "note": "One host.open_url call to the product erp_url; the whole answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether a task record was needed (none created) and did not call medusa.list_endpoints to check the delete route is catalogued."
+}

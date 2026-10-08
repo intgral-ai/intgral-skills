@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "research-market-proxies",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Sales, market size and growth stay null; proxies and floors reported as such; sum of floors labelled a lower bound; badge-less ASIN not given zero",
+   "pass": true,
+   "note": "Says size, sales and growth are absent. Calls the 700 sum a lower bound for two ASINs, not category volume. Treats rank, rating counts and price as proxies. Says Basiq has no badge and does not give it zero."
+  },
+  {
+   "item": "B0FAKE0C01 dated observations kept as dated points, not averaged; older rating count not treated as growth",
+   "pass": true,
+   "note": "Reports 13.99 on 08-20 and 11.99 on 09-02 as two dated points, says they are not a trend and flags the price-drop confound. Does not use the rating count as growth evidence."
+  },
+  {
+   "item": "Each opportunity carries explore/hold/reject against stated criteria, with counterevidence (6.49 EUR rigid alternative), explicit unknowns and one bounded next check",
+   "pass": false,
+   "note": "Gives explore without stating the criteria. Lists the 6.49 Basiq only as a price reference, not as counterevidence. The next step joins two checks, review text and more dated observations, instead of one bounded check."
+  },
+  {
+   "item": "User gets artifact ID, revision, coverage status and every gap; no acquisition started; no unnecessary questions",
+   "pass": true,
+   "note": "Gives rart_report_col_market_01, version 1, coverage partial, and lists the gaps under unknowns. Starts no collection, asks no questions, and says the next step needs plan approval."
+  },
+  {
+   "item": "Casa Verde's own brand and preferences not used as market evidence",
+   "pass": true,
+   "note": "The report does not use Casa Verde's brand or preferences as evidence."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the explore recommendation states no criteria, does not treat the 6.49 EUR rigid colander as counterevidence, and names two next checks instead of one bounded check.",
+ "agent_unsure": "It saved the report without asking, gave no explicit threshold for the explore recommendation, and did not check Casa Verde beyond noting that none of the retained listings carry that brand."
+}

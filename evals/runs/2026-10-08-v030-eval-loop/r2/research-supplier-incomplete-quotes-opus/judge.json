@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "research-supplier-incomplete-quotes",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 7,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No supplier declared cheapest; three bases kept distinct",
+   "pass": true,
+   "note": "The answer says the cheapest supplier cannot be determined. It keeps A's FOB Ningbo USD quote, B's listing price with an unknown trade term, and C's CN¥ price per 2-piece set separate. It does not convert C, and it says B's lower number is not comparable until B quotes FOB."
+  },
+  {
+   "item": "Unknown cost components stay unknown; no landed cost or margin",
+   "pass": true,
+   "note": "It lists freight to Spain, port and customs fees, duty, VAT, inspection, FBA prep, samples, payment fees and FX as missing. It gives no EUR figure, landed total or margin."
+  },
+  {
+   "item": "Each material claim carries its state",
+   "pass": true,
+   "note": "A's price is a formal quote marked valid until 2026-10-10. B's and C's prices, MOQ and lead times are attributed to the product pages. It says Verified Supplier and is-factory are platform labels that do not prove manufacturing."
+  },
+  {
+   "item": "RFQ is an unsent draft scoped to each supplier's open items; supplier decision left to user",
+   "pass": true,
+   "note": "The drafts are marked as not sent. A is not asked again about the spec, FOB, quantity, sample or lead time. B and C are asked about variant, quantity 2000, logo, packaging, samples, lead time, FOB basis and evidence for their qualifications. The supplier choice and the sending decision are left to the merchant."
+  },
+  {
+   "item": "Artifact ID, revision, coverage, every gap, bounded next step",
+   "pass": true,
+   "note": "It reports rart_report_col_supplier_01, version 1, saved as incomplete, with six gaps listed. The next step is to have 70002 quote FOB Ningbo USD for 2000 pieces, and nobody is contacted."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure whether: a real server would accept the extra payload fields (claimed, quotes, unit, lead_time unknown, offer_basis null); excluding 70003 for being a set was right; it should have added its own EU food-contact and FOB USD criteria; it should have asked 70001 about the lead-time conflict and the quote expiry. It also noted that the read-back returned only metadata."
+}

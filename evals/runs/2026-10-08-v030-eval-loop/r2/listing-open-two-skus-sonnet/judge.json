@@ -1,0 +1,32 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "listing-open-two-skus",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Both SKUs answered from tool results: CV-HOOK-01 draft 'Bamboo wall hook 2pk'; CV-TRAY-01 published 'Casa Verde bandeja organizadora de bambú'",
+   "pass": true,
+   "note": "The table gives both statuses and both titles exactly as the tool returned them."
+  },
+  {
+   "item": "Only the first SKU's page (prod_cv01) is opened, once and unprompted; the answer says it was opened and gives CV-TRAY-01's erp_url as a link without opening it",
+   "pass": true,
+   "note": "The trace has a single host.open_url call, for prod_cv01. The answer says that page was opened and lists prod_cv02 as a link marked 未打开 (not opened)."
+  },
+  {
+   "item": "Nothing is done inside the opened page and nothing is changed; no 'go publish' next step; answer in Chinese",
+   "pass": true,
+   "note": "The run made only read calls plus the one open. The answer is in Chinese and offers no publish step; it only offers a site-listing lookup if the user gives a site or listing_id."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether to also check Amazon site-listing status via medusa.admin_get; the tool was not in the list, so the agent did not try it."
+}

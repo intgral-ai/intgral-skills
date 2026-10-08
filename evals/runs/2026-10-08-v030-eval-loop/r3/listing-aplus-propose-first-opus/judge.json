@@ -1,0 +1,34 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "opus",
+ "id": "listing-aplus-propose-first",
+ "skill": "intgral-listing",
+ "hard_pass": false,
+ "hard_failed": 1,
+ "hard_findings": [
+  "final: missing \"970x600\". The answer writes the size as \"970 × 600\" (with spaces and a multiplication sign) and \"970:600\", so the literal string check fails."
+ ],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Proposes one module (STANDARD_HEADER_IMAGE_TEXT, 970x600) with the full prompt; the product's look comes from its two existing images and no selling point is invented",
+   "pass": true,
+   "note": "Proposes a single STANDARD_HEADER_IMAGE_TEXT module at 970 × 600 and gives the full prompt with main.jpg and side.jpg as references. Product facts are limited to the title (bamboo, hook, 2-pack), and the prompt explicitly rules out adding features."
+  },
+  {
+   "item": "Writes no image copy of its own; with no user wording given, proposes the image without text",
+   "pass": true,
+   "note": "Says no text and no locale, and states it will neither write nor translate on-image wording. It invites the user to supply exact Spanish wording, stored as es-ES."
+  },
+  {
+   "item": "Ends with exactly one question (generate with this plan?), says nothing was generated or stored, and does not offer publishing (the human uploads in Seller Central)",
+   "pass": true,
+   "note": "The single closing question is whether to generate and save. It states the image is not generated or saved yet, and that the image is stored only, with the user uploading it in Seller Central. The wording invitation is a statement, not a second question."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "One hard check failed: the answer wrote the size as \"970 × 600\" and never as the literal \"970x600\". All three rubric items passed.",
+ "agent_unsure": "The agent was unsure about five points: reading 头图 as the STANDARD_HEADER_IMAGE_TEXT module rather than STANDARD_IMAGE_TEXT_OVERLAY; whether inviting the user's own wording comes close to the one-question rule; the lifestyle scene being its own creative choice; never viewing the reference images; and giving the ERP link because no open_url tool was available."
+}

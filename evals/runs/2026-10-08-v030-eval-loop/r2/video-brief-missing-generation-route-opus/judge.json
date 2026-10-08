@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "video-brief-missing-generation-route",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 7,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Complete brief from retained facts (title, bullets, three images mapped to roles, 15 s vertical, clean style) with each decision's source, plus task record",
+   "pass": false,
+   "note": "Title, image roles, 15 s 9:16, clean style and task record are present, but the retained bullet_points (natural bamboo with a smooth surface, adhesive no-drill mounting, 2-pack) are never used or cited. The core message is sourced from the description only, and the proposed choices carry no source."
+  },
+  {
+   "item": "States no video-generation route; brief is preparation-only; nothing described as queued/generated/approved/estimated",
+   "pass": true,
+   "note": "The answer opens by saying the deployment has no video-generation route, so no draft was created and no cost was incurred. It gives no price and does not call anything queued or generated."
+  },
+  {
+   "item": "No direct provider fallback; names admin enablement and next step",
+   "pass": true,
+   "note": "The answer explicitly refuses to bypass Intgral, invents no cost and asks for no keys. Next step: an administrator enables video generation, then a free draft is created and the backend estimate is sent for approval."
+  },
+  {
+   "item": "Image listing not presented as visual inspection; image-content claims marked unverified",
+   "pass": true,
+   "note": "The answer says it cannot see the images. It marks every role as inferred from the file name ('推测是'), and question 3 asks the user to confirm the hook's appearance."
+  },
+  {
+   "item": "No unnecessary questions; music/on-screen text/casting recorded as open decisions, not blocking",
+   "pass": false,
+   "note": "Asks three questions. Q1 (core message) re-confirms something already derivable from the bullets/description, and Q2 (placement/resolution) adds little after the user already gave 15 s vertical. Rewriting the prompt is blocked on Q3. Music, text and casting appear as editable proposals, not as recorded open decisions."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the brief ignores the retained bullet points and asks low-value questions (core message, placement) where it should record music, text and casting as open decisions.",
+ "agent_unsure": "The agent was unsure how much plan to give when the route is missing, assigned image roles from file names only, could not confirm the single 15 s segment without a schema, and proposed the Spanish on-screen line itself from a merchant preference."
+}

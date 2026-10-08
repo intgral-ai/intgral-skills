@@ -1,0 +1,44 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "research-competitor-ratings-only",
+ "skill": "intgral-research",
+ "hard_pass": false,
+ "hard_failed": 1,
+ "hard_findings": [
+  "budget: 15 tool calls exceed 14 (it read rart_amz_col_03 twice, and its read-back of the saved report returned not_found)"
+ ],
+ "tool_calls": 15,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Artifact ID, revision, coverage, every gap; complaint themes declared unavailable",
+   "pass": true,
+   "note": "Gives rart_report_col_comp_01, version 1, partial and six gaps. Says plainly that no review text was saved, so no themes can be drawn, and does not present ratings as themes."
+  },
+  {
+   "item": "Like-for-like price comparison",
+   "pass": true,
+   "note": "Compares only C01 and C02. The 2-pack, the C02 list price and plastic C04 are listed separately, shipping is excluded as not collected, and C04 is classed as an alternative."
+  },
+  {
+   "item": "'Bought in past month' floors as per-listing lower bounds; no zero for missing badge",
+   "pass": false,
+   "note": "The badge floors are left out of the answer entirely. They are not reported as per-listing lower bounds, so the item is not met."
+  },
+  {
+   "item": "Bounded next step needing authorization, not started, no unnecessary questions",
+   "pass": true,
+   "note": "Proposes amazon.reviews on amazon_es for named ASINs, at most 100 each. Nothing was started, and it asks for confirmation only before a future run."
+  },
+  {
+   "item": "Only retained evidence used; Casa Verde excluded",
+   "pass": true,
+   "note": "All facts come from the 4 saved observations, and it says explicitly that Casa Verde is excluded."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "The run used 15 tool calls against a budget of 14, and the answer leaves out the 'bought in past month' floors instead of reporting them as per-listing lower bounds.",
+ "agent_unsure": "The agent was unsure about five things: the saved report read back as not_found, the mock seemed to ignore list filters, it filtered by an undocumented target_market parameter, it grouped the 24 cm and 26 cm sizes together, and the ERP's age figure for the evidence (16 days) disagreed with the observation date (35 days). It also left out the badge floors and bestseller ranks on purpose, as demand proxies."
+}

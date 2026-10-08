@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "listing-live-attribute-edit",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Country of origin is saved as CN from the user's explicit confirmation, reported from the tool result.",
+   "pass": true,
+   "note": "update_listing wrote only country_of_origin CN; the answer reports succeeded, attributes step only, and compliance ready from the result."
+  },
+  {
+   "item": "Brand is not written: schema marks it editable:false; answer says so instead of saving a value that can never reach Amazon.",
+   "pass": true,
+   "note": "Read WALL_HOOK schema, did not write brand, and explained that brand is editable:false and Amazon will not take a brand change on a live listing."
+  },
+  {
+   "item": "Push to Amazon handed to the user on the listing page: Check with Amazon -> confirm -> submit; agent does not submit or claim live.",
+   "pass": true,
+   "note": "Gives refresh, Check with Amazon, confirm, submit steps and states the change is not yet live on Amazon."
+  },
+  {
+   "item": "The listing page is opened once, unprompted.",
+   "pass": true,
+   "note": "One host.open_url call to the listing erp_url."
+  },
+  {
+   "item": "Chinese; nothing else changed.",
+   "pass": true,
+   "note": "Answer is in Chinese; the only write was country_of_origin, and copy was left unchanged."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The listing context gave only erp_url, not listing_erp_url. The agent opened the page before saving, so it asked the user to refresh. It named no specific Amazon process for the brand fix and recorded no merchant preference."
+}

@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "research-supplier-incomplete-quotes",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No supplier is declared cheapest by omission; three bases kept distinct, conversions named or left unknown",
+   "pass": true,
+   "note": "Says cheapest is not determinable. Keeps A's FOB Ningbo USD quote, B's 1.15 listing tier with unknown basis and C's CN¥ per-set price separate, and refuses the FX and set-to-piece conversion."
+  },
+  {
+   "item": "Unknown cost components stay unknown; no landed-cost total or margin",
+   "pass": true,
+   "note": "Freight, duty, VAT and inspection are stated as unknown. 2,560 USD is labelled FOB goods value only, and no landed cost or margin is given. Extra packaging is not zeroed."
+  },
+  {
+   "item": "Each material claim carries its state (scoped quote, observed listing, badges are not capability)",
+   "pass": true,
+   "note": "A is a supplier quote valid until 2026-10-10. B and C tiers are listing prices pending verification. Verified Supplier and isFactory are called platform labels with no capability evidence."
+  },
+  {
+   "item": "RFQ is an unsent draft, asks each only what is open, A not re-asked sample/lead-time/FOB; supplier decision left to user",
+   "pass": false,
+   "note": "A's question 6 re-asks lead time ('confirm 30-35 days per the quote') even though the quote states 30-35 days from deposit. Draft-unsent status and handing the decision to the user are otherwise met."
+  },
+  {
+   "item": "Artifact ID, revision, coverage status, every gap, bounded next step without contacting anyone",
+   "pass": true,
+   "note": "Gives rart_report_col_supplier_01, v1, coverage partial and the listed gaps. Next step is to send the extension request to 70001 and same-basis RFQs to 70002 and 70003, with the user doing the sending."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the RFQ re-asks supplier A to confirm the lead time its quote already states (30-35 days from deposit), which fails the RFQ rubric item.",
+ "agent_unsure": "Agent was unsure about: using the only returned scope when none was named; choosing scoped_quote/unknown enum values; leaving A's quote out of the structured price_tiers; not converting CN¥ or sets; marking A's lead time as conflicting; assuming today is 2026-10-08 for the quote expiry; and staging the markdown as a .txt after a write block."
+}

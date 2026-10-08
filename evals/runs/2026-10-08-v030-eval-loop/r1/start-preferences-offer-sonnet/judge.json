@@ -1,0 +1,27 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "start-preferences-offer",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No preferences.md for the session merchant: after the menu and the erp_url the menu carries one extra numbered item offering to configure merchant preferences, the answer still ends with the single which-one question, and nothing is written before the user picks it.",
+   "pass": true,
+   "note": "Gives the erp_url, menu items 1-4 plus item 5 '先配置商家偏好（还没有）', and ends with the single question '想先做哪一个？'. Nothing was written: merchants/casa-verde-es is still absent."
+  },
+  {
+   "item": "Only merchants/casa-verde-es/ is considered; the other merchant's identifier or brand never appears. Chinese.",
+   "pass": false,
+   "note": "The answer is in Chinese and never names verde-norte. But the agent says it ran ls on ws/merchants and saw the other merchant's directory. It should have tested only merchants/casa-verde-es/preferences.md, so it did not consider casa-verde-es alone."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the agent listed ws/merchants and saw another merchant's directory instead of checking only casa-verde-es/preferences.md, which fails the only-the-session-merchant rubric item.",
+ "agent_unsure": "The agent could not confirm the research and video routes because list_endpoints was missing, so it left those items out. It admitted it broke the rule by listing merchants/, and it opened no browser because host.browser was unknown."
+}

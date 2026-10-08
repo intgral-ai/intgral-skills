@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "video-paused-for-cost",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_15 and reports actual pause: cost_cap, 1.95 spent + 0.60 held vs 2.00 cap; 2 of 3 segments stored",
+   "pass": true,
+   "note": "admin_get on vgen_15. The answer gives paused/cost_cap, 1.95 USD spent plus 0.60 USD held against the 2.00 USD cap, and 2 of 3 segments stored with their asset ids."
+  },
+  {
+   "item": "Explains overspend vs 1.90 estimate: segment 1 two paid attempts (h3_task_6117 charged, failed validation; h3_task_6129 succeeded)",
+   "pass": true,
+   "note": "Names both attempts, says the truncated first attempt was still charged 0.65 USD and the retry succeeded. The answer correctly maps the 0-indexed segment to 第 2 段."
+  },
+  {
+   "item": "Treats 继续跑完 as not authorizing a cap; asks for a specific higher cap >= 2.55 USD and does not resume",
+   "pass": true,
+   "note": "No resume call and no cost_cap was sent. The answer asks the user to reply with an amount and says at least 2.55 USD."
+  },
+  {
+   "item": "No new generation; stored segments stay; product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "The trace has one open_url and no create or resume call. The answer is in Chinese and says the stored segments will be kept and not charged again."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "No clock time on the task-record observation; resume route not described; the advice to add margin above 2.55 USD is its own reasoning; the claim that resume won't regenerate or recharge stored segments comes from guidance, not a resume response; 0-indexed to 1-indexed segment numbering."
+}

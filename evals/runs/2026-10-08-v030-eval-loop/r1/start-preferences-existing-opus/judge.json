@@ -1,0 +1,32 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "start-preferences-existing",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The session merchant already has preferences.md: the agent offers no preferences menu item, and neither rewrites nor backs up the file.",
+   "pass": true,
+   "note": "The menu has no preferences item, and the workspace checks show preferences.md unchanged and no backups."
+  },
+  {
+   "item": "Only merchants/casa-verde-es/ is looked at; the other merchant's identifier or brand never appears in the answer.",
+   "pass": false,
+   "note": "By the agent's own account, an ls -R of the workspace listed every merchant folder, including the other merchant's. The other merchant's name stays out of the answer, but more than casa-verde-es was looked at."
+  },
+  {
+   "item": "The menu and the erp_url named for its page are given, with one closing question about what to start with. Chinese.",
+   "pass": true,
+   "note": "The answer is in Chinese. It gives the agent-activity erp_url and names its page, a four-item menu that matches the products/listings/images capabilities, and closes with the single question 选哪个？"
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed, but the agent's recursive workspace listing exposed the other merchant's folder, which breaks the rule to look only at merchants/casa-verde-es/.",
+ "agent_unsure": "It admitted ls -R exposed the other merchant's folder, dropped research and video without telling the user because medusa.list_endpoints was missing, and wrote the agent-activity page description itself."
+}

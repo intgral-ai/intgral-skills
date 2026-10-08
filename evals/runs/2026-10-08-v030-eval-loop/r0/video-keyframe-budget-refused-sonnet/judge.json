@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "video-keyframe-budget-refused",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_20 first; 2 authorized/used, kf_20_a1 rejected for warped Casa Verde lettering, kf_20_a2 approved; 第1段结束帧 = seg 0 last = seg 1 first",
+   "pass": true,
+   "note": "admin_get preceded every write; the answer states 2/2/2, the a1 rejection reason, the a2 approval, and that the end frame is shared with segment 2's first frame."
+  },
+  {
+   "item": "Reservation refusal relayed and treated as a user question (raise to 3); no authorized_budget resend, no image generation, no approval",
+   "pass": true,
+   "note": "No reservation was attempted, so no refusal came back to relay. The skill says to ask before reserving when the budget is spent, and the agent did that: it asked the user to raise the total to 3 and made no budget, generate or approve call."
+  },
+  {
+   "item": "Frame budget separate from video cost (1.70 USD); reserving a frame does not authorize the video; plan still needs the boundary frame before approval",
+   "pass": false,
+   "note": "Separation and the 1.70 USD estimate are stated, but the answer never says that approval is blocked until the boundary frame exists."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "host.open_url was called once with the erp_url, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed, but the answer never says the pending boundary frame must exist before the video plan can be approved (rubric item 3).",
+ "agent_unsure": "It skipped the reservation call because the budget was already spent, did not update the task record because nothing changed, and opened the erp_url right after reading the product."
+}

@@ -1,0 +1,37 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "video-keyframe-budget-refused",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_20 first: keyframe mode, 2 authorized frames both used (a1 rejected for warped lettering, a2 approved); segment 0 last frame = segment 1 first frame",
+   "pass": true,
+   "note": "Calls admin_get on vgen_20, reports 2/2/2, the rejected first version with warped packaging text, approved kf_20_a2, and the frame shared by both segments."
+  },
+  {
+   "item": "Asks user to raise authorized total (to 3) before any reservation; no resend with authorized_budget, no generation, no approval",
+   "pass": true,
+   "note": "Made no reservation and generated nothing. Asks for an explicit new total of at least 3 and will not raise it unilaterally."
+  },
+  {
+   "item": "Frame budget separate from video cost (1.70 USD); reserving a frame does not authorize the video; plan needs boundary frame before approval",
+   "pass": true,
+   "note": "States the keyframe budget covers images only, quotes the 1.70 USD estimate, says a cost cap is needed separately, and says the pending frame blocks approval."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "host.open_url called once; final.md is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure whether the 2 authorized frames (\"先做两张看看\") were meant to cover a later extra frame, so it treated the budget as exhausted; it also skipped the product detail route and list_endpoints because it stopped before any write."
+}

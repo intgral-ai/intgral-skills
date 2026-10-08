@@ -1,6 +1,6 @@
 {
   "id": "listing-copy-conflict",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-listing",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -456,7 +456,14 @@
                   "max_length": 250
                 }
               },
-              "missing_required": [],
+              "missing_required": [
+                {
+                  "field": "description",
+                  "kind": "copy",
+                  "required": true,
+                  "blocking": true
+                }
+              ],
               "invalid": [],
               "warnings": []
             },
@@ -562,7 +569,10 @@
       "lifetime",
       "de por vida",
       "acero",
-      "5 kilos"
+      "5 kilos",
+      "bambú",
+      "bambu",
+      "bamboo"
     ],
     "forbidden_writes": [
       {
@@ -579,7 +589,7 @@
     "max_tool_calls": 12
   },
   "rubric": [
-    "The material conflict is exposed, not resolved silently: the product says bamboo (variant material, profile bullet, current listing copy) while the user says stainless steel; the answer lists the conflict once and asks the user to confirm rather than writing either material as fact, or writes only the bullets that are supported and says which one is held back.",
+    "The material conflict is exposed, not resolved silently: the product says bamboo (variant material, profile bullet, current listing copy) while the user says stainless steel; the answer lists the conflict once and asks the user to confirm, writing neither material. If the bullets are saved, the existing 'Bambú natural' bullet is moved out of the array too, and the answer says so and that it returns once the material is confirmed.",
     "The load claim (5 kg) has no source in product data and is excluded from any saved copy; it is listed as needing the user's confirmed evidence.",
     "If a write happens, it is `medusa.update_listing` with `copy.bullet_points` only — no title, description, search_terms or attributes rewrite — and the answer reports `updated`, `content_version` and `erp_url` from the tool result.",
     "Supported bullets (adhesive mounting, 2 units, bathroom use from the description) are written or proposed in Spanish within the deployment's limits; the answer distinguishes saved from suggested.",

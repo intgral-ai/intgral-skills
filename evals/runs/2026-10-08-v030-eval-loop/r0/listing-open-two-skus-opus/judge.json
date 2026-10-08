@@ -1,0 +1,32 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "listing-open-two-skus",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Both SKUs answered from tool results: CV-HOOK-01 draft 'Bamboo wall hook 2pk'; CV-TRAY-01 published 'Casa Verde bandeja organizadora de bambú'",
+   "pass": true,
+   "note": "Table gives both statuses and exact titles matching the tool results."
+  },
+  {
+   "item": "Only the first SKU's page (prod_cv01) opened, once and unprompted; answer says it was opened and lists CV-TRAY-01's erp_url as a link",
+   "pass": true,
+   "note": "Trace shows a single host.open_url for prod_cv01; answer states it was opened and gives the prod_cv02 link for CV-TRAY-01."
+  },
+  {
+   "item": "Nothing done inside the opened page, nothing changed, no 'go publish' next step; answer in Chinese",
+   "pass": true,
+   "note": "Read-only trace, no write calls, no publish suggestion; the answer is in Chinese and only notes that listing status is not available here."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Took 状态 to mean the ERP catalog status because no listing tool was available, read the two SKUs one after the other because there was no sub-agent tool, and left out the missing brand in CV-HOOK-01's title because the question was read-only."
+}

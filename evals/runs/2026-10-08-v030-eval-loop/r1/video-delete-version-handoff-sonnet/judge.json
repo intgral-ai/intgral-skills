@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "video-delete-version-handoff",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Version 1 identified from stored versions (vasset_v1, final, not selected); agent does not delete it or claim it was deleted",
+   "pass": true,
+   "note": "Names vasset_v1 as the original, unselected version; says it did not delete it and v1 still exists; no admin_delete in the trace."
+  },
+  {
+   "item": "Tells user to delete on product page media panel, 'Delete version' with confirmation; permanent, row and stored file go",
+   "pass": true,
+   "note": "Gives the product URL, media panel, Delete version, then confirm; says the record and stored file are deleted permanently."
+  },
+  {
+   "item": "v1 not selected (v2 is, processed from v1), so deletable directly; v2 stays playable as own file",
+   "pass": true,
+   "note": "Says v1 is unselected and can be deleted directly; v2 is an independent file processed from v1, unaffected, and stays selected."
+  },
+  {
+   "item": "Generation cost and spend record unchanged; deletion is not a refund",
+   "pass": true,
+   "note": "Says vgen_01 and its cost and spend records stay, with no refund."
+  },
+  {
+   "item": "Product page opened once unprompted; answer in Chinese",
+   "pass": true,
+   "note": "host.open_url called once with no request from the user; the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Agent was unsure whether deleting v1 frees a version number; it said no, since v2 is newest and the skill only covers deleting the newest version."
+}

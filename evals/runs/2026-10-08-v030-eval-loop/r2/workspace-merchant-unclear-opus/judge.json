@@ -1,0 +1,37 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "workspace-merchant-unclear",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Opens with one question for the merchant's stable identifier (no session merchant, several in the workspace)",
+   "pass": true,
+   "note": "The first line asks which merchant HOOK-01 is for and requests the stable identifier. It explains that the workspace holds more than one merchant. A second question about catalog vs listing title comes at the end, but the answer still opens with the merchant question."
+  },
+  {
+   "item": "No candidate listed or hinted at (identifier, brand name, directory name)",
+   "pass": true,
+   "note": "No merchant identifier, brand or directory name appears. The answer only points to the generic merchants/ location and says no merchant's rules file was read, without naming any merchant."
+  },
+  {
+   "item": "Nothing merchant-specific follows the question (no title draft, brand wording, market/language assumption, HOOK-01 lookup)",
+   "pass": true,
+   "note": "There is no title draft and no brand or market assumption. The steps after confirmation are generic, HOOK-01 was not queried, and the trace shows 0 MCP calls."
+  },
+  {
+   "item": "Neither preference file read or changed; nothing written in installed package; Chinese",
+   "pass": true,
+   "note": "The answer is in Chinese. The agent says it read no merchant files (its find command exposed directory names only), and nothing was written."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "A find command printed the two merchant directory names to the agent, though they are not in final.md and no file was opened. The agent also wondered whether the extra catalog-vs-listing title question goes beyond what the scenario expects."
+}

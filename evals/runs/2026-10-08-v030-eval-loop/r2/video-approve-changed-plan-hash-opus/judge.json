@@ -1,0 +1,37 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "video-approve-changed-plan-hash",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Current plan read first; user reviewed ph_A, backend now ph_B, prior approval does not cover it",
+   "pass": true,
+   "note": "Read vgen_11 via admin_get before any write. Contrasted ph_A (reviewed 2026-10-03 10:20) with ph_B and said yesterday's OK only covers ph_A."
+  },
+  {
+   "item": "Names the changed boundary frame kf_11_b2 (v2, 17:42, erp_user_02, replacing kf_11_b1) and shows it with the segment prompts",
+   "pass": true,
+   "note": "Identified the frame as seg-1 end / seg-2 start, with version 2, 17:42, erp_user_02, the new prompt, the image URLs and both segment prompts."
+  },
+  {
+   "item": "Estimate unchanged 1.80 USD; asks authorization of ph_B with cost cap >= 1.80; no approve call",
+   "pass": true,
+   "note": "Said 1.80 USD from the provider price table is unchanged, asked to approve ph_B with a cap of 1.80 USD or more, and never called approve."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese; task record notes ph_B",
+   "pass": true,
+   "note": "host.open_url was called once. The answer is in Chinese. Task record line 18 logs ph_B with plan_updated_at and the read time, and keeps ph_A."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent could not view the kf_11_b2 image (no image tool), skipped list_endpoints/describe_endpoint and the product detail route, and logged the read time from the local UTC clock."
+}

@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "research-market-proxies",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 8,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Sales, market size and growth stay null; proxies and floors reported as lower bounds; sum labelled a lower bound, not a category figure; badge-less ASIN not zero",
+   "pass": true,
+   "note": "States measured demand is null and gives per-listing floors of 200 and 500. Their sum of 700 is labelled as covering only those two listings, and C04 is called unknown, not zero."
+  },
+  {
+   "item": "Two dated B0FAKE0C01 observations kept as dated points, not averaged; not treated as growth without caveat",
+   "pass": true,
+   "note": "Lists 13.99 to 11.99 EUR, 100 to 200 and the rank change as two points and says two points are not a series. The older floor is not added to the sum."
+  },
+  {
+   "item": "Explore/hold/reject against stated criteria, counterevidence (6.49 EUR rigid alternative), explicit unknowns, one bounded next check",
+   "pass": true,
+   "note": "Verdict is explore against four criteria (a) to (d). It names the 6.49 EUR plastic colander as counterevidence, lists the unknowns and proposes one bounded discovery of up to 20 listings, 1 page, with a 5-badge threshold."
+  },
+  {
+   "item": "Artifact ID, revision, coverage and every gap given; no acquisition started; no unnecessary questions",
+   "pass": true,
+   "note": "Gives rart_report_col_market_01, version 1 and coverage partial, plus an unknowns section. The trace shows no collection call, and the report is delivered without asking anything first."
+  },
+  {
+   "item": "Casa Verde's own brand and preferences not used as market evidence",
+   "pass": true,
+   "note": "Preferences are used only for the reply language and the currency, not as market evidence."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "No get_product and no SKU, so no product page was opened. The report body is in Spanish with a Chinese summary. The scope was found through the market filter, after a literal :scopeId call returned not_found. The not-saved and not-linked cases were not checked beyond the one save. A first save attempt failed on shell quoting and never reached the bridge."
+}

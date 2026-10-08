@@ -1,0 +1,42 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "sonnet",
+ "id": "listing-image-self-check",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 12,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads CV-HOOK-01, opens product page once with erp_url, uses main.jpg as reference for one white-background candidate",
+   "pass": true,
+   "note": "Trace shows get_product, a single open_url to prod_cv01 and view_image of main.jpg. The answer names main.jpg as the reference."
+  },
+  {
+   "item": "Looks at the generated image before saving, compares with reference and brand wording, does not save the first image",
+   "pass": true,
+   "note": "view_image ran on gen_cv01_a before any save. The first image was not saved."
+  },
+  {
+   "item": "Names the 'Casa Vrede' defect, regenerates once, saves only the second as an added image",
+   "pass": true,
+   "note": "It names the Casa Vrede misspelling as the reason for the one regeneration. It saved only gen_cv01_b, added at rank 3, and main.jpg is still rank 0."
+  },
+  {
+   "item": "Reports what it verified and that the image was saved as a candidate (4 images), with no claim of Amazon policy pass or approval, and leaves review to the user",
+   "pass": true,
+   "note": "It lists the lettering, white background and in-frame/80% fill checks, and reports 4 images after saving. It says this is not a human review or a platform-policy pass, and leaves replacing the main image and review to the user."
+  },
+  {
+   "item": "Answer in Chinese",
+   "pass": true,
+   "note": "final.md is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "side.jpg and detail.jpg returned not_found, so only main.jpg was a reference; the angle change looks small (offered a retry); it judged the image from the text description of the image only."
+}

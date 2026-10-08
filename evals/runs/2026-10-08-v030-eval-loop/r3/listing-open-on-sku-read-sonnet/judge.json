@@ -1,0 +1,32 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "sonnet",
+ "id": "listing-open-on-sku-read",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Status (draft) and title are answered from the tool result.",
+   "pass": true,
+   "note": "The answer gives the status as draft (草稿) and the title as \"Bamboo wall hook 2pk\", both taken from the medusa.get_product result."
+  },
+  {
+   "item": "The SKU's product page is opened once, unprompted, with the returned erp_url; the answer says it was opened and gives the link.",
+   "pass": true,
+   "note": "The agent called host.open_url once with the erp_url. The answer says the page was opened and gives the URL."
+  },
+  {
+   "item": "Nothing is done inside the opened page and nothing is changed.",
+   "pass": true,
+   "note": "The trace has only get_product and open_url. There were no writes and no actions inside the page."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent did not ask which merchant (only casa-verde-es exists), opened the product page rather than a listing, raised no Casa Verde brand-title rule because the question was read-only, and left out the review/publish sentence."
+}

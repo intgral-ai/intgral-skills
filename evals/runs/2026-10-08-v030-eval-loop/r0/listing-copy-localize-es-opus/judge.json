@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "listing-copy-localize-es",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Spanish copy from product facts only, Casa Verde in Latin script, no translated promises or promotional words",
+   "pass": true,
+   "note": "Title, 4 bullets and description cover only bamboo, adhesive no-drill mounting, 2 units, and entryway/bathroom use for towels, keys and small bags. No warranty, waterproof, load or promo words."
+  },
+  {
+   "item": "Limits from tools respected; metric units",
+   "pass": true,
+   "note": "Limits cited from compliance.limits: title 96/200, 4 of 5 bullets, description 300/2000. Unitless dimensions were left out rather than given guessed units."
+  },
+  {
+   "item": "One update_listing call with copy only; reports updated.copy, content_version, erp_url and post-write compliance",
+   "pass": true,
+   "note": "Single copy-only update_listing call. The answer reports updated.copy=true, content_version 3 to 4, the erp_url, and the cleared gaps with ready=false still set."
+  },
+  {
+   "item": "Shows saved Spanish copy with short Chinese source explanation per claim",
+   "pass": true,
+   "note": "Shows the copy before and after, with a Chinese source note for each bullet and a 依据 section for the title and description."
+  },
+  {
+   "item": "No publication claimed; user told where to publish",
+   "pass": true,
+   "note": "States it did not publish and tells the user to publish themselves in the ERP listing page."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Left out the unitless size/weight (6/4/3, 60), did not write the supported category attributes (material/mounting/count), wrote 4 bullets instead of 5, gave the link without opening it, and chose its own bullet style."
+}

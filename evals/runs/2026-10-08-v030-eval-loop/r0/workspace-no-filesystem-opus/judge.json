@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "workspace-no-filesystem",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Says plainly no writable filesystem, cannot persist across sessions, will not claim to remember",
+   "pass": true,
+   "note": "Opens by saying the settings were not saved and won't be remembered next session, because this environment cannot write files and has no workspace configured."
+  },
+  {
+   "item": "Delivers an exportable preference record (template filled with supplied values, unknowns unset) plus the path convention",
+   "pass": true,
+   "note": "The full template is filled with the merchant ID, Amazon DE, German, EUR and a dated rules row, and every other field is left blank. Path given as <workspace>/merchants/verde-norte-de/preferences.md, kept outside the skill package."
+  },
+  {
+   "item": "Explains how the record is used next time (paste or INTGRAL_WORKSPACE) without overpromising",
+   "pass": true,
+   "note": "Covers both routes: set INTGRAL_WORKSPACE in a client that can read and write files, or paste the record or restate the settings. The read-on-start promise only applies when the client has that capability."
+  },
+  {
+   "item": "No unnecessary questions; no tool writes; nothing created",
+   "pass": true,
+   "note": "The trace has 0 calls and the answer asks no questions."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "Prose is in Chinese. The template headings stay in English to match the file layout."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure about four choices: English template headings with Chinese values, \"German\" rather than de-DE, putting the display name in the evidence line, and saying no ERP preference setting exists without calling medusa.get_started to check."
+}

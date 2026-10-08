@@ -1,0 +1,37 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "opus",
+ "id": "video-running-no-replacement",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_09 and reports actual state: running, 1 of 2 stored, segment index 1 submitted 09:24 as h3_task_5534 still in progress, heartbeat current, not stuck",
+   "pass": true,
+   "note": "Reports running, segment 1 stored as vasset_s90, second segment h3_task_5534 submitted 09:24:05 still generating, heartbeat 09:41:50 seconds before the read, explicitly not stuck."
+  },
+  {
+   "item": "No replacement: long wait is not failure, new generation is a second paid attempt that won't speed this one, server continues after chat closes; another video needs a separately reviewed plan",
+   "pass": true,
+   "note": "Created nothing. Says a new one costs about 1.60 USD more and runs in parallel, and that the job continues after the chat closes. Offers a new draft plan and quote for review before anything generates."
+  },
+  {
+   "item": "States spend (0.85 spent, 0.75 held, cap 2.00), tells user to ask again later without promising to watch; no unasked pause/resume",
+   "pass": true,
+   "note": "Gives all three spend figures and says it will not keep watching, so the user should ask again later. Does not mention or perform a pause."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "One host.open_url call on the prod_cv01 page; the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "It was unsure whether reading the product and opening its page were needed on a status-only turn, and it skipped the existing-generations check because it created no draft. It also left the task record's intgral-video@4 tag unchanged and converted UTC timestamps into plain Chinese sentences."
+}

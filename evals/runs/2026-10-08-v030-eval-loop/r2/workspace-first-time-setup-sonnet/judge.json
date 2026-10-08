@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "workspace-first-time-setup",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Stable identifier from user and configured workspace; confirmed, not inferred; no redundant questions",
+   "pass": true,
+   "note": "Uses verde-norte-de as given and names the configured INTGRAL_WORKSPACE. It asks nothing the user already answered."
+  },
+  {
+   "item": "Preference file under merchants/verde-norte-de/ from template with supplied values, unknowns unset, dated lasting-rules row with user source",
+   "pass": true,
+   "note": "Records Amazon DE, German, EUR and the Verde Norte display name. Brand style and video preferences are left unset. The 2026-10-08 row names the user's chat message as its source."
+  },
+  {
+   "item": "Reads back, reports actual path and contents; persistence is the file not memory; machine switch/reinstall guidance",
+   "pass": true,
+   "note": "Gives the full path and the read-back row. Says the setting is not agent memory, and explains what to do when changing machines or reinstalling."
+  },
+  {
+   "item": "Nothing written inside installed package; template unmodified",
+   "pass": true,
+   "note": "The only writes were under ws/merchants/verde-norte-de plus empty tasks/ and backups/ directories."
+  },
+  {
+   "item": "Answer in Chinese and ends with what happens on next task (file read first)",
+   "pass": true,
+   "note": "Written in Chinese. The closing 之后会怎样 section opens with reading the file before each task."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Recorded Verde Norte only as a display name with brand style unset, took 现在配置的 to mean INTGRAL_WORKSPACE, and made no MCP or browser calls because no SKU was involved."
+}

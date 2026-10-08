@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "listing-copy-conflict",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Material conflict exposed, not silently resolved; neither side written, held-back bullet named",
+   "pass": true,
+   "note": "Lists bamboo in 4 ERP places and in the old listing copy against the user's stainless steel, writes neither, says the old Bambú bullet was dropped, and asks the user to confirm."
+  },
+  {
+   "item": "5 kg load claim excluded and flagged as needing evidence",
+   "pass": true,
+   "note": "Not saved; asks where the figure comes from (supplier spec or own test)."
+  },
+  {
+   "item": "Write is update_listing copy.bullet_points only; reports updated, content_version, erp_url",
+   "pass": true,
+   "note": "Trace shows only copy.bullet_points. Answer reports content_version 3→4, says only bullet_points changed and attributes untouched (matches updated.copy=true/attributes=false), and gives the listing erp_url."
+  },
+  {
+   "item": "Supported bullets in Spanish within limits; saved vs suggested distinguished",
+   "pass": true,
+   "note": "3 Spanish bullets (adhesive, pack of 2, bathroom) saved and checked against the 5×255 limit; material and load bullets are clearly marked as pending suggestions."
+  },
+  {
+   "item": "No publication/approval claimed; description compliance gap reported",
+   "pass": true,
+   "note": "Says publishing is the user's job and ready is not an Amazon approval; reports description as the required gap before the write and ready:false after it."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether to drop the old evidence-backed 'Bambú natural' bullet, whether to save 3 bullets now instead of waiting for confirmation, why compliance showed missing_required empty while ready stayed false, whether adding entrance use to the bathroom bullet went beyond the request, and noted that no browser was available."
+}

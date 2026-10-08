@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "research-brief-pinned-no-acquisition",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 14,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "handoff.upstream_versions pins exactly market@2, competitor@1, supplier@1; market@1 unused; 14-16 day age reported as advisory, nothing refreshed",
+   "pass": true,
+   "note": "Posted handoff pins exactly those three. Market@1 is marked superseded and left out. Ages of 14/12/7 days (13-16 days for the evidence) are reported as advisory. No refresh calls appear in the trace."
+  },
+  {
+   "item": "All twelve sections present; unknown sections cite nothing and say why; supported sections cite retained report/evidence IDs",
+   "pass": true,
+   "note": "All 12 sections are in data.sections. The 8 unknown sections, brand_voice included, have empty evidence_ids and each gives a reason (no review text, no demographics, no retained brand rules). The supported and conflicted sections cite rart_report_* and evidence IDs."
+  },
+  {
+   "item": "Proposals (price band, 24-26 cm size, drawer-storage positioning) labelled proposed with how to test; nothing from the review-less competitor report written as a pain point",
+   "pass": true,
+   "note": "The 24 cm size is a proposed spec, tested by measuring a sample. Drawer storage is labelled an inference or proposal and has a sample storage test. Pricing between the two competitors is labelled a market@2 proposal; the landed-cost validation checks it against the 11.99-14.50 EUR range. Pain points are unknown, and objections are listed only as hypotheses still to be tested."
+  },
+  {
+   "item": "Target cost unknown with missing components named; sample plan not authorized; no supplier selected",
+   "pass": true,
+   "note": "target_cost.status is unknown. Its gaps list freight, duty, VAT, inspection, retail packaging, Amazon fees and FX. Both sample rows are not_authorized. The brief and final.md both say no supplier is selected."
+  },
+  {
+   "item": "User gets artifact ID, revision, coverage and gaps; next steps are unresolved ledger decisions, not new collection",
+   "pass": true,
+   "note": "final.md gives rart_report_col_brief_01, version 1, partial coverage and a gap list. The next steps are the handoff's unresolved_decisions. Review collection appears only as a decision the user would need to approve separately, and final.md says it was not done."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Agent's doubts: it assumed the only listed scope (rscope_colander_es) was the one meant, and the advisory freshness ages seem computed from the mock clock. It did not say whether the quote has expired. It inferred the section status values and sent fields beyond the reference example that were not validated. It recorded the rigid alternative's \"shows none\" as unknown rather than zero."
+}

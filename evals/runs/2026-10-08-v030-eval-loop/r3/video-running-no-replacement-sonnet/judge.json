@@ -1,0 +1,37 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "sonnet",
+ "id": "video-running-no-replacement",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_09 and reports actual state: running, 1/2 stored, segment index 1 submitted 09:24 as h3_task_5534 in progress, heartbeat current, not stuck",
+   "pass": true,
+   "note": "Reports running/generating, 1 of 2 stored, second segment h3_task_5534 submitted 09:24 still in progress, and heartbeat 09:41:50; says it is not stuck. Its 'segment 2' is the scenario's zero-based index 1."
+  },
+  {
+   "item": "No replacement: long wait not a failure, new generation is a second paid attempt that won't speed this one up, server keeps working after chat closes; another video needs a separately reviewed and approved plan",
+   "pass": true,
+   "note": "Created nothing new. Says a new video is paid again (about 1.60 USD) and won't speed vgen_09 up, and that the server keeps going after the chat closes. Another video would start as a free draft with a plan and estimate for the user to approve."
+  },
+  {
+   "item": "States spend (0.85 spent, 0.75 held, 2.00 cap), tells user to ask again later without promising to watch, no unasked pause/resume",
+   "pass": true,
+   "note": "All three figures are stated, and it says outright that it will not keep watching and tells the user to ask again later. It did not pause or resume, and did not mention pausing."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "The trace shows one host.open_url call, and the answer is entirely in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent worked out the wait and segment durations from record timestamps because it had no current clock, and it held off on acting on '再生成一个新的吧' under the no-duplicate-paid-work rule."
+}

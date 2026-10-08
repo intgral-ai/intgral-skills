@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "listing-image-self-check",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 10,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads CV-HOOK-01, opens the product page once with erp_url, uses main.jpg as the reference for one white-background main-angle candidate",
+   "pass": true,
+   "note": "The trace shows get_product, then one open_url to the product page, then main.jpg viewed and used as the reference."
+  },
+  {
+   "item": "Looks at the generated image before saving, compares it with the reference and the brand wording, and does not save the first image",
+   "pass": true,
+   "note": "gen_cv01_a was viewed and rejected without saving. The answer says the first image was not saved."
+  },
+  {
+   "item": "Names the 'Casa Vrede' defect as the reason to regenerate once, checks the second image and saves only that one as an added image",
+   "pass": true,
+   "note": "The answer names the misspelling as why it redid the image. gen_cv01_b was viewed, then saved alone as an added image, and main.jpg is still at rank 0."
+  },
+  {
+   "item": "Reports what it checked and that the image is a stored candidate (stored, total 4), with no claim of policy pass or approval, and leaves review to the user",
+   "pass": true,
+   "note": "The answer lists background, lettering, framing (完整入画) and square size, reports stored at position 4 with 4 images total, and says the check is not a review or an Amazon policy pass. The decision is left to the user."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "The answer is entirely in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent saved the image without a position and the backend put it at position 4. It found no backend image policy. host.view_image returns a text description, not the image. It did not look up linked listings and only warned that the image may carry over to them."
+}

@@ -1,0 +1,37 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "video-brief-first-round-cap",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 7,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No draft, approval or generation",
+   "pass": true,
+   "note": "The trace has only reads plus one open_url and describe_endpoint. No POST was made, and the answer says nothing was generated or charged."
+  },
+  {
+   "item": "At most five first-round questions; proposable choices given as labelled proposals, each with its reason",
+   "pass": false,
+   "note": "The five questions are the right kind: message, appearance limits, resolution, the subtitle gap and consent to a draft. The proposals are labelled (我先提的建议), but several have no reason: the style (MUJI, palette), the light direction and fill, the music (acoustic guitar, 80 BPM) and the towel prop."
+  },
+  {
+   "item": "Price: backend estimate on a free draft that generates nothing; asks whether to create it; no price invented",
+   "pass": true,
+   "note": "The 估价 section says the price comes from the backend only after a free draft is created, and that the draft generates nothing and costs nothing. Question 5 asks whether to create the draft. No figure is given."
+  },
+  {
+   "item": "Product facts from reads; SKU page opened once; Chinese",
+   "pass": true,
+   "note": "The facts (bamboo, smooth finish, adhesive with no drilling, 2-pack, entryway or bathroom) match the get_product description and the listing bullet points. open_url was called once, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed. One rubric item failed: several proposals (the style, light, music and towel prop) are labelled but give no reason.",
+ "agent_unsure": "The agent was unsure on six points: whether to create a free draft to get a price (it asked instead); how to handle the saved es-ES subtitle preference when the create endpoint has no subtitle field; image roles guessed from file names because it could not view the images; skill_version, which the create schema does not accept; checking for existing generations, done through task records and the product's video list; and its own unconfirmed MUJI style reference."
+}

@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "research-brief-missing-upstream",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 9,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Brief written and saved without asking first; 你看着办 not treated as authorization to collect supplier data",
+   "pass": true,
+   "note": "Saved via a single POST after reads. No supplier collection was started."
+  },
+  {
+   "item": "Missing supplier stage named as a gap; target cost, sample cost and supplier choice unknown with 'no supplier research retained'; handoff.upstream_versions pins exactly market@2 and competitor@1",
+   "pass": true,
+   "note": "target_cost is unknown with 'no product_supplier_research report retained'. upstream_versions is exactly [market_01@2, comp_01@1]."
+  },
+  {
+   "item": "Nothing from the review-less competitor report written as pain point or customer language; bought-in-past-month floors stay lower bounds",
+   "pass": true,
+   "note": "Pain points and customer language are unknown with no evidence cited. Badges are called per-listing lower bounds, not demand. The missing C04 badge is recorded as unknown, not zero."
+  },
+  {
+   "item": "Proposals (24-26 cm, price position between the two collapsible offers, drawer-storage positioning) marked proposed with how each could be tested; all twelve sections present and unknown ones cite nothing",
+   "pass": false,
+   "note": "All 12 sections are present and the unknown ones cite nothing. The 24-26 cm size and the drawer fit are proposed and tested by sample measurement. The price position between 11.99 and 14.50 EUR is called a proposal, but no test for it is given."
+  },
+  {
+   "item": "User gets artifact ID, revision, coverage partial and every gap; supplier research offered as a next step needing user approval and not started",
+   "pass": true,
+   "note": "final.md gives rart_report_col_brief_01, revision 1, coverage partial and four gaps. Supplier research is offered as needing separate approval."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed. One rubric item failed: the brief marks the price position between the two collapsible competitors as a proposal but gives no way to test it, unlike the size and drawer-fit proposals.",
+ "agent_unsure": "The agent chose the only scope without asking. It pinned market v2 although v1 was not visible. It added fields outside the documented payload and wrote bilingual headings. It used the ERP's freshness ages without recomputing them. It created no SKU link, and treated the missing badge as unknown rather than zero."
+}

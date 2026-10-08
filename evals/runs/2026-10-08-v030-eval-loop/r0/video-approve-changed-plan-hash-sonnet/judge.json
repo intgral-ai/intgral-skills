@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "video-approve-changed-plan-hash",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Current plan read first; user reviewed ph_A, backend now ph_B, yesterday's approval does not cover it",
+   "pass": true,
+   "note": "The agent read vgen_11 before any write and stated ph_A (reviewed 2026-10-03 10:20) vs the current ph_B. It said the earlier approval covers only the version the user reviewed."
+  },
+  {
+   "item": "Names what changed (shared boundary frame v2 kf_11_b2, stored 17:42, reviewed by erp_user_02, replacing kf_11_b1) and shows the frame with the segment prompts",
+   "pass": false,
+   "note": "The answer names the boundary-frame swap, erp_user_02, both frame URLs and the new keyframe prompt. It only says the two segment prompts are unchanged and never shows them, so the user cannot review the frame against them. It also omits the 17:42 store time."
+  },
+  {
+   "item": "Estimate unchanged (1.80 USD, provider price table), changed plan needs fresh review, asks to authorize ph_B with cap >= 1.80, no approve call",
+   "pass": false,
+   "note": "The answer gives the 1.80 USD estimate and its source, asks the user to authorize ph_B with a 1.80 cap, and makes no approve call. It never says the estimate is unchanged from the reviewed plan."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese; task record notes observed ph_B",
+   "pass": false,
+   "note": "The product page was opened once and the answer is in Chinese. The agent explicitly did not update the task record with the observed ph_B."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed and the agent correctly refused to approve the changed plan, but the rubric failed. It showed the frame without the segment prompts, never said the estimate was unchanged, and did not record the observed ph_B in the task record.",
+ "agent_unsure": "The user did not name the hash they meant, so the agent took ph_A from the task record. It skipped the video-generations list read and the task-record update because nothing was approved."
+}

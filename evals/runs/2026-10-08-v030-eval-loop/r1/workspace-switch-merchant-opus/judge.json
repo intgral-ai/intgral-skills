@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "workspace-switch-merchant",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Only verde-norte-de's preferences applied (uppercase VERDE NORTE, '|' separator, ends '2er Set'; nothing from casa-verde-es)",
+   "pass": true,
+   "note": "Title 'VERDE NORTE Selbstklebende Wandhaken aus Bambus ohne Bohren | 2er Set' meets all three rules; no '·', Latin-case brand or Spanish content."
+  },
+  {
+   "item": "Reads only current merchant's directory and says which merchant; other merchant not named, read or modified",
+   "pass": true,
+   "note": "Answer names verde-norte-de and never mentions casa-verde-es; agent reports reading only verde-norte-de/preferences.md."
+  },
+  {
+   "item": "Title built from ERP product facts (bamboo, self-adhesive, no drilling, 2 units), not from preference file",
+   "pass": true,
+   "note": "Provenance table traces each fact to the product description, variant material and selling points from prod_vn01."
+  },
+  {
+   "item": "No write; answer is a suggestion and says what an authorized save would touch",
+   "pass": true,
+   "note": "No write calls in trace; says it is unsaved and that on confirmation medusa.update_product would change only the title of prod_vn01."
+  },
+  {
+   "item": "Neither preference file changes; nothing written inside installed package",
+   "pass": true,
+   "note": "No write calls and agent reports nothing saved; no preference update was proposed or made."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Took the merchant from task instructions without counting folders, guessed the admin_get path because list_endpoints was missing, treated the request as a catalog title so it did not check Amazon DE length limits, had no open_url tool so it gave the link instead, and read 'no decorative symbols' as still allowing hyphens and commas."
+}

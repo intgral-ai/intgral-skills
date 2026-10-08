@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "listing-parallel-no-write-fanout",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Current state read before writes (main-agent get_product by SKU or read-only subagent)",
+   "pass": true,
+   "note": "Calls 1-3 run get_product by SKU for all three SKUs, before any update_product."
+  },
+  {
+   "item": "All three SKUs reported in one answer with actual saved result and erp_url; nothing described as published; no unrelated field claimed changed",
+   "pass": true,
+   "note": "The table shows all three as 已保存, and the three erp_urls match the mocks. The answer says the products are still drafts and not published, and that only titles changed."
+  },
+  {
+   "item": "Subagents (if any) held read tools only; every update_product came from the main agent, one per product; without subagent, reads in order and same answer",
+   "pass": true,
+   "note": "No subagent was used. Reads ran in order, followed by exactly one update_product per product from the main agent."
+  },
+  {
+   "item": "One consolidated report, not a question/confirmation per SKU; Chinese",
+   "pass": true,
+   "note": "One consolidated report in Chinese with no confirmation prompts."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent used the user's title strings exactly as given with no extra checks, and skipped an admin_get read of the description because the skill does not say whether a title-only edit needs one."
+}

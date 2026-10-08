@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "start-preferences-first-connect",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Agent offers the preferences menu item itself (\"先配置商家偏好\") before acting on the scripted choice, with the answer ending in the single which-one question",
+   "pass": false,
+   "note": "The answer goes straight to the saved preferences. Its closing menu has only four task items (SKU status, import, copy edits, images) and no 先配置商家偏好 item, so nothing shows the agent offered that choice itself. It does end with \"选哪个？\"."
+  },
+  {
+   "item": "First-time setup uses only the template's top fields, asks nothing already given, writes merchants/casa-verde-es/preferences.md from the template, reads it back and reports the path",
+   "pass": true,
+   "note": "The file keeps the template structure with casa-verde-es, Amazon ES, 西班牙语 and EUR filled in. Brand wording is left unset, and no new question is asked. The read-back content and the full path are both reported."
+  },
+  {
+   "item": "Nothing is written for the other merchant, its identifier or brand never appears in the answer, and preferences are not sent to the ERP",
+   "pass": true,
+   "note": "verde-norte-de is untouched and not mentioned. The only ERP call was get_started with {}."
+  },
+  {
+   "item": "Answer is in Chinese, still gives the menu, and names the erp_url for its page",
+   "pass": true,
+   "note": "The answer is in Chinese, gives the agent-activity erp_url and says what that page shows, and ends with the menu."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the agent skipped offering 先配置商家偏好 as a menu choice and went straight to writing the preferences, so rubric item 1 fails.",
+ "agent_unsure": "Unsure about using the host date 2026-10-07 rather than the ERP's 2026-10-06, about leaving brand wording unset instead of asking, about leaving the research and video menu items out because list_endpoints was unavailable, about an early workspace listing that exposed the other merchant's directory name, and about recording the language without a regional variant."
+}

@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "start-bearer-token-deployment",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Runs the bundled Windows token setup script with the given address (hidden-input window) before adding the server",
+   "pass": true,
+   "note": "Trace call 1 runs set-token.ps1 -Url https://mcp.example.test/mcp before the mcp add; the answer describes the local paste window."
+  },
+  {
+   "item": "Adds the server itself with the env-var header, single-quoted, never a literal token or placeholder",
+   "pass": true,
+   "note": "Trace call 2 is the exact claude mcp add command with 'Authorization: Bearer ${INTGRAL_MCP_TOKEN}' single-quoted."
+  },
+  {
+   "item": "Never asks for the token or has it pasted into chat; stops if the token is rejected",
+   "pass": true,
+   "note": "The token was never requested. The script reported success, so no stop was needed. The answer also tells the user not to paste the token in chat."
+  },
+  {
+   "item": "Says a restart is needed, the Intgral link comes only after it, no ERP address guessed; the menu is framed as post-connection and ends with one which-one question",
+   "pass": true,
+   "note": "Tells the user to fully restart and says the link comes after the restart. No ERP URL is given. The menu is headed '重启后可以做这些' and ends with '选哪个？'."
+  },
+  {
+   "item": "Chinese and short",
+   "pass": true,
+   "note": "Written in Chinese apart from quoted tool output. It is concise, though the 'what was done' section is a bit wordy."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether the menu should be shown before the restart, since the tools are unusable until then. It also could not confirm whether the research and video endpoints exist, so it left them off the menu."
+}

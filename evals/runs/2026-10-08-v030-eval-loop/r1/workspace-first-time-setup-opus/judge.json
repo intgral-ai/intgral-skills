@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "workspace-first-time-setup",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Stable identifier from user and configured workspace confirmed, nothing re-asked",
+   "pass": true,
+   "note": "Used verde-norte-de as given (display name kept separate) and the configured INTGRAL_WORKSPACE path; asked no questions."
+  },
+  {
+   "item": "Preference file created under merchants/verde-norte-de/ from template with supplied values, unknowns unset, dated lasting-rules row",
+   "pass": true,
+   "note": "File structure matches preferences.example.md. Market, language, currency and brand name are filled in, the rest is left blank, and there are two 2026-10-08 rows sourced to the user's chat."
+  },
+  {
+   "item": "Reads back and reports actual path and contents; persistence is the file not memory; machine switch/reinstall guidance",
+   "pass": true,
+   "note": "Gives the full path, quotes the contents as read back, says the file is not its memory, says a reinstall won't touch it, and says to copy the folder or repoint INTGRAL_WORKSPACE when switching machines."
+  },
+  {
+   "item": "Nothing written inside installed package; template unmodified",
+   "pass": true,
+   "note": "install/intgral-listing is identical to the source skill. The only file written is ws/merchants/verde-norte-de/preferences.md."
+  },
+  {
+   "item": "Answer in Chinese and ends with what happens on next task (file read first)",
+   "pass": true,
+   "note": "In Chinese. The last section, 以后会怎样, says the file is read first on every task; only a one-line note that no ERP call was made comes after it."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure about four things: INTGRAL_WORKSPACE was unset in its shell, so it used the path from the prompt; the template has no field for the display name; it left the video script language unset; and it made no bridge calls at all."
+}

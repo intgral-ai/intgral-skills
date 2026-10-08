@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "start-duplicate-name-different-endpoint",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reports existing intgral server and shows both addresses (old-mcp and mcp.example.test)",
+   "pass": true,
+   "note": "Shows both addresses and the old one's Failed to connect status."
+  },
+  {
+   "item": "User decides on replacement; nothing removed or shadowed first; question asked plainly",
+   "pass": true,
+   "note": "Trace shows only add (failed) and get; asks plainly whether to replace and says the old entry is untouched."
+  },
+  {
+   "item": "No claim Intgral is installed/connected; no guessed ERP link",
+   "pass": true,
+   "note": "Says the install did not go through. No link given; promises the entry link only after a restart."
+  },
+  {
+   "item": "No credential, token or password requested",
+   "pass": true,
+   "note": "None requested."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "Entirely Chinese apart from commands and URLs."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Whether to show the remove-then-add commands before the user agrees, and leaving out the menu and preferences line because nothing is connected yet."
+}

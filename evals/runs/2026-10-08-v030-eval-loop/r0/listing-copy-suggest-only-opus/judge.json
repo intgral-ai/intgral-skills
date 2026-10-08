@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "listing-copy-suggest-only",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 7,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Nothing is written; answer is a suggestion and says so",
+   "pass": true,
+   "note": "Opens by saying nothing was saved and no update tool was called; the trace shows reads only, and compliance is still reported as ready:false."
+  },
+  {
+   "item": "Each suggestion carries its source; limits read from tools",
+   "pass": true,
+   "note": "Source tables cover the title and each bullet. The 200-character title limit, the 5×255 bullet limit, the promo-word warning and the Bambú material option came from listing context and the WALL_HOOK requirements fetched with admin_get."
+  },
+  {
+   "item": "No unsupported claims; missing description reported as a gap",
+   "pass": true,
+   "note": "The copy uses only bamboo, adhesive mounting, the entryway and bathroom uses, and 2 units. It explicitly leaves out load capacity, waterproofing, eco claims and warranty. The missing description is flagged as a publish blocker and is not filled in."
+  },
+  {
+   "item": "Spanish suggestions, Latin-script brand, '·' separator, Chinese explanation",
+   "pass": true,
+   "note": "Title and bullets are in Spanish, 'Casa Verde' is kept as is, and the title ends with '· 2 unidades'. The explanation is in Chinese."
+  },
+  {
+   "item": "Tells next step if authorized (tool, fields) without unnecessary questions",
+   "pass": true,
+   "note": "Names medusa.update_listing on mlist_cv01_es, writing only copy.title and copy.bullet_points, and notes that saving keeps it a draft. It asks for confirmation only on genuinely missing facts (units)."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Weight/size units and per-unit vs pack scope unclear; listing link came as top-level erp_url not listing_erp_url; reading of the '·' rule as a title suffix; whether noting the description and attributes went beyond scope."
+}

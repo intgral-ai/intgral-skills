@@ -1,6 +1,6 @@
 {
   "id": "research-competitor-ratings-only",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-research",
   "request": "用已经保存的证据，分析一下西班牙站折叠硅胶沥水篮这 4 个竞品的差评主题和价格带，给我一份竞品报告。不要新采集。",
   "workspace": "workspace",
@@ -779,6 +779,26 @@
           }
         },
         {
+          "when": {
+            "path": "/admin/research/artifacts/rart_report_col_comp_01"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_report_col_comp_01",
+              "version": 1,
+              "record_type": "report",
+              "report_kind": "competitor_research",
+              "scope_id": "rscope_colander_es",
+              "created_at": "2026-09-18T08:00:00.000Z"
+            },
+            "freshness": {
+              "age_days": 0,
+              "upstream_evidence_age_days": 16,
+              "status": "advisory"
+            }
+          }
+        },
+        {
           "error": {
             "code": "not_found",
             "message": "No catalogued admin route matches that path",
@@ -897,7 +917,7 @@
                 "status": "unavailable"
               }
             },
-            "skill_revision": "intgral-research/competitor@3",
+            "skill_revision": "intgral-research/competitor@4",
             "schema_revision": "competitor_research/1"
           }
         }
@@ -909,7 +929,7 @@
     "The user gets the artifact ID, its revision, coverage status and every gap, and the answer says plainly that complaint themes are unavailable because no review body is retained — ratings and counts are not presented as themes.",
     "Price comparison keeps like-for-like: the 2-unit set is not mixed into the single-unit group, list versus current price stay separate, shipping is excluded as unknown, and the rigid plastic colander is classified as an alternative rather than a direct competitor (or excluded with a reason).",
     "The 'bought in past month' floors are reported as per-listing lower bounds, not as sales — summed only as an inference labelled a lower bound; the ASIN without a readable badge is not given zero.",
-    "The next step is bounded and needs authorization: a review acquisition for named ASINs with finite limits is proposed, not started, and the user is not asked unnecessary questions first.",
+    "The next step is bounded and needs authorization: a review acquisition naming each ASIN with a numeric per-ASIN review cap is proposed, to start only after the user approves a plan, and the user is not asked unnecessary questions first.",
     "Nothing outside the scope's retained evidence is used as a competitor fact; Casa Verde's own brand stays excluded."
   ]
 }

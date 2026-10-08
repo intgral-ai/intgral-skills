@@ -1,0 +1,37 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "opus",
+ "id": "start-sku-only-in-listings",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Named SKU: no menu and no install with the server connected",
+   "pass": true,
+   "note": "The trace has no install or get_started call, and the answer has no menu. It goes straight to the SKU."
+  },
+  {
+   "item": "After get_product returns not_found, look up the exact seller SKU among listings with view=all and find mlist_cvlamp07_es",
+   "pass": true,
+   "note": "Call 2 is admin_get on /admin/amazon/listings with seller_sku=CV-LAMP-07 and view=all. It found mlist_cvlamp07_es."
+  },
+  {
+   "item": "Answer from the listing (live, FBA, compliance not ready because bullet_point is missing) and say plainly that the catalog has no product; offer bootstrap as the user's choice with nothing previewed, imported or created",
+   "pass": true,
+   "note": "The answer says the listing is live, gives AMAZON_EU as Amazon fulfilment, and says compliance is not ready because bullet_point is missing. It says plainly the catalog has no product. Bootstrap is offered as an option and no bootstrap or write call was made."
+  },
+  {
+   "item": "Open listing_erp_url once without being asked and guess no product URL; reply in Chinese with at most one question at the end",
+   "pass": true,
+   "note": "There is one host.open_url call, on the listing URL, and no product URL is used. The reply is in Chinese and ends with a single question."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure of three things: tools never said \"Spain\", so it gave the marketplace ID and store name instead; reading AMAZON_EU as Amazon fulfilment was its own inference; and it offered only the bootstrap preview, not the import."
+}
