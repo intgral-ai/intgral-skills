@@ -1,0 +1,44 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "listing-copy-localize-es",
+ "skill": "intgral-listing",
+ "hard_pass": false,
+ "hard_failed": 1,
+ "hard_findings": [
+  "repeat: medusa.update_listing #7 to mlist_cv01_es repeats a completed write"
+ ],
+ "tool_calls": 9,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Spanish copy from product facts only, brand in Latin script, no promises or promotional words",
+   "pass": false,
+   "note": "The final saved copy is clean, but the first write (call 6) saved an unsupported claim ('acabado cálido que combina con cualquier pared') to the listing before a second write corrected it."
+  },
+  {
+   "item": "Limits taken from the tools and respected; metric units",
+   "pass": true,
+   "note": "Limits came from compliance and the product-type requirements (200 / 5x255 / 2000). The copy fits them, and dimensions without units were left out."
+  },
+  {
+   "item": "One update_listing call with copy only; attributes untouched; reports updated.copy, content_version, erp_url and compliance after the write",
+   "pass": false,
+   "note": "There were two update_listing calls, not one. Copy only and attributes untouched held, and content_version 4, erp_url and compliance were all reported."
+  },
+  {
+   "item": "Shows the saved Spanish copy with a short Chinese source per claim",
+   "pass": true,
+   "note": "Title, 4 bullets and description are each shown with a Chinese provenance note."
+  },
+  {
+   "item": "No publication claimed; user told where to publish",
+   "pass": true,
+   "note": "The answer says nothing was published and points to the ERP page for review and publishing."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "The agent first saved copy containing an unsupported claim, then fixed it with a second update_listing write, so the repeat-write hard check failed and the single-write and facts-only rubric items failed too.",
+ "agent_unsure": "The write returned succeeded at content_version 4, but a later re-read still showed version 3 with the old copy and the missing description, so the agent could not confirm the page was updated or which compliance state is current."
+}

@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "start-bearer-token-deployment",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Runs the bundled Windows token setup script with the address before adding the server",
+   "pass": true,
+   "note": "Call 1 ran set-token.ps1 -Url https://mcp.example.test/mcp before the add."
+  },
+  {
+   "item": "Adds the server itself with the single-quoted env-var header command",
+   "pass": true,
+   "note": "Call 2 is exactly the expected claude mcp add command, with the header in single quotes and no placeholder."
+  },
+  {
+   "item": "Never asks for the token or has it pasted into chat; stops if the token is rejected",
+   "pass": true,
+   "note": "The answer never asks for the token and says the token never appeared in chat. The script accepted the token, so the stop rule never applied."
+  },
+  {
+   "item": "Says a restart or reload is needed, and that the menu and link come after it",
+   "pass": false,
+   "note": "It says to restart and that the link comes after, but it shows the 5-item menu now, before the restart, instead of saying the menu comes after it."
+  },
+  {
+   "item": "Chinese and short",
+   "pass": true,
+   "note": "The answer is in Chinese and reasonably brief: two status lines, a restart line and a short menu."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the agent showed the capability menu before the client restart; the rubric says the menu and the link both come only after the restart.",
+ "agent_unsure": "It left research and video out of the menu because it couldn't confirm the deployment supports them. It also added a preferences item because preferences.md is missing, and it skipped `claude mcp get intgral` because the add call succeeded."
+}

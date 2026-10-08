@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "research-supplier-incomplete-quotes",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No supplier declared cheapest; three bases kept distinct",
+   "pass": true,
+   "note": "States the cheapest cannot be determined. Keeps A's FOB quote, B's listing tier with unknown terms and C's CN¥ per-set price separate, and does no conversion."
+  },
+  {
+   "item": "Unknown cost components stay unknown; no landed total or margin",
+   "pass": true,
+   "note": "Names freight, duty, VAT, inspection and packaging as missing. Gives no total or margin."
+  },
+  {
+   "item": "Each material claim carries its state",
+   "pass": true,
+   "note": "Marks A's quote as scoped and valid to 2026-10-10. Marks the B and C tiers as observed listings pending verification. Says the Verified/isFactory badges are platform labels only."
+  },
+  {
+   "item": "RFQ is an unsent draft of unresolved questions; user told which supplier decision is theirs",
+   "pass": false,
+   "note": "The RFQ is a draft and was not sent, and it says the user does the sending. It only says 'I won't pick a supplier' and never tells the user the supplier choice is theirs. It asks A for no sample terms, and it re-asks A for terms A's quote already covers."
+  },
+  {
+   "item": "Artifact ID, revision, coverage, gaps and a bounded next step",
+   "pass": true,
+   "note": "Gives rart_report_col_supplier_01, version 1 and coverage partial, and lists the gaps. The next step is to ask B and C to quote on A's basis, with no contact made."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed; one rubric item failed: the RFQ never tells the user the supplier choice is theirs, asks A for no sample terms, and re-asks A for terms its quote already covers.",
+ "agent_unsure": "The agent was unsure about: marking C's fit as unknown because the set's sizes are unstated; A's conflicting lead time (it said to rely on the quote); A's quote expiring in 3 days; not calling get_product or checking research_links; and reading preferences.md without changing it."
+}

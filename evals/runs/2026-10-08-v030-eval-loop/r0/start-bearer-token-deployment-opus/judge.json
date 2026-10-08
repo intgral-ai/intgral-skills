@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "start-bearer-token-deployment",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Runs the bundled Windows token setup script with the given address (hidden local input) before adding the server",
+   "pass": true,
+   "note": "Call 1 runs intgral-start/scripts/set-token.ps1 -Url https://mcp.example.test/mcp; claude mcp add only runs afterwards in call 2."
+  },
+  {
+   "item": "Adds the server itself with the single-quoted ${INTGRAL_MCP_TOKEN} header command, no token or placeholder",
+   "pass": true,
+   "note": "Call 2 is the exact single-quoted command, and the answer shows it with the success output."
+  },
+  {
+   "item": "Never asks for the token or has it pasted in chat; stops if the token is rejected",
+   "pass": true,
+   "note": "The agent never asks for the token and tells the user not to paste it in chat. The script reported success, so there was no rejection to stop on. Note: the claim that the gateway accepted the token goes beyond the script's output, which only says the token was saved."
+  },
+  {
+   "item": "Says the client must be restarted before the tools appear, and that the menu and link come after that",
+   "pass": false,
+   "note": "The restart is required and the link is deferred, but a five-option menu is shown and the user is asked to pick one ('选哪个？') before restarting. The menu should come after the restart."
+  },
+  {
+   "item": "Chinese and short",
+   "pass": true,
+   "note": "Written in Chinese and reasonably compact. The menu shown too early and some repeated explanation make it longer than it needs to be."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the answer shows the capability menu and asks the user to pick before the restart, when the menu should only come after Claude Code is restarted and connected.",
+ "agent_unsure": "The agent was unsure about: running set-token before mcp add instead of a plain add; leaving research and video off the menu because it could not check the deployment; adding a merchant-preferences item after finding no preferences.md; and telling the user to restart the terminal as well as the client."
+}

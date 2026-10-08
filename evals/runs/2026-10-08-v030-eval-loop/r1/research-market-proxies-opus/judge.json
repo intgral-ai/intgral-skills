@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "research-market-proxies",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 10,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Sales, market size and growth stay null; badges and ranks are proxies or per-listing lower bounds; the sum is an inference labelled a lower bound; the ASIN without a badge is not given zero",
+   "pass": true,
+   "note": "Sales, size and growth are explicitly null. Each floor (200, 500) is per listing. The 'at least 700' total is labelled an inference and a lower bound, not a category figure. B0FAKE0C04's empty badge is called unknown, not 0."
+  },
+  {
+   "item": "The two dated B0FAKE0C01 observations are kept as dated points, not averaged, and not treated as growth without noting they are a single pair of dates",
+   "pass": true,
+   "note": "Lists 13.99 EUR on 08-20 and 11.99 EUR on 09-02, with the floor going from 100 to 200. Says there are only two time points, so this is not a trend, and that the change may come from the price cut or the season. No averaging."
+  },
+  {
+   "item": "Each opportunity is rated explore, hold or reject against stated criteria, with the 6.49 EUR counterevidence, explicit unknowns and one bounded next check",
+   "pass": true,
+   "note": "Rated explore against criteria (a) to (d) in a table. Names the 6.49 EUR rigid alternative as counterevidence and marks (b) and (c) unknown. Gives one bounded next check (up to 100 reviews each, 200 in total), proposed but not started."
+  },
+  {
+   "item": "The user gets the artifact ID, revision, coverage status and every gap; no acquisition is started; no unnecessary questions",
+   "pass": true,
+   "note": "Gives rart_report_col_market_01, version 1, partial coverage and a full gap list. The trace shows no acquisition call, and the answer asks no questions before delivering the report."
+  },
+  {
+   "item": "Casa Verde's own brand and preferences are not used as market evidence",
+   "pass": true,
+   "note": "The merchant preferences are mentioned only for format (market, currency, language). None of the evidence is the merchant's own brand."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Not sure about: putting the badge floors into demand_hypotheses (the contract has no demand-signal field); coverage counts meaning saved records, not collected ones; the list endpoint ignoring the record_type filter; the advisory age_days of 16 not matching the 36-day-old evidence; no plan record explaining how the 3 ASINs were chosen."
+}

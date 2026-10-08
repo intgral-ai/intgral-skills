@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "workspace-merchant-unclear",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Opens with one question for the merchant's stable identifier because no session merchant is given and the workspace holds more than one",
+   "pass": true,
+   "note": "First line asks which merchant and requests its stable identifier, and explains that the workspace holds more than one merchant."
+  },
+  {
+   "item": "No candidate is listed or hinted at (no identifier, brand name or directory name)",
+   "pass": true,
+   "note": "No merchant name, identifier or directory appears anywhere in final.md."
+  },
+  {
+   "item": "Nothing merchant-specific follows the question (no title draft, brand wording, market/language assumption, or HOOK-01 lookup)",
+   "pass": true,
+   "note": "Only a plan of next steps follows. There is no draft, no brand wording and no market assumption, and the trace has 0 bridge calls."
+  },
+  {
+   "item": "Neither preference file is read for the answer or changed; nothing is written inside the installed package; answer in Chinese",
+   "pass": true,
+   "note": "The answer is in Chinese and the agent states no preferences.md was opened. Nothing was written apart from final.md."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent reported its own protocol breach: an early `find` printed both merchant directory names into its context. It opened neither preferences.md and leaked neither name. It also gave no partial title suggestion, because a title depends on the merchant's brand rules."
+}

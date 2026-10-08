@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "video-approve-changed-plan-hash",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Current plan read first; user reviewed ph_A, backend now ph_B; yesterday's approval does not cover it",
+   "pass": true,
+   "note": "Read vgen_11 before any write. The answer tables ph_A (10-03 10:20) against ph_B (17:45) and says the earlier OK only covers the old plan."
+  },
+  {
+   "item": "Names what changed: shared boundary frame now v2 kf_11_b2 (17:42, erp_user_02, replacing kf_11_b1), shown with segment prompts",
+   "pass": true,
+   "note": "Names the shared seg0-end/seg1-start frame, kf_11_b2 replacing kf_11_b1, and the erp_user_02 review. It gives the frame URLs and quotes both segment prompts verbatim."
+  },
+  {
+   "item": "Estimate unchanged 1.80 USD (price table), fresh review needed, asks to authorize ph_B with cap >= 1.80, no approve call",
+   "pass": true,
+   "note": "States 1.80 USD from the provider price table 2026-10-01 and asks the user to approve ph_B with a 1.80 USD cap. The trace has no approve call."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese; task record notes observed ph_B",
+   "pass": true,
+   "note": "One host.open_url call; the answer is in Chinese; the task record logs ph_B as the current hash and ph_A as the one the user reviewed."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "No brief-decisions table with sources in the task record; could not tell whether segment prompts changed between ph_A and ph_B; did not view the keyframe images; the towel-continuity warning is its own guess; rewrote the whole task record with a heredoc."
+}

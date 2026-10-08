@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "listing-open-after-write",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The saved title is reported from the tool result, with the erp_url as a link.",
+   "pass": true,
+   "note": "Reports the new title with write_result=succeeded and updated.product, and gives the erp_url link."
+  },
+  {
+   "item": "The product page is opened once, without being asked (when the SKU is first read or after the save); the answer says it was opened and that review and publication happen there.",
+   "pass": false,
+   "note": "The page was opened once, unprompted, right after the read, and the answer says so. It never says that review and publication happen on that page. It only labels the product a draft that is not yet published."
+  },
+  {
+   "item": "Nothing is done inside the opened page: no save, submit or publish is claimed, and nothing is described as published.",
+   "pass": true,
+   "note": "No action inside the page is claimed, and the product is called an unpublished draft."
+  },
+  {
+   "item": "No unrelated field is changed or mentioned as changed.",
+   "pass": true,
+   "note": "Only the title was changed. Profile, prices and images are mentioned only as unchanged."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the answer never tells the user that review and publication happen on the product page it opened.",
+ "agent_unsure": "The agent was unsure about four things: whether the user meant the product or the Amazon ES listing (it chose the product), writing a Chinese title when the merchant prefers marketplace-language copy, accepting 竹制 and 2件装 without checking other fields, and opening the page before the save rather than after."
+}

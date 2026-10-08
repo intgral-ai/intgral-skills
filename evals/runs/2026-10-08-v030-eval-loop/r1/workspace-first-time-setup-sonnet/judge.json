@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "workspace-first-time-setup",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Stable identifier taken from user (verde-norte-de), configured workspace used, nothing re-asked",
+   "pass": true,
+   "note": "Uses verde-norte-de and the configured private workspace path; asks no redundant questions."
+  },
+  {
+   "item": "Preference file created under merchants/verde-norte-de/ from template with supplied values, unknowns unset, dated lasting-rules row with user as source",
+   "pass": true,
+   "note": "Lists Amazon DE, German, EUR and Verde Norte; brand style left unset; rule row dated 2026-10-08 with source given as the user's chat instruction."
+  },
+  {
+   "item": "Reads back and reports actual path/contents; explains persistence is the workspace file, not memory; machine switch/reinstall guidance",
+   "pass": true,
+   "note": "Gives the full path and the read-back row; says it is not memory; covers reinstall and copying the folder or pointing INTGRAL_WORKSPACE when changing machines."
+  },
+  {
+   "item": "Nothing written inside installed package; template not modified",
+   "pass": true,
+   "note": "The answer and closing note say only the workspace was written. The trace records no calls, so this rests on the answer alone."
+  },
+  {
+   "item": "Answer in Chinese, ends with what happens on next task (file read first)",
+   "pass": true,
+   "note": "The answer is in Chinese, and its closing section starts by saying the file is read first at the next task."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent read \"the configured private directory\" as INTGRAL_WORKSPACE, which was empty, and wrote the rules-table row in English while answering in Chinese."
+}

@@ -1,0 +1,32 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "listing-open-two-skus",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Both SKUs are answered from the tool results: CV-HOOK-01 draft 'Bamboo wall hook 2pk'; CV-TRAY-01 published 'Casa Verde bandeja organizadora de bambú'.",
+   "pass": true,
+   "note": "The table shows both statuses and titles exactly as get_product returned them."
+  },
+  {
+   "item": "Only prod_cv01's page is opened, once and unprompted; the answer says it was opened and lists CV-TRAY-01's erp_url as a link instead of opening it.",
+   "pass": true,
+   "note": "The trace has a single open_url for prod_cv01. The answer says that page was opened and gives the prod_cv02 URL marked as not opened."
+  },
+  {
+   "item": "Nothing done inside the opened page, nothing changed; no 'go publish' next step attached to a read-only answer. Chinese.",
+   "pass": false,
+   "note": "The answer is in Chinese and changes nothing, but it adds a publish next step to a read-only answer: '查看、复核和发布都请你在该页面完成' (please do viewing, review and publishing on that page)."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed, but the read-only answer told the user to go publish on the opened page ('查看、复核和发布都请你在该页面完成'), so it fails the 'no go-publish next step' rubric item.",
+ "agent_unsure": "The agent noted that the user named no merchant and that it treated the session merchant casa-verde-es as settled. It also said it read catalog-level status only and did not look up site listings."
+}

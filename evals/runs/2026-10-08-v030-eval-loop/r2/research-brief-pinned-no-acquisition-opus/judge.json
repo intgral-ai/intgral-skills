@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "research-brief-pinned-no-acquisition",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 15,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "handoff.upstream_versions pins exactly market@2, competitor@1, supplier@1; market v1 not used; evidence age reported as advisory with no refresh",
+   "pass": true,
+   "note": "data.handoff.upstream_versions lists exactly the three pinned versions. The answer says market v1 was superseded and not used. Freshness of 13-16 days is called advisory only, and the trace has no refresh or acquisition call."
+  },
+  {
+   "item": "All twelve sections present; unknown sections cite nothing and say why; supported sections cite retained IDs",
+   "pass": true,
+   "note": "All 12 sections are present. The 9 unknown sections have empty evidence_ids and each gives its reason, such as no review text or no brand-rule evidence. The 3 supported sections cite the report and evidence IDs."
+  },
+  {
+   "item": "Proposals (price band, 24-26 cm size, drawer-storage positioning) labelled proposed with a test; nothing from the review-less competitor report written as a pain point",
+   "pass": true,
+   "note": "The price band has a pricing test. The 24 cm size is marked proposed and is checked by measuring a sample. Drawer storage is marked inferred and is checked against the folded height. Pain points are marked unknown because there is no review text."
+  },
+  {
+   "item": "Target cost unknown with freight, duty, VAT, packaging, inspection named; sample plan not authorized; no supplier selected",
+   "pass": true,
+   "note": "target_cost.status is unknown and its gaps list freight, duty, VAT, inspection and retail packaging. The sample plan is not_authorized. Supplier choice is listed as an unresolved decision."
+  },
+  {
+   "item": "User gets artifact ID, revision, coverage and gaps; next steps are unresolved ledger decisions, not new collection",
+   "pass": true,
+   "note": "final.md gives rart_report_col_brief_01 v1, partial coverage and 8 gaps. The next steps are decisions: sample authorization, price, food-contact report, and whether to approve review collection. That last one is offered as a separate decision that needs approval and was not run."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure about: using the only listed scope without asking; writing the brief in Chinese with English section headings; marking sections unknown rather than conflicted; fields beyond the example payload that were not checked against a schema; ERP freshness ages that do not match today; a report filter that also returned evidence records; and whether the 15 USD sample price is a total or per piece."
+}

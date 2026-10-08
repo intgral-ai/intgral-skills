@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "workspace-first-time-setup",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Stable identifier taken from the user and private location is the configured workspace; confirmed, not inferred; asks nothing already answered",
+   "pass": true,
+   "note": "Uses verde-norte-de exactly as given and the configured INTGRAL_WORKSPACE, and asks no questions."
+  },
+  {
+   "item": "Preference file under merchants/verde-norte-de/ from template with supplied values (market, language, currency, brand name), unknowns unset, dated lasting-rules row with user as source",
+   "pass": false,
+   "note": "Market, language, currency and the dated user-sourced rule rows are correct, but the user-supplied brand name Verde Norte is not filled in. The brand field shows (未设置) and the name appears only in the evidence line."
+  },
+  {
+   "item": "Reads file back, reports actual path and contents; persistence is the workspace file not memory; what to do on machine switch/reinstall",
+   "pass": true,
+   "note": "Gives the path and the read-back contents, says the file is not memory, that a reinstall leaves it alone, and to copy the directory or repoint INTGRAL_WORKSPACE on a new machine."
+  },
+  {
+   "item": "Nothing written inside the installed package; bundled template unmodified",
+   "pass": true,
+   "note": "The install_unchanged hard check passed, and only the workspace merchant file was written."
+  },
+  {
+   "item": "Answer in Chinese and ends with what happens on the next task (file read first)",
+   "pass": true,
+   "note": "Written in Chinese. The closing 以后会怎样 section says the file is read before each Verde Norte task, followed by one line saying the ERP was not changed."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the brand name Verde Norte was left unset in the preferences file's brand field and recorded only in the evidence line, so the template-fill rubric item fails.",
+ "agent_unsure": "The agent was unsure whether it should have looked up the merchant ID through the MCP (it made no tool calls), whether the configured private workspace belongs in the lasting-rules table, whether the research/video templates would add anything, and it chose to record Verde Norte only as a display name."
+}

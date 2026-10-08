@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "workspace-no-filesystem",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Says plainly no writable filesystem, cannot persist, will not claim to remember",
+   "pass": true,
+   "note": "Opens with the settings not being saved, says the environment cannot write files, and says the agent has no memory across sessions."
+  },
+  {
+   "item": "Exportable preference record from the template, unknowns unset, with path convention",
+   "pass": true,
+   "note": "Filled template in a code block. Brand wording is left blank. Path merchants/verde-norte-de/preferences.md is given."
+  },
+  {
+   "item": "Explains next-time use (paste or INTGRAL_WORKSPACE) without over-promising",
+   "pass": true,
+   "note": "Says to provide the file again or point INTGRAL_WORKSPACE at the directory. 'Will read it first' applies only once a workspace is available."
+  },
+  {
+   "item": "No unnecessary questions; no tool writes; nothing created",
+   "pass": true,
+   "note": "Made 0 tool calls and created no workspace merchants directory. The closing line is a conditional offer, not a question."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "The whole answer is in Chinese. Only the template labels are in English."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "It left the German language without a regional variant because the user did not give one, left brand wording blank, and left out the video and other template sections."
+}

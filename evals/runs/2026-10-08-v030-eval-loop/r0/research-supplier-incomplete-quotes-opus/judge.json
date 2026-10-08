@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "research-supplier-incomplete-quotes",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 9,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No supplier declared cheapest by omission; three bases kept distinct",
+   "pass": true,
+   "note": "The table keeps three separate bases: A at USD 1.28 FOB Ningbo, B at a listing price with unknown trade terms, and C at a CN¥ price per 2-piece set left unconverted because no exchange rate was recorded. The answer says B's lower number cannot be compared directly with A's."
+  },
+  {
+   "item": "Unknown cost components stay unknown; no landed-cost total or margin",
+   "pass": true,
+   "note": "Freight, insurance, duty, VAT, customs, delivery, inspection, packaging, FX and fees are all listed as missing. The only figure is the USD 2,560 goods value, labelled explicitly as FOB value and not a cost to Spain. No margin is given."
+  },
+  {
+   "item": "Each material claim carries its state (scoped quote, observed listing, platform labels not verified)",
+   "pass": true,
+   "note": "A is a formal quote Q-2026-091 valid until 2026-10-10. B's and C's prices and lead times are marked as product-page figures, and isFactory and Verified Supplier are called platform labels only. MOQ is not discussed separately, which is minor."
+  },
+  {
+   "item": "RFQ is an unsent draft of unresolved questions; supplier decision left to user",
+   "pass": true,
+   "note": "The draft is marked unsent and the user is told to send it themselves. It covers variant, the 2,000 quantity, logo, packaging, samples, lead time, delivery basis and evidence for claimed factory status and food-contact compliance. The answer says it did not choose a supplier for the user."
+  },
+  {
+   "item": "Artifact ID, revision, coverage status, every gap, bounded next step without contacting anyone",
+   "pass": true,
+   "note": "The answer gives rart_report_col_supplier_01, version 1, status partial, and a list of gaps. The next step is to get same-basis quotes and a freight quote. It does not tell the user that reading the report back returned not_found."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Reading the report back returned not_found, so the 201 from the save is the only confirmation. The agent added a quotes[] field that the payload contract does not define. It set kind and offer_basis to \"unknown\", added the food-contact must-have and the RFQ spec copied from 70001 on its own, and excluded 70003 as a 2-piece set. It also noted the date changed during the run, there was no SKU to link or page to open, and the Write tool was blocked."
+}

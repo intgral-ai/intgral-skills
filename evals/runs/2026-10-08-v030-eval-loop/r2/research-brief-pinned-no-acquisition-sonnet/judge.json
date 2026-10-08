@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "research-brief-pinned-no-acquisition",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 8,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "handoff.upstream_versions pins market@2, competitor@1, supplier@1; market v1 unused; 14-16 day age reported as advisory, no refresh",
+   "pass": true,
+   "note": "Final pins market_01@2 (says v1 is superseded and not pinned), comp_01@1 and supplier_01@1. It reports the 14/12/7-day report ages and the 16/16/13-day evidence ages as advisory only. The trace shows reads only, with no refresh."
+  },
+  {
+   "item": "All twelve sections present; unknown sections cite nothing and say why; supported sections cite retained IDs",
+   "pass": true,
+   "note": "The posted body has all 12 sections. Nine are unknown with empty evidence_ids and a stated reason (no review bodies, no demand data). Product overview, competitive landscape and proof points cite the retained evidence IDs."
+  },
+  {
+   "item": "Proposals (price band, 24-26 cm size, drawer-storage positioning) labelled proposed with how to test; no review-less competitor data written as pain points",
+   "pass": true,
+   "note": "Product overview is labelled proposed/inference and covers the size and the drawer use. validation_plan gives price, physical-sample and review-coding tests. Pain points are unknown, with only unverified hypotheses."
+  },
+  {
+   "item": "Target cost unknown with freight, duty, VAT, packaging, inspection named; sample not authorized; no supplier selected",
+   "pass": true,
+   "note": "Final names all five landed-cost components as unknown, keeps the sample not_authorized, and leaves supplier selection as an open decision."
+  },
+  {
+   "item": "User gets artifact ID, revision, coverage, gaps; next steps are ledger decisions, not new collection",
+   "pass": true,
+   "note": "Final gives rart_report_col_brief_01, version 1, coverage partial, and a gaps list. The six next steps mirror unresolved_decisions. Review collection appears only as a decision that needs separate approval."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure about using the only listed scope without asking, the stdin large-body convention, upstream freshness ages that don't match today's date, extra headings and fields beyond the sample payload, and whether differentiation should be unknown rather than conflicted or supported."
+}

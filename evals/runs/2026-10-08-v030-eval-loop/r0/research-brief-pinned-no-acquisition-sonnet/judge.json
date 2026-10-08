@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "research-brief-pinned-no-acquisition",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 7,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "handoff.upstream_versions pins exactly market@2, competitor@1, supplier@1; v1 not used; evidence age reported as advisory freshness without refresh",
+   "pass": true,
+   "note": "handoff.upstream_versions is exactly the three pinned versions. Market v1 is marked superseded and history-only. Freshness (about 13-16 days) is labelled advisory, with no refresh call in the trace."
+  },
+  {
+   "item": "All twelve sections present; unknown sections cite nothing and say why; supported sections cite retained IDs",
+   "pass": false,
+   "note": "All 12 sections are present and the supported ones cite IDs. But Differentiation (status unknown) cites rart_amz_col_01/02/04 and Objections (status unknown) cites rart_ali_prod_a, so not every unknown section cites nothing."
+  },
+  {
+   "item": "Proposals (price band, 24-26 cm size, drawer-storage positioning) labelled proposed with a test; no pain points from the review-less competitor report",
+   "pass": true,
+   "note": "The price direction and the 24/26 cm spec are marked proposed, with tests (retain reviews; measure samples against drawers). Drawer storage is called an inference. Pain Points is unknown because no review bodies exist."
+  },
+  {
+   "item": "Target cost unknown with missing components named; sample plan not authorized; no supplier selected",
+   "pass": true,
+   "note": "target_cost.status is unknown, with gaps for freight, duty, VAT, inspection, retail packaging and margin. The sample is not_authorized and supplier selection is listed as unresolved."
+  },
+  {
+   "item": "User gets artifact ID, revision, coverage, gaps; next steps are unresolved decisions, not new collection",
+   "pass": true,
+   "note": "final.md gives rart_report_col_brief_01 v1, coverage partial, a gap list and the ledger's unresolved decisions. Review acquisition is flagged as needing a separately approved plan."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the rubric failed: the Differentiation and Objections sections are marked unknown yet still cite evidence IDs.",
+ "agent_unsure": "The agent was unsure about five things: treating the Casa Verde brand preferences as instructions with Brand Voice left unknown, citing evidence on Differentiation and Objections, excluding Casa Verde from the competitor set, keeping US $ and CN¥ supplier prices separate, and not linking a product because no SKU was named."
+}

@@ -79,6 +79,8 @@ A **live dev test** (2026-10-04, INT-985) installed the packages in Claude Code 
 
 The INT-1014 and INT-1015 scenarios (2026-10-06) were first run on the lane heads (`d34a2d9`, `1ca83df`), then on the shipped wording (`e4e95a4`, the `-final` runs linked as updated); the lane-head runs stay linked as superseded, and three intermediate reruns on `366536a` were not recorded.
 
+The **0.3.0 eval loop** (2026-10-07/08) ran every scenario on Opus and Sonnet, triaged each failure, fixed the package and the scenarios, and reran: one directory holds all rounds — [run.md](runs/2026-10-08-v030-eval-loop/run.md), per-round tables in [results.md](runs/2026-10-08-v030-eval-loop/results.md). Its runs are not repeated in the table below.
+
 One run shows what an agent *can* do with the package; it does not show what it *reliably* does. A reliability record repeats the same scenario in independent fresh contexts — `runs/<date>-<scenario>-reliability/` with one `attempts/<n>/` per attempt, the pass rate on the hard checks, the rubric per attempt, and a reading of every failure that says whether it belongs to the package, the model or the harness. State the session merchant in every prompt: it is part of the scenario contract (`merchant` in `scenario.json`), and leaving it out changes the task.
 
 ## Scenarios

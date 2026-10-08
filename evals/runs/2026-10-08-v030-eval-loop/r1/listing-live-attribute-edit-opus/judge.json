@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "listing-live-attribute-edit",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Country of origin saved as CN from the user's explicit confirmation, reported from the tool result",
+   "pass": true,
+   "note": "update_listing wrote country_of_origin CN. The answer cites the user's confirmation and quotes write_result.status succeeded, with compliance ready and labelled as the ERP-side check only."
+  },
+  {
+   "item": "Brand not written because the schema marks it editable:false; the answer says so",
+   "pass": true,
+   "note": "Brand left as CasaVerde. The answer explains that WALL_HOOK marks brand editable:false, so Amazon won't take the change on a live listing, and offers other routes."
+  },
+  {
+   "item": "Push to Amazon handed to the user on the listing page (Check with Amazon, confirm, submit); agent does not submit or claim it is live",
+   "pass": true,
+   "note": "The answer tells the user to click Check with Amazon, review and submit, and says plainly that the change is not live on Amazon yet."
+  },
+  {
+   "item": "Listing page opened once, unprompted",
+   "pass": true,
+   "note": "The trace shows a single host.open_url call to the amazon-listings page."
+  },
+  {
+   "item": "Chinese; nothing else changed",
+   "pass": true,
+   "note": "The answer is in Chinese. The only write was the country_of_origin attribute."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The brand-change route was named only in general terms (Seller Central), it opened the row's erp_url because there was no listing_erp_url, and it left the manufacturer unchanged because the user did not ask."
+}

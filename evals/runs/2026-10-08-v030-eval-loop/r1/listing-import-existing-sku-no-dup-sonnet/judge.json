@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "listing-import-existing-sku-no-dup",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "SKU found existing as draft prod_cv01; no second product created or attempted",
+   "pass": true,
+   "note": "get_product found prod_cv01, and the agent updated it with update_product; it never called create_product."
+  },
+  {
+   "item": "Write carrying 12.90 EUR marks price_source user",
+   "pass": true,
+   "note": "update_product was called with price_source: user and amount 12.9 EUR."
+  },
+  {
+   "item": "Reports nothing new created, what changed on prod_cv01 (title and price old to new), with erp_url; does not claim a new draft",
+   "pass": true,
+   "note": "The answer says no new product was made and gives a table of title and price changes (old price honestly shown as not present) with the erp_url."
+  },
+  {
+   "item": "Gaps named only as write result reports (bullet points, images 1 of 8), listed for later, not filled; page opened once; Chinese",
+   "pass": true,
+   "note": "It lists bullet_points as missing and images at 1 of 8, both from compliance; it adds no invented facts; it opened the page once; the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "get_product gave no old price, so the agent reported it as not shown. It was unsure of the prices array shape, though the write succeeded. It overwrote the existing title without asking."
+}

@@ -1,0 +1,37 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "listing-open-after-write",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The saved title is reported from the tool result, with the erp_url as a link.",
+   "pass": true,
+   "note": "Gives the new title, backed by write_result succeeded and updated.product true (the mocked result does not echo the title). Includes the erp_url https://erp.example.test/app/products/prod_cv01."
+  },
+  {
+   "item": "The product page is opened once, without being asked (when the SKU is first read or after the save); the answer says it was opened and that review and publication happen there.",
+   "pass": true,
+   "note": "host.open_url was called once, unprompted, right after get_product. The answer says the page was opened, asks the user to refresh it, and says review and publication are done there by the user."
+  },
+  {
+   "item": "Nothing is done inside the opened page: no save, submit or publish is claimed, and nothing is described as published.",
+   "pass": true,
+   "note": "Says explicitly that nothing was published and that the product is still a draft."
+  },
+  {
+   "item": "No unrelated field is changed or mentioned as changed.",
+   "pass": true,
+   "note": "Only product_id and title were written. Description, profile, prices and images are reported as unchanged."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Not sure whether it should have changed the catalog title or an ES listing title, whether the page should have been opened after the write rather than before it, and whether a Chinese title fits ES marketplace copy."
+}

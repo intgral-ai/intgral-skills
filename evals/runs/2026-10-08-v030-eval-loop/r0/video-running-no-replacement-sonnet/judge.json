@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "video-running-no-replacement",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_09 and reports actual state: running, 1/2 stored, segment index 1 submitted 09:24 as h3_task_5534 in progress, heartbeat current, not stuck/failed",
+   "pass": true,
+   "note": "All present: running/generating, 1/2 stored, 2nd segment (index 1) h3_task_5534 submitted 09:24 in progress, heartbeat 09:41:50, explicitly not stuck."
+  },
+  {
+   "item": "No replacement: long wait not a failure, new generation is a second paid attempt that would not speed this one up, server keeps working after chat closes; another video is a separately reviewed and approved plan",
+   "pass": false,
+   "note": "Did not create one and warned about paying twice, but never said the server keeps working after the chat closes or that a new one would not speed this up; 'tell me again' is not a separately reviewed/approved plan."
+  },
+  {
+   "item": "States spend (0.85 spent, 0.75 held, cap 2.00) and offers to keep checking or register a pause if the user wants to stop later submissions; does not pause unasked",
+   "pass": false,
+   "note": "Spend and re-check offer present, no pause made, but the pause option for stopping later submissions is never offered."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "host.open_url called once on the SKU's erp_url; answer fully in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the answer never offered a pause to stop later submissions, never said the server keeps working after the chat closes or that a new generation would not speed this one up, and did not frame another video as a separately reviewed plan.",
+ "agent_unsure": "It computed elapsed time from the generation's timestamps rather than a wall clock, could not tell whether ~18 min on segment 2 is abnormal for the provider, and read the generation only once without polling."
+}

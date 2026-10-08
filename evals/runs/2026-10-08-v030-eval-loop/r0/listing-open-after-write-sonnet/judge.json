@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "listing-open-after-write",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The saved title is reported from the tool result, with the erp_url as a link.",
+   "pass": true,
+   "note": "Reports the new title with write_result succeeded and no pending steps, and includes the erp_url https://erp.example.test/app/products/prod_cv01."
+  },
+  {
+   "item": "The product page is opened once, without being asked (when the SKU is first read or after the save); the answer says it was opened and that review and publication happen there.",
+   "pass": true,
+   "note": "host.open_url ran once, unprompted, after get_product. The answer says the page is open, tells the user to refresh it to see the saved title, and says publication still happens in the ERP."
+  },
+  {
+   "item": "Nothing is done inside the opened page: no save, submit or publish is claimed, and nothing is described as published.",
+   "pass": true,
+   "note": "The answer claims no action inside the page and leaves publication to the user."
+  },
+  {
+   "item": "No unrelated field is changed or mentioned as changed.",
+   "pass": true,
+   "note": "The write sent only product_id and title. The answer says price, images and description were not touched."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "It treated the request as a catalog title edit because only a SKU was given, and offered to also change the Amazon ES listing title if the user supplies a listing_id."
+}

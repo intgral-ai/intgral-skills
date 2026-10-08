@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "research-link-report-to-sku",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 10,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Latest competitor report rart_report_col_comp_02 v2 linked and named with version; v1 and market report not linked",
+   "pass": true,
+   "note": "The answer names rart_report_col_comp_02, competitor_research version 2, and says the superseded v1 was not linked. Only one POST was made."
+  },
+  {
+   "item": "Variant is variant_fake_col24gr (24 cm Gris), not the green 26 cm sibling; no listing attached",
+   "pass": true,
+   "note": "The POST used variant_fake_col24gr. The answer says CV-COL-26-GN was not linked and that listing_id is empty."
+  },
+  {
+   "item": "Reason states pricing-basis relevance; answer confirms from returned link (state current, SKU, kind, version)",
+   "pass": true,
+   "note": "The reason sent was a pricing basis for this variant. The answer cites the 201 response, link ID, state current, the SKU, the kind and version 2, and flags that the ERP returned a different reason text."
+  },
+  {
+   "item": "Link described as relevance not approval; nothing collected, no report rewritten; contents not re-presented as newly verified",
+   "pass": true,
+   "note": "The answer says the link means relevance, not approval. Prices carry their 2026-09-02 observation date with a warning that they may be stale. No collection call and no report save appear in the trace."
+  },
+  {
+   "item": "Unlink described as done in the ERP; newer-report replacement described correctly if mentioned",
+   "pass": true,
+   "note": "The answer says unlinking has to be done in the ERP. It does not mention replacing the link with a newer report."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The ERP returned an English link reason instead of the Chinese one sent. The scopes route has no sku or market filter, so the scope was matched on product and question text. No listing_id was sent because no listing was found. The SKU page was not opened because no browser tool was available."
+}

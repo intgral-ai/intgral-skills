@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "listing-no-workspace-single-erp",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No workspace configured; reads the SKU straight away without asking which merchant",
+   "pass": true,
+   "note": "First call was medusa.get_product by SKU, and the agent asked no merchant question."
+  },
+  {
+   "item": "Listing found with view=all; product, Amazon.es listing and draft-image review statuses given exactly as returned; says the review is the user's to save in the ERP",
+   "pass": true,
+   "note": "admin_get used view=all. The answer reports published, active/FBM and unreviewed with latest_review empty, and says only a logged-in ERP user can save the review on the listing page."
+  },
+  {
+   "item": "SKU's page opened once with the browser tool after the read",
+   "pass": true,
+   "note": "host.open_url was called once on the product page right after get_product, and the listing page was linked."
+  },
+  {
+   "item": "Nothing written; answer in Chinese",
+   "pass": true,
+   "note": "All four calls were reads, and final.md is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Opened the product page rather than the listing page because get_listing_context was not available; the image review result had no scope, hash or limitations fields; added unrequested advice that resubmission does not need the draft review; treated no workspace as a settled merchant."
+}

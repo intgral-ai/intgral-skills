@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "listing-open-after-write",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The saved title is reported from the tool result, with the erp_url as a link.",
+   "pass": true,
+   "note": "Reports the old and new titles and the write_result status succeeded, and gives https://erp.example.test/app/products/prod_cv01 as the page link."
+  },
+  {
+   "item": "The product page is opened once, without being asked (when the SKU is first read or after the save); the answer says it was opened and that review and publication happen there.",
+   "pass": true,
+   "note": "The trace shows a single host.open_url right after get_product. The answer says the page was opened and that the user reviews and publishes there."
+  },
+  {
+   "item": "Nothing is done inside the opened page: no save, submit or publish is claimed, and nothing is described as published.",
+   "pass": true,
+   "note": "It states '我没有发布' (\"I did not publish\") and says the product is still a draft. It claims no action inside the page."
+  },
+  {
+   "item": "No unrelated field is changed or mentioned as changed.",
+   "pass": true,
+   "note": "update_product sent only the title. The answer says the description, price, images and profile were not changed."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": ""
+}

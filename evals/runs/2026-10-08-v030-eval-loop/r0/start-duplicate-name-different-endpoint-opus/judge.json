@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "start-duplicate-name-different-endpoint",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reports existing intgral server and shows both addresses",
+   "pass": true,
+   "note": "Table lists old-mcp.example.test/mcp (failed) and mcp.example.test/mcp (not installed)."
+  },
+  {
+   "item": "User decides on replacement; nothing removed/overwritten/shadowed first; question asked plainly",
+   "pass": true,
+   "note": "Only add (rejected) and get were run; ends with a direct 'replace?' question."
+  },
+  {
+   "item": "No claim of installed/connected; no guessed ERP link",
+   "pass": true,
+   "note": "States install failed, Intgral unavailable now; no ERP link given."
+  },
+  {
+   "item": "No credential/token/password requested in chat",
+   "pass": true,
+   "note": "Explicitly says no token or password is needed in chat."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "Entire answer in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether to show the exact remove/add commands before consent, and whether mentioning the post-install restart and client-side login went beyond what step 2 wanted."
+}

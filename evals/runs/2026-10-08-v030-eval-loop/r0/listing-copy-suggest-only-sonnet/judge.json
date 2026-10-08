@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "listing-copy-suggest-only",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Nothing is written; answer is a suggestion and says so, no claim of saved fields or changed compliance",
+   "pass": true,
+   "note": "States 未保存任何内容, no update tool called; trace has reads only."
+  },
+  {
+   "item": "Each suggestion carries its source and limits (title, bullets, promo words, category material options) are read from tools",
+   "pass": false,
+   "note": "Sources and title/bullet/promo limits come from compliance, but the agent never fetched the category requirements route, so the category material options were never read or used."
+  },
+  {
+   "item": "No unsupported claims; missing description reported as a gap, not filled with invented facts",
+   "pass": true,
+   "note": "Explicitly omits load, waterproofing, certification and the unitless dimensions; the description draft uses only the product description's facts and is labelled as the blocking gap."
+  },
+  {
+   "item": "Suggestions in Spanish with Latin brand and '·' separator; explanation in Chinese",
+   "pass": true,
+   "note": "Title uses 'Casa Verde · ...', bullets and description in Spanish, explanation in Chinese."
+  },
+  {
+   "item": "User told what happens next on authorization (tool, fields) without unnecessary questions",
+   "pass": true,
+   "note": "Names medusa.update_listing and copy.title/bullet_points/description (and search_terms if wanted); questions on dimensions and load are optional gap notes."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed. One rubric item failed: the agent skipped the category requirements route the endpoint list offered, so the category material options were never read from the tools.",
+ "agent_unsure": "No browser tool, so the agent gave the erp_url instead of opening it. It did not fetch the category requirements route because compliance already supplied the limits. The variant's 6×4×3 dimensions and weight 60 have no units, so it left them out."
+}

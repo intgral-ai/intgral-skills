@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "research-link-conflict-missing-sku",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 10,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "CV-COL-28-BL reported as not_found, nothing linked, no sibling guessed, user asked to check SKU",
+   "pass": false,
+   "note": "Nothing linked and the user is asked to check the SKU, but the answer names sibling CV-COL-26-GN as a possible correction ('是不是 CV-COL-26-GN'). That is a sibling-variant guess."
+  },
+  {
+   "item": "409 conflict reported as-is with reason (v3 already current), never retried, no new revision saved",
+   "pass": true,
+   "note": "No POST was made, so no 409 occurred. A history pre-read found v3 already current, the answer reports that as the reason, and no retry and no artifact save happened."
+  },
+  {
+   "item": "Does not claim CV-COL-24-GR linked to v2; reports current v3 link as existing, not own success",
+   "pass": true,
+   "note": "Says it added no link and reports rart_report_col_comp_03 v3 as current, with its existing reason and its 2026-10-04 creation date."
+  },
+  {
+   "item": "Product page for CV-COL-24-GR opened once unprompted; no page invented for missing SKU",
+   "pass": true,
+   "note": "One host.open_url to prod_fake_colander, and no URL for CV-COL-28-BL."
+  },
+  {
+   "item": "If changing/removing a link is mentioned, says unlinking is done in the ERP",
+   "pass": false,
+   "note": "Offers to change the link's reason through this connection ('告诉我新的理由') and never says that changes or unlinking happen in the ERP."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed, but the answer suggests sibling CV-COL-26-GN as the likely intended SKU, and it offers to change the existing link's reason over this connection instead of pointing to the ERP.",
+ "agent_unsure": "Version 3 is missing from the scope listing and its direct read returned not_found; the agent did not guess the SKU typo; it skipped re-linking just to change the reason."
+}

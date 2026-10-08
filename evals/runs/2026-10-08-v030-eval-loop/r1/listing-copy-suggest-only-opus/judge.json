@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "listing-copy-suggest-only",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Nothing is written; answer is a suggestion, says so, no claim of save or compliance change",
+   "pass": true,
+   "note": "States clearly that nothing was saved and the listing is still at content_version 3. The trace has read calls only."
+  },
+  {
+   "item": "Each suggested title/bullet carries its source; limits read from tools",
+   "pass": true,
+   "note": "The title is broken down part by part with a source for each, and every bullet has a source column. The agent says it wrote the sentences itself. The 200/5/255 limits and the banned promo words come from the product-type and compliance reads."
+  },
+  {
+   "item": "No unsupported claim; missing description reported as a gap",
+   "pass": true,
+   "note": "No load capacity, waterproofing, warranty or other material appears. 'sin taladrar' traces to 免打孔. The empty description is flagged as a blocker and not filled."
+  },
+  {
+   "item": "Spanish suggestions, brand in Latin script, '·' separator, Chinese explanation",
+   "pass": true,
+   "note": "The title and bullets are in Spanish, 'Casa Verde' is kept as is, '· 2 unidades' is used, and the explanation is in Chinese."
+  },
+  {
+   "item": "User told next step if they authorize a write (tool, fields), no unnecessary questions",
+   "pass": true,
+   "note": "Names medusa.update_listing with listing_id and only copy.title and copy.bullet_points, and says saving does not publish. Optional offers only, no blocking questions."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent had no browser tool, so it gave the listing link instead of opening it. It left out weight and dimensions because they have no units, read 免打孔 as 'sin taladrar', only flagged the out-of-scope description and attributes, and estimated the title length without counting it."
+}

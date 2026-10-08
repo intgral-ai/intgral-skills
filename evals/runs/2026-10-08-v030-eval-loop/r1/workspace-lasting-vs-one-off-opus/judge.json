@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "workspace-lasting-vs-one-off",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "One-off uppercase title: suggestion only, no listing write, no preference change, says not recorded",
+   "pass": true,
+   "note": "Title suggested only, no update_listing in trace, preferences diff shows only the bullets row, and the answer says the all-caps choice will not be remembered."
+  },
+  {
+   "item": "Lasting rule appended as dated row with user source; existing rules/identity preserved",
+   "pass": true,
+   "note": "The diff against the backup shows one added row dated 2026-10-08 with the user chat as source. All other lines are unchanged."
+  },
+  {
+   "item": "Re-read + dated backup before change; read-back and exact rows reported",
+   "pass": true,
+   "note": "backups/preferences.2026-10-08.md exists and matches the prior content. The answer quotes the saved row word for word after reading it back."
+  },
+  {
+   "item": "Suggested title keeps existing 'Casa Verde' rule in view; one-off does not change it",
+   "pass": true,
+   "note": "The answer names the recorded rule 'Casa Verde' and says future titles still follow it."
+  },
+  {
+   "item": "No unnecessary questions; nothing written inside installed package",
+   "pass": true,
+   "note": "No questions were asked. The only writes were to the workspace preferences file and its backup."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Could not read the category title rules (no admin_get or endpoint-discovery tool on the bridge). Treated all-caps as a one-time exception that the existing 'Casa Verde' spacing rule does not cover. Opened no page because there was no browser tool."
+}

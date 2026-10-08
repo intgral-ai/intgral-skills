@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "listing-import-existing-sku-no-dup",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "SKU found to exist as draft prod_cv01; no second product created or attempted",
+   "pass": true,
+   "note": "get_product found prod_cv01. The agent never called create_product and wrote to the existing draft with update_product."
+  },
+  {
+   "item": "12.90 EUR write marked price_source user",
+   "pass": true,
+   "note": "update_product was sent prices [{amount 12.9, eur}] with price_source user. The answer also says the price came from the user."
+  },
+  {
+   "item": "Reports nothing new created, what changed (title, price), with erp_url; no claim of new draft",
+   "pass": true,
+   "note": "The answer says no new product was created (based on the get_product read, since update_product returns no created field). It shows old and new values in a table for the title and price, and gives the erp_url."
+  },
+  {
+   "item": "Gaps listed for later not guessed; page opened once; Chinese",
+   "pass": true,
+   "note": "The update_product result reported no compliance gaps. The answer leaves the description and images unfilled for later without guessing them, opens the page once and is in Chinese. Bullet points and images 1/8 are not named, because this tool path never returned them."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure on five points: the old price was not shown by get_product; it had to guess the prices array format; it opened the page before saving; it kept the Chinese title even though Amazon ES copy should be in Spanish; and it used a temporary upd.json file, which it then deleted."
+}

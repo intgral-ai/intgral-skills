@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "start-first-time-install",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The endpoint the user gave is installed without asking for it again or asking permission a second time; the install is user-scoped so later sessions have it.",
+   "pass": true,
+   "note": "Ran `claude mcp add --transport http --scope user intgral <url>` straight away; the answer says it is saved at user level for later sessions."
+  },
+  {
+   "item": "The answer says the Intgral tools load after the client restarts or reloads, and that the Intgral link comes from the connected service then — no ERP address is guessed from the MCP host name.",
+   "pass": true,
+   "note": "Tells the user to restart or reload, says the link will come from medusa.get_started after that, and says it won't guess the ERP address."
+  },
+  {
+   "item": "The answer lists what can be done next as short numbered steps (query a SKU, import products, edit copy or listings, images, research, video) and asks what the user wants to do.",
+   "pass": false,
+   "note": "Research and video are missing from the numbered list. They appear only in a prose line saying their availability is unknown. Item 5 (preferences) was added instead. It does end with a question."
+  },
+  {
+   "item": "No credential, token or password is requested in chat; sign-in, if the client asks, happens in the client's own prompt.",
+   "pass": true,
+   "note": "Says to sign in through the client's own page and not to send tokens or passwords in chat."
+  },
+  {
+   "item": "The answer is in Chinese.",
+   "pass": true,
+   "note": "The whole answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the numbered next-step menu left out research and video (they appear only in a prose line saying they are unconfirmed), so rubric item 3 fails.",
+ "agent_unsure": "Left research and video out of the menu because medusa.list_endpoints can't be called yet; numbered the preferences line 5 because the skill doesn't say where it goes."
+}

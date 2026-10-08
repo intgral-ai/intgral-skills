@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "start-connected-menu",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The Intgral link given is the erp_url returned by medusa.get_started, as a clickable link; no address is invented.",
+   "pass": true,
+   "note": "Gives https://erp.example.test/app/agent-activity exactly as returned, as a bare auto-linkable URL; no invented address."
+  },
+  {
+   "item": "The answer lists what can be done as short numbered steps (query a SKU, import products, edit copy or listings, images, research, video) and asks which one the user wants.",
+   "pass": false,
+   "note": "Numbered menu covers SKU query, import, edit copy/listings and images, and ends with 选哪个？, but research and video are left out. The agent omitted them because no list_endpoints tool existed and get_started capabilities were products/listings/images only, so the scenario and the skill's gating rule conflict."
+  },
+  {
+   "item": "Nothing is installed or reconfigured: the connection already works.",
+   "pass": true,
+   "note": "Only medusa.get_started was called. No host.shell and no mcp add/remove. The answer opens by saying it is already connected."
+  },
+  {
+   "item": "The answer is in Chinese and short.",
+   "pass": true,
+   "note": "Entirely Chinese, about ten short lines."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed. The rubric failed because the menu leaves out the research and video items that the rubric expects; the agent dropped them because the skill shows those items only after medusa.list_endpoints confirms the routes, and this scenario has no list_endpoints tool. The scenario rubric and the skill's gating rule conflict, so one of them needs to change.",
+ "agent_unsure": "The agent left research and video out because it could not run list_endpoints to confirm those routes. It numbered the preferences line as item 5, and it gave the link without opening a browser."
+}

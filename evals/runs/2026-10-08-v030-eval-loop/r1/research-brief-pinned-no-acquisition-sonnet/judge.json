@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "research-brief-pinned-no-acquisition",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 9,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "handoff.upstream_versions pins exactly market@2, competitor@1, supplier@1; superseded market v1 unused; 14-16 day age reported as advisory without refresh",
+   "pass": true,
+   "note": "Payload handoff.upstream_versions is exactly the three pins. The answer says v1 is superseded and not pinned, and reports the ages (14/12/7 days for reports, 16/16/13 for evidence) as advisory with no refresh."
+  },
+  {
+   "item": "All twelve sections present; unknown sections cite nothing and say why; supported sections cite retained IDs",
+   "pass": true,
+   "note": "All 12 sections are present. Target audience, personas, pains, differentiation, objections, switching, language, brand voice and metrics are unknown, have empty evidence_ids and give reasons. Overview, landscape and proof points cite report and evidence IDs."
+  },
+  {
+   "item": "Proposals (price band, 24-26 cm size, drawer-storage positioning) labelled proposed with test method; no review-less pain points",
+   "pass": true,
+   "note": "The price band, size spec (approval_status proposed) and drawer-storage job hypothesis are all labelled 提议 with a validation method. Pain points stay unknown because reviews are unavailable."
+  },
+  {
+   "item": "Target cost unknown with missing components named; sample plan not authorized; no supplier selected",
+   "pass": true,
+   "note": "Target cost is unknown and lists freight, duty, VAT, inspection, retail packaging, platform fees and FX as missing. The sample is not_authorized and supplier selection is left as an open decision."
+  },
+  {
+   "item": "User gets artifact ID, revision, coverage and gaps; next steps are unresolved ledger decisions, not new collection",
+   "pass": true,
+   "note": "The answer gives rart_report_col_brief_01 v1, partial coverage and the gaps. The 未决事项 list matches handoff.unresolved_decisions, and review collection is framed as needing separate approval."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure about: the scope it picked because none was named, the mock's created_at differing from the session date, the quote nearing its 2026-10-10 expiry, and whether the 15 USD sample price is per unit or total. It also noted that Brand Voice is unknown and is used only as a writing instruction."
+}

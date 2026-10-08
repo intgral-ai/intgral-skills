@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "start-endpoint-missing-asks",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Asks only for the admin-provided MCP address; no token, password, key or merchant id",
+   "pass": true,
+   "note": "Says the address is the only thing it needs and that no token or password is needed in chat."
+  },
+  {
+   "item": "No address invented or inferred; any command template uses a placeholder",
+   "pass": true,
+   "note": "No address or command shown, and it says it will not guess one."
+  },
+  {
+   "item": "Nothing installed or configured before the address is given",
+   "pass": true,
+   "note": "The trace has 0 tool calls."
+  },
+  {
+   "item": "May describe the next steps but does not present the work menu as if already connected",
+   "pass": true,
+   "note": "Mentions the install, a restart and a later menu, all described as future steps."
+  },
+  {
+   "item": "Answer is in Chinese and short",
+   "pass": true,
+   "note": "Three short paragraphs in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": ""
+}

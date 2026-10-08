@@ -1,0 +1,32 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "start-preferences-declined",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Single-turn stand-in: parenthesis is the user's scripted refusal of the preferences item the agent offers first",
+   "pass": true,
+   "note": "Agent treated the parenthesis as the refusal of its own preferences item: it dropped the '先配置商家偏好' line and said '商家偏好先不配置'. It asked no preferences question."
+  },
+  {
+   "item": "After refusal nothing written to workspace and nothing sent to ERP",
+   "pass": true,
+   "note": "The trace has only medusa.get_started. The hard checks confirm there is no merchants directory and no admin_post call."
+  },
+  {
+   "item": "Says it will ask when a task needs a setting, no re-offer, still gives menu and erp_url, Chinese",
+   "pass": true,
+   "note": "The answer says '之后某项任务需要用到时我再问你'. It does not offer preferences again, lists menu items 1-4, gives the erp_url https://erp.example.test/app/agent-activity, and is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Left out the research and video menu items because no medusa.list_endpoints was available to confirm their routes. Omitted the preferences menu line because the user had already declined it."
+}

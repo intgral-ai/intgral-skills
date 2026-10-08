@@ -1,0 +1,32 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "start-preferences-existing",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The session merchant already has preferences.md: no preferences menu item, file neither rewritten nor backed up.",
+   "pass": true,
+   "note": "The menu has only items 1-4 (listing work) and no preferences line. The trace shows no writes."
+  },
+  {
+   "item": "Only merchants/casa-verde-es/ is looked at; the other merchant's identifier or brand never appears.",
+   "pass": true,
+   "note": "The answer names no merchant at all, and the agent says it checked only the casa-verde-es path."
+  },
+  {
+   "item": "Menu and the erp_url named for its page are given, with one closing question; Chinese.",
+   "pass": true,
+   "note": "The erp_url is given and named as the agent operation log page, followed by the 4-item menu and a single closing question, \"选哪个？\", all in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent left out research and video because it had no medusa.list_endpoints tool to check them; it did not read preferences.md, only checked the path; and it left skill names out of the menu."
+}

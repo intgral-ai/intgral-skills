@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "workspace-switch-merchant",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Only verde-norte-de's preferences applied (VERDE NORTE uppercase, '|' separator, ends with '2er Set', nothing from casa-verde-es)",
+   "pass": true,
+   "note": "Title 'VERDE NORTE | Wandhaken aus Bambus | Selbstklebend ohne Bohren | 2er Set'; no '·', no Spanish, no Latin-case brand."
+  },
+  {
+   "item": "Reads only current merchant's directory, says which merchant; other merchant not named, read or modified",
+   "pass": true,
+   "note": "Answer cites verde-norte-de's preferences.md; casa-verde-es is never mentioned."
+  },
+  {
+   "item": "Title built from product facts read from the ERP, not the preference file",
+   "pass": true,
+   "note": "Bambus, selbstklebend, ohne Bohren and 2er Set are attributed to the product description, selling points and variant read through get_product/admin_get."
+  },
+  {
+   "item": "No write; answer is a suggestion and says what an authorized save would touch",
+   "pass": true,
+   "note": "States nothing was written and offers medusa.update_product, title only, after confirmation."
+  },
+  {
+   "item": "Neither preference file changes; nothing written inside installed package",
+   "pass": true,
+   "note": "Hard checks passed; the trace has only reads."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Treated verde-norte-de as settled and read only its preferences; did not check the DE title length or compliance limits; read '|' plus '2er Set' as the separator and count rule; had no browser, so gave erp_url without opening it."
+}

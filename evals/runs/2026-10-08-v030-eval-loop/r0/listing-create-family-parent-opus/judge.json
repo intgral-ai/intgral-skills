@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "listing-create-family-parent",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 12,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Family reported (applied, COLOR theme, parent SKU/listing, parent non-buyable draft with no price/stock/offer/images/EAN, children with erp_url)",
+   "pass": false,
+   "note": "Reports the family, COLOR theme, lfam id, parent SKU/listing id, non-buyable draft and child links, but only says the parent has no price or stock; it never says the parent carries no offer, images or EAN."
+  },
+  {
+   "item": "Price 29.90 EUR on both children via update_product (price_source user) reported from the result; stock 50 not written, handed to the user",
+   "pass": true,
+   "note": "Price saved for both child SKUs with price_source user and the parent excluded; stock reported as not written, with per-listing steps (manual qty 50, shipping template)."
+  },
+  {
+   "item": "Family check/submit happens in the ERP family page (Check all then Submit all), parent first then children, not done by the agent",
+   "pass": true,
+   "note": "Says publishing is the user's job in ERP: family page 全部检查 then 全部提交, parent first, children after parent confirmation."
+  },
+  {
+   "item": "Nothing claimed published/approved; country_of_origin gap reported and asked once without guessing",
+   "pass": true,
+   "note": "Says these are unpublished drafts and ready does not mean Amazon approval; asks once for country of origin and does not guess it."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the answer describes the parent only as non-buyable with no price or stock, and never says it carries no offer, images or EAN.",
+ "agent_unsure": "Unsure about: the guessed price-array shape and the es_ES locale value; skipping the duplicate-draft check after the listings lookup returned not_found; the unread FBM policy (not_found); leaving the Chinese copy as is; the odd parent SKU RS-9001-BK-PARENT; and having no browser tool."
+}

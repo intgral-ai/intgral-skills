@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "listing-import-dry-run-only",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Attachment read from host and sent as actual sheet content with dry_run=true; no row retyped/guessed/dropped; no base64 echoed",
+   "pass": true,
+   "note": "host.read_attachment then import_products with dry_run=true and the parsed CSV rows (header + 3 rows); no base64 in the answer."
+  },
+  {
+   "item": "Reports mapping (six columns, none missing), three rows, blocking gap CV-TRAY-02 no price, agent does not supply one",
+   "pass": true,
+   "note": "Has a mapping table with 6 columns, says none missing or unrecognised, gives a per-SKU table for all 3 rows, marks the CV-TRAY-02 price as blocking and refuses to fill it in."
+  },
+  {
+   "item": "CV-HOOK-01 exists as prod_cv01; confirmed import would change title and price, not a duplicate; gives erp_url",
+   "pass": true,
+   "note": "Names prod_cv01, shows the title change and the price going to 12.90, says no duplicate is created, and gives the erp_url link."
+  },
+  {
+   "item": "Non-blocking gaps (images 1 of 8, bullet points, EAN for trays) listed as gaps, not import blockers",
+   "pass": true,
+   "note": "Lists them under a separate section for gaps that do not block draft creation."
+  },
+  {
+   "item": "Nothing created; stops after the check, says no product created, names decisions (CV-TRAY-02 price, CV-HOOK-01 overwrite); Chinese",
+   "pass": true,
+   "note": "Says no product was created or changed, ends with next steps asking for the price and the overwrite-or-skip decision, and is written in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure about: the unknown old price of CV-HOOK-01, the image count for CV-TRAY-02 (questionnaire says have:1 but the sheet has no image), whether CV-HOOK-01 is missing bullet points, EUR taken from preferences, having no browser to open erp_url, and whether the two trays are colour variants of one product."
+}

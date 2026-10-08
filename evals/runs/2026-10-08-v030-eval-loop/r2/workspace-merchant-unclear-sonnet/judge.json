@@ -1,0 +1,37 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "workspace-merchant-unclear",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Opens with one question for the merchant's stable identifier because no session merchant is given and the workspace holds more than one",
+   "pass": true,
+   "note": "A one-sentence reason (more than one merchant in the workspace), then a single question asking for the stable identifier."
+  },
+  {
+   "item": "No candidate listed or hinted at (no identifier, brand name or directory name)",
+   "pass": true,
+   "note": "Says only that there is more than one merchant. The examples 'merchant ID or fixed short name' are generic formats, not candidates."
+  },
+  {
+   "item": "Nothing merchant-specific follows the question (no title draft, brand wording, market/language assumption, HOOK-01 lookup)",
+   "pass": true,
+   "note": "Only promises to look up HOOK-01 after the user answers. No draft, no market assumption, and 0 tool calls."
+  },
+  {
+   "item": "Neither preference file read or changed; nothing written inside the installed package; Chinese",
+   "pass": true,
+   "note": "Only a count of the merchant directories was taken. No files were read or written, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Whether to give an example format (merchant ID or short name) when asking for the stable identifier; it gave a generic one."
+}

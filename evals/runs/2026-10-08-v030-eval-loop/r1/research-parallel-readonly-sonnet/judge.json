@@ -1,0 +1,32 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "research-parallel-readonly",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "One row per ASIN with price, rating, rating count, observation date, cited by evidence id and source_ref; 2-unit set not shown as single-unit price",
+   "pass": true,
+   "note": "The table has 4 rows, each with price, rating, count, UTC timestamp, evidence id (rart_amz_col_0x) and the ASIN, which is the source_ref. C03 is labelled 24,90 EUR for the 2-piece set, and its per-unit 12,45 EUR is marked as an inference."
+  },
+  {
+   "item": "Delegation hygiene, or the same reads done in order with one merged table and one set of caveats",
+   "pass": true,
+   "note": "No subagent was used. A single artifacts read covered all four ASINs, and the answer gives one merged table with one set of caveats."
+  },
+  {
+   "item": "Nothing saved, planned or collected; no claim a report was stored; answer in Chinese",
+   "pass": true,
+   "note": "The trace has only two GETs. The answer says in Chinese that nothing was collected or saved, and that a fresh collection would need separate approval."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Flagged that C03's rating and review count were synthesised from the parent listing, that C04 is rigid plastic rather than silicone, and that the 12,45 EUR per-unit price is its own inference."
+}

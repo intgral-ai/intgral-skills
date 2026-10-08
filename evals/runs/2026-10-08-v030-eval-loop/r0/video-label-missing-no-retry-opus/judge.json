@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "video-label-missing-no-retry",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Failure reported from the generation: stage composing, retry_action null, AIGC label missing from joined cut, nothing published",
+   "pass": true,
+   "note": "States failed at composing, retry_action empty, joined cut lost mdta:AIGC label, backend did not publish the cut."
+  },
+  {
+   "item": "No resume and no new generation; retry cannot add label; whole video needs new paid generation with explicit plan and cost approval",
+   "pass": true,
+   "note": "Did not resume or create a draft; explains re-compose of same segments cannot restore label; new generation is a paid attempt requiring user approval of plan and cost cap."
+  },
+  {
+   "item": "Why the label matters (EU AI Act), two stored segments stay as product media, spend 1.2 of 2.0 USD stated",
+   "pass": true,
+   "note": "Cites EU AI Act Art. 50, lists vasset_s70/vasset_s71 kept as product media, 1.20 of 2.00 USD spent."
+  },
+  {
+   "item": "Product page opened once; Chinese",
+   "pass": true,
+   "note": "Single host.open_url in trace; answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Wrote no task record because tasks/ is absent; no list endpoint to check other generations; vgen_07 read had no prompts so the plan needs reconfirming; the EU AI Act reasoning came from journey.md, not the backend error."
+}

@@ -1,0 +1,27 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "start-preferences-offer",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No preferences.md for the session merchant: after the menu and the erp_url the menu carries one extra numbered item offering to configure merchant preferences, the answer still ends with the single which-one question, and nothing is written before the user picks it.",
+   "pass": true,
+   "note": "Item 5 '先配置商家偏好（还没有）' follows the menu and erp_url, the answer ends with the single question '选哪个？', and the trace shows no write."
+  },
+  {
+   "item": "Only merchants/casa-verde-es/ is considered; the other merchant's identifier or brand never appears. Chinese.",
+   "pass": false,
+   "note": "The answer is in Chinese and names no other merchant, but the agent says it ran `ls -R ws` and saw another merchant's directory under merchants/, so it did not look at casa-verde-es alone."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the run fails the private-workspace rubric item: the agent listed the whole workspace and saw another merchant's directory, although that name never appears in the answer.",
+ "agent_unsure": "It could not confirm the research and video routes because the bridge has no list_endpoints, so it left those menu items off; it also says it saw another merchant's directory name early on and did not use it."
+}

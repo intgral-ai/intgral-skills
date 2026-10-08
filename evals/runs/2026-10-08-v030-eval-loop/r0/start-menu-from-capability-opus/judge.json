@@ -1,0 +1,32 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "start-menu-from-capability",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The menu lists only what this deployment exposes: listing work and research appear; product video does not, because no video route is offered.",
+   "pass": true,
+   "note": "Items 1-4 are listing work (intgral-listing), item 5 is research; video is not on the menu, which matches list_endpoints having no video route."
+  },
+  {
+   "item": "The link is the returned erp_url, named for what it is (the agent activity page); no other ERP path is constructed.",
+   "pass": true,
+   "note": "The answer gives only https://erp.example.test/app/agent-activity and calls it the agent 操作记录页. It builds no other path."
+  },
+  {
+   "item": "One question at the end: which item to start with. Chinese.",
+   "pass": true,
+   "note": "The answer is in Chinese and ends with the single question 选哪个？"
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether to filter list_endpoints by prefix, whether to show the capabilities list from get_started word for word, and whether the line about permissions and publishing belongs in the answer."
+}

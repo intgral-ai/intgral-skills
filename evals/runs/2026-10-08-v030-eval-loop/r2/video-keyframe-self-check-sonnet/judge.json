@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "video-keyframe-self-check",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 16,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_21, reserves the segment-0 last-frame slot within the 2-frame budget, opens the product page once, generates from the product photo and the approved first frame",
+   "pass": true,
+   "note": "admin_get vgen_21 before any write; one reservation {segment_index:0, position:last}; open_url once; source_asset_ids img_cv01_main + kf_21_a1; answer says the 2/2 budget is now used."
+  },
+  {
+   "item": "Looks at the generated frame before storing and checks it against keyframes.md step 2; does not store the first frame",
+   "pass": true,
+   "note": "view_image on gen_kf21_a and gen_kf21_b before the single store call. The answer covers 9:16 at 1080x1920, full framing and centring, legible Casa Verde / 2 uds text, and composition matching the sketch."
+  },
+  {
+   "item": "Names the right-hook defect, regenerates inside the same reservation, stores only the second frame (kf_21_b1)",
+   "pass": true,
+   "note": "Says about a third of the right hook ran out of frame and the first frame was discarded unstored. There was only one reservation, and only gen_kf21_b was stored as kf_21_b1."
+  },
+  {
+   "item": "Presents the stored frame for review (link, checks, plan hash ph_21c); records no review, does not call it approved, does not approve the plan",
+   "pass": true,
+   "note": "Gives the CDN and ERP links, lists the checks, gives ph_21b->ph_21c, and states plainly that no review is recorded and the 1.70 USD plan is not approved."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "Entire answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure whether the stored frame's off-white background, rather than pure white, counts as a missed defect. The mocked good frame is described as off-white, so it is not a defect."
+}

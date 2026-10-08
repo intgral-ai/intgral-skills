@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "research-find-by-sku-market-value",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 10,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Finds the retained Amazon.es scope despite no linked research; does not report none exists",
+   "pass": true,
+   "note": "Listed scopes with target_market=amazon.es, matched context.sku, found rscope_colander_es and said the empty links do not mean no research exists."
+  },
+  {
+   "item": "Gives latest competitor report conclusion with version, coverage (partial, no review text) and age; not presented as fresh",
+   "pass": true,
+   "note": "Gives rart_report_col_comp_02 v2, partial, no review text, report 18 days old and evidence 32 days old, and says the prices need recollecting."
+  },
+  {
+   "item": "No collection/save/link made or claimed done; linking offered as a question",
+   "pass": true,
+   "note": "Made no writes. The link is listed as a next step, and the answer correctly says it cannot be done from the gateway because the mocked catalogue has no link endpoint. A fresh collection is listed as needing an approved plan."
+  },
+  {
+   "item": "SKU page opened once (or linked); answer in Chinese",
+   "pass": true,
+   "note": "host.open_url was called once and the URL is repeated in the answer. The answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure about linking (no POST /admin/research/links in the gateway catalogue, so it deferred the link to the ERP) and whether to offer a fresh collection plan (it mentioned one only as an approval-gated next step)."
+}

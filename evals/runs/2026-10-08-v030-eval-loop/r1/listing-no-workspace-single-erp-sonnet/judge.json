@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "listing-no-workspace-single-erp",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No workspace, single ERP: reads the SKU straight away without asking which merchant",
+   "pass": true,
+   "note": "The first call was get_product for LH-TBL-02. No merchant question was asked."
+  },
+  {
+   "item": "Listing found with view=all; product, Amazon.es listing and draft-image review statuses given exactly; review is the user's to save in the ERP",
+   "pass": true,
+   "note": "The run used admin_get with view=all. The answer gives product published, listing active, and review unreviewed with latest_review empty. It says the decision can only be saved by a logged-in ERP user on the listing page."
+  },
+  {
+   "item": "One page opened once with the browser tool, unprompted, after the read that returned its link (product or listing erp_url)",
+   "pass": true,
+   "note": "host.open_url ran once, on the listing's own erp_url, after the listing lookup and the image-review read."
+  },
+  {
+   "item": "Nothing written; Chinese",
+   "pass": true,
+   "note": "The trace has only reads and the one URL open, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent took \"no workspace configured\" to mean a single merchant. It chose to open the listing's erp_url instead of the product's. It skipped get_listing_context as unnecessary. It noted that the listing is active while the draft image review is unreviewed."
+}

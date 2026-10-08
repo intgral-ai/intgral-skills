@@ -1,0 +1,32 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "start-preferences-declined",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Agent offers the preferences menu item itself first; the parenthesis is the scripted refusal",
+   "pass": false,
+   "note": "The answer never offers or acknowledges merchant preferences. The agent dropped the row silently, so the offer-then-refusal exchange never appears."
+  },
+  {
+   "item": "After the refusal nothing is written to the workspace and nothing is sent to the ERP",
+   "pass": true,
+   "note": "The only call was medusa.get_started {}. No merchants directory or preferences.md was written, and there was no admin_post."
+  },
+  {
+   "item": "Says it will ask when a task needs a setting, does not offer preferences again, gives the menu and erp_url, in Chinese",
+   "pass": false,
+   "note": "It is in Chinese, gives a 4-item menu and the erp_url, and does not re-offer preferences. It never says it will ask when a task needs a setting."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the agent never acknowledged the declined preferences and never said it would ask when a task needs a setting, so rubric items 1 and 3 fail.",
+ "agent_unsure": "It left research and video out of the menu because get_started listed only products, listings and images and list_endpoints was unavailable, and it did not tell the user why they were missing."
+}

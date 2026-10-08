@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "research-link-conflict-missing-sku",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 12,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "CV-COL-28-BL reported as not_found; nothing linked, no sibling guessed, user asked to check the SKU",
+   "pass": true,
+   "note": "Says not_found (req_mock_nf), nothing linked, no substitute; lists siblings only as reference and asks the user to confirm the SKU."
+  },
+  {
+   "item": "409 research_link_revision_conflict reported as-is with reason (v3 already current), never retried, no new revision saved",
+   "pass": true,
+   "note": "Trace shows one POST and no retry or artifact save; the answer quotes the 409 code and says version 3 is already current."
+  },
+  {
+   "item": "Does not claim CV-COL-24-GR linked to v2; current v3 link reported as pre-existing, not own success",
+   "pass": true,
+   "note": "Never mentions linking v2; says the request created or changed nothing and that v3 'was already attached' and current."
+  },
+  {
+   "item": "Product page for CV-COL-24-GR opened once unprompted; no page invented for missing SKU",
+   "pass": true,
+   "note": "Trace call 2 opens the erp_url once; no URL is given for CV-COL-28-BL."
+  },
+  {
+   "item": "If changing/removing a link is mentioned, says unlinking is done in the ERP, not this connection",
+   "pass": true,
+   "note": "Says unlinking can only be done in the ERP and the gateway does not support it."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The two artifact listings disagreed on which report is latest (v2 vs v3 with latest=true). The agent posted even though v3 was already current and expected 200 reused but got 409. The SKU lookup showed empty research_links while the history showed a current link. The report body could not be read because the artifact detail route did not match."
+}

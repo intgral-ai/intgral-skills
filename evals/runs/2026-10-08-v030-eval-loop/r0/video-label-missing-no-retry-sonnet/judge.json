@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "video-label-missing-no-retry",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Failure reported: stage composing, retry_action null, AIGC provenance label missing from joined cut, nothing published",
+   "pass": true,
+   "note": "All four facts stated explicitly (composing, retry_action 为空, mdta:AIGC missing from 成片, 没有发布任何成片)."
+  },
+  {
+   "item": "No resume and no new generation; retry cannot add label; new generation is a new paid attempt needing explicit approval of plan and cost",
+   "pass": true,
+   "note": "Says resume cannot add the label, no draft created, nothing approved; a new generation is a paid attempt needing confirmation of plan and cost."
+  },
+  {
+   "item": "Why the label matters (EU AI Act), segments kept as product media, spend 1.2 of 2.0 cap stated",
+   "pass": true,
+   "note": "Cites EU AI Act Art. 50, says vasset_s70/s71 kept as product media, states 1.20 USD of 2 USD cap."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "host.open_url called once with the SKU's erp_url; answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Chose not to create a free draft, offering it for approval instead; skipped briefing/prompting/keyframes references and task record since no new work started."
+}

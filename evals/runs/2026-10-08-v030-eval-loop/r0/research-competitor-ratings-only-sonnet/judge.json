@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "research-competitor-ratings-only",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 8,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Artifact ID, revision, coverage, every gap; complaint themes plainly unavailable, ratings not presented as themes",
+   "pass": true,
+   "note": "Gives rart_report_col_comp_01, version 1, coverage partial, and three gaps (no review bodies, 2-member price group, unknown shipping). It says plainly that there are no complaint themes because no review text was retained."
+  },
+  {
+   "item": "Like-for-like price comparison: 2-pack not mixed in, list vs current separate, shipping unknown, plastic classified as alternative or excluded with a reason",
+   "pass": true,
+   "note": "The single-unit group is C01 and C02 only. The 17.90 list price is shown apart from the current price and shipping is marked unknown. C03 (2-pack) and C04 (plastic) are left out of the group with a stated reason (different pack basis or material)."
+  },
+  {
+   "item": "Bought-in-past-month floors are per-listing lower bounds, not sales; badge-less ASIN not given zero",
+   "pass": true,
+   "note": "The C01 floor of 200 and the C02 floor of 500 are labelled as Amazon lower bounds, not sales. They are not summed. C04, which has a null floor, is not given zero."
+  },
+  {
+   "item": "Bounded next step needing authorization: review acquisition for named ASINs with finite limits, proposed not started, no needless questions",
+   "pass": false,
+   "note": "It proposes a review acquisition for named ASINs and does not start it. But it gives no actual limit, only an unquantified \"限定条数\" (limited count), and adds C04 only conditionally (\"必要时\", if needed)."
+  },
+  {
+   "item": "Only retained scope evidence used as competitor facts; Casa Verde own brand excluded",
+   "pass": true,
+   "note": "All four rows come from the retained evidence and Casa Verde does not appear as a competitor."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the proposed review acquisition gives no finite limit: it says only \\\"限定条数\\\" (limited count) with no number, and adds C04 only if needed.",
+ "agent_unsure": "Unsure whether rscope_colander_es (the only amazon.es scope) was the right scope, whether a no-body admin_post saved anything, and whether to submit the 2-pack as a one-member price group."
+}

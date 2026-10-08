@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "listing-copy-localize-es",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Spanish copy from product facts only, brand in Latin script, no translated promises or named promotional words",
+   "pass": true,
+   "note": "Title, bullets and description cover only bamboo, adhesive no-drill mounting, 2 units, and entryway/bath use for towels, keys and small bags. The brand stays 'Casa Verde', and there is no oferta, gratis, garantía, load or waterproof claim."
+  },
+  {
+   "item": "Limits from tools respected; metric units",
+   "pass": true,
+   "note": "The limits came from get_listing_context: a 75-character title against 200, 4 of 5 bullets each under 255 characters, and a short description against 2000. No units appear, so there is nothing non-metric."
+  },
+  {
+   "item": "One update_listing call with copy only; answer reports updated.copy, content_version, erp_url and post-write compliance",
+   "pass": true,
+   "note": "There was a single copy-only update. The answer reports that only copy was written and attributes were untouched, content_version 3 to 4, the erp_url, and the compliance state after the write (missing_required and warnings now empty, ready still false)."
+  },
+  {
+   "item": "Shows saved Spanish copy with a short Chinese explanation of each claim's source",
+   "pass": false,
+   "note": "The saved copy is shown, but sources get one combined Chinese line ('以上全部来自产品的标题、描述、profile 卖点和变体材质'). It does not tie each claim to its source."
+  },
+  {
+   "item": "No publication claimed; user told where to publish",
+   "pass": true,
+   "note": "The answer says publishing has to be done in the ERP and gives the listing erp_url."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed. One rubric item failed: the answer gives one combined Chinese source line for all the copy instead of a source for each claim.",
+ "agent_unsure": "The agent was unsure whether weight and dimensions describe the product or the package, so it left them out. It also flagged five open points: compliance.ready is still false with no reason given; it wrote only four bullets; search_terms is empty and left unfilled; and it gave the erp_url link instead of opening it."
+}

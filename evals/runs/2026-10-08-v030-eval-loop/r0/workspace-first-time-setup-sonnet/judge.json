@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "workspace-first-time-setup",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Stable identifier from user, configured workspace location, confirmed, no redundant questions",
+   "pass": true,
+   "note": "Uses verde-norte-de as given, saves under the configured ws path, and asks no questions."
+  },
+  {
+   "item": "Preference file under merchants/verde-norte-de/ from template with supplied values, unknowns unset, dated lasting-rule row with user source",
+   "pass": true,
+   "note": "The file follows the template structure. Market, language and currency are filled, and Verde Norte is recorded as the display name. Unknown fields are blank, and there is a 2026-10-08 row with the user as source."
+  },
+  {
+   "item": "Reads back, reports actual path and contents, explains persistence is the file not memory, and what to do when switching machines/reinstalling",
+   "pass": false,
+   "note": "The answer reports the path and contents and says the file is not memory. It never says what to do when switching machines or reinstalling, such as copying or keeping the workspace directory."
+  },
+  {
+   "item": "Nothing written inside installed package; template unmodified",
+   "pass": true,
+   "note": "install/intgral-listing is byte-identical to the source skill (diff -r shows no differences)."
+  },
+  {
+   "item": "Answer in Chinese and ends with next-task behaviour (file read first)",
+   "pass": true,
+   "note": "The answer is in Chinese and closes with '下次起：每个任务我会先读这个文件再动手'."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed, but the answer never tells the user what to do with the workspace file when switching machines or reinstalling.",
+ "agent_unsure": "The agent took \"currently configured\" to mean the INTGRAL_WORKSPACE given in the task. It did not copy Verde Norte into the brand-wording field, and it wrote a single lasting-rule row instead of one per setting."
+}
