@@ -6,11 +6,6 @@ Generated from the judge records in this directory. Each run directory holds the
 
 | Scenario | Opus | Sonnet |
 | --- | --- | --- |
-| listing-aplus-confirmed-store | pass (r3) | pass (r3) |
-| listing-aplus-forbidden-text | pass (r3) | pass (r3) |
-| listing-aplus-propose-first | **hard fail** (1) (r3) | pass (r3) |
-| listing-aplus-tool-missing | pass (r3) | pass (r3) |
-| listing-aplus-user-text | pass (r3) | pass (r3) |
 | listing-copy-conflict | pass (r1) | pass (r1) |
 | listing-copy-localize-es | pass (r3) | **hard fail** (1) (r3) |
 | listing-copy-suggest-only | pass (r1) | pass (r1) |
@@ -349,16 +344,6 @@ opus: hard 15/16, hard + rubric 15/16; sonnet: hard 15/16, hard + rubric 13/16
 
 | Scenario | Model | Calls | Verdict | What failed |
 | --- | --- | --- | --- | --- |
-| [listing-aplus-confirmed-store](r3/listing-aplus-confirmed-store-opus/final.md) | opus | 4 | pass |  |
-| [listing-aplus-confirmed-store](r3/listing-aplus-confirmed-store-sonnet/final.md) | sonnet | 4 | pass |  |
-| [listing-aplus-forbidden-text](r3/listing-aplus-forbidden-text-opus/final.md) | opus | 0 | pass |  |
-| [listing-aplus-forbidden-text](r3/listing-aplus-forbidden-text-sonnet/final.md) | sonnet | 0 | pass |  |
-| [listing-aplus-propose-first](r3/listing-aplus-propose-first-opus/final.md) | opus | 2 | **hard fail** (1) | One hard check failed: the answer wrote the size as "970 × 600" and never as the literal "970x600". All three rubric items passed. |
-| [listing-aplus-propose-first](r3/listing-aplus-propose-first-sonnet/final.md) | sonnet | 2 | pass |  |
-| [listing-aplus-tool-missing](r3/listing-aplus-tool-missing-opus/final.md) | opus | 1 | pass |  |
-| [listing-aplus-tool-missing](r3/listing-aplus-tool-missing-sonnet/final.md) | sonnet | 0 | pass |  |
-| [listing-aplus-user-text](r3/listing-aplus-user-text-opus/final.md) | opus | 4 | pass |  |
-| [listing-aplus-user-text](r3/listing-aplus-user-text-sonnet/final.md) | sonnet | 4 | pass |  |
 | [listing-copy-localize-es](r3/listing-copy-localize-es-opus/final.md) | opus | 5 | pass |  |
 | [listing-copy-localize-es](r3/listing-copy-localize-es-sonnet/final.md) | sonnet | 7 | **hard fail** (1) | The agent saved an unsupported phrase in the first update_listing call and then made a second write to fix it, so the repeat-write hard check and the one-write and facts-only rubric items failed. |
 | [listing-fbm-switch-handoff](r3/listing-fbm-switch-handoff-opus/final.md) | opus | 4 | pass |  |

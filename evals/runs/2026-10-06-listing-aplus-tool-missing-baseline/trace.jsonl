@@ -1,1 +1,0 @@
-{"tool":"medusa.get_product","args":{"sku":"CV-HOOK-01"},"isError":false,"response":{"products":[{"id":"prod_cv01","title":"Bamboo wall hook 2pk","status":"draft","handle":"bamboo-wall-hook-2pk","variants":[{"id":"var_cv01","title":"Default","sku":"CV-HOOK-01"}],"erp_url":"https://erp.example.test/app/products/prod_cv01"}]}}
