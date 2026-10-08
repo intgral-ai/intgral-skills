@@ -1,0 +1,44 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "sonnet",
+ "id": "listing-copy-localize-es",
+ "skill": "intgral-listing",
+ "hard_pass": false,
+ "hard_failed": 1,
+ "hard_findings": [
+  "repeat: medusa.update_listing #7 to mlist_cv01_es repeats a completed write"
+ ],
+ "tool_calls": 7,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Spanish copy from product facts only, brand in Latin script, no translated promise or promotional words",
+   "pass": false,
+   "note": "Final copy is clean, but the first saved write put an unsupported claim ('acabado natural que combina con cualquier estancia') into the ERP, so the agent did not write from the facts only."
+  },
+  {
+   "item": "Limits from tools respected; units metric",
+   "pass": true,
+   "note": "Used the tool limits (200 / 5x255 / 2000); 4 bullets within them; left out the unitless dimensions instead of guessing units."
+  },
+  {
+   "item": "One update_listing call with copy only; reports updated.copy, content_version, erp_url and compliance after write",
+   "pass": false,
+   "note": "There were two update_listing calls, not one. The rest was reported: copy only, content_version 4, erp_url and compliance (ready false, no blockers)."
+  },
+  {
+   "item": "Shows saved Spanish copy with short Chinese source explanation per claim",
+   "pass": true,
+   "note": "Title, a bullets table with a source per row, and the description, each with a Chinese source note."
+  },
+  {
+   "item": "No publication claimed; user told where to publish",
+   "pass": true,
+   "note": "Says it is a draft, not published, and that review and publishing happen on the ERP page link."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "The agent saved an unsupported phrase in the first update_listing call and then made a second write to fix it, so the repeat-write hard check and the one-write and facts-only rubric items failed.",
+ "agent_unsure": "There was no browser tool to open the SKU page. It left out the dimensions and weight because they had no units, did not write search terms, wrote 4 bullets, and could not say why compliance.ready is still false."
+}

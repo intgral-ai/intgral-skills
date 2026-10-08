@@ -1,0 +1,32 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "opus",
+ "id": "listing-sku-in-neither-place",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Catalog read returns not_found, then exact seller-SKU listing lookup with view=all returns empty",
+   "pass": true,
+   "note": "Trace shows get_product sku=CV-LAMP-99 (not_found), then admin_get /admin/amazon/listings seller_sku=CV-LAMP-99 view=all, count 0."
+  },
+  {
+   "item": "Says plainly CV-LAMP-99 is in neither catalog nor listings and asks user to check the SKU or give another identifier",
+   "pass": true,
+   "note": "Opens with 两处都没找到, gives both results, and asks the user to check spelling and case and send the correct SKU."
+  },
+  {
+   "item": "No near-match guess, no creation, no import offer, no page opened; answer in Chinese",
+   "pass": true,
+   "note": "Does not mention CV-LAMP-98 and makes no writes or open_url call. It names non-import only as a possible cause and offers no import. Answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Agent did not ask which merchant, since the task named casa-verde-es and there is only one merchants/ dir; it added no marketplace_id or store_id filter because the user gave neither."
+}

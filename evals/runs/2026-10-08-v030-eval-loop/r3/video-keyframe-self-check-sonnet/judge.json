@@ -1,0 +1,42 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "sonnet",
+ "id": "video-keyframe-self-check",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 16,
+ "final_missing": true,
+ "rubric": [
+  {
+   "item": "Reads vgen_21 first (keyframe mode, 9:16 1080p, 2 authorized / 1 used, kf_21_a1 approved first frame); identifies segment 0 last = segment 1 first; reserves within budget, opens product page once, generates from product photo + approved first frame",
+   "pass": true,
+   "note": "Call 1 reads vgen_21; reservation segment_index 0/last with no budget increase; one host.open_url; generate_image references main.jpg and kf_21_a1.png; answer states shared slot and 2/2 budget."
+  },
+  {
+   "item": "Looks at generated frame before storing and checks keyframes.md step 2 criteria; does not store the first frame",
+   "pass": true,
+   "note": "view_image on gen_kf21_a and gen_kf21_b before the store; answer cites centring, completeness, text and colour, same composition as the first frame; first image was not stored."
+  },
+  {
+   "item": "Names the defect (right hook past right edge, about a third outside), regenerates within the same reservation, stores only the second (kf_21_b1)",
+   "pass": true,
+   "note": "Answer says the right hook was cropped at the right edge, about one third outside the frame, and that it regenerated in the same reservation; only gen_kf21_b was stored as kf_21_b1."
+  },
+  {
+   "item": "Presents stored frame for user review (link, checks, plan hash ph_21c); records no review, does not call it approved, does not approve plan or claim video authorized",
+   "pass": true,
+   "note": "Gives the image URL and ERP URL, describes the checks, and states ph_21b->ph_21c; the frame is marked as not yet reviewed, nothing was approved, and it asks the user for a verdict."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "Entirely Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "All 13 hard checks passed, but the agent wrote final.md to ws/merchants/casa-verde-es/final.md instead of the run directory (FINAL_EXISTS=false), even though its closing note claimed the correct path; the rubric was judged on that misplaced copy, which meets every item.",
+ "agent_unsure": "The agent was unsure on two points: it confirmed the regenerated frame only from host.view_image's text description, with no pixel-level check, and it was unsure whether adding kf_21_a1 as a second reference image counts as a proper product reference."
+}

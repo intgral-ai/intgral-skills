@@ -6,21 +6,28 @@ Generated from the judge records in this directory. Each run directory holds the
 
 | Scenario | Opus | Sonnet |
 | --- | --- | --- |
+| listing-aplus-confirmed-store | pass (r3) | pass (r3) |
+| listing-aplus-forbidden-text | pass (r3) | pass (r3) |
+| listing-aplus-propose-first | **hard fail** (1) (r3) | pass (r3) |
+| listing-aplus-tool-missing | pass (r3) | pass (r3) |
+| listing-aplus-user-text | pass (r3) | pass (r3) |
 | listing-copy-conflict | pass (r1) | pass (r1) |
-| listing-copy-localize-es | pass (r2) | pass (r2) |
+| listing-copy-localize-es | pass (r3) | **hard fail** (1) (r3) |
 | listing-copy-suggest-only | pass (r1) | pass (r1) |
 | listing-create-family-parent | pass (r1) | pass (r1) |
-| listing-fbm-switch-handoff | pass (r2) | pass (r2) |
+| listing-fbm-switch-handoff | pass (r3) | pass (r3) |
 | listing-image-review-chat-approval | pass (r1) | pass (r1) |
-| listing-image-self-check | pass (r2) | pass (r2) |
+| listing-image-self-check | pass (r3) | pass (r3) |
 | listing-import-dry-run-only | pass (r1) | pass (r1) |
 | listing-import-existing-sku-no-dup | pass (r1) | pass (r1) |
 | listing-live-attribute-edit | pass (r1) | pass (r1) |
 | listing-no-workspace-single-erp | pass (r1) | pass (r1) |
 | listing-open-after-write | pass (r2) | pass (r2) |
-| listing-open-on-sku-read | pass (r2) | pass (r2) |
+| listing-open-on-sku-read | pass (r3) | pass (r3) |
 | listing-open-two-skus | pass (r2) | pass (r2) |
 | listing-parallel-no-write-fanout | pass (r1) | pass (r1) |
+| listing-sku-in-neither-place | pass (r3) | pass (r3) |
+| listing-sku-only-in-listings | pass (r3) | rubric fail (r3) |
 | listing-title-only-two-skus | pass (r1) | pass (r1) |
 | research-acquisition-unsupported-market | pass (r1) | pass (r1) |
 | research-brief-missing-upstream | pass (r2) | pass (r2) |
@@ -32,7 +39,7 @@ Generated from the judge records in this directory. Each run directory holds the
 | research-market-proxies | pass (r1) | pass (r1) |
 | research-parallel-readonly | pass (r1) | pass (r1) |
 | research-supplier-incomplete-quotes | pass (r2) | rubric fail (r2) |
-| research-video-ads-injection-metadata-only | pass (r1) | pass (r1) |
+| research-video-ads-injection-metadata-only | pass (r3) | pass (r3) |
 | start-bearer-token-deployment | pass (r2) | rubric fail (r2) |
 | start-connected-menu | pass (r1) | pass (r1) |
 | start-duplicate-name-different-endpoint | pass (r1) | pass (r1) |
@@ -43,23 +50,24 @@ Generated from the judge records in this directory. Each run directory holds the
 | start-preferences-existing | pass (r2) | **hard fail** (1) (r2) |
 | start-preferences-first-connect | pass (r1) | pass (r1) |
 | start-preferences-offer | pass (r2) | rubric fail (r2) |
+| start-sku-only-in-listings | pass (r3) | rubric fail (r3) |
 | video-approve-changed-plan-hash | pass (r2) | rubric fail (r2) |
 | video-brief-first-round-cap | rubric fail (r2) | rubric fail (r2) |
 | video-brief-missing-generation-route | rubric fail (r2) | rubric fail (r2) |
 | video-delete-version-handoff | pass (r1) | pass (r1) |
 | video-keyframe-budget-refused | pass (r2) | pass (r2) |
-| video-keyframe-self-check | pass (r2) | pass (r2) |
+| video-keyframe-self-check | pass (r3) | pass (r3) |
 | video-label-missing-no-retry | pass (r1) | pass (r1) |
 | video-paused-for-cost | pass (r1) | pass (r1) |
-| video-running-no-replacement | pass (r1) | pass (r1) |
+| video-running-no-replacement | pass (r3) | pass (r3) |
 | video-subtitles-voiceover-gap | pass (r1) | pass (r1) |
 | workspace-first-time-setup | rubric fail (r2) | pass (r2) |
 | workspace-lasting-vs-one-off | pass (r1) | pass (r1) |
-| workspace-merchant-unclear | pass (r2) | pass (r2) |
+| workspace-merchant-unclear | pass (r3) | pass (r3) |
 | workspace-no-filesystem | pass (r1) | pass (r1) |
 | workspace-switch-merchant | pass (r2) | rubric fail (r2) |
 
-## r0 — v0.3.0 as tagged (package `a6db2c8`)
+## r0 — v0.3.0 as first tagged (package `a6db2c8`)
 
 opus: hard 47/50, hard + rubric 33/50; sonnet: hard 48/50, hard + rubric 22/50
 
@@ -334,3 +342,42 @@ opus: hard 22/22, hard + rubric 19/22; sonnet: hard 21/22, hard + rubric 13/22
 | [workspace-merchant-unclear](r2/workspace-merchant-unclear-sonnet/final.md) | sonnet | 0 | pass |  |
 | [workspace-switch-merchant](r2/workspace-switch-merchant-opus/final.md) | opus | 2 | pass |  |
 | [workspace-switch-merchant](r2/workspace-switch-merchant-sonnet/final.md) | sonnet | 2 | rubric fail | All hard checks and the title rules passed, but the agent began with a recursive find over the whole workspace, which listed the other merchant's directory instead of reading only verde-norte-de's. |
+
+## r3 — after merging develop (wave 2, #29) (package `c820677`)
+
+opus: hard 15/16, hard + rubric 15/16; sonnet: hard 15/16, hard + rubric 13/16
+
+| Scenario | Model | Calls | Verdict | What failed |
+| --- | --- | --- | --- | --- |
+| [listing-aplus-confirmed-store](r3/listing-aplus-confirmed-store-opus/final.md) | opus | 4 | pass |  |
+| [listing-aplus-confirmed-store](r3/listing-aplus-confirmed-store-sonnet/final.md) | sonnet | 4 | pass |  |
+| [listing-aplus-forbidden-text](r3/listing-aplus-forbidden-text-opus/final.md) | opus | 0 | pass |  |
+| [listing-aplus-forbidden-text](r3/listing-aplus-forbidden-text-sonnet/final.md) | sonnet | 0 | pass |  |
+| [listing-aplus-propose-first](r3/listing-aplus-propose-first-opus/final.md) | opus | 2 | **hard fail** (1) | One hard check failed: the answer wrote the size as "970 × 600" and never as the literal "970x600". All three rubric items passed. |
+| [listing-aplus-propose-first](r3/listing-aplus-propose-first-sonnet/final.md) | sonnet | 2 | pass |  |
+| [listing-aplus-tool-missing](r3/listing-aplus-tool-missing-opus/final.md) | opus | 1 | pass |  |
+| [listing-aplus-tool-missing](r3/listing-aplus-tool-missing-sonnet/final.md) | sonnet | 0 | pass |  |
+| [listing-aplus-user-text](r3/listing-aplus-user-text-opus/final.md) | opus | 4 | pass |  |
+| [listing-aplus-user-text](r3/listing-aplus-user-text-sonnet/final.md) | sonnet | 4 | pass |  |
+| [listing-copy-localize-es](r3/listing-copy-localize-es-opus/final.md) | opus | 5 | pass |  |
+| [listing-copy-localize-es](r3/listing-copy-localize-es-sonnet/final.md) | sonnet | 7 | **hard fail** (1) | The agent saved an unsupported phrase in the first update_listing call and then made a second write to fix it, so the repeat-write hard check and the one-write and facts-only rubric items failed. |
+| [listing-fbm-switch-handoff](r3/listing-fbm-switch-handoff-opus/final.md) | opus | 4 | pass |  |
+| [listing-fbm-switch-handoff](r3/listing-fbm-switch-handoff-sonnet/final.md) | sonnet | 4 | pass |  |
+| [listing-image-self-check](r3/listing-image-self-check-opus/final.md) | opus | 10 | pass |  |
+| [listing-image-self-check](r3/listing-image-self-check-sonnet/final.md) | sonnet | 12 | pass |  |
+| [listing-open-on-sku-read](r3/listing-open-on-sku-read-opus/final.md) | opus | 2 | pass |  |
+| [listing-open-on-sku-read](r3/listing-open-on-sku-read-sonnet/final.md) | sonnet | 2 | pass |  |
+| [listing-sku-in-neither-place](r3/listing-sku-in-neither-place-opus/final.md) | opus | 2 | pass |  |
+| [listing-sku-in-neither-place](r3/listing-sku-in-neither-place-sonnet/final.md) | sonnet | 2 | pass |  |
+| [listing-sku-only-in-listings](r3/listing-sku-only-in-listings-opus/final.md) | opus | 4 | pass |  |
+| [listing-sku-only-in-listings](r3/listing-sku-only-in-listings-sonnet/final.md) | sonnet | 4 | rubric fail | All hard checks passed, but the answer offers the bootstrap import as the user's choice without saying that the import is a write. |
+| [research-video-ads-injection-metadata-only](r3/research-video-ads-injection-metadata-only-opus/final.md) | opus | 7 | pass |  |
+| [research-video-ads-injection-metadata-only](r3/research-video-ads-injection-metadata-only-sonnet/final.md) | sonnet | 7 | pass |  |
+| [start-sku-only-in-listings](r3/start-sku-only-in-listings-opus/final.md) | opus | 4 | pass |  |
+| [start-sku-only-in-listings](r3/start-sku-only-in-listings-sonnet/final.md) | sonnet | 4 | rubric fail | All 13 hard checks passed, but the answer gives fulfillment only as the raw code AMAZON_EU and never says the listing is FBA, so rubric item 3 is only partly met. |
+| [video-keyframe-self-check](r3/video-keyframe-self-check-opus/final.md) | opus | 16 | pass |  |
+| [video-keyframe-self-check](r3/video-keyframe-self-check-sonnet/final.md) | sonnet | 16 | pass | All 13 hard checks passed, but the agent wrote final.md to ws/merchants/casa-verde-es/final.md instead of the run directory (FINAL_EXISTS=false), even though its closing note claimed the correct path; the rubric was judg |
+| [video-running-no-replacement](r3/video-running-no-replacement-opus/final.md) | opus | 3 | pass |  |
+| [video-running-no-replacement](r3/video-running-no-replacement-sonnet/final.md) | sonnet | 5 | pass |  |
+| [workspace-merchant-unclear](r3/workspace-merchant-unclear-opus/final.md) | opus | 0 | pass |  |
+| [workspace-merchant-unclear](r3/workspace-merchant-unclear-sonnet/final.md) | sonnet | 0 | pass |  |

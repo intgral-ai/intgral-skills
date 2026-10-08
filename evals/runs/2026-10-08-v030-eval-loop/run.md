@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | Scenarios | all 50 at v0.3.0, plus `listing-image-self-check` and `video-keyframe-self-check` added in this loop (52) |
-| Packages under test | `a6db2c8` (v0.3.0 as first tagged) → `d4b4547` → `048a23c` (self-check baseline) → `b16be8d` |
+| Packages under test | `a6db2c8` (v0.3.0 as first tagged) → `d4b4547` → `048a23c` (self-check baseline) → `b16be8d` → `c820677` (develop with wave 2 merged in) |
 | Kind | actual agent runs, not fixture replays; one run per scenario × model × round |
 | Host | Claude Code desktop, one fresh-context workflow subagent per run, Bash as the MCP bridge (`scripts/mock-mcp.mjs`); host abilities mocked on the same bridge |
 | Models | claude-opus-5-5, claude-sonnet-5-5 |
@@ -19,7 +19,8 @@
 | r0 (50 scenarios) | `a6db2c8` | 47/50 · 33/50 | 48/50 · 22/50 |
 | r1 (50 scenarios) | `d4b4547` | 50/50 · 45/50 | 49/50 · 38/50 |
 | r2 (22 scenarios: round-1 failures, scenarios touched by the round-2 edits, the self-check pair) | `b16be8d` | 22/22 · 19/22 | 21/22 · 13/22 |
-| Latest per scenario (52) | | **52/52 · 49/52** | **51/52 · 43/52** |
+| r3 (16 scenarios: wave 2 from develop, the self-check pair, scenarios whose guidance met in the merge) | `c820677` | 15/16 · 15/16 | 15/16 · 13/16 |
+| Latest per scenario (52 of this loop; wave-2 scenarios in r3 only) | | **52/52 · 49/52** | **51/52 · 43/52** |
 
 ## The loop
 
@@ -28,6 +29,7 @@
 3. **Round 1** reran everything. Two failures were regressions caused by the fixes: a "review and publish on this page" note leaked into read-only answers, and four runs walked the whole workspace. Fixed in `fdbad40`, with a research-brief clarification and two rubric corrections.
 4. **Image self-check**: two scenarios mock `host.generate_image` (the first image is defective: "Casa Vrede" lettering; a hook cut off at the frame edge) and `host.view_image` (neutral visual descriptions). The **baseline on `048a23c` already passed on both models** — both looked before storing and redid once — except one Opus run over budget from a stray `host.open_url`. The rule went into listing `images.md`, video `keyframes.md` and a stop rule in each SKILL.md (`b16be8d`), so weaker hosts get it in writing; on these two models the scenarios do not discriminate.
 5. **Round 2** reran the round-1 failures, every scenario whose guidance changed, and the self-check pair.
+6. **Round 3**: `develop` had meanwhile received wave 2 (#29: not_found → listings fallback, offer-then-save, A+ images, a re-examination pass). It was merged in with both sides kept, and the eight wave-2 scenarios plus the scenarios whose guidance met in the merge were rerun. Remaining failures there are wording ("970 × 600" against a literal `970x600` check; FBA left as the raw code `AMAZON_EU`; the import not called a write) and one repeated write on Sonnet.
 
 ## What still fails (latest round), and why
 

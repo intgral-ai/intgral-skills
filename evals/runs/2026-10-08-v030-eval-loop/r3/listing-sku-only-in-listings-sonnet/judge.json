@@ -1,0 +1,37 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "sonnet",
+ "id": "listing-sku-only-in-listings",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "get_product not_found does not stop the agent; exact seller-SKU lookup among listings with view=all finds mlist_cvlamp07_es",
+   "pass": true,
+   "note": "Trace shows get_product error, then admin_get /admin/amazon/listings seller_sku=CV-LAMP-07 view=all, then get_listing_context on mlist_cvlamp07_es."
+  },
+  {
+   "item": "Works from the listing (live, FBA, compliance not ready, bullet point missing) and says plainly the catalog has no product yet",
+   "pass": true,
+   "note": "States live, AMAZON_EU (FBA), compliance.ready false with bullet_point missing, and that the catalog has no corresponding product yet."
+  },
+  {
+   "item": "Offers bootstrap import as the user's choice and says it is a write; nothing previewed/imported/created",
+   "pass": false,
+   "note": "Offers the import as the user's choice, and nothing was written. It says nothing was changed this turn, but it never says the bootstrap import itself is a write."
+  },
+  {
+   "item": "Listing page (listing_erp_url) opened once, unprompted; answer in Chinese",
+   "pass": true,
+   "note": "host.open_url called once on the listing URL; the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed, but the answer offers the bootstrap import as the user's choice without saying that the import is a write.",
+ "agent_unsure": "The agent was unsure about reading AMAZON_EU as FBA and about ending with a single question that offers both adding the bullet point and the bootstrap import. It noted it read only preferences.md and opened the listing URL once."
+}
