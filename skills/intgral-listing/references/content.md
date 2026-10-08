@@ -1,7 +1,6 @@
 # 文案与 listing
 
-先确定“给建议”还是“写入”，再确认对象与字段。只修改用户请求的字段；
-只改标题不顺便重写价格、品牌、图片或法规声明。
+先确定“给建议”还是“写入”，再确认对象与字段。
 有来源的前后对照示例（标题、卖点、本地化、冲突）见[文案示例](examples/copy.md)。
 
 | 对象 | 写入入口 |
@@ -13,8 +12,7 @@
 1. 从 `medusa.get_product` / `medusa.get_listing_context` 读取目标实体。两者都是裁剪视图：
    写文案前按已发现的 GET 契约用 `medusa.admin_get` 补读产品的 description、profile 和 variants
    （材质、尺寸、重量、使用场景通常只在这里），否则文案会缺事实或用泛泛之词填空。
-   仅采用该 SKU/站点的可追溯事实；兄弟 SKU、同品类、历史范例只可参考语言和结构。
-   即使产品共享，尺寸/颜色仍需按当前变体核实。事实冲突一次列清，不借其他 SKU 填空。
+   即使产品共享，尺寸/颜色仍按当前变体核实。
 2. 写入或给建议之前读 tools/list 的 inputSchema；只查本次对象和字段所需的约束：站点 listing 文案（只给建议也算）
    都读品类要求（标题规则、material 等 options），compliance 已给出长度限值也要读；只有产品目录单字段编辑不查品类。
    需要扩展契约时用 `medusa.list_endpoints` /
@@ -22,7 +20,6 @@
    的后端定义取得，按已发现的 GET 契约用 `medusa.admin_get` 读取；结合 questionnaire /
    compliance 的 options、长度/数量限制、blocking 与缺口。
    卖点数量与每条长度服从当前后端上限，不使用固定条数公式；标题、描述与 search terms 同理。
-   限值不可用时保留缺口，只交付有依据的未校验草稿，不用模板冒充平台规范。
 3. 品牌、站点、语言/货币取当前 SKU 来源和用户选择。已有后端试点默认值只在已确认范围内使用，
    尽可能显式传当前工具支持的站点/品牌参数，避免遗漏参数触发不适用的默认值。
    已配置品牌写法时，从[私有工作区](private-workspace.md)读取当前商家的规则；写法不提供商品事实。
@@ -48,9 +45,7 @@
 5. 有产品、站点和当前必填输入时，才能 create_listing；不把产品页上的保存误报成 listing 已建立。
    更新后读返回的 compliance，并按[复核与交接](review.md)处理。
    汇报依据 changed / updated 与实际保存结果，列出保存的文案：标题、每条卖点和描述各附一句来源字段，
-   不用一句“全部来自产品”总括；即使 isError:true，也检查顶层 write_result：
-   copy / attributes 或产品 patch / batch 步骤可能只完成一部分，不能重放已完成步骤。
-   next_action=read_state_before_retry 时先读当前状态，确认后才决定剩余写入；不假定回滚。
+   不用一句“全部来自产品”总括；部分写入按[复核与交接](review.md)的“部分写入与恢复”。
    产品图片变更可能按后端同步规则影响关联的
    ERP-origin listings；写前说明该影响，不能承诺产品改图永远只改产品。
 6. 多变体产品的 create_listing 还会建立或复用一个不可购买的父体草稿，并保存变体主题；

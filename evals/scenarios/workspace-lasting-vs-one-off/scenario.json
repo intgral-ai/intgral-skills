@@ -1,6 +1,6 @@
 {
   "id": "workspace-lasting-vs-one-off",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-listing",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -159,11 +159,15 @@
         }
       ]
     },
-    "final_forbidden_text": []
+    "final_forbidden_text": [
+      "偏好吗",
+      "要不要存"
+    ]
   },
   "rubric": [
     "The one-off request (uppercase brand in a title suggestion, this time only) produces a suggestion and no write to the listing and no change to the preference file; the agent says it did not record it.",
     "The lasting instruction (bullets always in Spanish) is appended as a dated row in the lasting-rules table with the user as source; existing rules and identity lines are preserved unchanged.",
+    "Neither part is offered: the explicit instruction (以后卖点一律用西班牙语写) is written directly without asking, and the one-off (就这一次，不用记) gets no offer to save and no write — the answer contains no question about saving to preferences.",
     "Before the change the agent re-reads the current file and keeps a dated backup under backups/; after the change it reads the file back and reports the exact rows it added.",
     "The suggested title keeps the brand's existing rule in view: the answer notes that uppercase conflicts with the recorded rule 'Casa Verde' and that this one-off does not change it.",
     "No unnecessary questions; nothing written inside the installed package."
