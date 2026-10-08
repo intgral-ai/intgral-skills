@@ -8,7 +8,7 @@ Read the target product/variant and available media, and the product's existing 
 
 Reference mode supplies product reference asset IDs and segment expert prompts, omitting a keyframe budget. Keyframe mode supplies the authorized frame budget and structured brief/beats as required; see [prompting](prompting.md). Do not copy both modes into one request.
 
-Record returned generation ID, mode, segment durations/prompts, plan hash, frame budget and cost estimate in the private task record. The estimate exists only once a draft does: before one, the price is unknown, and creating the draft — free, nothing generated — is how to learn it, with the user's agreement. Cost `estimate: null` means unknown, not free; approval cannot proceed until the backend supplies a usable sourced estimate.
+Record returned generation ID, mode, segment durations/prompts, plan hash, frame budget and cost estimate in the private task record. Cost `estimate: null` means unknown, not free; approval cannot proceed until the backend supplies a usable sourced estimate.
 
 ## Review and approve
 

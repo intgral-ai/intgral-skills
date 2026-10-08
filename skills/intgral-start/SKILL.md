@@ -8,8 +8,8 @@ metadata:
 
 # 开始使用 Intgral
 
-用户第一次用 Intgral、问“能做什么”、或连接出问题时用这个 Skill。具体的上架、调研、视频工作由
-`intgral-listing` / `intgral-research` / `intgral-video` 完成；本 Skill 只负责连接、入口和打开页面。
+具体的上架、调研、视频工作由 `intgral-listing` / `intgral-research` / `intgral-video` 完成；
+本 Skill 负责连接、入口，以及找到并打开 SKU 的页面。
 
 ## 1. 先看是否已连接
 
@@ -69,9 +69,14 @@ metadata:
   写 `merchants/<stable-id>/preferences.md` 并读回。选之前不写任何文件。
 - 选了别的项或拒绝：说之后任务需要某项设置时会再问；本会话不再提配置偏好。
 
-## 3. 操作 SKU 时直接打开它的页面
+## 3. 操作 SKU：打开它的页面；目录查不到先查 listing
 
 任务一涉及具体 SKU（查、改、图片、调研关联、视频都算），读到该 SKU 后就用返回的 `erp_url`，
 在本会话的浏览器工具里打开，不等用户要求。每个 SKU 每个会话只开一次；一次涉及多个 SKU 时开第一个，
 其余给链接。页面留给用户操作：打开后不在页面里点击、保存或发布。没有浏览器工具或打开失败时给链接，
 不说已打开。
+
+`medusa.get_product` 返回 `not_found` 不等于没有：listing 可以没有目录产品。先用 seller SKU 查 listing
+（`medusa.admin_get` 读 `GET /admin/amazon/listings?seller_sku=<SKU>&view=all`，不带 `view=all` 只返回待复核队列），
+找到就读 `medusa.get_listing_context` 并按上面的规则打开它的 `listing_erp_url`；告知目录里还没有该产品，是否
+bootstrap 导入由用户决定，这一轮不执行。两处都没有就照实说没找到，请用户核对 SKU；不拿相近 SKU 代替。
