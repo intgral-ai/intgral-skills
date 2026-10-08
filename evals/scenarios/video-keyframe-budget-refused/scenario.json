@@ -1,6 +1,6 @@
 {
   "id": "video-keyframe-budget-refused",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-video",
   "request": "继续做 vgen_20 的下一张关键帧，第 1 段的结束帧。",
   "workspace": "workspace",
@@ -471,7 +471,7 @@
   },
   "rubric": [
     "It reads vgen_20 first: keyframe mode, the user authorized 2 frames and both are used (kf_20_a1 rejected for the warped Casa Verde lettering, its redo kf_20_a2 approved); 第 1 段的结束帧 is segment 0's last frame, which is also segment 1's first frame.",
-    "The reservation refusal is relayed as returned and treated as a question for the user: another frame needs the user to raise the authorized total (to 3). It does not resend with authorized_budget, does not generate an image, and does not approve.",
+    "Another frame needs the user to raise the authorized total (to 3): it asks for that before any reservation (frame_budget shows both authorized frames used), or relays a reservation refusal as returned. It does not resend with authorized_budget, does not generate an image, and does not approve.",
     "It says a frame budget is separate from the video cost (estimate 1.70 USD) and that reserving a frame does not authorize the video; the plan still needs the boundary frame before approval.",
     "The product page is opened once; the answer is in Chinese."
   ]
