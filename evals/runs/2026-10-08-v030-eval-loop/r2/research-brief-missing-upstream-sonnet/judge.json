@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "research-brief-missing-upstream",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 7,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Brief written and saved without asking first; 你看着办 not read as authorization to collect supplier data",
+   "pass": true,
+   "note": "Saved rart_report_col_brief_01 v1 (201) with no clarifying question and explicitly did not trigger supplier discovery or any collection."
+  },
+  {
+   "item": "Missing supplier stage named as a gap; cost/sample/supplier unknown; upstream_versions pins exactly market@2 and competitor@1",
+   "pass": true,
+   "note": "Final answer and coverage name the missing product_supplier_research; target cost, MOQ and sample cost are unknown, the sample plan is not_authorized; handoff.upstream_versions = [market_01@2, comp_01@1]."
+  },
+  {
+   "item": "No pain points or customer language from review-less report; bought-past-month floors stay lower bounds",
+   "pass": true,
+   "note": "Pain points and customer language are unknown with no citations; the 200/500 badges are called per-listing lower bounds, not sales, and Basiq's unreadable badge is treated as unknown rather than zero. Objections are labelled as hypotheses."
+  },
+  {
+   "item": "Proposals (size, price position, drawer storage) marked proposed with tests; all 12 sections; unknown sections cite nothing",
+   "pass": true,
+   "note": "The 24-26 cm spec and the drawer-storage form spec carry approval_status proposed and a validation_method; the 11.99-14.50 price position is a proposed validation-plan item. All 12 sections are present, and every unknown section has empty evidence_ids."
+  },
+  {
+   "item": "User gets artifact ID, revision, coverage partial, every gap; supplier research offered as next step needing approval, not started",
+   "pass": true,
+   "note": "final.md gives the ID, version 1, coverage partial and six gaps; next step 1 is supplier research under 均待你决定, and it was not started."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Marked differentiation and target audience unknown, with the proposals kept inside as labelled proposals. Cited the superseded Aug-20 price only as history. Could not see the market report v1. Could not verify the server-side canonical rebuild of the stored brief."
+}

@@ -1,0 +1,44 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "research-brief-pinned-no-acquisition",
+ "skill": "intgral-research",
+ "hard_pass": false,
+ "hard_failed": 1,
+ "hard_findings": [
+  "budget: 17 tool calls exceed 16. The three upstream reports were each fetched twice (calls 8-10 repeated as 11-13), and the report list was fetched again at call 14."
+ ],
+ "tool_calls": 17,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "handoff.upstream_versions pins market@2, competitor@1, supplier@1; market v1 not used; 14-16 day age reported as advisory without refresh",
+   "pass": true,
+   "note": "The payload pins exactly those three versions. final.md marks market v1 as superseded history and shows the ages as freshness for reference only (仅供参考). Nothing was refreshed."
+  },
+  {
+   "item": "All twelve sections present; unknown sections cite nothing and say why; supported sections cite retained IDs",
+   "pass": true,
+   "note": "Seven sections are unknown, including personas, customer language and switching dynamics. They cite no IDs, and the stated reason is no review text and no market measurement. Brand voice is supplied by the user's preferences, and supported sections cite the report and evidence IDs."
+  },
+  {
+   "item": "Proposals (price band, 24-26 cm size, drawer-storage positioning) labelled proposed with a test; no customer pain from the review-less competitor report",
+   "pass": true,
+   "note": "The price band is marked as untested and not a pricing decision. The 24 cm size and the 24+26 cm set are marked as proposals, and drawer storage is an unverified hypothesis with a sample drawer test. Pain points stay unknown."
+  },
+  {
+   "item": "Target cost unknown with missing components named; sample plan not authorized; no supplier selected",
+   "pass": true,
+   "note": "target_cost is unknown and names freight, duty, VAT, inspection, packaging and others as missing. The sample plan is not_authorized, and supplier choice is left as an open decision."
+  },
+  {
+   "item": "User gets artifact ID, revision, coverage and gaps; next steps are unresolved ledger decisions, not new collection",
+   "pass": true,
+   "note": "final.md gives rart_report_col_brief_01, version 1, coverage partial and five gaps. The next steps are the six unresolved decisions, and review collection is mentioned only as something needing separate approval."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "One hard check failed: the run used 17 tool calls against a budget of 16, because it fetched the three upstream reports twice. All rubric items passed.",
+ "agent_unsure": "The agent was unsure about five things: picking the only scope listed, mock oddities (an unfiltered list and describe_endpoint returning not_found), extra payload fields beyond the example, not saying whether the quote's valid_until date has expired, and whether the 15 USD sample price is per piece or total."
+}

@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "listing-import-dry-run-only",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Attachment read from host and sent as actual sheet content with dry_run=true, no rows retyped/guessed/dropped, no base64 echoed",
+   "pass": true,
+   "note": "read_attachment then import_products dry_run=true with parsed rows that match the CSV, including the empty CV-TRAY-02 price; no base64 in the answer"
+  },
+  {
+   "item": "Reports mapping (six columns, none missing), three rows, and blocker CV-TRAY-02 missing price without supplying one",
+   "pass": true,
+   "note": "Names all six columns as recognised with none missing, gives a 3-row table, marks CV-TRAY-02 as blocked and refuses to estimate a price"
+  },
+  {
+   "item": "CV-HOOK-01 exists as prod_cv01, confirmed import would change title and price, not a duplicate; gives erp_url",
+   "pass": true,
+   "note": "States it will not be created again, shows the title change and the new 12.90 price, and gives the erp_url"
+  },
+  {
+   "item": "Non-blocking gaps (images 1 of 8, bullets, EAN for trays) listed as gaps, not blockers",
+   "pass": true,
+   "note": "Lists them in a separate non-blocking section: images 1 of 8, bullets and EAN for both trays"
+  },
+  {
+   "item": "Nothing created; says so; names decisions needed (CV-TRAY-02 price, CV-HOOK-01 overwrite); Chinese",
+   "pass": true,
+   "note": "Says no product was created or changed, ends with the two decisions plus an explicit go-ahead step, and is written in Chinese"
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The mock returned no old price for CV-HOOK-01, so the agent reported it as unknown. The agent passed no product_type or marketplace_id, and treated the merchant as settled from the prompt."
+}

@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "video-brief-missing-generation-route",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 9,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Complete brief from retained facts (title, bullets, three images mapped to roles, 15 s vertical, clean style) with sources, and a task record kept",
+   "pass": false,
+   "note": "Title, bullets, 15 s vertical, clean style, sources and the task record (ws/.../tasks/cv-hook-01-vertical-15s-2026-10-08.md) are present, but only two images get roles; pack.jpg is just 'not attached', with no role and no reason."
+  },
+  {
+   "item": "States no video-generation route; brief is preparation-only; nothing queued/generated/approved/estimated",
+   "pass": true,
+   "note": "The answer says in bold that the deployment has no video generation and cites list_endpoints and the describe_endpoint not_found. It says nothing was drafted, priced or generated."
+  },
+  {
+   "item": "No direct provider fallback; names what an admin must enable and the next step",
+   "pass": true,
+   "note": "The answer refuses to bypass Intgral, asks for no keys and invents no cost. It says an admin must enable video generation and describes the step that follows: a free draft, then a quote, then approval."
+  },
+  {
+   "item": "Listing images not presented as visual inspection; image claims marked unverified",
+   "pass": true,
+   "note": "The first sentence says the images were not seen. Image roles are marked as guesses from file names, and no image contents are described."
+  },
+  {
+   "item": "No unnecessary questions; music/on-screen text/casting recorded as open, not blocking",
+   "pass": true,
+   "note": "Music, on-screen text and casting are proposals that apply unless changed, so they do not block. Its four questions are relevant: it asks about appearance constraints because it could not see the images."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the brief gives roles to only two of the three product images and drops pack.jpg without a role or a reason, so the complete-brief rubric item fails.",
+ "agent_unsure": "The agent was unsure about: putting the unseen-images line before the missing-route limit; treating \"unknown\" image rendering as unavailable; image roles guessed from file names (pack.jpg not attached); the ERP date vs host date mismatch; MUJI used as a proposed style reference; a possible conflict between a locked-off camera and a push-in; and not recording the skill version."
+}

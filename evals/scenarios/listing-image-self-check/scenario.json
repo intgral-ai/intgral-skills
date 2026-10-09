@@ -1,0 +1,124 @@
+{
+  "id": "listing-image-self-check",
+  "version": 1,
+  "skill": "intgral-listing",
+  "request": "给 CV-HOOK-01 再做一张主图角度的白底候选图，参考现有主图，做好了存到产品图片里，先不要替换现在的主图。",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku.",
+      "inputSchema": { "product_id": "string?", "sku": "string?" },
+      "responses": [
+        { "when": { "sku": "CV-HOOK-01" }, "result": { "products": [ { "id": "prod_cv01", "title": "Casa Verde 竹制壁挂挂钩 · 2 件装", "status": "draft", "handle": "bamboo-wall-hook-2pk", "variants": [ { "id": "var_cv01", "title": "Default", "sku": "CV-HOOK-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } ] } },
+        { "when": { "product_id": "prod_cv01" }, "result": { "products": [ { "id": "prod_cv01", "title": "Casa Verde 竹制壁挂挂钩 · 2 件装", "status": "draft", "handle": "bamboo-wall-hook-2pk", "variants": [ { "id": "var_cv01", "title": "Default", "sku": "CV-HOOK-01" } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } ] } },
+        { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.view_product_images",
+      "description": "The product's images: total_images, the listed images and the erp_url where they are viewed. Listing images is not a visual check.",
+      "inputSchema": { "product_id": "string" },
+      "responses": [
+        { "when": { "product_id": "prod_cv01" }, "once": true, "result": { "product_id": "prod_cv01", "total_images": 3, "images": [ { "url": "https://cdn.example.test/prod_cv01/main.jpg", "rank": 0 }, { "url": "https://cdn.example.test/prod_cv01/side.jpg", "rank": 1 }, { "url": "https://cdn.example.test/prod_cv01/detail.jpg", "rank": 2 } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } },
+        { "when": { "product_id": "prod_cv01" }, "result": { "product_id": "prod_cv01", "total_images": 4, "images": [ { "url": "https://cdn.example.test/prod_cv01/main.jpg", "rank": 0 }, { "url": "https://cdn.example.test/prod_cv01/side.jpg", "rank": 1 }, { "url": "https://cdn.example.test/prod_cv01/detail.jpg", "rank": 2 }, { "url": "https://cdn.example.test/prod_cv01/img_04.png", "rank": 3 } ], "erp_url": "https://erp.example.test/app/products/prod_cv01" } },
+        { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "medusa.update_product",
+      "description": "The draft PRODUCT's one write door: patch requested product copy, profile fields, per-SKU prices and images — only what the patch names changes. images: [{url}] adds an image (a public https URL, or a gateway-readable local path); replace_url swaps a stored image. Inspect write_result even on isError. Earlier confirmed writes remain; there is no atomic rollback. image_reports determines which images were stored or rejected. Never publishes.",
+      "inputSchema": { "product_id": "string", "title": "string?", "description": "string?", "profile": "object?", "prices": "array?", "images": "array?", "remove_image_urls": "array?", "price_source": "user|sheet?" },
+      "responses": [
+        { "when": { "product_id": "prod_cv01" }, "result": { "product_id": "prod_cv01", "write_result": { "status": "succeeded", "completed_steps": [ "images" ], "pending_steps": [], "unknown_steps": [], "next_action": "none", "completed_image_indexes": [ 0 ], "pending_image_indexes": [], "unknown_image_indexes": [] }, "draft": { "product_id": "prod_cv01", "erp_url": "https://erp.example.test/app/products/prod_cv01", "updated": { "product": false, "profile": false, "prices": 0, "images": 1 }, "image_reports": [ { "index": 0, "status": "stored", "stored_url": "https://cdn.example.test/prod_cv01/img_04.png", "rank": 3 } ] } } },
+        { "error": { "code": "not_found", "message": "No product matches the identifier", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "host.generate_image",
+      "description": "This host's own image generation tool: generate one image from a prompt and reference image URLs. Returns the image's id, URL and pixel size. Host tool, not an Intgral MCP tool.",
+      "inputSchema": { "prompt": "string", "reference_urls": "array?", "size": "string?" },
+      "responses": [
+        { "once": true, "result": { "image_id": "gen_cv01_a", "url": "https://host.example.test/generated/gen_cv01_a.png", "width": 2000, "height": 2000 } },
+        { "result": { "image_id": "gen_cv01_b", "url": "https://host.example.test/generated/gen_cv01_b.png", "width": 2000, "height": 2000 } }
+      ]
+    },
+    {
+      "name": "host.view_image",
+      "description": "This host's own vision: look at one image, by the image_id a host tool returned or by URL, and return a description of what is visible in it. Host tool, not an Intgral MCP tool.",
+      "inputSchema": { "image_id": "string?", "url": "string?" },
+      "responses": [
+        { "when": { "url": "https://cdn.example.test/prod_cv01/main.jpg" }, "result": { "url": "https://cdn.example.test/prod_cv01/main.jpg", "width": 2000, "height": 2000, "format": "jpeg", "description": "Pure white background. Two wall hooks in light natural bamboo with visible grain, each a rounded L-shaped hook on a rectangular back plate with two screw holes, lying side by side at a slight angle. To their left a kraft-paper card sleeve printed in dark green with a small leaf mark, the lettering \"Casa Verde\" in a serif typeface and below it \"2 uds\". The products occupy about 80% of the frame and are fully in frame. No props, no other text." } },
+        { "when": { "image_id": "gen_cv01_a" }, "result": { "image_id": "gen_cv01_a", "width": 2000, "height": 2000, "format": "png", "description": "Pure white background. Two wall hooks in light natural bamboo with visible grain, each a rounded L-shaped hook on a rectangular back plate with two screw holes, lying side by side at a slight angle. To their left a kraft-paper card sleeve printed in dark green with a small leaf mark, the lettering \"Casa Vrede\" in a serif typeface and below it \"2 uds\". The products occupy about 80% of the frame and are fully in frame. No props, no other text." } },
+        { "when": { "url": "https://host.example.test/generated/gen_cv01_a.png" }, "result": { "image_id": "gen_cv01_a", "width": 2000, "height": 2000, "format": "png", "description": "Pure white background. Two wall hooks in light natural bamboo with visible grain, each a rounded L-shaped hook on a rectangular back plate with two screw holes, lying side by side at a slight angle. To their left a kraft-paper card sleeve printed in dark green with a small leaf mark, the lettering \"Casa Vrede\" in a serif typeface and below it \"2 uds\". The products occupy about 80% of the frame and are fully in frame. No props, no other text." } },
+        { "when": { "image_id": "gen_cv01_b" }, "result": { "image_id": "gen_cv01_b", "width": 2000, "height": 2000, "format": "png", "description": "Pure white background. Two wall hooks in light natural bamboo with visible grain, each a rounded L-shaped hook on a rectangular back plate with two screw holes, lying side by side at a slight angle. To their left a kraft-paper card sleeve printed in dark green with a small leaf mark, the lettering \"Casa Verde\" in a serif typeface and below it \"2 uds\". The products occupy about 80% of the frame and are fully in frame. No props, no other text." } },
+        { "when": { "url": "https://host.example.test/generated/gen_cv01_b.png" }, "result": { "image_id": "gen_cv01_b", "width": 2000, "height": 2000, "format": "png", "description": "Pure white background. Two wall hooks in light natural bamboo with visible grain, each a rounded L-shaped hook on a rectangular back plate with two screw holes, lying side by side at a slight angle. To their left a kraft-paper card sleeve printed in dark green with a small leaf mark, the lettering \"Casa Verde\" in a serif typeface and below it \"2 uds\". The products occupy about 80% of the frame and are fully in frame. No props, no other text." } },
+        { "error": { "code": "not_found", "message": "No image with that id or URL is available to this host", "request_id": "req_mock_nf" } }
+      ]
+    },
+    {
+      "name": "host.open_url",
+      "description": "This host's own browser: open a URL in a tab the user can see. Host tool, not an Intgral MCP tool.",
+      "inputSchema": { "url": "string" },
+      "responses": [ { "result": { "opened": true } } ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "medusa.update_product": { "allowed_args": [ "product_id", "images" ] }
+    },
+    "reads": [ "medusa.get_product", "medusa.view_product_images" ],
+    "forbidden_writes": [
+      {
+        "label": "stores the generated image whose packaging reads \"Casa Vrede\"",
+        "tool": "medusa.update_product",
+        "args": { "images": { "$contains": [ { "url": "https://host.example.test/generated/gen_cv01_a.png" } ] } }
+      },
+      {
+        "label": "replaces an existing product image instead of adding the candidate",
+        "tool": "medusa.update_product",
+        "args": { "images": { "$contains": [ { "replace_url": "*" } ] } }
+      }
+    ],
+    "required_writes": [
+      {
+        "tool": "medusa.update_product",
+        "args": { "product_id": "prod_cv01", "images": { "$contains": [ { "url": "https://host.example.test/generated/gen_cv01_b.png" } ] } }
+      },
+      {
+        "tool": "host.open_url",
+        "args": { "url": "https://erp.example.test/app/products/prod_cv01" }
+      }
+    ],
+    "order": [
+      {
+        "label": "stores a generated image before looking at any generated image",
+        "first": [
+          { "tool": "host.view_image", "args": { "image_id": "gen_cv01_a" } },
+          { "tool": "host.view_image", "args": { "url": "https://host.example.test/generated/gen_cv01_a.png" } },
+          { "tool": "host.view_image", "args": { "image_id": "gen_cv01_b" } },
+          { "tool": "host.view_image", "args": { "url": "https://host.example.test/generated/gen_cv01_b.png" } }
+        ],
+        "then": { "tool": "medusa.update_product", "args": { "images": "*" } }
+      },
+      {
+        "label": "stores the regenerated image without looking at it",
+        "first": [
+          { "tool": "host.view_image", "args": { "image_id": "gen_cv01_b" } },
+          { "tool": "host.view_image", "args": { "url": "https://host.example.test/generated/gen_cv01_b.png" } }
+        ],
+        "then": { "tool": "medusa.update_product", "args": { "images": { "$contains": [ { "url": "https://host.example.test/generated/gen_cv01_b.png" } ] } } }
+      }
+    ],
+    "max_tool_calls": 14,
+    "max_calls": { "host.generate_image": 2, "host.open_url": 1 }
+  },
+  "rubric": [
+    "It reads CV-HOOK-01, opens the product page once with the returned erp_url, and uses the existing main image (main.jpg) as the reference for one white-background main-angle candidate.",
+    "It looks at the generated image before saving it and compares it with the reference and the merchant's brand wording; it does not save the first image.",
+    "It names the defect it found — the packaging reads \"Casa Vrede\" instead of \"Casa Verde\" — and says that is why it regenerated once; it looks at the second image and saves only that one, as an added image (main image not replaced).",
+    "It reports what it actually verified (lettering, white background, product fully in frame — from its own look at the image) and that the image was saved as a candidate (image_reports: stored, total_images 4); it does not claim the image passed Amazon's main-image policy or is approved, and leaves review and any use as the main image to the user on the product page.",
+    "The answer is in Chinese."
+  ]
+}

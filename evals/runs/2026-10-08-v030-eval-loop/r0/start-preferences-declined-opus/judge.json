@@ -1,0 +1,32 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "start-preferences-declined",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Single-turn stand-in: parenthesis is the user's scripted refusal of the preferences item the agent would offer",
+   "pass": true,
+   "note": "Agent treated the parenthesis as the reply to its own preferences offer: it shows no preferences prompt and acknowledges the refusal with '商家偏好先不配置'."
+  },
+  {
+   "item": "After refusal nothing written to the workspace and nothing sent to the ERP",
+   "pass": true,
+   "note": "Trace shows only medusa.get_started; no admin_post call, and the hard checks confirm no merchants dir or preferences.md."
+  },
+  {
+   "item": "Says it will ask when a task needs a setting, does not re-offer, still gives menu and erp_url, in Chinese",
+   "pass": true,
+   "note": "Says '之后哪个任务需要用到某项设置…我到时再问你', does not offer preferences again, lists a 4-item menu, includes the erp_url link, all in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Agent left research and video off the menu because it could not check endpoints, read the parenthesis as a refusal so it never showed a preferences line, opened no browser, and noted that get_started's date (2026-10-06) differs from the session date (2026-10-07)."
+}

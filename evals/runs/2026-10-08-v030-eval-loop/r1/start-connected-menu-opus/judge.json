@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "start-connected-menu",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Intgral link is the erp_url from medusa.get_started, clickable, nothing invented",
+   "pass": true,
+   "note": "Gives the bare autolinked URL https://erp.example.test/app/agent-activity, which exactly matches the mocked erp_url."
+  },
+  {
+   "item": "Short numbered steps for this deployment's capabilities, ending with one question; research/video absent without list_endpoints",
+   "pass": true,
+   "note": "Items 1-4 cover querying a SKU, importing products, editing copy or listings, and images, plus a preferences-setup item. Research and video are left out, and it ends with the single question 选哪个？"
+  },
+  {
+   "item": "Nothing installed or reconfigured",
+   "pass": true,
+   "note": "The only call is medusa.get_started, and the answer says it is already connected."
+  },
+  {
+   "item": "Answer in Chinese and short",
+   "pass": true,
+   "note": "About ten short lines, all in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Left out research and video because there is no list_endpoints tool to confirm their routes; assumed the session merchant casa-verde-es without listing merchants/; get_started reported date 2026-10-04 but the session date is 2026-10-08."
+}

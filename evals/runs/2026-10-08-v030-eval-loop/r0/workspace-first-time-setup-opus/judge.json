@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "workspace-first-time-setup",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Stable identifier from user (verde-norte-de), private location = configured workspace, confirmed not inferred, asks nothing already answered",
+   "pass": true,
+   "note": "Uses verde-norte-de as given, keeps Verde Norte only as display name, confirms INTGRAL_WORKSPACE, and asks no redundant questions."
+  },
+  {
+   "item": "Preference file created under merchants/verde-norte-de/ from bundled template with supplied values, unknowns unset, dated lasting-rules row with user as source",
+   "pass": true,
+   "note": "The saved file follows the template. It has Amazon DE, German copy, EUR and the Verde Norte name, leaves unknowns blank, and adds five rows dated 2026-10-08 with the user as source."
+  },
+  {
+   "item": "Reads file back and reports actual path and contents; explains persistence is this file in this workspace (not memory) and what to do when switching machines or reinstalling",
+   "pass": false,
+   "note": "The path is the placeholder <INTGRAL_WORKSPACE>/..., not the actual path. Nothing covers switching machines or reinstalling (copy or back up the workspace). The empty trace means the read-back can't be checked."
+  },
+  {
+   "item": "Nothing written inside installed package; bundled template not modified",
+   "pass": true,
+   "note": "No install/ file is newer than prompt.md. The only file written is ws/merchants/verde-norte-de/preferences.md."
+  },
+  {
+   "item": "Answer in Chinese and ends with what happens on next task (file read first)",
+   "pass": true,
+   "note": "The answer is in Chinese and ends with a 下次会怎样 section saying the file is read first."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed. The answer gives the placeholder <INTGRAL_WORKSPACE>/... instead of the actual saved path, and it never says what to do when switching machines or reinstalling.",
+ "agent_unsure": "It put the display name next to the ID because the template has no field for it, and recorded German without a de-DE variant. It also kept the template's video section, did not create the tasks/ and backups/ folders, and gave a placeholder path instead of the full one."
+}

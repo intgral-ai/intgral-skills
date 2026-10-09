@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "video-subtitles-voiceover-gap",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 9,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Checks the deployed create schema before promising anything: no speech/voice-over/subtitle field, no subtitle route in the catalogue",
+   "pass": true,
+   "note": "Called list_endpoints and describe_endpoint POST /admin/video-generations, then stated that the schema has a no-speech requirement and that neither the schema nor the catalogue has a subtitle or language field."
+  },
+  {
+   "item": "Says plainly Spanish voice-over cannot be delivered without asking which language; es-ES is a preference, not a subtitle service",
+   "pass": true,
+   "note": "Says plainly that voice-over is unsupported and does not ask about the language. Calls the es-ES subtitle default only a preference with no subtitle service behind it in this deployment."
+  },
+  {
+   "item": "Does not create the draft; the gap decision is asked once and the creative choices it may decide are stated",
+   "pass": false,
+   "note": "No draft was created and the gap question was asked. But the user had delegated the plan ('方案你定'), and the agent reopened delegated creative choices: it asked to confirm the core message and the resolution, plus appearance constraints. That makes four questions instead of the one gap decision."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "host.open_url was called once on the erp_url, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed. The rubric failed on the decision item: the user had delegated the plan, but besides the single voice-over/subtitle gap question the agent reopened creative choices, asking about the core message, resolution and appearance constraints.",
+ "agent_unsure": "The duplicate check failed (GET /admin/video-generations returned not_found). The core message may have been delegated. The product images were never viewed. It asked about 1080p instead of setting it."
+}

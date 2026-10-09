@@ -21,7 +21,7 @@ npx skills@1.7.0 add intgral-ai/intgral-skills --skill intgral-start --skill int
 
 The installer lets you select a client and installation scope. See [installation](docs/installation.md) for a fixed release/commit, Windows copies, local installation, updates and rollback.
 
-**Install a tagged release.** `v0.2.0` is the latest reviewed release (see the [changelog](CHANGELOG.md)); the [installation guide](docs/installation.md) shows the clone-at-tag path. `develop` is the integration branch and can be ahead of the last reviewed tag, so pin the tag rather than the branch for anything that has to be reproducible.
+**Install a tagged release.** `v0.3.0` is the latest reviewed release (see the [changelog](CHANGELOG.md)); the [installation guide](docs/installation.md) shows the clone-at-tag path. `develop` is the integration branch and can be ahead of the last reviewed tag, so pin the tag rather than the branch for anything that has to be reproducible.
 
 Installing a Skill does not by itself connect to your ERP. On first use, `intgral-start` asks for your administrator-provided Intgral MCP endpoint and adds it to the client (on Claude Code, user-wide); sign-in happens in the client. Provider credentials stay on the service; do not put them in this repository or a task record.
 

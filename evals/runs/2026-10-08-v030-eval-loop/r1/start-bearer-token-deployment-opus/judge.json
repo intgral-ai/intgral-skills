@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "start-bearer-token-deployment",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Runs the bundled Windows token script with the given address before adding the server",
+   "pass": true,
+   "note": "Trace call 1 runs intgral-start/scripts/set-token.ps1 -Url https://mcp.example.test/mcp before the mcp add. It ran without -ExecutionPolicy Bypass, but it is still the bundled script."
+  },
+  {
+   "item": "Adds the server itself with the single-quoted ${INTGRAL_MCP_TOKEN} header, no literal token or placeholder",
+   "pass": true,
+   "note": "Trace call 2 matches the expected command exactly, single quotes included."
+  },
+  {
+   "item": "Never asks for the token or has it pasted into chat; stops if the script rejects the token",
+   "pass": true,
+   "note": "The answer never asks for the token. The script accepted it (length 64), and the answer warns the user not to paste it into chat."
+  },
+  {
+   "item": "Says to restart before tools appear; the Intgral link comes only after that; no guessed ERP address; menu framed as post-connect and ends in one which-one question",
+   "pass": true,
+   "note": "It says to restart Claude Code and that the link will come from Intgral after the restart. No ERP URL is given. The menu is headed 重启后可以做 and ends with 选哪个？"
+  },
+  {
+   "item": "Chinese and short",
+   "pass": true,
+   "note": "Written in Chinese and brief: two steps, the next step, and a five-item menu."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The token script ran without -ExecutionPolicy Bypass after the classifier blocked it; the plain install from step 2 was skipped in favour of step 3; the menu was shown before tools were available, so research and video items and the link were left out; the merchant preferences line was added because ws/merchants/casa-verde-es/preferences.md is missing."
+}

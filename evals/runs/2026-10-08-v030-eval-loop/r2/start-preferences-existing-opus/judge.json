@@ -1,0 +1,32 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "start-preferences-existing",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Existing preferences.md: no preferences menu item, no rewrite or backup",
+   "pass": true,
+   "note": "The menu has four listing items and no item for setting up preferences. Nothing in the trace or the answer touches the file."
+  },
+  {
+   "item": "Only merchants/casa-verde-es/ looked at; other merchant never appears",
+   "pass": true,
+   "note": "The agent reports checking only ws/merchants/casa-verde-es/preferences.md. The answer names no merchant at all."
+  },
+  {
+   "item": "Menu and erp_url named for its page, one closing question, Chinese",
+   "pass": true,
+   "note": "The answer is in Chinese. It gives https://erp.example.test/app/agent-activity, says that is the agent activity page, lists the four-item menu and ends with one question (选哪个？)."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "There was no medusa.list_endpoints tool to check the research and video routes, so it left both out, and it did not open the preferences file."
+}

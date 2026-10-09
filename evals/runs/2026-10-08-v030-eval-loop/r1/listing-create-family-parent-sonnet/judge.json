@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "listing-create-family-parent",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 8,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Family reported: applied, theme COLOR, parent SKU RS-9001-BK-PARENT and mlist_parent_rs9001, non-buyable parent draft, price and stock for children only, both child listings with erp_url",
+   "pass": true,
+   "note": "The answer states family.applied true, COLOR, RS-9001-BK-PARENT, mlist_parent_rs9001, a non-buyable parent, and both children with their ERP links."
+  },
+  {
+   "item": "Price 29.90 EUR set on both children via update_product with price_source user and reported from the tool result; stock 50 not written, reported as not set, steps handed to the user",
+   "pass": true,
+   "note": "Trace call 8 is update_product with per-SKU prices and price_source user; the answer cites write_result succeeded with 2 prices updated. Stock is reported as not set, and the user is told to set 50 on each child listing page."
+  },
+  {
+   "item": "Check and submit happen in the ERP family page (Check all, then Submit all), parent first then children, and the agent does not do it",
+   "pass": true,
+   "note": "The answer says the user does 全部检查 then 全部提交 on the family page, with the parent published first and the children after it."
+  },
+  {
+   "item": "Nothing claimed published or approved; the country_of_origin gap is reported and asked once, not guessed",
+   "pass": true,
+   "note": "The answer says compliance.ready is false and the draft is not validated by Amazon. It asks once for the country of origin and does not infer it."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "No tool writes listing stock, so stock was left to the user. The update_product price item shape {sku, currency_code, amount} was guessed. The existing-listing lookup returned not_found, so the agent relied on create_listing being idempotent. No browser tool was available. The marketplace and locale were taken from the store's participation list."
+}

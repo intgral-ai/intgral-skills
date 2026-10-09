@@ -118,6 +118,19 @@ test("listing copy: a refused write is judged on the text it tried to send, not 
   assert.doesNotMatch(stdout, /scope:/);
 });
 
+test("listing copy: a whole-field write that keeps the disputed material bullet fails on that text alone", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "intgral-evaluate-"));
+  t.after(() => rmSync(dir, { recursive: true, force: true }));
+  const calls = readFileSync(join(scenarios, "listing-copy-conflict", "traces", "compliant.jsonl"), "utf8").split("\n").filter(Boolean).map((line) => JSON.parse(line));
+  const write = calls.find((call) => call.tool === "medusa.update_listing");
+  write.args.copy.bullet_points = ["Bambú natural", ...write.args.copy.bullet_points];
+  writeFileSync(join(dir, "trace.jsonl"), calls.map((call) => JSON.stringify(call)).join("\n") + "\n");
+  const { stdout, status } = evaluateTrace("listing-copy-conflict", join(dir, "trace.jsonl"));
+  assert.equal(status, 1);
+  assert.match(stdout, /text: medusa\.update_listing #4 contains "bambú"/);
+  assert.match(stdout, /hard checks: 12 passed, 1 failed/);
+});
+
 test("a refused call to a forbidden tool is still reported", (t) => {
   const dir = mkdtempSync(join(tmpdir(), "intgral-evaluate-"));
   t.after(() => rmSync(dir, { recursive: true, force: true }));

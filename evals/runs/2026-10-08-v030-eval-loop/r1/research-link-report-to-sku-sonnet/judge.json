@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "research-link-report-to-sku",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 10,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Links latest competitor report rart_report_col_comp_02 v2, names version; v1 and market report not linked",
+   "pass": true,
+   "note": "POST used rart_report_col_comp_02; answer names version 2 and says it supersedes v1; market report untouched."
+  },
+  {
+   "item": "Variant is variant_fake_col24gr (24 cm Gris), not the green 26 cm sibling; no listing attached",
+   "pass": true,
+   "note": "Linked variant_fake_col24gr, explicitly not CV-COL-26-GN; no listing_id in body."
+  },
+  {
+   "item": "Reason states relevance in user's terms; answer confirms from returned link (state current, variant SKU, kind, version)",
+   "pass": true,
+   "note": "Reason cites the 24 cm grey pricing basis; answer reports the returned 201, state current, link id, variant SKU, competitor_research v2. It also flags the echoed English reason as a discrepancy to check, which is honest."
+  },
+  {
+   "item": "Link described as relevance, not approval; nothing collected, no report rewritten; contents not presented as newly verified",
+   "pass": true,
+   "note": "Says the link only marks relevance and is not price approval; no collection or save; prices are dated 2026-09-02 and flagged as about four weeks old."
+  },
+  {
+   "item": "Unlink via ERP (if mentioned); newer revision replaces link (if mentioned)",
+   "pass": true,
+   "note": "Says the gateway does not support unlinking and to do it in the ERP; does not mention switching revisions."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The echoed link reason did not match the Chinese reason it submitted. It matched the scope by description because it was the only scope and had no sku filter. It could not open the SKU page because no browser tool was available."
+}

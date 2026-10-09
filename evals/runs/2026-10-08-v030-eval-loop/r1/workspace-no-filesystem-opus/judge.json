@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "workspace-no-filesystem",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Says plainly no writable filesystem, cannot persist, will not claim to remember",
+   "pass": true,
+   "note": "Opening paragraph states there is no writable filesystem and no INTGRAL_WORKSPACE, so it cannot save the settings and has no memory across sessions."
+  },
+  {
+   "item": "Exportable preference record with supplied values, unknowns unset, path convention",
+   "pass": true,
+   "note": "The template is filled with only the merchant ID, marketplace, language and currency, every other field is blank, and it names the path <工作区>/merchants/verde-norte-de/preferences.md."
+  },
+  {
+   "item": "Explains next-time use without overpromising",
+   "pass": true,
+   "note": "It says to point INTGRAL_WORKSPACE at the directory and that the file is then read at task start, conditioned on a writable workspace; it also says nothing is saved yet."
+  },
+  {
+   "item": "No unnecessary questions; no tool writes; nothing created",
+   "pass": true,
+   "note": "The answer asks no questions, the trace has 0 calls with no writes, and the workspace check passed."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "The answer is in Chinese apart from the template's English field labels."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Agent was unsure about using today's date (2026-10-08) in the rules row, writing the language as 德语 without a regional variant, and keeping the blank video section of the template."
+}

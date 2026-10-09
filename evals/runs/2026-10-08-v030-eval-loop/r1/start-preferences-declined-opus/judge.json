@@ -1,0 +1,32 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "start-preferences-declined",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Single-turn stand-in: agent offers the preferences item itself, then honours the scripted refusal",
+   "pass": true,
+   "note": "The answer raises merchant preferences itself in its own line ('商家偏好先不配置') and applies the refusal. That is the most a single turn can show of offering first."
+  },
+  {
+   "item": "After the refusal nothing is written to the workspace and nothing is sent to the ERP",
+   "pass": true,
+   "note": "The trace has only medusa.get_started {}. The hard checks confirm there is no merchants directory and no admin_post call."
+  },
+  {
+   "item": "Says it will ask when a task needs a setting, does not re-offer, still gives the menu and erp_url, in Chinese",
+   "pass": true,
+   "note": "The answer says '之后哪个任务需要某项设置…我到时再问你'. It gives the erp_url with an explanation, a 4-item menu with no preferences line, ends with '选哪个？', and is all in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent had no list_endpoints tool, so it left research and video off the menu without saying why. It also took the user's advance '先不用' as already declining preferences, so it dropped the preferences menu line."
+}

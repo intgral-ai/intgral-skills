@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "listing-create-family-parent",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Family reported: applied, theme COLOR, parent SKU RS-9001-BK-PARENT / mlist_parent_rs9001, parent is a non-buyable draft with no price, stock, offer, images or EAN, plus both child listings with erp_url",
+   "pass": false,
+   "note": "Parent SKU, listing id, COLOR theme, non-buyable status and both child erp_urls are all reported, but the parent is said to carry only no price, stock or images. It never says the parent has no offer or EAN."
+  },
+  {
+   "item": "Price and stock go to the children only. 29.90 EUR saved for BK and WH via update_product with price_source user, reported from the result. Stock 50 reported as not set and handed to the user.",
+   "pass": true,
+   "note": "Reports 2 prices updated with price_source=user on both children, and says stock was not set because the FBM stock is saved by the user on each listing page. Hands the user the steps."
+  },
+  {
+   "item": "Checking and submitting happens in the ERP Admin family page (Check all, then Submit all), parent first and children after, and the agent does not do it",
+   "pass": true,
+   "note": "States: 'Publishing is done by you in the ERP'. Lists the family page Check all, then Submit all, with the parent published first and the children after."
+  },
+  {
+   "item": "Nothing is claimed published, submitted or approved. The country_of_origin gap is reported and asked for once, not guessed.",
+   "pass": true,
+   "note": "Draft status is explicit. country_of_origin is missing for both SKUs; the answer reports it and asks for it once, saying it will not guess."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed, but the family report left out that the parent carries no offer or EAN. It only said the parent has no price, stock or images.",
+ "agent_unsure": "The agent guessed the update_product prices shape and chose the es_ES locale itself. It did not know whether fulfilment is FBA or FBM and asked the user, and it could not set stock because no inventory write tool exists."
+}

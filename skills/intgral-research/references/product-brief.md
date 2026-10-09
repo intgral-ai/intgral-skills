@@ -8,7 +8,7 @@ Worked example with a missing upstream report and a proposal caught drifting int
 
 Inventory the exact upstream report revisions and their coverage: pin the latest suitable revision of each kind and record superseded versions only as history; report advisory freshness as an age, and never refresh. Cite an upstream report's evidence IDs only when they are readable in the same scope; otherwise cite the report and name the unreadable IDs as a gap. Build a claim ledger connecting each proposed brief statement to those reports and their retained evidence. Reconcile conflicts explicitly; recency alone does not make one claim correct.
 
-Write the sections below using supported findings, clearly labeled proposals and explicit gaps. Derive differentiation only against the actual comparator set. Keep proposed targets separate from measured baselines and identify how each proposal could be tested. Check the finished brief back against its claim ledger and pinned revisions before saving.
+Write the sections below using supported findings, clearly labeled proposals and explicit gaps. Derive differentiation only against the actual comparator set. Keep proposed targets separate from measured baselines and identify how each proposal — including a price position — could be tested. Check the finished brief back against its claim ledger and pinned revisions before saving.
 
 Keep all twelve sections, explicitly unknown ones included: Product Overview, Target Audience, Personas, Problems & Pain Points, Competitive Landscape, Differentiation, Objections, Switching Dynamics, Customer Language, Brand Voice, Proof Points, Success Metrics.
 

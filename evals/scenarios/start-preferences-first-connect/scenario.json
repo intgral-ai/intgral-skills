@@ -1,6 +1,6 @@
 {
   "id": "start-preferences-first-connect",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-start",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -100,7 +100,7 @@
     ]
   },
   "rubric": [
-    "Single-turn stand-in for two turns: the parenthesis is the user's scripted choice of the preferences menu item, which the agent must offer itself first (a menu item \"先配置商家偏好\", the answer still ending in the single which-one question).",
+    "Single-turn stand-in for two turns: the parenthesis is the user's scripted choice of the preferences menu item (the offer itself is tested by start-preferences-offer). The agent acts on it without asking again whether to configure; once the file exists the closing menu has no 先配置商家偏好 row (intgral-start: 已有就不列), and the answer still ends with the single which-one question (选哪个？).",
     "On the choice the agent follows the private-workspace first-time setup with the template's top fields only (identifier, market, language, currency), asks nothing the scripted answer already gave, writes merchants/casa-verde-es/preferences.md from the template structure, reads it back and reports the path.",
     "Nothing is written for the other merchant in the workspace and its identifier or brand never appears in the answer; preferences are not sent to the ERP.",
     "Chinese; the menu and the erp_url named for its page are still given."

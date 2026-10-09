@@ -1,0 +1,32 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "opus",
+ "id": "listing-open-on-sku-read",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Status (draft) and title are answered from the tool result.",
+   "pass": true,
+   "note": "Reports status draft and title 'Bamboo wall hook 2pk' from medusa.get_product."
+  },
+  {
+   "item": "The SKU's product page is opened once, unprompted, with the returned erp_url; the answer says it was opened and gives the link.",
+   "pass": true,
+   "note": "Single host.open_url call with the erp_url right after get_product; the answer says it was opened and gives the link."
+  },
+  {
+   "item": "Nothing is done inside the opened page and nothing is changed.",
+   "pass": true,
+   "note": "The trace has only two read/open calls and no writes."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure whether 状态 meant the Amazon ES listing status, so it reported only the catalog status and offered to check the listing; it left the brand rule unapplied because the stored title lacks Casa Verde and the request was read-only."
+}

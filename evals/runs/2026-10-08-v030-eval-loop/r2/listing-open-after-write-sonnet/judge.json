@@ -1,0 +1,37 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "listing-open-after-write",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The saved title is reported from the tool result, with the erp_url as a link.",
+   "pass": true,
+   "note": "Reports write_result succeeded with the old and new titles and gives the erp_url https://erp.example.test/app/products/prod_cv01."
+  },
+  {
+   "item": "The product page is opened once, without being asked (when the SKU is first read or after the save); the answer says it was opened and that review and publication happen there.",
+   "pass": true,
+   "note": "host.open_url was called once, right after get_product. The answer says the page is open and that the user reviews and publishes in the ERP."
+  },
+  {
+   "item": "Nothing is done inside the opened page: no save, submit or publish is claimed, and nothing is described as published.",
+   "pass": true,
+   "note": "The answer says the change is only a draft and was not published. It claims no action inside the page."
+  },
+  {
+   "item": "No unrelated field is changed or mentioned as changed.",
+   "pass": true,
+   "note": "Only title was sent to update_product. The answer says price, images and profile were not changed."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "It opened the page before the write and did not reopen it afterwards, applying the rule to open each SKU's page only once per session."
+}

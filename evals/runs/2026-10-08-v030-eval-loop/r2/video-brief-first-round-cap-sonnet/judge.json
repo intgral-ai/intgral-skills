@@ -1,0 +1,37 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "video-brief-first-round-cap",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 7,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No draft, approval or generation: the user asked for a plan and an estimate first.",
+   "pass": true,
+   "note": "Trace has only reads, one open_url and one describe_endpoint. No POST call. The answer says nothing was created."
+  },
+  {
+   "item": "First round asks at most five questions, only what the Agent cannot propose; style/setting/light/sound/casting/props come as labelled Agent proposals, each with its reason.",
+   "pass": false,
+   "note": "There are 5 well-chosen questions and the proposals are labelled ('我的建议'), but no proposal gives a reason. Setting, light, style, sound and pacing are stated with no reason attached."
+  },
+  {
+   "item": "On price: estimate comes from backend on a draft, draft is free and generates nothing, asks whether to create it; no invented price.",
+   "pass": true,
+   "note": "It says the estimate comes only from the backend on a draft, the draft is free, nothing is generated or charged, and question 5 asks whether to create it. No number is given."
+  },
+  {
+   "item": "Product facts come from the reads (get_product and product detail description and listing-profile bullets); SKU page opened once (or linked). Chinese.",
+   "pass": true,
+   "note": "The three bullets and the title match the admin_get /admin/products/prod_cv01 response. The erp_url was opened once and linked. The answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the rubric item on the first round fails: the agent's proposals for setting, light, style, sound and pacing each come without a reason.",
+ "agent_unsure": "The agent was unsure whether the draft-creation question counts toward the five-question cap (it counted it). It could not view the images, so it assigned their roles from file names and order only."
+}

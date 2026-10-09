@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "video-running-no-replacement",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_09 and reports actual state: running, 1 of 2 stored, segment submitted 09:24 as h3_task_5534 still in progress, heartbeat current, not stuck/failed",
+   "pass": true,
+   "note": "Reports running, 1/2 stored, 09:24:05 submit as h3_task_5534 in progress, heartbeat 13s old, explicitly not stuck (calls it the 2nd segment, i.e. index 1)."
+  },
+  {
+   "item": "No replacement: long wait not failure, new generation is second paid attempt and won't speed this one, server keeps working after chat closes; another video is a separately reviewed/approved plan",
+   "pass": false,
+   "note": "Covers slow-not-failed, second payment, no speedup and draft-first plan, but never says the server keeps working after the chat closes."
+  },
+  {
+   "item": "States spend so far (0.85 spent, 0.75 held, cap 2.00) and offers to keep checking or register a pause if user wants to stop later submissions; does not pause unasked",
+   "pass": false,
+   "note": "Gives spend and offers to re-check and does not pause, but never offers the pause option (the agent left it out on purpose)."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "host.open_url called once; answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed, but the answer never says the server keeps working after the chat closes and never offers to register a pause, so two rubric items fail.",
+ "agent_unsure": "The product-filtered generations list returned not_found; the 4-day gap between backend timestamps and today went unmentioned; the agent did not quote the 1.60 USD estimate; it left out the pause option because segment 2 was already submitted."
+}

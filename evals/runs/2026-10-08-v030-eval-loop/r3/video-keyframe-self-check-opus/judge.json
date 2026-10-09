@@ -1,0 +1,42 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "opus",
+ "id": "video-keyframe-self-check",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 16,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_21 (keyframe mode, 9:16 1080p, 2 authorized/1 used, kf_21_a1), understands segment 0 last frame = segment 1 first frame, reserves within budget, opens product page once, generates from product photo + approved first frame",
+   "pass": true,
+   "note": "Trace reads vgen_21 (call 2) before any reservation, opens the product page once, reserves segment 0/last, and generates with img_cv01_main + kf_21_a1. The answer says the frame is also segment 2's first frame and that the 2-frame budget is now used up."
+  },
+  {
+   "item": "Looks at generated frame before storing and checks it against keyframes.md step 2; does not store the first frame",
+   "pass": true,
+   "note": "view_image was called on gen_kf21_a and on gen_kf21_b before the store. The answer covers 1080x1920 / 9:16 with no letterboxing, centred and fully in frame, letter-checked packaging text, and composition matching kf_21_a1. The first image was not stored."
+  },
+  {
+   "item": "Names the right-hook out-of-frame defect, regenerates in same reservation, views second frame and stores only kf_21_b1",
+   "pass": true,
+   "note": "The answer says the right hook was about 1/3 out of frame and that the image was regenerated inside the same reservation. Only gen_kf21_b was stored, as kf_21_b1."
+  },
+  {
+   "item": "Presents stored frame for review (link, checks, ph_21c); records no review, does not call it approved, does not approve plan or claim video authorized",
+   "pass": true,
+   "note": "Gives the image and ERP links, the checks, and the change from ph_21b to ph_21c. It says the self-check does not replace the user's review, that the video is not approved, and asks for a pass / fail / accept-with-issues decision."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "The final answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent opened the product page one call later than the skill says (after reading vgen_21). It also could not confirm the two screw holes or the serif typeface in the stored frame and asked the user to check them, and it left the full prompt out of the answer (it is only in the task record)."
+}

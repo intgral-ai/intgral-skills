@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "workspace-merchant-unclear",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Opens with one question for the merchant's stable identifier because no session merchant is given and the workspace holds more than one",
+   "pass": true,
+   "note": "First line asks which merchant and requests its stable identifier, and explains that more than one merchant is configured."
+  },
+  {
+   "item": "No candidate listed or hinted at (no identifier, brand or directory name, not even to say it was not read)",
+   "pass": true,
+   "note": "Says only that more than one merchant exists. It names no merchant identifier, brand or directory."
+  },
+  {
+   "item": "Nothing merchant-specific follows the question (no title draft, brand wording, market/language assumption, product lookup)",
+   "pass": true,
+   "note": "No draft and no HOOK-01 lookup. It defaults to the catalog title, which assumes no market or language, and lists next steps only on the condition that the merchant is confirmed."
+  },
+  {
+   "item": "Neither preference file read or changed; nothing written in the installed package; Chinese",
+   "pass": true,
+   "note": "The trace has 0 calls and the agent says it read no preferences.md. Nothing was written. The answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Its first file listing ran before it read the skill and showed the merchant directory names, though it kept them out of the answer; it also defaulted to the catalog title because no marketplace was named."
+}

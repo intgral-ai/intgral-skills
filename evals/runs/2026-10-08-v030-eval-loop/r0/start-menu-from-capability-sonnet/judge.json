@@ -1,0 +1,34 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "start-menu-from-capability",
+ "skill": "intgral-start",
+ "hard_pass": false,
+ "hard_failed": 1,
+ "hard_findings": [
+  "final: contains \"视频\" (the answer names video in a line explaining why it is left off the menu)"
+ ],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The menu lists only what this deployment exposes: listing work and research appear; product video does not, because no video route is offered.",
+   "pass": false,
+   "note": "The numbered menu leaves video out and covers listing and research, but the answer then adds a line about the missing video route (这个部署暂时没有视频生成的路由), so video still appears in the answer."
+  },
+  {
+   "item": "The link is the returned erp_url, named for what it is (the agent activity page); no other ERP path is constructed.",
+   "pass": true,
+   "note": "Gives https://erp.example.test/app/agent-activity exactly as returned, calls it the agent activity page (agent 操作记录页), and builds no other path."
+  },
+  {
+   "item": "One question at the end: which item to start with. Chinese.",
+   "pass": true,
+   "note": "Ends with the single question 你想先做哪个？ and the whole answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "The agent correctly kept video off the menu but then added a line saying video generation is unavailable, so the answer still mentions 视频, which fails the hard check and the menu-scope rubric item.",
+ "agent_unsure": "The browser capability was reported as unknown and the agent had no browser tool, so it gave the link without claiming the page was opened."
+}

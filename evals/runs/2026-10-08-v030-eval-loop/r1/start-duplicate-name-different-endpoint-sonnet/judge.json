@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "start-duplicate-name-different-endpoint",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reports existing intgral server and shows both addresses",
+   "pass": true,
+   "note": "Lists old https://old-mcp.example.test/mcp (user scope, failing) and new https://mcp.example.test/mcp."
+  },
+  {
+   "item": "User decides on replacement; nothing removed/overwritten/shadowed; question asked plainly",
+   "pass": true,
+   "note": "Trace shows only the failed add and a get; answer asks to reply 替换 or 保留旧的."
+  },
+  {
+   "item": "No claim of installed/connected, no guessed ERP link",
+   "pass": true,
+   "note": "Says it did not touch the connection; restart note is conditional on a future install; no ERP URL given."
+  },
+  {
+   "item": "No credential/token/password requested in chat",
+   "pass": true,
+   "note": "Explicitly says no token or password needs to be sent in chat."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "Entire answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Whether the final answer should have given more detail about restarting after install."
+}

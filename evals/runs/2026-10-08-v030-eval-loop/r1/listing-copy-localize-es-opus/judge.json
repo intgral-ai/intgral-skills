@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "listing-copy-localize-es",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 7,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Spanish copy from product facts only, brand 'Casa Verde' in Latin script, no translated promises or promotional words",
+   "pass": true,
+   "note": "Title, 4 bullets and description cover only bamboo, adhesive no-drill mounting, 2 units, entryway/bathroom for towels/keys/small bags. Brand kept as 'Casa Verde'. No warranty, waterproof or load claims, and none of oferta/gratis/garantía."
+  },
+  {
+   "item": "Limits come from the tools and the copy respects them; units metric",
+   "pass": true,
+   "note": "Limits (200 / 5x255 / 2000) were read from the product-type endpoint and the compliance block, and the answer cites them. The copy is well within them. No measurements were written, because the unitless values were withheld and flagged."
+  },
+  {
+   "item": "One update_listing call with copy only, attributes untouched; reports updated.copy, content_version, erp_url and compliance after write",
+   "pass": true,
+   "note": "There was a single update_listing call with only the copy field. The answer reports updated.copy true, attributes false, content_version 3→4, the erp_url and the post-write compliance (empty lists, ready:false)."
+  },
+  {
+   "item": "Shows the saved Spanish copy with a short Chinese explanation of each claim's source",
+   "pass": true,
+   "note": "The answer has before/after title and per-bullet source tables. The description has a sentence-by-sentence source note, all in Chinese."
+  },
+  {
+   "item": "No publication claimed; user told where to publish",
+   "pass": true,
+   "note": "The answer says it did not publish, and that review and publishing are done by the user in the ERP listing page (link given). It notes that ready is not Amazon approval."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure about: no browser tool, so the agent gave the link without opening it; unitless variant weight and dimensions left out; four bullets written, not five; search terms and attributes not written; ready:false with no reason given; reading of the \"·\" title separator; describe_endpoint returned not_found, so it used the tool inputSchema instead."
+}

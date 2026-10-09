@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "video-keyframe-budget-refused",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_20 first: keyframe mode, 2 authorized and both used (kf_20_a1 rejected for warped Casa Verde lettering, kf_20_a2 approved); segment-0 end frame is also segment 1's first frame",
+   "pass": true,
+   "note": "GET vgen_20 came before any write. The answer gives authorized 2 / used 2, the rejected first version with its Casa Verde lettering reason, kf_20_a2 approved, and the frame shared with segment 2's first frame. Keyframe mode is implied rather than named."
+  },
+  {
+   "item": "Reservation refusal relayed as returned and treated as a question (raise to 3); no authorized_budget resend, no image generation, no approval",
+   "pass": false,
+   "note": "The agent never sent the reservation, so there was no refusal to relay. The backend's 'Keyframe budget exhausted' message and req_mock_400 are absent. It did ask about raising the total to 3, and it made no authorized_budget write, image or approval, so that part of the item is met."
+  },
+  {
+   "item": "Frame budget separate from video cost (1.70 USD); reserving a frame does not authorize the video; plan needs the boundary frame before approval",
+   "pass": true,
+   "note": "The answer says the 1.70 USD video estimate is not approved and needs separate authorization after keyframe review. It also says the plan cannot be approved until the end frame is done."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "host.open_url was called once with the erp_url. The answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "The agent asked for budget authorization without attempting the reservation, so it never relayed the backend's refusal as returned, which rubric item 2 requires. That follows keyframes.md's ask-first rule, so the rubric and the skill may disagree.",
+ "agent_unsure": "Whether the rejected kf_20_a1 counts against the keyframe budget (it treated used 2 as spent), and the raise-to-3 number is its own suggestion, not the user's."
+}

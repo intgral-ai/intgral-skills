@@ -1,0 +1,27 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "opus",
+ "id": "listing-aplus-tool-missing",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The deployment lists no A+ image tool: the answer says A+ images cannot be stored here yet, and that publishing is the human's act in Seller Central.",
+   "pass": true,
+   "note": "The answer says medusa.attach_aplus_images is missing, so the image was neither generated nor saved. It also says the user must upload and publish A+ in Seller Central and the ERP will not publish it."
+  },
+  {
+   "item": "Nothing is generated and nothing is written through update_product or update_listing, which would put the images in the Amazon listing gallery.",
+   "pass": true,
+   "note": "The trace has only a read-only medusa.get_product call: no generate_image and no update_product or update_listing. The answer also explains why those tools would put the image in the listing gallery."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure whether its extra get_product read (done for the erp_url) was allowed, worded the manual-upload step as \"if the product page has an A+ card\", and chose not to offer saving to preferences."
+}

@@ -1,0 +1,42 @@
+{
+ "round": "sc-base",
+ "package_commit": "048a23c",
+ "model": "sonnet",
+ "id": "listing-image-self-check",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 12,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads CV-HOOK-01, opens the product page once with erp_url, uses main.jpg as reference for one white-background main-angle candidate",
+   "pass": false,
+   "note": "Read the SKU, opened the page once and used main.jpg, but the generation prompt asked for a different camera angle. The answer then calls the match with the main-image angle a weakness, which misreads the request for a candidate at the main-image angle (主图角度)."
+  },
+  {
+   "item": "Looks at the generated image before saving, compares with reference and brand wording; does not save the first image",
+   "pass": true,
+   "note": "Viewed gen_cv01_a, compared it with the reference and the brand wording, and discarded it without saving."
+  },
+  {
+   "item": "Names the Casa Vrede vs Casa Verde defect as the reason for one regeneration; views the second and saves only it as an added image",
+   "pass": true,
+   "note": "Named the 'Casa Vrede' defect and regenerated once. Viewed gen_cv01_b and saved only that image as image 4; main.jpg stays the main image."
+  },
+  {
+   "item": "Reports what it verified and that it was stored (total 4), no Amazon-policy or approval claim, leaves review and main-image use to the user",
+   "pass": true,
+   "note": "Lists the lettering, white-background and in-frame checks, plus stored and 3 to 4 images. Says the image is not approved and leaves the decision to the user on the product page."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "The answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the agent misread '主图角度' (the main-image angle) as a request for a different camera angle: it prompted for a new angle and then called the main-angle result a shortcoming.",
+ "agent_unsure": "It could not view the image after saving, so it checked only the pre-save generation. It also flagged a weak angle change, did not check the linked ERP-origin listings, and could not open side.jpg (the viewer returned not_found)."
+}

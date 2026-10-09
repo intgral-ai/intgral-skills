@@ -3,7 +3,7 @@ name: intgral-listing
 description: Query Intgral products and listings, import product files, edit catalog or marketplace drafts, manage images, and recover partial writes through connected Intgral MCP tools.
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # Intgral 上架工作流
@@ -15,8 +15,10 @@ metadata:
   回答里也不出现任何商家的标识、品牌名或目录名（连“候选”都不列）。没有工作区或只有一个商家目录时，
   商家并不“不明确”：直接做，能读到哪些数据由 ERP 连接决定。
 - **操作 SKU 就打开它的页面。** 工具列表里有浏览器工具（如 `host.open_url`）时，读到 SKU 的页面链接（`erp_url`；只有 listing 时用
-  `listing_erp_url`）后的下一个调用就是打开它（多个 SKU 只开第一个）；没有浏览器工具就给链接，不说已打开。
+  `listing_erp_url`）后的下一个调用就是打开它（多个 SKU 只开第一个；任务针对某条 listing 时，改为读到这条 listing 的链接后打开它，见“打开哪一页”）；
+  没有浏览器工具就给链接，不说已打开。
 - **子 Agent 只读，不写。** 宿主支持子 Agent 时，互不依赖的只读（多个 SKU 的现状、多份报告）可以并行分发：每个子 Agent 只给读取类工具（不给 POST/DELETE/更新类工具，不给浏览器）、只拿它要读的内容、只返回事实；宿主不能限制子 Agent 的工具就不分发，按顺序读；主 Agent 汇总、处理冲突，向商家只确认一次。写入、计费操作、同一 SKU 的两次写入、需要商家确认的步骤，一律不交给子 Agent、不并行。宿主没有子 Agent 就按顺序做同样的读取——结果和要问的问题都一样。
+- **生成的图先自检再存。** 主机生成的图片，先用看图能力对照参考图逐项核对（产品、包装文字逐字、构图、比例），不符就重做一次，仍不符不保存；不能看图就说未自检。见[图片处理](references/images.md)。
 - **可能长期有效的要求，收尾时问一次。** 任务中提到、可能超出本次、又没说“以后/一律/记住”的要求：照做完当前任务，
   把“要把「<将写入的那一行原话>」存进偏好吗？”并进回答唯一的结尾问题；用户说“好”之前不写偏好文件。
   哪些要求算、怎么写：[私有工作区](references/private-workspace.md)。
@@ -53,7 +55,7 @@ metadata:
 | 核对完整度、处理部分/未知写入、追踪操作、准备交接 | [复核与交接](references/review.md) | 后端报告、未决问题和下一步 |
 
 只改一个字段（如仅改标题）也走[文案与 listing](references/content.md)：读目标实体，只写该字段，
-不为此查品类或读无关数据。用户只说 SKU、未提站点或 listing 时，改的是产品目录；
+不读无关数据；改产品目录字段时不为此查品类。用户只说 SKU、未提站点或 listing 时，改的是产品目录；
 站点 listing 需要用户指明或已知 listing_id。
 
 ## 共用边界
@@ -73,7 +75,8 @@ metadata:
   已成功步骤保留，`read_state_before_retry` 先读当前状态再决定，不自动重放。错误保留原因、next_step 和 request_id：
   `medusa_error` 不等于断线，不让用户重传或用同样输入盲重试；`medusa_unavailable` 可按提示稍后重试。
   写任务末尾说明剩余缺口和下一步，查询任务回答问题即可。
-- **打开哪一页。** 查询或写入都算“操作 SKU”。问的是某条 listing（图片复核、草稿差异、在售修改）且
-  `medusa.get_listing_context` 返回了 `listing_erp_url` 时，打开这条 listing 的页面；其余打开产品页 `erp_url`。
+- **打开哪一页。** 查询或写入都算“操作 SKU”。任务针对某条 listing（图片复核、草稿差异、在售修改、FBA/FBM 切换）时，
+  先读到这条 listing 自己的链接再打开它：`medusa.get_listing_context` 的 `listing_erp_url`，或 listing 行/查询返回的 `erp_url`；
+  其余打开产品页 `erp_url`。回答里说已打开；写入后再告诉用户复核和发布由用户在该页完成（只读问题不加这句）。
   只用返回的链接，不自己拼路径。每个 SKU 每会话只开一次，保存后不重开（请用户刷新）；其余 SKU 列链接。
   页面留给用户操作，打开后不在页面里点击或保存。打开失败时给链接，不说已打开。

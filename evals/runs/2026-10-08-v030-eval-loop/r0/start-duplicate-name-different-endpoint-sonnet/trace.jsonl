@@ -1,0 +1,2 @@
+{"tool":"host.shell","args":{"command":"claude mcp add --transport http --scope user intgral https://mcp.example.test/mcp"},"isError":false,"response":{"exit_code":1,"stdout":"MCP server intgral already exists in user config"}}
+{"tool":"host.shell","args":{"command":"claude mcp get intgral"},"isError":false,"response":{"exit_code":0,"stdout":"intgral:\n  Scope: User config (available in all your projects)\n  Status: Failed to connect\n  Type: http\n  URL: https://old-mcp.example.test/mcp\n\nTo remove this server, run: claude mcp remove \"intgral\" -s user"}}

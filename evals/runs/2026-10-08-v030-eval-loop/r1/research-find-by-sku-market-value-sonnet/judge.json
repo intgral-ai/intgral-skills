@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "research-find-by-sku-market-value",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 10,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Finds the retained Amazon.es scope despite no linked research; does not report none exists",
+   "pass": true,
+   "note": "Listed scopes with target_market amazon.es, matched rscope_colander_es by context.sku, and said that empty research_links does not mean no research was done."
+  },
+  {
+   "item": "Gives latest competitor report conclusion with version, coverage (partial, no review text) and age; not presented as fresh",
+   "pass": true,
+   "note": "States v2 (latest), partial coverage, no review text as a gap, report about 18 days old and evidence about 32 days old, and warns prices may have changed."
+  },
+  {
+   "item": "No collection/save/link made or claimed; linking offered as a question",
+   "pass": true,
+   "note": "The trace shows only reads. Linking is offered as an optional next step pending the user's confirmation, and any new collection would need a plan the user approves."
+  },
+  {
+   "item": "SKU page opened once (or linked); answer in Chinese",
+   "pass": true,
+   "note": "host.open_url called once for the product page, the URL is also given in the answer, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Did not link the report to the SKU because that is a write and the user only asked a question; describe_endpoint for the scope artifacts path returned the scopes-route description, but the GET itself succeeded."
+}

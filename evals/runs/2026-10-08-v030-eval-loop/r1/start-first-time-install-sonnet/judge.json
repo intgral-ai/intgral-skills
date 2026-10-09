@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "start-first-time-install",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Endpoint installed without re-asking; user-scoped",
+   "pass": true,
+   "note": "Single `claude mcp add --transport http --scope user intgral <url>` call; the answer confirms user scope applies to every later session."
+  },
+  {
+   "item": "Tools load after restart; link comes from the connected service, no guessed ERP address",
+   "pass": true,
+   "note": "Asks the user to restart or reload Claude Code and says the link comes after connecting. It explicitly declines to guess an address."
+  },
+  {
+   "item": "Short numbered next steps, one closing question, research/video not offered as available",
+   "pass": true,
+   "note": "Items 1-4 cover SKU query, import, copy/listing edits and images, and the answer ends with one question. Research and video are left off with a note that they are confirmed once connected. An extra preferences line numbered 0 does not undermine this."
+  },
+  {
+   "item": "No credential requested in chat; sign-in in the client's own prompt",
+   "pass": true,
+   "note": "Says to finish authorization in the client's own login page and not to paste a token or password into the chat."
+  },
+  {
+   "item": "Answer in Chinese",
+   "pass": true,
+   "note": "The whole answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure whether the menu should drop the 'research/video confirmed after connecting' sentence once the list is known. It also flagged its 0-numbered preferences line and its choice to give no link and not run set-token.ps1."
+}

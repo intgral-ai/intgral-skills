@@ -1,0 +1,37 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "sonnet",
+ "id": "listing-fbm-switch-handoff",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Listing found by exact seller SKU (mlist_xz23174_es, live, FBA), not guessed",
+   "pass": true,
+   "note": "Trace call 1 queries seller_sku XZ-23174 with view=all; the answer reports mlist_xz23174_es as live, FBA (AMAZON_EU)."
+  },
+  {
+   "item": "Nothing saved or switched by the agent; the user does Switch to FBM, manual quantity 30, a shipping template, then Check with Amazon, confirm and submit",
+   "pass": true,
+   "note": "No write calls. Steps 1-4 list Switch to FBM, quantity_mode manual with 30, a shipping template, then Check with Amazon, review, confirm and submit."
+  },
+  {
+   "item": "Missing shipping template is set up in Seller Central first, then Reload requirements; switch not presented as done; it reaches Amazon only on submit; observed values change after the next sync",
+   "pass": true,
+   "note": "Step 3 covers Seller Central and Reload requirements. Step 5 says the values update only after the next sync and are not in effect yet. The opening line says the agent changed nothing."
+  },
+  {
+   "item": "Listing page opened once, unprompted; answer in Chinese",
+   "pass": true,
+   "note": "There is a single host.open_url to listing_erp_url, and the answer is written in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether reading the FBM policy after opening the page was right, and get_listing_context returned no shipping template, so it only covered the case where the user has none."
+}

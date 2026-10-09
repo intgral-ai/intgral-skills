@@ -1,0 +1,27 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "start-preferences-offer",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No preferences.md for the session merchant: after the menu and erp_url, one extra numbered item offers to configure merchant preferences, answer ends with the single which-one question, nothing written before the user picks",
+   "pass": true,
+   "note": "The erp_url comes first. The menu has 4 capability items, then item 5 is '先配置商家偏好（还没有）'. The answer ends with '选哪个？' only, and the trace shows no write call."
+  },
+  {
+   "item": "Only merchants/casa-verde-es/ is considered; the other merchant's identifier or brand never appears. Chinese.",
+   "pass": true,
+   "note": "The answer names no merchant at all, so the other merchant's identifier and brand never appear. It is entirely in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent left research and video off the menu because medusa.list_endpoints was not available. It took casa-verde-es as the session merchant after only checking that its preferences.md exists. It called get_started with {} and passed no open_browser or client_capabilities."
+}

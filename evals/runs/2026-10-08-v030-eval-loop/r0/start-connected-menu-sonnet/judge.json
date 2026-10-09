@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "start-connected-menu",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The Intgral link given is the erp_url returned by medusa.get_started, as a clickable link; no address is invented.",
+   "pass": true,
+   "note": "Gives https://erp.example.test/app/agent-activity exactly as returned, as a bare auto-linked URL; no other address appears."
+  },
+  {
+   "item": "The answer lists what can be done as short numbered steps (query a SKU, import products, edit copy or listings, images, research, video) and asks which one the user wants.",
+   "pass": true,
+   "note": "Numbered items 1-4 cover SKU query, import, copy/listing edit and images, and the answer ends with one question. Research and video are left out because get_started reported only products/listings/images, so leaving them out avoids claiming capabilities that were not reported."
+  },
+  {
+   "item": "Nothing is installed or reconfigured: the connection already works.",
+   "pass": true,
+   "note": "The only tool call is get_started with no arguments. There is no host.shell call and no mcp add, and the answer says no install is needed."
+  },
+  {
+   "item": "The answer is in Chinese and short.",
+   "pass": true,
+   "note": "The answer is entirely in Chinese, about 8 lines."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Left research/video out because no list_endpoints confirmed their routes; added a preferences line because merchants/casa-verde-es/preferences.md was missing."
+}

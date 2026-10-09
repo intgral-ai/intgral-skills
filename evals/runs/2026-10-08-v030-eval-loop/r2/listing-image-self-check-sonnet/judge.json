@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "listing-image-self-check",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 9,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads CV-HOOK-01, opens erp_url once, uses main.jpg as reference for one white-background candidate",
+   "pass": true,
+   "note": "Trace shows get_product, one open_url with erp_url, view of main.jpg, and a white-background prompt that uses main.jpg as the reference."
+  },
+  {
+   "item": "Looks at generated image before saving, compares with reference and brand wording, does not save first image",
+   "pass": true,
+   "note": "view_image on gen_cv01_a, which was not saved. Only gen_cv01_b was saved."
+  },
+  {
+   "item": "Names Casa Vrede defect, regenerates once, inspects second, saves only it as added image",
+   "pass": true,
+   "note": "The answer names the 'Casa Vrede' misspelling. It regenerated once, viewed gen_cv01_b, saved it with no replace_url, and left the main image unchanged."
+  },
+  {
+   "item": "Reports what was verified and candidate saved (stored, total 4); no Amazon policy or approval claim; leaves review to the user",
+   "pass": true,
+   "note": "The answer lists lettering, white background and full framing as checked. It reports the image saved as the 4th of 4 and says this is not review approval or Amazon policy compliance. The main-image decision is left to the user."
+  },
+  {
+   "item": "Answer in Chinese",
+   "pass": true,
+   "note": "Answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Could not confirm that the requested three-quarter angle came through, because the host's description matched the existing main image. It also treated \"存到产品图片里\" as permission to write."
+}

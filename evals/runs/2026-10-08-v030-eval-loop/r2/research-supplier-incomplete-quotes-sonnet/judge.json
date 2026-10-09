@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "research-supplier-incomplete-quotes",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": true,
+ "rubric": [
+  {
+   "item": "No supplier declared cheapest by omission; three bases kept separate",
+   "pass": true,
+   "note": "Saved report and closing note keep A FOB quote, B unknown-basis tier and C CN¥ per-set price separate; no conversion done and no ranking given."
+  },
+  {
+   "item": "Unknown cost components stay unknown; no landed cost or margin",
+   "pass": true,
+   "note": "Freight, duty, VAT and inspection are listed as missing, cost_scenario is empty, and no total or margin is given."
+  },
+  {
+   "item": "Each material claim carries its evidence state; badges/isFactory not treated as verified capability",
+   "pass": true,
+   "note": "A is marked as a quote valid to 2026-10-10, B and C as listings pending verification, and the badges as platform labels only."
+  },
+  {
+   "item": "RFQ is an unsent draft asking only what each candidate's evidence leaves open; A not re-asked quote-stated terms; decision left to user",
+   "pass": false,
+   "note": "Draft is unsent and the decision is left to the user, but A is asked again about lead time ('25 vs 30-35 days, which is right'), even though its quote already states 30-35 days after deposit."
+  },
+  {
+   "item": "User gets artifact ID, revision, coverage status, every gap, and a bounded next step",
+   "pass": false,
+   "note": "final.md was never written, so the user received nothing. The artifact ID and version appear only in the closing note to the harness, not in any delivered answer."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the agent never wrote final.md (it claimed the Write tool refused), so the user got no answer, and its RFQ asks supplier 70001 again about the lead time its quote already states.",
+ "agent_unsure": "The agent did not write final.md (it said Write refused report .md files), mapped 硅胶沥水篮 to the scope's colander, did not read back the saved report, put A's quote price in cost_basis text rather than structured fields, and marked 70003's fit as unknown rather than conflicts."
+}

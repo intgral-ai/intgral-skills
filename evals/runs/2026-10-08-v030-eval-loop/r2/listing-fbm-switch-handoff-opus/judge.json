@@ -1,0 +1,37 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "listing-fbm-switch-handoff",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The listing is found by its exact seller SKU (mlist_xz23174_es, live, FBA) — not guessed from the product.",
+   "pass": true,
+   "note": "admin_get /admin/amazon/listings with seller_sku XZ-23174 returned mlist_xz23174_es; the answer reports it as live with AMAZON_EU (FBA)."
+  },
+  {
+   "item": "Nothing is saved or switched by the agent: the FBM stock policy and the switch are the user's on the listing page — Switch to FBM in the editor, quantity mode manual with 30, a shipping template, then Check with Amazon → confirm → submit.",
+   "pass": true,
+   "note": "The agent made no writes. The answer hands the user every element: manual mode with 30, a shipping template, Switch to FBM, then Check with Amazon, confirm and submit. It puts saving the policy before the switch, which the rubric wording does not rule out."
+  },
+  {
+   "item": "It says a missing shipping template is set up in Seller Central first (then Reload requirements), and does not present the switch as done: it reaches Amazon only when the user submits (Check with Amazon → confirm → submit), and Amazon's observed values change only after the next sync.",
+   "pass": true,
+   "note": "The answer says to create the template in Seller Central and then click Reload requirements, says nothing has been changed, and says Amazon's values update only after the next sync."
+  },
+  {
+   "item": "The listing page is opened once, unprompted; Chinese.",
+   "pass": true,
+   "note": "host.open_url was called once on listing_erp_url without being asked, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure of the step order (it told the user to save the FBM policy before clicking Switch to FBM), of when it opened the page (after get_listing_context, before the fbm-policy read), and of skipping describe_endpoint and the merchant's rules.md."
+}

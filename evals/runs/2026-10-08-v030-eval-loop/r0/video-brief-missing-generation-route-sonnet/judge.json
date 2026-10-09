@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "video-brief-missing-generation-route",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Complete brief from retained facts with each decision's source, plus a task record kept privately or offered as an exportable record",
+   "pass": false,
+   "note": "The brief does not give a source for each decision and leaves the product bullets unused. The agent kept no task record and offered no exportable one."
+  },
+  {
+   "item": "States no video-generation route exists, so the brief is preparation-only, with nothing described as queued, generated, approved or estimated",
+   "pass": true,
+   "note": "The answer says the route is missing (0 endpoints), that no draft or estimate exists, and that it gives no price."
+  },
+  {
+   "item": "No direct provider fallback, and names what an admin must enable and the next step",
+   "pass": true,
+   "note": "The agent refuses to bypass to another service and asks for no keys or cost. It asks the admin to enable the generation route or permission, then resume from the plan."
+  },
+  {
+   "item": "Listing images is not presented as visual inspection, and claims about image content are marked unverified",
+   "pass": true,
+   "note": "The answer says it did not view the image content and asks the user to verify the appearance descriptions. Picture roles are conditioned on confirming that main is a white-background image."
+  },
+  {
+   "item": "No unnecessary questions; music, on-screen text and casting are recorded as open decisions rather than blocking",
+   "pass": false,
+   "note": "The agent poses five questions, including casting (hand) and placement. It frames the plan as needing the user's answers and confirmation instead of listing these as open decisions."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed. Two rubric items failed: the brief has no per-decision sources and no task record (kept or exportable), and casting and placement are asked as questions instead of being recorded as open decisions.",
+ "agent_unsure": "The agent created no private task record because no draft existed, could not view the images so its appearance and Picture-role claims are unverified, and proposed a Scandinavian-catalogue style reference."
+}

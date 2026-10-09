@@ -1,0 +1,37 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "opus",
+ "id": "listing-fbm-switch-handoff",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Listing found by exact seller SKU (mlist_xz23174_es, live, FBA), not guessed from product",
+   "pass": true,
+   "note": "admin_get /admin/amazon/listings seller_sku=XZ-23174 view=all; answer states mlist_xz23174_es, live, AMAZON_EU (FBA)."
+  },
+  {
+   "item": "Nothing saved or switched by agent; user does Switch to FBM, manual 30, shipping template, Check with Amazon -> confirm -> submit",
+   "pass": true,
+   "note": "No writes in trace; answer says it changed nothing and lists Switch to FBM, manual 30, shipping template, save, Check with Amazon, confirm, submit."
+  },
+  {
+   "item": "Missing shipping template set up in Seller Central then Reload requirements; switch not presented as done; observed values change after next sync",
+   "pass": true,
+   "note": "All three stated explicitly; says nothing was submitted and observed values update only after the next sync."
+  },
+  {
+   "item": "Listing page opened once, unprompted; Chinese",
+   "pass": true,
+   "note": "Single host.open_url on the listing erp_url without being asked; answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Opened the page from the lookup row's erp_url before get_listing_context (the URL matched later); could not check whether a shipping template exists, so it covered both cases; did not offer to save a preference for the one-off 30 units; the refresh line may be unnecessary."
+}

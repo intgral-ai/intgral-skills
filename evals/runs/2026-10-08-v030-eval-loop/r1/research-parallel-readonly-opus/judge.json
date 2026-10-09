@@ -1,0 +1,32 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "research-parallel-readonly",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "One row per ASIN with price, rating, count, observation date from retained evidence, cited by evidence id and source_ref; 2-pack not presented as single-unit price",
+   "pass": true,
+   "note": "Four rows, each with its evidence id (rart_amz_col_0x) and its source_ref, which equals the ASIN. C03 is marked as a 2-pack total of 24.90 EUR; the per-unit figure is labelled as the agent's own calculation."
+  },
+  {
+   "item": "Subagents had only read tools and their own ASIN; one merged table with one set of caveats",
+   "pass": true,
+   "note": "There were four host.subagent calls, each read-only and given one artifact. The answer merges them into one table with one numbered set of caveats."
+  },
+  {
+   "item": "Nothing saved, planned or collected; no claim of a stored report; Chinese",
+   "pass": true,
+   "note": "The trace shows only GET reads and subagents. The answer says in Chinese that nothing was collected, saved or linked."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Each read-only subagent returned the same merged list of all four ASINs instead of one each, so the agent merged them itself. It skipped endpoint discovery because there was no list or describe tool and only reads were done."
+}

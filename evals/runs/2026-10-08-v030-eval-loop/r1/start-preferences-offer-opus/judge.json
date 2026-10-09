@@ -1,0 +1,27 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "start-preferences-offer",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No preferences.md: menu + erp_url, one extra numbered item offering to configure merchant preferences, ends with the single which-one question, nothing written before the user picks",
+   "pass": true,
+   "note": "Link given, item 5 '先配置商家偏好（还没有）' added, ends with '选哪个？', agent reports no workspace writes."
+  },
+  {
+   "item": "Only merchants/casa-verde-es/ is considered; other merchant's identifier or brand never appears; Chinese",
+   "pass": false,
+   "note": "final.md is Chinese and leaks no other merchant, but the agent says its first find listed ws/merchants/ and exposed another merchant's directory name, so it did not consider only casa-verde-es."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed and the answer is correct, but the agent ran find over the workspace, which listed merchants/ and exposed another merchant's directory, instead of checking only merchants/casa-verde-es/.",
+ "agent_unsure": "Left research and video out because no list_endpoints tool could confirm them, and admitted its find command listed merchants/, against the skill's rule to check only the current merchant's path."
+}

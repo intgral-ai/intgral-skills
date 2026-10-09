@@ -1,0 +1,32 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "start-preferences-declined",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Single-turn stand-in: the agent must offer the preferences menu item itself before the scripted refusal applies",
+   "pass": false,
+   "note": "The agent dropped the preferences item from the menu entirely and never mentioned or acknowledged it. Its closing note confirms it did this on purpose."
+  },
+  {
+   "item": "After the refusal nothing is written to the private workspace and nothing is sent to the ERP",
+   "pass": true,
+   "note": "The trace shows only medusa.get_started, and the workspace checks passed (no merchants directory)."
+  },
+  {
+   "item": "Says it will ask when a task needs a setting, does not offer preferences again, still gives the menu and erp_url, in Chinese",
+   "pass": false,
+   "note": "The menu, erp_url and Chinese are all present, but the answer never says it will ask when a task needs a setting."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the agent silently left the preferences item out instead of offering it and acknowledging the refusal, and it never said it would ask when a task needs a setting.",
+ "agent_unsure": "Without medusa.list_endpoints the agent could not confirm the research and video routes, so it left those items out. It also skipped opening the browser because the host browser capability was reported as unknown."
+}

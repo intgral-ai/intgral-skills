@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "workspace-switch-merchant",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Only verde-norte-de's preferences applied (uppercase VERDE NORTE, '|' separator, ends '2er Set', nothing from casa-verde-es)",
+   "pass": true,
+   "note": "Title 'VERDE NORTE Bambus Wandhaken selbstklebend ohne Bohren | 2er Set'; no '·', Latin-case brand or Spanish content."
+  },
+  {
+   "item": "Reads only the current merchant's directory and names the merchant; other merchant not named, read or modified",
+   "pass": false,
+   "note": "Answer names verde-norte-de and never names the other merchant, but the agent says its first step was a recursive `find ws`. That listed the other merchant's directory, so it did not stay inside the current merchant's directory."
+  },
+  {
+   "item": "Title built from ERP product facts (bamboo, self-adhesive, no drilling, 2 units), not from preference file",
+   "pass": true,
+   "note": "Source table traces Bambus/material, selbstklebend ohne Bohren/description, 2er Set/bullets, all from get_product and admin_get."
+  },
+  {
+   "item": "No write; answer is a suggestion and says what an authorized save would touch",
+   "pass": true,
+   "note": "Says nothing was saved. On confirmation it would call medusa.update_product to change only the title field, leaving prices and images alone."
+  },
+  {
+   "item": "Neither preference file changes; nothing written inside installed package",
+   "pass": true,
+   "note": "Hard checks for an unchanged workspace and install passed. Trace has no write calls."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks and the title rules passed, but the agent began with a recursive find over the whole workspace, which listed the other merchant's directory instead of reading only verde-norte-de's.",
+ "agent_unsure": "Its workspace find showed a second merchant directory it never read. It used admin_get without checking the endpoint catalogue first, and it is unsure whether '|' should separate only the trailing '2er Set'. It skipped the category and title-length lookup and only linked the ERP page because it had no browser tool."
+}

@@ -1,6 +1,6 @@
 {
   "id": "video-brief-first-round-cap",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-video",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -132,6 +132,12 @@
                 "path": "/admin/products/:id/videos",
                 "source": "custom",
                 "summary": "A product's video assets."
+              },
+              {
+                "method": "GET",
+                "path": "/admin/products/:id",
+                "source": "core",
+                "summary": "Product detail: description, images, variants and the listing profile (bullet points)."
               }
             ]
           }
@@ -180,6 +186,53 @@
           "result": {
             "videos": [],
             "count": 0
+          }
+        },
+        {
+          "when": {
+            "path": "/admin/products/prod_cv01"
+          },
+          "result": {
+            "product": {
+              "id": "prod_cv01",
+              "title": "Casa Verde 竹制壁挂挂钩 · 2 件装",
+              "description": "两只竹制壁挂挂钩，免打孔背胶安装，适合玄关和浴室。",
+              "status": "draft",
+              "images": [
+                {
+                  "id": "img_cv01_main",
+                  "url": "https://cdn.example.test/cv01/main.jpg"
+                },
+                {
+                  "id": "img_cv01_side",
+                  "url": "https://cdn.example.test/cv01/side.jpg"
+                },
+                {
+                  "id": "img_cv01_detail",
+                  "url": "https://cdn.example.test/cv01/detail.jpg"
+                }
+              ],
+              "product_listing_profile": {
+                "brand": "Casa Verde",
+                "bullet_points": [
+                  "天然竹材，表面打磨光滑",
+                  "背胶免打孔安装",
+                  "2 件装"
+                ]
+              },
+              "variants": [
+                {
+                  "id": "var_cv01",
+                  "sku": "CV-HOOK-01",
+                  "prices": [
+                    {
+                      "amount": 8.9,
+                      "currency_code": "eur"
+                    }
+                  ]
+                }
+              ]
+            }
           }
         },
         {
@@ -277,8 +330,8 @@
   },
   "rubric": [
     "No draft, approval or generation: the user asked for a plan and an estimate first.",
-    "The first round asks at most five questions, only decisions that change the plan (principal message, duration/aspect/resolution, references or keyframes); style, setting, light and sound come as labelled proposals with reasons, not as questions.",
+    "The first round asks at most five questions, only what the Agent cannot propose (principal message, identity constraints the images do not settle, duration/aspect/resolution, reference or keyframe mode, a capability gap such as the saved subtitle preference, consent to the free draft); style, setting, light, sound, casting and props come as labelled Agent proposals, each with its reason, not as questions.",
     "On price: says the estimate comes from the backend on a draft, the draft is free and generates nothing, and asks whether to create it. No price is invented or taken from memory.",
-    "Product facts come from the read; the SKU page is opened once (or linked). Chinese."
+    "Product facts come from the reads (get_product and the product detail route's description and listing-profile bullets); the SKU page is opened once (or linked). Chinese."
   ]
 }

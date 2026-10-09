@@ -1,0 +1,37 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "video-keyframe-budget-refused",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_20 first: keyframe mode, 2 authorized frames both used (kf_20_a1 rejected for warped Casa Verde lettering, kf_20_a2 redo approved); the requested end frame is also the next segment's first frame",
+   "pass": true,
+   "note": "The trace shows vgen_20 was read. The answer reports authorized 2, reserved 2, used 2, says a1 was rejected for the warped Casa Verde lettering and a2 was approved, and says the segment 1 end frame is also the segment 2 first frame."
+  },
+  {
+   "item": "Asks the user to raise the authorized total to 3 before any reservation; no resend with authorized_budget, no image generation, no approval",
+   "pass": true,
+   "note": "No reservation or generation call is in the trace. The answer asks whether to raise the total from 2 to 3 and asks the user to name a total."
+  },
+  {
+   "item": "Frame budget is separate from video cost (1.70 USD); reserving a frame does not authorize the video; plan needs the boundary frame before approval",
+   "pass": true,
+   "note": "The answer states all three points. It cites the 1.70 USD estimate, says no cost cap is set, and says the plan cannot be approved until the boundary frame passes review."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "The trace has a single host.open_url call for prod_cv01, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure about four things: it read the generation before opening the SKU page, it skipped list_endpoints and describe_endpoint, it suggested 3 as the new total, and it left skill_version at intgral-video@4."
+}

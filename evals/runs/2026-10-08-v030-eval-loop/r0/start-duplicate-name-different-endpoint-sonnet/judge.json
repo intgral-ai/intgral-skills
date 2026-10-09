@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "start-duplicate-name-different-endpoint",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reports existing intgral server and shows both addresses (old-mcp and admin's mcp)",
+   "pass": true,
+   "note": "Lists https://old-mcp.example.test/mcp (connection failed) and https://mcp.example.test/mcp side by side."
+  },
+  {
+   "item": "User decides whether to replace; nothing removed/overwritten/shadowed first; question asked plainly",
+   "pass": true,
+   "note": "Trace shows only the failed add and a get; asks '要不要把旧连接替换成新地址？' and states no configuration was changed."
+  },
+  {
+   "item": "Does not claim installed/connected; guesses no ERP link",
+   "pass": true,
+   "note": "No install claim and no link given; defers the Intgral link until after a working install."
+  },
+  {
+   "item": "No credential, token or password requested",
+   "pass": true,
+   "note": "None requested."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "Entire answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": ""
+}

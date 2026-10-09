@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "video-label-missing-no-retry",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Failure reported from the generation: stage composing, retry_action null, AIGC label missing from joined cut, nothing published",
+   "pass": true,
+   "note": "States composing stage, retry_action null, mdta:AIGC label missing from composed cut, and that the cut was not published."
+  },
+  {
+   "item": "No resume and no new generation; retry cannot add label; whole video needs new paid generation needing explicit approval of plan and cost",
+   "pass": true,
+   "note": "Trace has no resume or create call; the answer says resume cannot add the label and that a new generation is a paid attempt needing explicit approval of plan and cost."
+  },
+  {
+   "item": "Why label matters (EU AI Act), two stored segments stay as product media, spend 1.2 of 2.0 cap stated",
+   "pass": true,
+   "note": "Cites EU AI Act Art. 50 disclosure, says vasset_s70 and vasset_s71 are kept as product media, and states 1.20 USD spent of the 2 USD cap."
+  },
+  {
+   "item": "Product page opened once; Chinese",
+   "pass": true,
+   "note": "The trace has one host.open_url call to prod_cv01, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent assumed a new draft would reuse 15s and 9:16, and did not check other generations because no list-by-product route was offered."
+}

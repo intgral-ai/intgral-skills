@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "video-brief-missing-generation-route",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 9,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Complete brief from retained facts with each decision's source, task record kept",
+   "pass": true,
+   "note": "15s 9:16 brief, selling point sourced to the description and bullets, images mapped (main to Picture 1, wall to Picture 2, pack excluded with a reason), store preferences applied; the task record table gives a source for every decision."
+  },
+  {
+   "item": "States no video-generation route; brief is preparation-only; nothing described as queued/generated/approved/estimated",
+   "pass": true,
+   "note": "Says up front that POST /admin/video-generations returned not_found, no draft was created and no quote exists; the prompt is marked as a draft that was not submitted."
+  },
+  {
+   "item": "No direct provider fallback; names what admin must enable and next step",
+   "pass": true,
+   "note": "No API keys asked for, no other service suggested, no cost invented; says an operator or administrator must enable video generation, after which the next step is a free draft and a backend quote."
+  },
+  {
+   "item": "Image listing not presented as visual inspection; image content marked unverified",
+   "pass": true,
+   "note": "The first sentence says the images were not seen and the roles are guesses from file names; the shape slot is left as a placeholder."
+  },
+  {
+   "item": "No unnecessary questions; music/on-screen text/casting recorded as open decisions, not blocking",
+   "pass": true,
+   "note": "Casting, sound and text are editable proposals marked unconfirmed in the record, and on-screen text has its own open question; the five questions are relevant and do not block the brief."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure about: the date (get_started said 2026-09-18, the session date is 2026-10-08), not opening the ERP link because there is no browser tool, image roles guessed from file names, whether mentioning the AI label was needed, skill_version not recorded, and a placeholder left in the prompt for the product's shape."
+}

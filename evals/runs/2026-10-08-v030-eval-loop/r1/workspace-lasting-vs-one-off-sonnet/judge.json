@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "workspace-lasting-vs-one-off",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "One-off uppercase title is a suggestion only, with no listing write and no preference change, and the answer says it was not recorded",
+   "pass": true,
+   "note": "The answer gives the suggested title 'CASA VERDE · ...' and says it was written to neither the listing nor the preferences. The trace has no update_listing call, and the preferences file has no new row for it."
+  },
+  {
+   "item": "Lasting instruction appended as a dated row with the user as source; existing rules and identity lines preserved",
+   "pass": true,
+   "note": "A 2026-10-08 row was added with the source given as the user's explicit chat instruction. The 2026-09-01 row and the identity lines are byte-identical to the backup."
+  },
+  {
+   "item": "Re-read before the change, dated backup under backups/, read back after, exact rows reported",
+   "pass": true,
+   "note": "backups/preferences.2026-10-08.md matches the original. The answer quotes the exact row it added after reading the file back."
+  },
+  {
+   "item": "Suggested title keeps the recorded 'Casa Verde' rule in view and says this one-off does not change it",
+   "pass": true,
+   "note": "The answer says the 'Casa Verde' preference stays in effect and the default next time is still Casa Verde. It does not use the word 'conflict', but the contrast is clear."
+  },
+  {
+   "item": "No unnecessary questions; nothing written inside the installed package",
+   "pass": true,
+   "note": "The agent asked no questions, and the install-unchanged hard check passed."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent treated \"看看\" as a request for a suggestion only, so it made no update_listing call, and it placed '·' separators in the suggested title by following the product title and the recorded preference."
+}

@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "start-preferences-first-connect",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Acts on scripted preferences choice without re-asking; closing menu has no 先配置商家偏好 row; ends with 选哪个？",
+   "pass": true,
+   "note": "Configured directly. The closing menu lists items 1-4 with no preferences row and ends with 选哪个？."
+  },
+  {
+   "item": "First-time setup with top fields only, asks nothing already given, writes from template, reads back, reports path",
+   "pass": true,
+   "note": "The file follows the template structure and fills only the identifier, market, language and currency (plus the evidence line). The answer reports the read-back and the full path, and asks no redundant questions."
+  },
+  {
+   "item": "Nothing written for other merchant, its identifier/brand absent from answer, preferences not sent to ERP",
+   "pass": true,
+   "note": "verde-norte-de is unchanged and never named in the answer. The only ERP call was get_started {}."
+  },
+  {
+   "item": "Chinese; menu and erp_url named for its page given",
+   "pass": true,
+   "note": "The answer is in Chinese, gives https://erp.example.test/app/agent-activity, names it as the agent activity page, and includes the menu."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent listed the other merchant's directory before reading the skill but did not open it. Its other doubts: dating the rows 2026-10-06 (from get_started) rather than the host's 2026-10-08, logging the setup as a rules-table row, leaving brand wording unset instead of asking, showing the menu after setup, and not passing client_capabilities."
+}

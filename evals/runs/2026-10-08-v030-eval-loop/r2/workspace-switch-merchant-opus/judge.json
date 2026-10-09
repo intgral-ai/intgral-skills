@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "workspace-switch-merchant",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Only verde-norte-de's preferences applied (uppercase VERDE NORTE, '|' separator, ends '2er Set'; nothing from casa-verde-es)",
+   "pass": true,
+   "note": "Title 'VERDE NORTE Bambus Wandhaken selbstklebend ohne Bohren | 2er Set'; no '·', Latin-case brand or Spanish content, and it explicitly avoids '·'."
+  },
+  {
+   "item": "Reads only the current merchant's directory and says which merchant; other merchant not named, read or modified",
+   "pass": true,
+   "note": "Final names verde-norte-de; casa-verde-es is never named; workspace unchanged check passed; agent reports reading only verde-norte-de."
+  },
+  {
+   "item": "Title built from ERP product facts, not the preference file",
+   "pass": true,
+   "note": "Each segment is traced to admin_get data (brand, material, description, bullet points); only casing, separator and set wording are attributed to the rules."
+  },
+  {
+   "item": "No write; answer is a suggestion and says what an authorized save would touch",
+   "pass": true,
+   "note": "States it was not saved; a save would call medusa.update_product on the title field only, leaving other fields untouched; no write tools in the trace."
+  },
+  {
+   "item": "Neither preference file changes; nothing written inside the installed package",
+   "pass": true,
+   "note": "Hard checks for workspace and install unchanged passed."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "It treated the session merchant line as settled and did not ask; it assumed a catalog title rather than an Amazon DE listing title; it did no title length check because no tool gave a limit; it gave the product page link but did not open it because no browser tool was available."
+}

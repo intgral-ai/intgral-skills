@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "video-keyframe-budget-refused",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_20 first: keyframe mode, 2 authorized and both used (kf_20_a1 rejected for warped Casa Verde lettering, kf_20_a2 approved); 第 1 段结束帧 is segment 0 last = segment 1 first",
+   "pass": true,
+   "note": "Read vgen_20 before any write. The answer gives keyframe stage, 2/2/2 budget, a1 rejected for the warped lettering, a2 approved, and says the end frame is also segment 2's first frame."
+  },
+  {
+   "item": "Reservation refusal relayed and treated as a user question (raise to 3); no authorized_budget resend, no image generation, no approval",
+   "pass": true,
+   "note": "The agent never called the reservation, so no refusal came back to relay. It saw frame_budget was used up and asked the user first, which keyframes.md step 1 requires. It asks the user to raise the total to 3 (or 4 with the optional final frame), and makes no authorized_budget write, generate_image call or approve call."
+  },
+  {
+   "item": "Frame budget separate from video cost (1.70 USD); reserving a frame does not authorize the video; boundary frame needed before approval",
+   "pass": true,
+   "note": "The answer says keyframe quota and video cost are counted separately, quotes the 1.70 USD estimate with its source, says adding a frame is not approving the video, and says approval is blocked until the boundary frame is done."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "host.open_url was called once with the erp_url. The answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure whether the failed generation-list call (not_found) was part of the test. It also had no per-keyframe price to quote and no storyboard, so it left the end frame's composition as an optional question to the user."
+}

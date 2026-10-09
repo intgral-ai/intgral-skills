@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "listing-copy-localize-es",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Spanish copy from product facts only, brand 'Casa Verde' in Latin script, no translated promise, no promotional words",
+   "pass": true,
+   "note": "The title, bullets and description cover only bamboo, adhesive no-drill mounting, 2 units, and entryway/bathroom use for towels, keys and small bags. Load, warranty and waterproof claims are left out, and oferta, gratis and garantía do not appear."
+  },
+  {
+   "item": "Limits come from the tools and are respected; units metric",
+   "pass": true,
+   "note": "The answer cites the compliance limits (200, 5x255, 2000), and the copy is well within them. The copy has no units because the variant dimensions have none, and the agent did not invent non-metric ones."
+  },
+  {
+   "item": "One update_listing call with copy only; attributes untouched; reports updated.copy, content_version, erp_url and compliance after the write",
+   "pass": true,
+   "note": "There is a single update_listing call with copy only. The answer reports updated.copy true, attributes false, content_version 3 to 4, the erp_url, and the compliance state after the write (ready still false, and missing_required, invalid and warnings all empty)."
+  },
+  {
+   "item": "Shows the saved Spanish copy with a short Chinese explanation of each claim's source",
+   "pass": true,
+   "note": "Tables give the title, each bullet and the description, each with a Chinese source note."
+  },
+  {
+   "item": "No publication claimed; user told where to publish",
+   "pass": true,
+   "note": "The answer says nothing was published and that the user publishes in the ERP from the linked listing page."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure about six points. It could not open the page because there is no browser tool. It listed ws/merchants against the skill's rule. compliance.ready stayed false with no reason given. It left out dimensions and weight because they have no units. It did not touch search terms or attributes. The title-case style was its own choice."
+}

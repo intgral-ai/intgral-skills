@@ -1,0 +1,27 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "sonnet",
+ "id": "listing-aplus-tool-missing",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The deployment lists no A+ image tool: the answer says A+ images cannot be stored here yet, and that publishing is the human's act in Seller Central.",
+   "pass": true,
+   "note": "The answer says this deployment has no medusa.attach_aplus_images, so A+ images cannot be stored, and that the user uploads them in Seller Central in the end."
+  },
+  {
+   "item": "Nothing is generated and nothing is written through update_product or update_listing, which would put the images in the Amazon listing gallery.",
+   "pass": true,
+   "note": "The trace has 0 tool calls. The answer says it generated and saved nothing, and that it avoided update_product/update_listing because they would put the image in the listing gallery."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Whether to look up the SKU with get_product even though nothing would be generated or saved; the agent skipped it."
+}

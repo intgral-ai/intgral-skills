@@ -1,0 +1,42 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "opus",
+ "id": "listing-copy-localize-es",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Spanish copy from product facts only, brand in Latin script, no translated promises or promotional words",
+   "pass": true,
+   "note": "Title, bullets and description use only bamboo, adhesive no-drill mounting, the 2-pack and entryway/bathroom uses for towels, keys and small bags. 'Casa Verde' stays in Latin script. No oferta, gratis, garantía, waterproofing or load claims."
+  },
+  {
+   "item": "Limits come from the tools and the copy respects them; units metric",
+   "pass": true,
+   "note": "The limits (200 / 5x255 / 2000) were read from get_listing_context and the WALL_HOOK requirements endpoint, and the copy is well inside them. No imperial units appear; weight and size were left out because their units are unknown."
+  },
+  {
+   "item": "One update_listing call with copy only, attributes untouched, reporting updated.copy, content_version, erp_url and post-write compliance",
+   "pass": true,
+   "note": "There was a single update_listing call carrying copy only, and the result shows attributes:false. The answer reports updated.copy true, content_version 3→4, the erp_url, empty missing/invalid/warnings, and that ready is still false."
+  },
+  {
+   "item": "Shows saved Spanish copy with short Chinese source explanation per claim",
+   "pass": true,
+   "note": "Tables show the saved title and each bullet with its source in Chinese, and the description carries a source line."
+  },
+  {
+   "item": "No publication claimed; user told where to publish",
+   "pass": true,
+   "note": "The answer says publishing is done by the user in the ERP, links the listing page, and says a ready flag is not an Amazon approval."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure why compliance still reports ready:false with no reason given. Left out weight and size because they have no units. Did not fill the category attributes or search terms. Did not open the page because there was no browser tool. Offered no preference to save."
+}

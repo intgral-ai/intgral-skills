@@ -1,0 +1,32 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "start-preferences-declined",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Single-turn stand-in: parenthesis is the user's scripted refusal of the preferences menu item the agent offers",
+   "pass": true,
+   "note": "Agent treated the scripted refusal as the answer to its own preferences offer and acknowledged it explicitly (商家偏好先不配置)."
+  },
+  {
+   "item": "After refusal nothing written to private workspace and nothing sent to ERP",
+   "pass": true,
+   "note": "Trace shows only medusa.get_started; no admin_post, no merchants directory or preferences.md written."
+  },
+  {
+   "item": "Says it will ask when a task needs a setting, does not re-offer preferences, still gives menu and erp_url, in Chinese",
+   "pass": true,
+   "note": "Chinese reply gives the erp_url, a four-option menu with no preferences line, and says it will ask when a task needs a setting."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Left research and video off the menu because medusa.list_endpoints was not available to confirm those routes."
+}

@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "video-brief-first-round-cap",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No draft, approval or generation: the user asked for a plan and an estimate first.",
+   "pass": true,
+   "note": "The trace has only reads (get_product, open_url, view_product_images, list/describe_endpoint, admin_get) and no POST to video-generations or approve."
+  },
+  {
+   "item": "The first round asks at most five questions, only decisions that change the plan; style, setting, light and sound come as labelled proposals with reasons, not as questions.",
+   "pass": false,
+   "note": "The answer has five numbered questions, but question 2 packs about seven sub-questions into one (shape, colour/finish, mounting, packaging, which image shows each, whether main.jpg is clean and front-facing, whether both hooks appear), which gets around the cap. Style is also offered without a stated reason."
+  },
+  {
+   "item": "On price: says the estimate comes from the backend on a draft, the draft is free and generates nothing, and asks whether to create it. No price is invented or taken from memory.",
+   "pass": true,
+   "note": "The answer states that only the backend gives the estimate, on a draft that is free and generates nothing. Question 5 asks permission to create the draft, and no figure is given."
+  },
+  {
+   "item": "Product facts come from the read; the SKU page is opened once (or linked). Chinese.",
+   "pass": true,
+   "note": "The title, IDs and the 2-pack fact come from get_product. The page is opened once with open_url and also linked, and the whole reply is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the first round gets around the five-question cap: question 2 bundles about seven sub-questions on looks and references, and the style proposal gives no reason.",
+ "agent_unsure": "The agent was unsure whether: the missing es-ES subtitle capability needed settling before a draft; \"give me the estimate\" already allowed the free draft; the \"images not seen\" line belonged first in this reply; the English prompt should appear in round one; MUJI was a good style reference; and the task-file date was right after the session date changed."
+}

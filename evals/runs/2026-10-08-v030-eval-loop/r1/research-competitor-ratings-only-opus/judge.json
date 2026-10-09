@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "research-competitor-ratings-only",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 8,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Artifact ID, revision, coverage, every gap; complaint themes stated unavailable (no review body), ratings not turned into themes",
+   "pass": true,
+   "note": "Gives rart_report_col_comp_01, version 1 and coverage partial, and lists 6 gaps. It says plainly that no review text was retained and that it did not guess themes from the star ratings."
+  },
+  {
+   "item": "Like-for-like price comparison: 2-pack separate, list vs current separate, shipping excluded as unknown, rigid plastic as alternative or excluded",
+   "pass": true,
+   "note": "The direct group holds only C01 and C02. C02's 17.90 list price is shown separately from its current price, and shipping is called unknown and excluded. The 2-pack and the rigid plastic C04 are listed apart, with C04 called an alternative (备选竞品)."
+  },
+  {
+   "item": "'Bought past month' floors are per-listing lower bounds, not sales; no unlabelled sum; missing badge not zero",
+   "pass": true,
+   "note": "Floors are given per listing as 至少 (at least), with an explicit note that they are not sales or demand. They are never summed, and C04's empty badge is called unknown, not zero."
+  },
+  {
+   "item": "Bounded review acquisition naming each ASIN with a numeric per-ASIN cap, only after plan approval, no unnecessary questions",
+   "pass": true,
+   "note": "Names all 4 ASINs with a cap of at most 100 reviews each, says no plan was submitted, and waits for approval. It asks no questions up front."
+  },
+  {
+   "item": "Only retained scope evidence used; Casa Verde excluded",
+   "pass": true,
+   "note": "Uses only rart_amz_col_01–04 and states that Casa Verde is excluded. The per-unit price and the shared-rating claims are both labelled as inferences."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure about three things: the evidence age (the ERP says 16 days, but the dates give 36 days to today), whether C03's rating is really C02's parent-listing rating, and mixing the 24 cm and 26 cm sizes in the direct price group."
+}

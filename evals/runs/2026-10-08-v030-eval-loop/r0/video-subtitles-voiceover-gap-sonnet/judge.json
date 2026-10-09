@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "video-subtitles-voiceover-gap",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Checks the deployed create schema before promising anything: no speech/voice-over/subtitle field, and no subtitle route in the catalogue",
+   "pass": false,
+   "note": "Only list_endpoints was called (catalogue shows no subtitle route); describe_endpoint on POST /admin/video-generations was never called, so the 'no speech' claim was not checked against the create schema."
+  },
+  {
+   "item": "Says plainly Spanish voice-over cannot be delivered (without asking the language) and that es-ES is a preference, not a subtitle service; subtitles are a separate step not offered",
+   "pass": true,
+   "note": "Both gaps stated plainly; es-ES called a preference only; subtitles described as a separate post-processing step not offered; no language question."
+  },
+  {
+   "item": "Does not create the draft despite '方案你定，直接建草稿'; asks once whether to proceed without voice-over/subtitles; states which creative choices it may decide",
+   "pass": true,
+   "note": "No create call; one A/B/C decision question; states style, camera and lighting are its call under 9:16 reference mode."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "One host.open_url to the product's erp_url; the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the agent never called describe_endpoint on the create route, so it asserted that the video contract has no speech without checking the deployed schema.",
+ "agent_unsure": "The GET /admin/video-generations?product_id=prod_cv01 call failed, so the agent could not confirm whether a generation already exists. It also assumed it could ask for the principal message and identity constraints in the same turn as the capability question."
+}

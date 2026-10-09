@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "video-brief-first-round-cap",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 7,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No draft, approval or generation",
+   "pass": true,
+   "note": "The trace has only reads plus one host.open_url. There is no admin_post, and the answer says nothing has been generated."
+  },
+  {
+   "item": "First round asks at most five questions, only what the Agent cannot propose; style/setting/light/sound/casting/props as labelled proposals with reasons",
+   "pass": true,
+   "note": "It asks exactly 5 questions: principal message, identity constraints, resolution, the subtitle capability gap and consent to the free draft. Mode, style, setting, light, casting, sound and on-screen text are in a labelled proposal table, each with a reason."
+  },
+  {
+   "item": "Price: estimate comes from the backend on a draft, the draft is free and generates nothing, asks to create it; no invented price",
+   "pass": true,
+   "note": "The answer says the price exists only on a draft, that creating a draft is free and generates nothing, and asks in Q5. No price is quoted."
+  },
+  {
+   "item": "Product facts from the reads; SKU page opened once or linked; Chinese",
+   "pass": true,
+   "note": "Entryway/bathroom, adhesive no-drill mounting, bamboo and the 2-pack all come from the admin_get description and bullets. erp_url was opened once. The answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure whether treating the saved es-ES subtitle preference as a question over-applies the rule, whether to take reference mode from the preference instead of asking, and where skill_version should be recorded (the create schema has no field). It also could not see the images, so the picture roles come from file names, and it left out a provisional English prompt."
+}

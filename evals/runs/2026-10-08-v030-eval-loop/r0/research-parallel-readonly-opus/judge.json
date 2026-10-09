@@ -1,0 +1,32 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "research-parallel-readonly",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "One row per ASIN with current price, rating, rating count and observation date from retained evidence, cited by evidence id and source_ref; 2-unit set not presented as a single-unit price",
+   "pass": true,
+   "note": "Four rows, each with its evidence id (rart_amz_col_0N) and its ASIN source_ref linked to source_url. C03 is shown as €24.90 for a 2-pack, and the €12.45 per-unit figure is labelled as the agent's own calculation."
+  },
+  {
+   "item": "Delegated reads used only read tools and each subagent's own ASIN(s); one merged table with one set of caveats",
+   "pass": true,
+   "note": "Its single subagent was limited to medusa.admin_get and asked only for C01. The answer is one merged table with one caveats list."
+  },
+  {
+   "item": "Nothing saved, planned or collected; no claim that a report was stored; answer in Chinese",
+   "pass": true,
+   "note": "The trace shows only reads. The answer says nothing was collected or saved and is written in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure points: the subagent returned all four ASINs although it was asked for C01 only; data age was worked out from observed_at (35 days) because no freshness block was read; there was no endpoint catalogue check; rating count may mean ratings rather than written reviews; the C03 per-unit price is the agent's own calculation."
+}

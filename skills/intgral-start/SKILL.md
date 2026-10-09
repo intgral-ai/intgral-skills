@@ -3,7 +3,7 @@ name: intgral-start
 description: Start using Intgral — connect the Intgral MCP server on first use, then show what can be done with a link to Intgral, and open a SKU's Intgral page whenever a task touches that SKU.
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # 开始使用 Intgral
@@ -48,7 +48,8 @@ metadata:
 已连接时先调用 `medusa.get_started`（不传 `open_browser`），把返回的 `erp_url` 作为“打开 Intgral”的链接给用户，
 并按地址说清是哪一页（例如以 `/agent-activity` 结尾的是 agent 操作记录页）。没有返回 `erp_url` 就说明拿不到，不拼路径。
 然后用编号列出这个部署能做的事，问用户选哪个。调研和视频两项只在 `medusa.list_endpoints` 列出
-`/admin/research` 或 `/admin/video-generations` 路由时才列；没有的不列：
+`/admin/research` 或 `/admin/video-generations` 路由时才列；没有的不列，读过这份列表后也不提它没开通或为什么没列，
+不对用户讲路由：
 
 1. 查 SKU 的状态和现有信息（intgral-listing）
 2. 用表格或资料导入，建产品草稿（intgral-listing）

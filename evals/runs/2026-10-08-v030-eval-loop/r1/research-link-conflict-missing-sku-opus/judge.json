@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "research-link-conflict-missing-sku",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 12,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "CV-COL-28-BL reported as matching no variant; nothing linked; no sibling used as match; user asked to check SKU",
+   "pass": true,
+   "note": "Reports not_found with request id, links nothing, lists CV-COL-24-GR/CV-COL-26-GN only as options, and asks whether it is a typo or not yet created in the ERP."
+  },
+  {
+   "item": "409 research_link_revision_conflict reported as-is with reason (v3 already current), not retried, no new revision saved",
+   "pass": true,
+   "note": "Reports the 409 code and says version 3 is already linked. Trace shows one POST, no retry and no revision save."
+  },
+  {
+   "item": "No claim CV-COL-24-GR linked to v2; current link reported as existing state, not own success",
+   "pass": true,
+   "note": "Says version 3 is already the current link, that this run added nothing, and that it deliberately did not link version 2."
+  },
+  {
+   "item": "Product page for CV-COL-24-GR opened once unprompted; no page invented for missing SKU",
+   "pass": true,
+   "note": "The trace shows a single host.open_url call to the erp_url from the lookup. The answer gives no page for CV-COL-28-BL."
+  },
+  {
+   "item": "If removal/replacement mentioned, says unlinking is done in the ERP",
+   "pass": true,
+   "note": "Says only the user can remove a link, on the ERP research page, because the gateway does not support it."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure on three points: it trusted the variant history over the scope listing that called version 2 the latest; it reused the existing link's reason on its POST and was unsure a POST was expected at all; and the SKU lookup's empty research_links did not match the history."
+}

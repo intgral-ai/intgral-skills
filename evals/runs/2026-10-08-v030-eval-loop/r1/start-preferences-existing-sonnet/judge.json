@@ -1,0 +1,32 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "start-preferences-existing",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The session merchant already has preferences.md: the agent offers no preferences menu item, and neither rewrites nor backs up the file.",
+   "pass": true,
+   "note": "The menu has no preferences row, and no write or backup appears in the trace or the answer."
+  },
+  {
+   "item": "Only merchants/casa-verde-es/ is looked at; the other merchant's identifier or brand never appears in the answer.",
+   "pass": true,
+   "note": "The answer never mentions verde-norte-de. The hard checks passed, and the agent says it checked only the casa-verde-es path."
+  },
+  {
+   "item": "The menu and the erp_url named for its page are given, with one closing question about what to start with. Chinese.",
+   "pass": true,
+   "note": "The answer is in Chinese. It gives a four-item menu, the erp_url https://erp.example.test/app/agent-activity named as the agent activity page, and one closing question (先做哪个？)."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent left out the preferences row because preferences.md exists (it checked only that path). It also left out research and video because neither get_started nor any listed tool showed those routes, and it opened no browser."
+}
