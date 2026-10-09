@@ -17,10 +17,10 @@ A+ 页面把产品上已存的 A+ 图片排成 Amazon 的 Standard 模块，配�
 | `STANDARD_HEADER_IMAGE_TEXT` | 1 | 模块 `headline`（标题）≤150；块 `headline`（副标题）≤150、`body` ≤6000 |
 | `STANDARD_IMAGE_TEXT_OVERLAY` | 1 | 必填 `overlay_color`：`DARK` 或 `LIGHT`；块 `headline` ≤70、`body` ≤300；没有模块标题 |
 | `STANDARD_THREE_IMAGE_TEXT` | 恰好 3 | 模块 `headline` ≤200；每块 `headline` ≤160、`body` ≤1000，都必填 |
-| `STANDARD_FOUR_IMAGE_TEXT` | 恰好 4 | 模块 `headline` ≤200；每块 `headline` ≤160、`body` ≤1000 |
+| `STANDARD_FOUR_IMAGE_TEXT` | 恰好 4 | 模块 `headline` ≤200；每块 `headline` ≤160、`body` ≤1000，都必填 |
 
 每个图片位（block）是 `{image_id, alt_text, headline?, body?}`：`image_id` 必须是本产品为同一 `type` 存的 A+ 图
-（图的 `module` 等于模块的 `type`）；同类型的图不够填满一个模块，就不用这个模块。`alt_text` 每个位都要有，1–100 字符，写这张图里看得见的东西。
+（图的 `module` 等于模块的 `type`）；同一模块里每个位用不同的图，同类型的图不够填满一个模块，就不用这个模块。`alt_text` 每个位都要有，1–100 字符，写这张图里看得见的东西。
 
 ## 文字和图片的拒绝项
 
