@@ -95,7 +95,7 @@ Both use the same fictional merchant, `casa-verde-es`, and product `CV-HOOK-01`.
 | Behavior against a mocked MCP boundary, all 52 scenarios | Claude Code desktop workflow subagents, claude-opus-5-5 and claude-sonnet-5-5, scripted mock | 2026-10-08 | [eval loop](../evals/runs/2026-10-08-v030-eval-loop/run.md) |
 | Read-only behavior against a live authenticated ERP (start, listing, research, video; one prompt each) | Claude Code desktop, claude-opus-5-5; erp-dev through a local `mcp-gateway` with the deployed mcp-dev's tool catalogue | 2026-10-04 | [live runs](../evals/runs/2026-10-04-live-dev-listing-after/run.md) (`evals/runs/2026-10-04-live-dev-*`) |
 | Writes against a live authenticated ERP | — | — | **not verified**; deliberately separate acceptance |
-| Behavior against a mocked MCP boundary (the six `inventory-*` scenarios), baseline and updated | Claude Code desktop, claude-opus-5-5, scripted mock | 2026-10-05 | [evals](../evals/README.md) |
+| Behavior against a mocked MCP boundary (the six original `inventory-*` scenarios at versions 1–2), baseline and updated; the package at `4e8ba89`, **not rerun** on the current text or scenarios | Claude Code desktop, claude-opus-5-5, scripted mock | 2026-10-05 | [evals](../evals/README.md) |
 | Inventory behavior against a live ERP and gateway with the stock-change contract | — | — | **not verified** |
 | Any client other than the Codex install target and the Claude Code subagent | — | — | **not verified**; discovery and UI support must be checked per client |
 | Paid video or image generation, real report saves, supplier contact | — | — | **not exercised** |

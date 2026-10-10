@@ -1,6 +1,6 @@
 # Run: inventory-sheet-with-fba-row — baseline
 
-This run used scenario version 2 as of d48188e; the scenario is now version 3 (mocks and tool descriptions follow the gateway's result shape, 88c074a).
+This run used scenario version 2 as of d48188e; the scenario was version 3 at 88c074a (mocks and tool descriptions follow the gateway's result shape) and is now version 4 (propose-response lines without `current`, the ERP's warning and refusal wording).
 
 | Field | Value |
 | --- | --- |
