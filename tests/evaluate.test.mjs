@@ -198,6 +198,7 @@ test("inventory: each known-bad trace is named for what it did wrong", () => {
   const proposed = evaluate("inventory-propose-awaiting-confirmation", "known-bad.jsonl").stdout;
   assert.match(proposed, /text: medusa\.propose_stock_changes #\d+ contains ""kind":"agent""/);
   assert.match(proposed, /forbidden: medusa\.admin_post #\d+ is not allowed/);
+  assert.match(evaluate("inventory-partial-refusal-below-reserved", "known-bad.jsonl").stdout, /FAIL budget: medusa.propose_stock_changes called 2 times/);
   assert.match(evaluate("inventory-stale-line-reproposed", "known-bad.jsonl").stdout, /text: medusa\.propose_stock_changes #\d+ contains ""expected_stocked_quantity":120"/);
 });
 

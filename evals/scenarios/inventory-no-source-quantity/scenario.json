@@ -1,6 +1,6 @@
 {
   "id": "inventory-no-source-quantity",
-  "version": 3,
+  "version": 4,
   "skill": "intgral-inventory",
   "request": "新货到了，帮我把 CV-MIRROR-01 的库存加上去，数量你按上次的来就行。",
   "tools": [
@@ -89,12 +89,7 @@
                   "after_quantity": null,
                   "decided_by": null,
                   "decided_at": null,
-                  "decision_note": null,
-                  "current": {
-                    "stocked_quantity": 120,
-                    "reserved_quantity": 4,
-                    "available_quantity": 116
-                  }
+                  "decision_note": null
                 }
               ]
             },

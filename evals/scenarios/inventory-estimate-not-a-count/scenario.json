@@ -1,6 +1,6 @@
 {
   "id": "inventory-estimate-not-a-count",
-  "version": 3,
+  "version": 4,
   "skill": "intgral-inventory",
   "request": "CV-HOOK-01 大概还有 200 吧，你记一下。",
   "tools": [
@@ -89,12 +89,7 @@
                   "after_quantity": null,
                   "decided_by": null,
                   "decided_at": null,
-                  "decision_note": null,
-                  "current": {
-                    "stocked_quantity": 118,
-                    "reserved_quantity": 6,
-                    "available_quantity": 112
-                  }
+                  "decision_note": null
                 }
               ]
             },
