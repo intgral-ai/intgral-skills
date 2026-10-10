@@ -2,7 +2,7 @@
 
 ## Read first
 
-For every SKU in the request call `medusa.get_stock { sku }` before building a line. It reads the ERP directly and never changes anything. The result lists each location the store can sell from:
+For every SKU in the request call `medusa.get_stock { sku }` before building a line. It reads the ERP directly and never changes anything. For a long list, hosts with subagents may fan these reads out in parallel (read tools only, each subagent given only its SKUs and returning the location rows); the main agent merges, builds the lines and makes the one propose call itself. The result lists each location the store can sell from:
 
 | Field | Meaning |
 | --- | --- |
@@ -11,7 +11,7 @@ For every SKU in the request call `medusa.get_stock { sku }` before building a l
 | `available_quantity` | Stocked minus reserved: what can still be sold |
 | `has_level` | `false` means the SKU has no inventory level there yet. The zeros are **not** a counted zero |
 
-A `not_found` error means the SKU is unknown: tell the merchant, do not guess a similar SKU. `invalid_arguments` means the SKU exists but cannot hold stock here (its message carries the ERP's code and reason, e.g. `invalid_data: fba_listing: …` or `kit_variant`): relay the reason and propose nothing for it.
+A `not_found` error is not yet "unknown": look the SKU up among the listings first (the `not_found` rule in `SKILL.md`), then tell the merchant, and do not guess a similar SKU. `invalid_arguments` means the SKU exists but cannot hold stock here (its message carries the ERP's code and reason, e.g. `invalid_data: fba_listing: …` or `kit_variant`): relay the reason and propose nothing for it.
 
 ## Two kinds of line
 
@@ -25,7 +25,7 @@ Pick the kind from what the merchant said, not from what is easier.
 ### `set`
 
 ```json
-{ "sku": "CV-MIRROR-01", "kind": "set", "quantity": 150, "expected_stocked_quantity": 120 }
+{ "sku": "CV-CLOCK-07", "kind": "set", "quantity": 64, "expected_stocked_quantity": 71 }
 ```
 
 - `quantity` is the total as the merchant stated it. Do not add, subtract or round.
@@ -36,7 +36,7 @@ Pick the kind from what the merchant said, not from what is easier.
 ### `adjust`
 
 ```json
-{ "sku": "CV-HOOK-01", "kind": "adjust", "delta": -3, "reason": "damaged", "reason_note": "Lena, 2 Oct: \"摔坏了 3 个\"" }
+{ "sku": "CV-VASE-08", "kind": "adjust", "delta": -4, "reason": "damaged", "reason_note": "Omar, 9 Oct: \"摔坏了 4 个\"" }
 ```
 
 - `delta` is a signed whole number from the merchant's words: received is positive, damaged or lost negative, a correction either way.
@@ -46,9 +46,10 @@ Pick the kind from what the merchant said, not from what is easier.
 
 ## Locations
 
-- One writable location in the `get_stock` result: omit `location_id`.
+- One location in the `get_stock` result: omit `location_id`.
 - Several: ask the merchant which one the count is for, then pass `location_id`. Never pick one. `location_required` is a refusal, see [refusal codes](refusals.md).
-- You never create a location. A location absent from `get_stock` is not writable here.
+- No location in the result: the store has no stock location to write to. Tell the merchant stock locations must be set up in the ERP first, propose nothing for it and do not ask which location.
+- You never create a location. A location absent from `get_stock` cannot be named.
 
 ## One call, one source
 
@@ -67,7 +68,7 @@ Tell the merchant, in this order:
 5. **Warnings**, from each line's `warnings[]` in the returned batch, as `code` and `message` verbatim (for example a very large jump or an active FBM listing), and nothing added: no paraphrase, no promise about Amazon. A warning does not block the line and never changes the number you proposed; a human sees it on the review page.
 6. Lines you left out yourself (already matching, out of scope, awaiting a missing fact) with the reason.
 
-An accurate report reads: "Proposed 150 for CV-MIRROR-01 (now 120), waiting for confirmation."
+An accurate report reads: "Proposed 64 for CV-CLOCK-07 (now 71), waiting for confirmation."
 
 When every line was refused the call is an error: there is no batch and no `erp_url`, and the structured `refused[]` carries the reasons. Report them only, and say nothing was stored.
 

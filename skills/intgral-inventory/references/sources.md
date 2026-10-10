@@ -13,15 +13,19 @@ There is no third kind. `agent` is refused by the gateway and by the ERP: your o
 
 Examples of a well-formed `reference` (synthetic):
 
-- `Lena, 2 Oct 14:05, counting the shelf: "刚盘点完：CV-MIRROR-01 现在 150 个，CV-TRAY-02 是 80 个"`
-- `Lena, 2 Oct, unpacking the delivery: "recibimos 30 del CV-HOOK-01"`
-- `stock-2026-10.xlsx rows 2-5`
+- `Omar, 9 Oct 10:30, counting the shelf: "刚盘点完：CV-CLOCK-07 现在 64 个，CV-VASE-08 是 41 个"`
+- `Omar, 9 Oct, unpacking the delivery: "recibimos 24 del CV-VASE-08"`
+- `warehouse-count-oct-w2.xlsx rows 2-5`
 
 One batch has one source. Statements from several messages may share one `user` reference if you quote each; a chat statement and a sheet are two proposals, never one. If a merchant later restates or corrects a number, the new statement is the source for the new line; do not edit the old quote.
 
 **Time.** Use the message's timestamp if the host gives one, else the date and time you actually know, else the occasion the merchant named. Never invent a time. If you have none of these, say "in this conversation" and name the occasion; a missing clock is not a reason to refuse a stated number.
 
 **Quote, do not paraphrase.** Copy the merchant's characters. Do not translate, tidy up or add a unit they did not say. If the merchant wrote more than one sentence, quote the part that states the quantity.
+
+### Quote the number
+
+The `reference` must contain the quote that states the number. A clarification the merchant adds (a location such as "main warehouse", a reason, a corrected SKU, "it still stands") is quoted together with the count statement, never instead of it: when the count was said in one message and the clarification in the next, quote both, in order, each with its time. A reference whose only quote is "yes, it still stands" or "main warehouse" states no number and is not a source.
 
 ## What is not a source
 
@@ -44,10 +48,11 @@ Ask instead of proposing. All of these are common, and none is a count of what i
 3. Ask for the exact number and where it comes from: "Is that the exact count? Please tell me the number as you counted it and when or where you counted — or send the sheet." Do not offer your own figure to be agreed to. If they reply with an exact number, that reply is the quote.
 4. Stop there. The turn is complete without a proposal.
 
-Example. Merchant: "CV-HOOK-01 大概还有 200 吧". Read `medusa.get_stock`, then reply: "ERP 里 CV-HOOK-01 现在记录的是 118 个（已预留 6）。'大概 200' 是估计，我不能把估计提交成库存。请告诉我实际数过的确切数字，以及什么时候、怎么数的（或者把库存表发给我，我引用文件名和行号）。" No `propose_stock_changes` call.
+Example. Merchant: "CV-CLOCK-07 大概还有 90 吧". Read `medusa.get_stock`, then reply: "ERP 里 CV-CLOCK-07 现在记录的是 77 个（已预留 5）。'大概 90' 是估计，我不能把估计提交成库存。请告诉我实际数过的确切数字，以及什么时候、怎么数的（或者把库存表发给我，我引用文件名和行号）。" No `propose_stock_changes` call.
 
 ## Sheets
 
+- The file must be the merchant's own stock-count or receiving sheet: what is on their shelves or what arrived. A supplier's packing list, invoice, order confirmation or shipment notice is a spreadsheet too, but it says what was sent or ordered: not a source (see the table above). When unsure whose sheet it is, ask.
 - Only rows you actually read. Name each row as numbered in the file (a header usually makes the first data row 2) and say how you numbered it if it could be ambiguous.
 - One quantity cell per SKU. If a quantity needs arithmetic or a unit conversion (cartons times pieces per carton, pairs, dozens), ask the merchant to confirm the resulting total and quote that reply as a `user` source, citing the sheet only as context.
 - A SKU that appears twice, a SKU not in the ERP, or a row that mixes several SKUs: ask which is meant; do not pick.
