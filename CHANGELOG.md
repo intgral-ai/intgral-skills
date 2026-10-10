@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- New skill `intgral-inventory` (INT-923, INT-1030): merchant-stated counts, receipts, damage and stock sheets become sourced proposals (`user` quote or `sheet` row; estimates are asked about, never proposed) that a human confirms in the ERP. Reads `medusa.get_stock` first, `set` lines carry the expected count, `adjust` lines a reason; reports "N lines awaiting confirmation", refusals and warnings verbatim and never claims an update; a stale line is re-proposed only after the merchant restates the count. Opens the SKU's page like the other skills; `intgral-start` lists it when `medusa.propose_stock_changes` is available. Needs the stock-change tools and `/admin/stock-changes` (not in `v0.3.0`); also follows 0.3.0's conventions (read-only subagent fan-out for per-SKU stock reads, `not_found` looked up among listings, the answer says the page was opened, no private records) and the review of PR #28 (one `missing_expected` resend exception, the quote that states the number in every reference, a sheet is the merchant's own). Seven scenarios (the seventh covers a partly refused batch) with hand-written traces; the baseline and updated runs against the mocked boundary (2026-10-05, Opus) tested `4e8ba89` and must be rerun on the release head with Opus and Sonnet; live ERP not run.
+
 ## 0.3.0 — 2026-10-08 (tag `v0.3.0`)
 
 The tag first cut on 2026-10-07 at `a6db2c8` was moved to this release after the eval loop below; the deployment requirements are unchanged.

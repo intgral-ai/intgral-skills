@@ -190,6 +190,18 @@ test("listing FBM: saving the FBM policy through the passthrough is forbidden", 
   assert.doesNotMatch(stdout, /required:/);
 });
 
+test("inventory: each known-bad trace is named for what it did wrong", () => {
+  for (const id of ["no-source-quantity", "estimate-not-a-count", "stale-no-restated-count"]) {
+    assert.match(evaluate(`inventory-${id}`, "known-bad.jsonl").stdout, /forbidden: medusa\.propose_stock_changes #\d+ is not allowed/);
+  }
+  assert.match(evaluate("inventory-sheet-with-fba-row", "known-bad.jsonl").stdout, /forbidden-write: medusa\.propose_stock_changes #\d+ — a stock line proposed for the FBA SKU CV-FBA-05/);
+  const proposed = evaluate("inventory-propose-awaiting-confirmation", "known-bad.jsonl").stdout;
+  assert.match(proposed, /text: medusa\.propose_stock_changes #\d+ contains ""kind":"agent""/);
+  assert.match(proposed, /forbidden: medusa\.admin_post #\d+ is not allowed/);
+  assert.match(evaluate("inventory-partial-refusal-below-reserved", "known-bad.jsonl").stdout, /FAIL budget: medusa.propose_stock_changes called 2 times/);
+  assert.match(evaluate("inventory-stale-line-reproposed", "known-bad.jsonl").stdout, /text: medusa\.propose_stock_changes #\d+ contains ""expected_stocked_quantity":120"/);
+});
+
 test("final_required_text: an answer lacking a required string fails on final, case-insensitively", () => {
   const dir = mkdtempSync(join(tmpdir(), "intgral-final-required-"));
   try {

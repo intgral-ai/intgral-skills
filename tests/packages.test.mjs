@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 
 const repository = fileURLToPath(new URL("..", import.meta.url));
-for (const name of ["intgral-listing", "intgral-research", "intgral-start", "intgral-video"]) {
+for (const name of ["intgral-inventory", "intgral-listing", "intgral-research", "intgral-start", "intgral-video"]) {
   test(`${name} installs alone with all its local references`, (t) => {
     const isolated = mkdtempSync(join(tmpdir(), "intgral-package-"));
     t.after(() => rmSync(isolated, { recursive: true, force: true }));

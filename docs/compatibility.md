@@ -42,6 +42,16 @@ When a task touches a specific SKU — a read or a write — the agent opens tha
 
 `intgral-start` connects a client that has no Intgral tools yet. It needs the administrator-provided MCP endpoint (asked once, never inferred) and a host it can configure: on Claude Code it runs `claude mcp add --transport http --scope user intgral <endpoint>`; on other clients it names that client's own setting. Sign-in happens in the client. New tools usually appear only after the client restarts, so the Intgral link — the `erp_url` from `medusa.get_started` — is given once connected, never guessed from the endpoint.
 
+## Inventory
+
+| Stage | Required capability | Discovered by | Preparation-only fallback | Stop when |
+| --- | --- | --- | --- | --- |
+| Read stock | `medusa.get_stock` (a read in every permission profile) | step 3; step 5 is the read itself | answer from the merchant's own statement, labelled as not read from the ERP | the read returns `not_found` (unknown SKU) or `invalid_arguments` (exists but cannot hold stock: `fba_listing`, `kit_variant`, ...): no line for it |
+| Propose | `medusa.propose_stock_changes`; `set` and `adjust` lines (read the required fields in its `inputSchema`); a permission profile that is not read-only | step 3 | the prepared lines, source reference and read stock shown in the answer, marked *not proposed* | the tool is absent, the profile refuses the write, or the merchant has stated no sourced quantity |
+| Read back | `medusa.get_stock_change` | step 3 | the batch id and the `erp_url` from the proposal | the batch is `not_found` |
+
+Confirming or rejecting a line is never a capability of this package: a human does it in the ERP, and the gateway refuses both for every permission profile. A deployment that lists the tools but not the stock-change backend rules (the refusal codes and warnings the package describes) answers with whatever the ERP actually returns; the package reports that and does not assume the rest.
+
 ## Research
 
 | Stage | Required capability | Discovered by | Preparation-only fallback | Stop when |
@@ -85,6 +95,8 @@ Both use the same fictional merchant, `casa-verde-es`, and product `CV-HOOK-01`.
 | Behavior against a mocked MCP boundary, all 52 scenarios | Claude Code desktop workflow subagents, claude-opus-5-5 and claude-sonnet-5-5, scripted mock | 2026-10-08 | [eval loop](../evals/runs/2026-10-08-v030-eval-loop/run.md) |
 | Read-only behavior against a live authenticated ERP (start, listing, research, video; one prompt each) | Claude Code desktop, claude-opus-5-5; erp-dev through a local `mcp-gateway` with the deployed mcp-dev's tool catalogue | 2026-10-04 | [live runs](../evals/runs/2026-10-04-live-dev-listing-after/run.md) (`evals/runs/2026-10-04-live-dev-*`) |
 | Writes against a live authenticated ERP | — | — | **not verified**; deliberately separate acceptance |
+| Behavior against a mocked MCP boundary (the six original `inventory-*` scenarios at versions 1–2), baseline and updated; the package at `4e8ba89`, **not rerun** on the current text or scenarios | Claude Code desktop, claude-opus-5-5, scripted mock | 2026-10-05 | [evals](../evals/README.md) |
+| Inventory behavior against a live ERP and gateway with the stock-change contract | — | — | **not verified** |
 | Any client other than the Codex install target and the Claude Code subagent | — | — | **not verified**; discovery and UI support must be checked per client |
 | Paid video or image generation, real report saves, supplier contact | — | — | **not exercised** |
 

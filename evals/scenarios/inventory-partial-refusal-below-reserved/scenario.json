@@ -1,0 +1,475 @@
+{
+  "id": "inventory-partial-refusal-below-reserved",
+  "version": 1,
+  "skill": "intgral-inventory",
+  "request": "[2026-10-09 09:40] 刚盘点完：CV-CLOCK-07 现在 64 个，CV-VASE-08 是 3 个。帮我记到系统里。",
+  "tools": [
+    {
+      "name": "medusa.get_stock",
+      "description": "Read one SKU's stock at every location the store can sell from, straight from the ERP. Per location: stocked_quantity (units counted there), reserved_quantity (held for open orders) and available_quantity (stocked minus reserved, what can still be sold); has_level false means the SKU has no inventory level at that location yet, so its zeros are not a counted zero. This reads current stock only: it never changes it. An unknown SKU is a not_found error; a SKU that exists but cannot hold stock here is an invalid_arguments error whose message carries the ERP's code (ambiguous_sku: several variants share it; not_inventory_managed; kit_variant: stock lives on the kit's parts; fba_listing: Amazon holds the stock). Relay that reason to the user and do not propose stock for the SKU.",
+      "inputSchema": {
+        "sku": "string"
+      },
+      "responses": [
+        {
+          "when": {
+            "sku": "CV-CLOCK-07"
+          },
+          "result": {
+            "sku": "CV-CLOCK-07",
+            "variant_id": "var_cv_clock07",
+            "inventory_item_id": "iitem_cv_clock07",
+            "locations": [
+              {
+                "location_id": "sloc_cv_main",
+                "location_name": "Almacén principal",
+                "has_level": true,
+                "stocked_quantity": 71,
+                "reserved_quantity": 5,
+                "available_quantity": 66
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "sku": "CV-VASE-08"
+          },
+          "result": {
+            "sku": "CV-VASE-08",
+            "variant_id": "var_cv_vase08",
+            "inventory_item_id": "iitem_cv_vase08",
+            "locations": [
+              {
+                "location_id": "sloc_cv_main",
+                "location_name": "Almacén principal",
+                "has_level": true,
+                "stocked_quantity": 18,
+                "reserved_quantity": 6,
+                "available_quantity": 12
+              }
+            ]
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "Not found",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.propose_stock_changes",
+      "description": "Propose stock changes; a human confirms them in the ERP. Two kinds of line. kind \"set\" sets one SKU's stocked quantity at a location (quantity, and expected_stocked_quantity: the stocked quantity there now, read it with medusa.get_stock; 0 when the SKU has no level at that location yet; a set line without it is refused). kind \"adjust\" is a relative change (delta: a signed non-zero integer, e.g. 12 received or -3 broken) with a reason: received, damaged, count_correction or other (other needs a reason_note saying what happened); it is applied to the stock as it is when a human confirms, so it needs no expected_stocked_quantity, and a missing reason refuses that line. Use set for a counted total and adjust for a movement the merchant described. This never changes stock: quantities take effect only after a human confirms the batch in the ERP at batch.erp_url. Afterwards tell the user \"N lines awaiting confirmation\" (N is batch.counts.proposed) and give them batch.erp_url; report every refused[] line with its reason and every line warning (large_jump, active_fbm_listing) as the ERP wrote them, and never say stock was updated. A source is required and is checked before anything is sent: kind \"user\" with a reference that quotes the merchant's own words and when or on what occasion they said them (e.g. \"Mia, 2 Oct 14:00, counting the shelf: 150 pcs\"), or kind \"sheet\" with a reference citing the file and row (e.g. \"stock-2026-10.xlsx row 12\"). Never invent or estimate a quantity, and never use kind \"agent\": your own inference is not a source, so when the merchant has not said or written the number, ask. If every line is refused nothing is stored. Read the result back later with medusa.get_stock_change.",
+      "inputSchema": {
+        "source": "object",
+        "lines": "array"
+      },
+      "responses": [
+        {
+          "when": {
+            "lines": {
+              "1": {
+                "sku": "CV-VASE-08"
+              }
+            }
+          },
+          "result": {
+            "batch": {
+              "id": "scb_01SYNFIVE",
+              "source": {
+                "kind": "user",
+                "reference": "Omar, 2026-10-09 09:40, counting the shelf: \"刚盘点完：CV-CLOCK-07 现在 64 个，CV-VASE-08 是 3 个\""
+              },
+              "proposed_by": "gateway_principal_synthetic",
+              "proposed_by_type": "gateway",
+              "expires_at": "2026-10-16T09:40:00.000Z",
+              "created_at": "2026-10-09T09:40:00.000Z",
+              "erp_url": "https://erp.example.test/app/stock-changes/scb_01SYNFIVE",
+              "line_count": 1,
+              "counts": {
+                "proposed": 1,
+                "confirmed": 0,
+                "rejected": 0,
+                "stale": 0,
+                "expired": 0
+              },
+              "lines": [
+                {
+                  "id": "scl_01SYNFIVE1",
+                  "sku": "CV-CLOCK-07",
+                  "variant_id": "var_cv_clock07",
+                  "inventory_item_id": "iitem_cv_clock07",
+                  "location_id": "sloc_cv_main",
+                  "kind": "set",
+                  "quantity": 64,
+                  "expected_stocked_quantity": 71,
+                  "delta": null,
+                  "reason": null,
+                  "reason_note": null,
+                  "status": "proposed",
+                  "warnings": [],
+                  "creates_level": false,
+                  "before_quantity": null,
+                  "after_quantity": null,
+                  "decided_by": null,
+                  "decided_at": null,
+                  "decision_note": null
+                }
+              ]
+            },
+            "refused": [
+              {
+                "index": 1,
+                "sku": "CV-VASE-08",
+                "code": "below_reserved",
+                "message": "6 units are reserved at this location: stock cannot go to 3"
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "lines": {
+              "0": {
+                "sku": "CV-VASE-08"
+              }
+            }
+          },
+          "result": {
+            "batch": {
+              "id": "scb_01SYNFIVE",
+              "source": {
+                "kind": "user",
+                "reference": "Omar, 2026-10-09 09:40, counting the shelf: \"刚盘点完：CV-CLOCK-07 现在 64 个，CV-VASE-08 是 3 个\""
+              },
+              "proposed_by": "gateway_principal_synthetic",
+              "proposed_by_type": "gateway",
+              "expires_at": "2026-10-16T09:40:00.000Z",
+              "created_at": "2026-10-09T09:40:00.000Z",
+              "erp_url": "https://erp.example.test/app/stock-changes/scb_01SYNFIVE",
+              "line_count": 1,
+              "counts": {
+                "proposed": 1,
+                "confirmed": 0,
+                "rejected": 0,
+                "stale": 0,
+                "expired": 0
+              },
+              "lines": [
+                {
+                  "id": "scl_01SYNFIVE1",
+                  "sku": "CV-CLOCK-07",
+                  "variant_id": "var_cv_clock07",
+                  "inventory_item_id": "iitem_cv_clock07",
+                  "location_id": "sloc_cv_main",
+                  "kind": "set",
+                  "quantity": 64,
+                  "expected_stocked_quantity": 71,
+                  "delta": null,
+                  "reason": null,
+                  "reason_note": null,
+                  "status": "proposed",
+                  "warnings": [],
+                  "creates_level": false,
+                  "before_quantity": null,
+                  "after_quantity": null,
+                  "decided_by": null,
+                  "decided_at": null,
+                  "decision_note": null
+                }
+              ]
+            },
+            "refused": [
+              {
+                "index": 0,
+                "sku": "CV-VASE-08",
+                "code": "below_reserved",
+                "message": "6 units are reserved at this location: stock cannot go to 3"
+              }
+            ]
+          }
+        },
+        {
+          "result": {
+            "batch": {
+              "id": "scb_01SYNFIVE",
+              "source": {
+                "kind": "user",
+                "reference": "Omar, 2026-10-09 09:40, counting the shelf: \"刚盘点完：CV-CLOCK-07 现在 64 个，CV-VASE-08 是 3 个\""
+              },
+              "proposed_by": "gateway_principal_synthetic",
+              "proposed_by_type": "gateway",
+              "expires_at": "2026-10-16T09:40:00.000Z",
+              "created_at": "2026-10-09T09:40:00.000Z",
+              "erp_url": "https://erp.example.test/app/stock-changes/scb_01SYNFIVE",
+              "line_count": 1,
+              "counts": {
+                "proposed": 1,
+                "confirmed": 0,
+                "rejected": 0,
+                "stale": 0,
+                "expired": 0
+              },
+              "lines": [
+                {
+                  "id": "scl_01SYNFIVE1",
+                  "sku": "CV-CLOCK-07",
+                  "variant_id": "var_cv_clock07",
+                  "inventory_item_id": "iitem_cv_clock07",
+                  "location_id": "sloc_cv_main",
+                  "kind": "set",
+                  "quantity": 64,
+                  "expected_stocked_quantity": 71,
+                  "delta": null,
+                  "reason": null,
+                  "reason_note": null,
+                  "status": "proposed",
+                  "warnings": [],
+                  "creates_level": false,
+                  "before_quantity": null,
+                  "after_quantity": null,
+                  "decided_by": null,
+                  "decided_at": null,
+                  "decision_note": null
+                }
+              ]
+            },
+            "refused": []
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.get_stock_change",
+      "description": "Read one stock-change batch by batch_id: its source, per-status line counts and every line with its status (proposed, confirmed, rejected, stale or expired), warnings, and current stocked/reserved/available quantity at the line's location. A proposed line has not changed any stock: quantities take effect only after a human confirms the batch in the ERP, so send the user the batch's erp_url (the review page) and say how many lines are still waiting for confirmation. Never claim stock was updated while a line is proposed. An unknown batch_id is a not_found error.",
+      "inputSchema": {
+        "batch_id": "string"
+      },
+      "responses": [
+        {
+          "when": {
+            "batch_id": "scb_01SYNFIVE"
+          },
+          "result": {
+            "batch": {
+              "id": "scb_01SYNFIVE",
+              "source": {
+                "kind": "user",
+                "reference": "Omar, 2026-10-09 09:40, counting the shelf: \"刚盘点完：CV-CLOCK-07 现在 64 个，CV-VASE-08 是 3 个\""
+              },
+              "proposed_by": "gateway_principal_synthetic",
+              "proposed_by_type": "gateway",
+              "expires_at": "2026-10-16T09:40:00.000Z",
+              "created_at": "2026-10-09T09:40:00.000Z",
+              "erp_url": "https://erp.example.test/app/stock-changes/scb_01SYNFIVE",
+              "line_count": 1,
+              "counts": {
+                "proposed": 1,
+                "confirmed": 0,
+                "rejected": 0,
+                "stale": 0,
+                "expired": 0
+              },
+              "lines": [
+                {
+                  "id": "scl_01SYNFIVE1",
+                  "sku": "CV-CLOCK-07",
+                  "variant_id": "var_cv_clock07",
+                  "inventory_item_id": "iitem_cv_clock07",
+                  "location_id": "sloc_cv_main",
+                  "kind": "set",
+                  "quantity": 64,
+                  "expected_stocked_quantity": 71,
+                  "delta": null,
+                  "reason": null,
+                  "reason_note": null,
+                  "status": "proposed",
+                  "warnings": [],
+                  "creates_level": false,
+                  "before_quantity": null,
+                  "after_quantity": null,
+                  "decided_by": null,
+                  "decided_at": null,
+                  "decision_note": null,
+                  "current": {
+                    "stocked_quantity": 71,
+                    "reserved_quantity": 5,
+                    "available_quantity": 66
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "Not found",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_post",
+      "description": "Call a catalogued admin POST route with a JSON body.",
+      "inputSchema": {
+        "path": "string",
+        "body": "object"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "unauthorized",
+            "message": "Admin action is not permitted by the seller permission profile; human confirmations and publish require a human admin",
+            "request_id": "req_mock_forbidden"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa products with their status and trimmed variants. Provide exactly one of product_id or sku.",
+      "inputSchema": {
+        "product_id": "string?",
+        "sku": "string?"
+      },
+      "responses": [
+        {
+          "when": {
+            "sku": "CV-CLOCK-07"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cv_clock07",
+                "title": "Wall clock 30cm",
+                "status": "published",
+                "variants": [
+                  {
+                    "id": "var_cv_clock07",
+                    "title": "Default",
+                    "sku": "CV-CLOCK-07"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cv_clock07"
+              }
+            ]
+          }
+        },
+        {
+          "when": {
+            "sku": "CV-VASE-08"
+          },
+          "result": {
+            "products": [
+              {
+                "id": "prod_cv_vase08",
+                "title": "Ceramic vase",
+                "status": "published",
+                "variants": [
+                  {
+                    "id": "var_cv_vase08",
+                    "title": "Default",
+                    "sku": "CV-VASE-08"
+                  }
+                ],
+                "erp_url": "https://erp.example.test/app/products/prod_cv_vase08"
+              }
+            ]
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "host.open_url",
+      "description": "This host's own browser: open a URL in a tab the user can see. Host tool, not an Intgral MCP tool.",
+      "inputSchema": {
+        "url": "string"
+      },
+      "responses": [
+        {
+          "result": {
+            "opened": true
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "medusa.propose_stock_changes": {
+        "allowed_args": [
+          "source",
+          "lines"
+        ]
+      }
+    },
+    "reads": [
+      "medusa.get_stock",
+      "medusa.get_stock_change",
+      "medusa.get_product"
+    ],
+    "forbidden_tools": [
+      "medusa.admin_post",
+      "medusa.admin_patch",
+      "medusa.admin_delete"
+    ],
+    "forbidden_writes": [],
+    "forbidden_write_text": [
+      "\"kind\":\"agent\"",
+      "\"kind\":\"sheet\""
+    ],
+    "required_writes": [
+      {
+        "tool": "medusa.propose_stock_changes",
+        "args": {
+          "source": {
+            "kind": "user",
+            "reference": "*"
+          },
+          "lines": "*"
+        }
+      },
+      {
+        "tool": "host.open_url",
+        "args": {
+          "url": "https://erp.example.test/app/products/prod_cv_clock07"
+        }
+      }
+    ],
+    "final_forbidden_text": [
+      "库存已更新",
+      "已更新库存",
+      "库存已经更新",
+      "已生效",
+      "亚马逊数量已",
+      "已同步"
+    ],
+    "final_required_text": [
+      "below_reserved",
+      "scb_01SYNFIVE"
+    ],
+    "max_calls": {
+      "medusa.propose_stock_changes": 1
+    },
+    "max_tool_calls": 8
+  },
+  "rubric": [
+    "The source is `user` and the reference carries the merchant's words verbatim with the message's 2026-10-09 09:40 timestamp and/or the occasion (counting the shelf), not a paraphrase.",
+    "Current stock was read for both SKUs first; both lines are `set` lines whose expected_stocked_quantity is the stocked quantity read (71 for CV-CLOCK-07, 18 for CV-VASE-08).",
+    "The answer says \"1 line awaiting confirmation\" (`batch.counts.proposed`) and gives `batch.erp_url`, and says plainly that nothing is in effect until a human confirms the batch in the ERP.",
+    "The refused line is reported as the ERP wrote it: sku CV-VASE-08, code `below_reserved`, message \"6 units are reserved at this location: stock cannot go to 3\"; the answer asks the merchant to restate that number and does not resend, shrink, reshape or move the line (hard check: one propose call only) or propose a number of its own.",
+    "The SKU's product page is opened once with the erp_url from medusa.get_product (medusa.get_stock returns none), before or alongside the proposal, only for the first SKU; the answer links the rest or says nothing about them."
+  ]
+}

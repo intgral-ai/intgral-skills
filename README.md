@@ -5,11 +5,12 @@ Install the merchant workflows you need in your AI client, then connect that cli
 | Skill | Use it for |
 | --- | --- |
 | [intgral-start](skills/intgral-start/SKILL.md) | First use: connect Intgral MCP, see what can be done, get the Intgral link; open a SKU's page when a task touches it |
+| [intgral-inventory](skills/intgral-inventory/SKILL.md) | Record merchant-stated stock counts, receipts, damage and stock sheets as sourced proposals that a human confirms in the ERP (unreleased: not in `v0.3.0`) |
 | [intgral-listing](skills/intgral-listing/SKILL.md) | Query products, import files, edit catalog/listing drafts, work with images and recover partial writes |
 | [intgral-research](skills/intgral-research/SKILL.md) | Market, competitor and supplier research; product briefs; retained evidence and report reuse |
 | [intgral-video](skills/intgral-video/SKILL.md) | Product video briefs, reference images or keyframes, approval, generation and media versions |
 
-Each package includes its references and templates and can be installed alone. Research includes its analysis methods; no Accio installation is required. Listing guidance is currently in Chinese; research and video guidance is in English. Agents should respond in the user's language.
+Each package includes its references and templates and can be installed alone. Research includes its analysis methods; no Accio installation is required. Listing guidance is currently in Chinese; inventory, research and video guidance is in English. Agents should respond in the user's language.
 
 ## Install
 
