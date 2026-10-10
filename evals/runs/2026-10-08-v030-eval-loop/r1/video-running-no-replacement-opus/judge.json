@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "video-running-no-replacement",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_09 and reports actual state (running, 1/2 stored, segment 1 submitted 09:24 as h3_task_5534 in progress, heartbeat current; not stuck/failed)",
+   "pass": true,
+   "note": "Trace call 1 reads vgen_09; the answer gives running, 1/2 segments, segment 2 submitted at 09:24 as h3_task_5534 and still in progress, heartbeat 09:41:50, and says it is not stuck."
+  },
+  {
+   "item": "No replacement: a long wait is not a failure, a new generation is a second paid attempt that would not speed this one up, the server keeps working after the chat closes, and another video is a separate approved plan",
+   "pass": true,
+   "note": "No POST calls. The answer covers every point and sends any new video through an explicit later request, a free draft and a price confirmation."
+  },
+  {
+   "item": "States spend (0.85 spent, 0.75 held, cap 2.00), says to ask again later without promising to watch, and does not pause or resume unasked",
+   "pass": true,
+   "note": "Spend figures match. It says it will not keep watching and the user should ask again. It does not mention pausing and takes no pause or resume action."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "host.open_url was called once for prod_cv01, and the whole answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Skipped the product detail route because no brief was needed; left the task record's intgral-video@4 pin unchanged; the mock clock (2026-10-04) differs from the real date, so it reported the backend's timestamps."
+}

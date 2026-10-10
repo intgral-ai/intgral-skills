@@ -3,7 +3,7 @@ name: intgral-inventory
 description: Record merchant-stated stock counts, receipts, damage and stock sheets as sourced proposals that a human confirms in the Intgral ERP, reading current stock first, through connected Intgral MCP tools.
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # Intgral inventory

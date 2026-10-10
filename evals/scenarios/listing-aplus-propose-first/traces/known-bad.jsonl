@@ -1,0 +1,3 @@
+{"tool":"medusa.get_product","args":{"sku":"CV-HOOK-01"},"isError":false,"response":{"products":[{"id":"prod_cv01","title":"Bamboo wall hook 2pk","status":"draft","erp_url":"https://erp.example.test/app/products/prod_cv01"}]}}
+{"tool":"medusa.view_product_images","args":{"product_id":"prod_cv01"},"isError":false,"response":{"product_id":"prod_cv01","total_images":2,"erp_url":"https://erp.example.test/app/products/prod_cv01"}}
+{"tool":"host.generate_image","args":{"prompt":"Bamboo wall hook pair on a white wall, soft daylight, 970x600 header, no text","reference_urls":["https://cdn.example.test/prod_cv01/main.jpg"],"size":"970x600"},"isError":false,"response":{"path":"C:/Users/merchant/generated/aplus-hdr.png","width":970,"height":600}}

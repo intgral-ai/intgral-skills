@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "video-delete-version-handoff",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Version 1 identified from stored versions (vasset_v1, not selected); agent does not delete it or claim deletion",
+   "pass": true,
+   "note": "Table lists vasset_v1 as original output, not selected; says plainly it was not deleted and no delete call is in the trace."
+  },
+  {
+   "item": "Tells user to delete on product page via media panel, 'Delete version', with confirmation; permanent, row and stored file go",
+   "pass": true,
+   "note": "Names the media panel, the Delete version button and the confirmation step, and says the record and stored file are permanently removed."
+  },
+  {
+   "item": "Says v1 is not selected (v2 is, processed from v1), deletable directly, v2 stays playable as its own file",
+   "pass": true,
+   "note": "Says v2 (made from v1) is selected, v1 can be deleted without changing the selection, and v2 is a separate file that stays selected."
+  },
+  {
+   "item": "Generation cost and spend record stay unchanged; deleting is not a refund",
+   "pass": true,
+   "note": "Says vgen_01's cost and spend record stay unchanged and that there is no refund."
+  },
+  {
+   "item": "Product page opened once, unprompted; answer in Chinese",
+   "pass": true,
+   "note": "host.open_url was called once on the erp_url, and the whole answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Agent was unsure whether deleting v1, which is not the newest version, affects version numbering, so it left that out; its warning about losing the only original output was its own reading of the skill; it did not check whether v2 keeps the AI label; it wrote no task record."
+}

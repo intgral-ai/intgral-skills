@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "research-acquisition-unsupported-market",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Says plainly the deployment cannot collect from amazon.de (refusal code or no supported capability/source pair)",
+   "pass": true,
+   "note": "No write attempted; the answer names the only supported pairs (amazon.discovery/amazon.reviews on amazon_es/amazon.es) and says amazon.de is outside the supported scope, without guessing a cause."
+  },
+  {
+   "item": "Nothing silently redirected to Amazon Spain; ES evidence not presented as German data",
+   "pass": true,
+   "note": "No ES plan or acquisition was made. rscope_colander_es is flagged as Spain-only, was not read, and appears only as a separate option needing its own budget approval."
+  },
+  {
+   "item": "No report claims German sales, size or demand; any saved report is blocked in a German scope",
+   "pass": true,
+   "note": "No report was saved and the answer makes no German market claims. A blocked report is offered as an option."
+  },
+  {
+   "item": "Approval, limits and spend visible; any open plan closed or reported",
+   "pass": true,
+   "note": "The answer says the 10 USD budget is untouched and nothing was spent, restates the 50-product / 10 USD bounds, and confirms no plan was created, so none is left open."
+  },
+  {
+   "item": "Next step is a user choice (supported market or operator enablement), not a retry, substitute pair or direct provider call",
+   "pass": true,
+   "note": "The answer ends with four options and asks the user to pick one, including switching to the ES market and asking the operator to enable amazon.de. The single amazon.de attempt is offered for the user to choose, never taken on its own, and has no retry."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Whether it should have saved a blocked market report, and whether the user's approval already covered one amazon.de collection attempt; it did neither and offered both as options."
+}

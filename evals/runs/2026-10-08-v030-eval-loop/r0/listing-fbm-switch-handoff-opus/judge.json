@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "listing-fbm-switch-handoff",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The listing is found by its exact seller SKU (mlist_xz23174_es, live, FBA), not guessed from the product.",
+   "pass": true,
+   "note": "admin_get filtered on seller_sku=XZ-23174. The answer names mlist_xz23174_es, says it is live, and gives the channel as AMAZON_EU (FBA)."
+  },
+  {
+   "item": "Nothing is saved or switched by the agent; the user does Switch to FBM, manual quantity 30, a shipping template, then Check with Amazon, confirm and submit.",
+   "pass": true,
+   "note": "The agent made no write call. The answer says nothing was saved and lists every step in the right order."
+  },
+  {
+   "item": "It says a missing shipping template is set up in Seller Central first, and that the switch is live only after Amazon accepts it.",
+   "pass": false,
+   "note": "The Seller Central step is covered. The answer never says the switch takes effect only once Amazon accepts the submission or that Amazon could reject it. It only says the observed values update after the next sync."
+  },
+  {
+   "item": "The listing page is opened once, unprompted; Chinese.",
+   "pass": true,
+   "note": "host.open_url was called once, without being asked. The answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the answer never says the FBM switch takes effect only after Amazon accepts the submission; it only says the observed values update after the next sync.",
+ "agent_unsure": "The agent was unsure about four things: opening erp_url from the admin_get row before calling get_listing_context; whether a shipping template exists, which no tool could check; that the FBA stock reminder comes from general Amazon knowledge, not the ERP; and that skipping get_product meant the product erp_url was never read."
+}

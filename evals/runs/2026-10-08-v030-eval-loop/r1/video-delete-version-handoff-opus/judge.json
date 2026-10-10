@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "video-delete-version-handoff",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Version 1 identified from stored versions (vasset_v1, final, not selected); agent does not delete it or claim deletion",
+   "pass": true,
+   "note": "Table lists vasset_v1 as the original final cut, not selected. The agent made no delete call and says plainly that it did not delete it."
+  },
+  {
+   "item": "Tells user to delete on product page: media panel, Delete version, confirmation; permanent, row and file go",
+   "pass": true,
+   "note": "Names the media panel, 'Delete version' and the second confirmation, and says the record and the video file are deleted permanently."
+  },
+  {
+   "item": "v1 not selected (v2 is, processed from v1) so deletable directly; v2 stays playable as its own file",
+   "pass": true,
+   "note": "Says it can be deleted directly without switching the selected version, and that v2 is a separate file that stays selected."
+  },
+  {
+   "item": "Generation cost and spend record unchanged; deleting is not a refund",
+   "pass": true,
+   "note": "States that vgen_01's cost and spend record are kept and that deleting gives no refund."
+  },
+  {
+   "item": "Product page opened once unprompted; answer in Chinese",
+   "pass": true,
+   "note": "The trace shows one host.open_url call to the product page, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The generation route returned not_found, so the answer gives no cost figure. The agent did not call list_endpoints and did not ask the user which version, since 第 1 版 clearly matches version 1."
+}

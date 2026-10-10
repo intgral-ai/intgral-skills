@@ -79,8 +79,8 @@ test("menu: listing product video on a deployment without video routes is named"
 
 test("no workspace: a listing lookup without view=all gets the empty review queue, so the review is never read", (t) => {
   const calls = compliant("listing-no-workspace-single-erp");
-  const queue = { ...calls[2], args: { path: "/admin/amazon/listings", query: { seller_sku: "LH-TBL-02" } }, response: { listings: [], count: 0, view: "needs_review" } };
-  const { stdout, status } = evaluateTrace("listing-no-workspace-single-erp", writeTrace(temp(t), [...calls.slice(0, 2), queue]));
+  const queue = { ...calls[1], args: { path: "/admin/amazon/listings", query: { seller_sku: "LH-TBL-02" } }, response: { listings: [], count: 0, view: "needs_review" } };
+  const { stdout, status } = evaluateTrace("listing-no-workspace-single-erp", writeTrace(temp(t), [calls[0], queue]));
   assert.equal(status, 1);
   assert.deepEqual(failLines(stdout), ['FAIL required: no marketplace.get_image_review with {"listing_id":"mlist_lh02_es"}']);
 });

@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "start-preferences-first-connect",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Agent offers the preferences menu item itself (\"先配置商家偏好\") and still ends with the single which-one question",
+   "pass": false,
+   "note": "The answer does end with one \"选哪个?\" question, but the menu never lists a \"先配置商家偏好\" item. The agent treated the scripted parenthesis as an instruction and went straight to writing the file instead of showing that it offered the item first."
+  },
+  {
+   "item": "Template top fields only, asks nothing already given, writes merchants/casa-verde-es/preferences.md from the template, reads it back, reports the path",
+   "pass": true,
+   "note": "The file follows the template structure exactly: identifier, market, language and currency are filled, brand is left unset and video is deferred. The agent asked no questions and reported both the read-back and the path ws/merchants/casa-verde-es/preferences.md."
+  },
+  {
+   "item": "Nothing written for the other merchant, its identifier/brand absent from the answer, preferences not sent to ERP",
+   "pass": true,
+   "note": "The verde-norte file is unchanged and its name is absent from the answer. Only medusa.get_started was called, with no admin_post."
+  },
+  {
+   "item": "Chinese; menu and erp_url named for its page still given",
+   "pass": true,
+   "note": "The answer is in Chinese, gives a four-item menu, and names the erp_url as the agent activity page (agent 操作记录页)."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the menu omitted the \\\"先配置商家偏好\\\" item the agent should have offered before acting on the scripted choice.",
+ "agent_unsure": "It had no medusa.list_endpoints tool, so it judged research and video unavailable from the get_started capabilities alone; browser capability was unknown, so it opened no page."
+}

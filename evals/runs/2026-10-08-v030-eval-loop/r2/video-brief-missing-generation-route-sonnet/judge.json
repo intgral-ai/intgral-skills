@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "video-brief-missing-generation-route",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Complete brief from retained facts with sources, plus task record",
+   "pass": true,
+   "note": "Title, the three bullets (sourced to product data), three images given roles by file name, 15 s 9:16, clean style and beats are all present, the plan is labelled as the agent's proposal, and a private task record was written."
+  },
+  {
+   "item": "States no video-generation route; brief is preparation-only; nothing queued/generated/estimated",
+   "pass": true,
+   "note": "Says plainly that POST /admin/video-generations is absent, that no draft was created and nothing was spent, and that it gives no price."
+  },
+  {
+   "item": "No provider fallback; names what to enable and next step",
+   "pass": true,
+   "note": "No API keys, other services or costs. It names the missing route as what must be enabled, and the next step is to ask the user before creating a draft once the route exists."
+  },
+  {
+   "item": "Image listing not presented as visual inspection",
+   "pass": true,
+   "note": "Says it could not see the images and that the roles come from file names only."
+  },
+  {
+   "item": "No unnecessary questions; music/on-screen text/casting recorded as open decisions",
+   "pass": false,
+   "note": "Asks five questions, some redundant: Q5 re-asks for reference-image mode after the user said to use the existing images, and Q2 asks which image is cleanest. Music and on-screen text were settled as defaults instead of being recorded as open decisions, and casting became a blocking question."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the rubric failed on questioning: the agent asked five first-round questions, some redundant (it re-asked for reference-image mode after the user had said to use the existing images), and it settled music and on-screen text as defaults instead of recording them as open decisions.",
+ "agent_unsure": "No browser was available, so the agent did not open erp_url. Image rendering was reported as unknown, so the image roles come from file names. It skipped describe_endpoint because the route was absent. It marked the beat timing as a proposal because the principal message and identity constraints are still open."
+}

@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "workspace-no-filesystem",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Says plainly no writable filesystem, cannot persist across sessions, no claim to remember",
+   "pass": true,
+   "note": "Opens with 'these settings were not saved': it cannot write files, INTGRAL_WORKSPACE is unset, and it will not remember them next session."
+  },
+  {
+   "item": "Exportable preference record: template filled with supplied values, unknowns unset, path convention given",
+   "pass": true,
+   "note": "The filled template sets brand wording and the video sections to unset, and gives the path <工作区>/merchants/verde-norte-de/preferences.md."
+  },
+  {
+   "item": "Explains next-time use (paste or INTGRAL_WORKSPACE) without over-promising",
+   "pass": true,
+   "note": "Next steps say to save the file or configure INTGRAL_WORKSPACE, and until then to restate the settings or paste the file each session."
+  },
+  {
+   "item": "No unnecessary questions; no tool writes; nothing created",
+   "pass": true,
+   "note": "The trace shows 0 tool calls, the answer asks no questions and nothing was written."
+  },
+  {
+   "item": "Answer in Chinese",
+   "pass": true,
+   "note": "The prose is in Chinese, with the English template headings kept."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Whether the 'Evidence or source' line wording is right: it recorded the chat as the source and dated the rules row 2026-10-08."
+}

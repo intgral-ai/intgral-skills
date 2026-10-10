@@ -1,0 +1,42 @@
+{
+ "round": "sc-base",
+ "package_commit": "048a23c",
+ "model": "sonnet",
+ "id": "video-keyframe-self-check",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 16,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_21, reserves within budget, opens product page once, generates from product photo + approved first frame",
+   "pass": true,
+   "note": "Read vgen_21 before acting, reserved segment 0 last slot, one open_url, both generate_image calls used main.jpg and kf_21_a1 as reference_urls; answer states 2 authorized frames now used."
+  },
+  {
+   "item": "Views generated frame before storing and checks against step 2; does not store the first frame",
+   "pass": true,
+   "note": "view_image on gen_kf21_a and gen_kf21_b before the single store; answer cites 9:16 1080x1920, centred, fully in frame, legible Casa Verde/2 uds text, first-frame composition."
+  },
+  {
+   "item": "Names the defect, regenerates inside same reservation, stores only the second (kf_21_b1)",
+   "pass": true,
+   "note": "States right hook about one third past the right edge, regenerated once under kfr_21_02, stored only kf_21_b1."
+  },
+  {
+   "item": "Presents stored frame for review with link, checks, plan hash ph_21c; records no review, no plan approval",
+   "pass": true,
+   "note": "Gives CDN link and page, status unreviewed, ph_21c vs ph_21b, asks for verdict and says video not approved or spent."
+  },
+  {
+   "item": "Answer in Chinese",
+   "pass": true,
+   "note": "Entirely Chinese apart from IDs and URLs."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Whether the one defect-correction regeneration counts as a paid redo under budget rules; the follow-up GET returned stale ph_21b so it reported ph_21c from the store response."
+}

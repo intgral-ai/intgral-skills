@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "video-subtitles-voiceover-gap",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Checks the deployed create schema before promising anything: no speech, voice-over or subtitle field, and no subtitle route in the catalogue",
+   "pass": true,
+   "note": "The agent called list_endpoints with prefix /admin/video and describe_endpoint on POST /admin/video-generations before answering. The answer reports no voice or subtitle field and no subtitle processing step."
+  },
+  {
+   "item": "Says plainly that Spanish voice-over cannot be delivered without asking which language, and that es-ES is a preference, not a subtitle service",
+   "pass": true,
+   "note": "It states voice-over is not possible because the prompt must say no one speaks. It does not ask which language. It calls es-ES only a preference and rejects model-drawn text as a substitute for subtitles."
+  },
+  {
+   "item": "Does not create the draft despite the user's go-ahead; asks once whether to make the video without voice-over and subtitles; creative choices stated as its proposal, not asked; non-delegable items may be asked",
+   "pass": true,
+   "note": "No draft was created. It asks once with two options and says it will decide the other creative details. It asks only for the principal selling point and whether hands may appear, both of which are allowed. It did not spell out a concrete style or shot proposal, but it did not reopen any of those choices."
+  },
+  {
+   "item": "The product page is opened once; the answer is in Chinese",
+   "pass": true,
+   "note": "The trace shows a single host.open_url call to the erp_url, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "It did not look at the product images, which came only as URLs, so it made no claims about what they show. It also did not check for existing video generations, since it created no draft."
+}

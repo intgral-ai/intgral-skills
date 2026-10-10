@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "research-brief-missing-upstream",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Brief written and saved without asking; 看着办 read as permission to proceed with retained data, not to collect supplier data",
+   "pass": true,
+   "note": "Saved via POST (201) with no clarifying question; no supplier collection started."
+  },
+  {
+   "item": "Missing supplier stage named as a gap; target cost, sample cost, supplier choice unknown; upstream_versions pins exactly market@2 and comp@1",
+   "pass": true,
+   "note": "target_cost unknown, sample cost_status unknown, gaps cite no supplier research; upstream_versions = [market_01@2, comp_01@1]."
+  },
+  {
+   "item": "No pain points/customer language from review-less report; bought-in-past-month floors stay lower bounds",
+   "pass": true,
+   "note": "Pain points, objections, customer language all unknown with no quotes; badges called per-listing lower bounds, C04 unknown not 0."
+  },
+  {
+   "item": "Proposals (24-26 cm, price between collapsibles, drawer storage) marked proposed with how each could be tested; all 12 sections present; unknown sections cite nothing",
+   "pass": false,
+   "note": "Size and folded-thickness have validation methods and all 12 sections are present with empty evidence on unknowns, but the price-position proposal only says 'see validation plan' and no validation item tests price acceptance."
+  },
+  {
+   "item": "User gets artifact ID, revision, coverage partial, every gap; supplier research offered as next step needing approval, not started",
+   "pass": true,
+   "note": "final.md gives rart_report_col_brief_01 v1, partial, lists gaps, and offers supplier research as a next step that needs approval."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the proposed price position between the two collapsible offers is not given its own test: the validation plan covers review coding, supplier research and sample measurement, and none of them tests price acceptance.",
+ "agent_unsure": "The scope was not named, so the agent used the only one returned (rscope_colander_es). It set skill_revision brief@2 and runbook @4 while the upstream reports stay at @1, marked differentiation unknown rather than supported, applied the Casa Verde naming rule only as wording, and used English headings over Chinese content."
+}

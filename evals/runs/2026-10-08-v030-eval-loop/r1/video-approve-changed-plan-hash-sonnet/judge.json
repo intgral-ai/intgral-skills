@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "video-approve-changed-plan-hash",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Current plan read first; reviewed ph_A vs current ph_B; yesterday's approval does not cover it",
+   "pass": true,
+   "note": "States the user reviewed ph_A on 2026-10-03, the current plan is ph_B, and it did not approve."
+  },
+  {
+   "item": "Names the changed shared boundary frame (kf_11_b2 v2, stored 17:42, reviewed by erp_user_02, replacing kf_11_b1) and shows it with the segment prompts",
+   "pass": false,
+   "note": "Names the swap from kf_11_b1 to kf_11_b2 and erp_user_02, and links the frame. It leaves out the 17:42 storage time and does not show the two segment prompts. It only says they are unchanged."
+  },
+  {
+   "item": "Estimate unchanged (1.80 USD, provider price table); asks the user to authorize ph_B with a cap of at least 1.80; no approve call",
+   "pass": true,
+   "note": "Says the estimate is still 1.80 USD from the provider price table and asks the user to confirm ph_B with a 1.80 USD cap. The trace has no approve call."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese; task record notes the observed ph_B",
+   "pass": true,
+   "note": "host.open_url ran once, the answer is in Chinese, and it says the task record now notes ph_B."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed, but the answer does not show the segment prompts next to the changed boundary frame, and it leaves out the frame's 17:42 storage time.",
+ "agent_unsure": "It suggested a 1.80 USD cap (the estimate) and left the final number for the user to confirm, because the user only said to go by the estimate (按估价)."
+}

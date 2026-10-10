@@ -1,0 +1,37 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "sonnet",
+ "id": "workspace-merchant-unclear",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Opens with one question for the merchant's stable identifier",
+   "pass": true,
+   "note": "The single question asks which merchant HOOK-01 belongs to and requests the stable identifier (directory name/ID)."
+  },
+  {
+   "item": "No candidate listed or hinted at",
+   "pass": true,
+   "note": "The answer contains no merchant identifier, brand name or directory name."
+  },
+  {
+   "item": "Nothing merchant-specific follows the question",
+   "pass": true,
+   "note": "No title draft, brand wording, market or language assumption, and no product lookup (0 tool calls)."
+  },
+  {
+   "item": "No preference file read or changed, nothing written in package; Chinese",
+   "pass": true,
+   "note": "The trace has 0 tool calls. The answer is in Chinese. The agent says it listed directories with ls but read no preference file."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent said it ran a recursive ls before applying the 'count only' rule, so merchant directory names showed up in its own output. It kept them out of the answer."
+}

@@ -1,6 +1,6 @@
 {
   "id": "research-market-proxies",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-research",
   "workspace": "workspace",
   "merchant": "casa-verde-es",
@@ -908,7 +908,7 @@
                 "growth": null
               }
             },
-            "skill_revision": "intgral-research/market@2",
+            "skill_revision": "intgral-research/market@3",
             "schema_revision": "market_research/1"
           }
         }

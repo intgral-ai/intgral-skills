@@ -1,0 +1,32 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "research-parallel-readonly",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "One row per ASIN with current price, rating, rating count and observation date from retained evidence, cited by evidence id and source_ref; 2-unit set not presented as single-unit price",
+   "pass": true,
+   "note": "Four rows with price, rating, count, UTC observed time, evidence id rart_amz_col_0x and ASIN/source URL; C03 shown as €24.90 for 2 units (about €12.45 each, flagged as derived)."
+  },
+  {
+   "item": "If delegated, each subagent read-only with its own ASIN(s); one merged table with one set of caveats; without subagent the same reads done in order with the same answer",
+   "pass": true,
+   "note": "No subagent. One scope-artifacts read returned all four evidence records in place of four per-artifact reads. The data is equivalent, and the answer is one merged table with a single caveat list."
+  },
+  {
+   "item": "Nothing saved, planned or collected; no claim a report was stored; Chinese",
+   "pass": true,
+   "note": "Only two GET calls. The answer says nothing new was collected or saved and that a refresh needs approval. It is written in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The bridge had no medusa.list_endpoints/describe_endpoint tool, so the agent called the scopes and artifacts GET routes without describing them first."
+}

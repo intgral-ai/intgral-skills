@@ -14,10 +14,8 @@
 4. 已经启动的异步操作用 `medusa.get_operation_status` 或 `medusa.wait_for_operation`，
    读状态与 timed_out；超时不等于成功，不再提交一份重复操作。
 5. 按 SKU 报告实际保存/未保存、changed/updated、错误与 erp_url，给一条可执行的下一步。
-   工具失败保留原因和 request_id；medusa_error 不让用户重传，不用同样输入盲重试，
-   medusa_unavailable 按提示稍后重试。只答查询时不附强制“去发布”的下一步。
+   只答查询时不附强制“去发布”的下一步。
 
-不发布、不删除业务实体；不经由 admin 直通、token/确认接口或浏览器绕过。
 发布始终由用户在 ERP 按后端有效门槛完成，不能以“用户已说可以”代替 ERP 发布路径。
 在售 listing 的已保存修改（文本、属性、图片 `image_urls`、价格）由用户在 listing 页“Check with Amazon”→ 确认 → 提交
 推到亚马逊；Agent 不准备、不提交这份计划，也不说已经生效。改过的图片和其他修改一样默认勾选，

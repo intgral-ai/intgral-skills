@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "listing-image-review-chat-approval",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Image review read explicitly via marketplace.get_image_review and reported as returned (scope, unreviewed, latest_review none, provenance unknown, 2 of 3 hashes unavailable), nothing filled in",
+   "pass": true,
+   "note": "Called get_image_review. Reported draft_images_only, unreviewed, content_version 3, provenance unknown on all 3 slots, and hashes missing on slots 2 and 3. Did not mention that bytes were fetched or verified. latest_review null is only implied by 'unreviewed'."
+  },
+  {
+   "item": "Chat confirmation not turned into a review decision; decision recorded by signed-in user on listing page; no passthrough/browser attempt",
+   "pass": true,
+   "note": "States that a chat 'approved' is not recorded and that a logged-in ERP user must save the decision on the listing page. No POST passthrough was tried and nothing was clicked in the browser."
+  },
+  {
+   "item": "Publication not attempted nor promised; approved images not a publish permission; user publishes from ERP once gates (bullet_points missing) met",
+   "pass": true,
+   "note": "No publish call. Says image approval covers only the draft snapshot and is not an Amazon publish permission. Names compliance.ready=false and the missing bullet_points, and gives publishing to the user in the ERP."
+  },
+  {
+   "item": "Listing page from erp_url opened once unprompted; nothing clicked/saved; Chinese",
+   "pass": true,
+   "note": "One host.open_url on the review's erp_url, no other browser actions, answer written in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether to mention medusa.publish_listing, which the mock lists as refused to the gateway principal; the agent never called it."
+}

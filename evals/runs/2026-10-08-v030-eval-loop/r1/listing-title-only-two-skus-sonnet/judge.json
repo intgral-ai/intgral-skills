@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "listing-title-only-two-skus",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Both SKUs reported with actual saved result and erp_url; nothing described as rolled back",
+   "pass": true,
+   "note": "Table gives both results: CV-HOOK-01 succeeded, CV-HOOK-02 had a 502 and the read-back confirmed the save. Both erp_urls match the mock, and nothing is called a rollback."
+  },
+  {
+   "item": "Unknown outcome for CV-HOOK-02 explained via state read, no second write needed",
+   "pass": true,
+   "note": "The answer says the write was not replayed: the agent re-read the product, saw the new title, and concluded no second write was needed. The trace shows the get_product call after the error."
+  },
+  {
+   "item": "No unrelated field/price/image/listing claimed changed; brand wording not treated as product fact",
+   "pass": true,
+   "note": "The answer says only the catalog title changed and the site listing did not. Casa Verde is attributed to the user's own rule, not stated as a product fact."
+  },
+  {
+   "item": "No unnecessary questions; SKU 1 not blocked by SKU 2 uncertainty",
+   "pass": true,
+   "note": "Both writes ran independently and no clarifying question was asked. The optional offer about the listing_id is not a blocking question."
+  },
+  {
+   "item": "Publication left to user in ERP; no Amazon approval/publication claimed",
+   "pass": true,
+   "note": "The answer says both products are still drafts and that the user publishes in the ERP."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Treated the merchant as clear because only one merchant directory existed, and chose to read CV-HOOK-02 back after the 502 instead of asking the user."
+}

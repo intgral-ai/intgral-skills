@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "video-brief-missing-generation-route",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 7,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Complete brief from retained facts (title, bullets, three images mapped to roles, 15 s vertical, clean style) with each decision's source, task record kept",
+   "pass": false,
+   "note": "Title, 15 s 9:16, clean style and the task record are there, but the three images are never assigned roles (question 2 asks the user which one is the reference). Only some decisions name a source, and only one bullet is used."
+  },
+  {
+   "item": "States no video-generation route; brief is preparation-only; nothing described as queued/generated/approved/estimated",
+   "pass": true,
+   "note": "Opens by saying the deployment has no video-generation route and no draft was made. It offers no price and calls the plan preparation for later."
+  },
+  {
+   "item": "No direct provider fallback; names what an administrator must enable and the next step",
+   "pass": true,
+   "note": "Asks for no keys, names no other service and gives no cost. Says the deployment must enable the video-generation route, then a free draft and quote before approval."
+  },
+  {
+   "item": "Image listing not presented as visual inspection; image-content claims marked unverified",
+   "pass": true,
+   "note": "Says plainly that it did not see the 3 images and that any content guesses come only from filenames."
+  },
+  {
+   "item": "No unnecessary questions; music, on-screen text, casting recorded as open decisions rather than blocking",
+   "pass": false,
+   "note": "Music (none) and on-screen text (none) are set by the agent, not recorded as open decisions. It asks 5 questions that hold up the next step, including distribution/resolution and reference-vs-keyframe questions that were not needed."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed. The rubric failed on two items: the brief never assigns the three images to roles and gives sources for only some decisions, and the answer settles music and on-screen text and asks 5 blocking questions instead of recording music, text and casting as open decisions.",
+ "agent_unsure": "The agent was unsure whether to show a full English prompt before the briefing answers came back (it chose not to). It was also unsure how many of its proposals (hand in shot, towel, white wall) to ask about, and grouped them into one question."
+}

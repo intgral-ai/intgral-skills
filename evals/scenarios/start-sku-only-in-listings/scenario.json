@@ -1,0 +1,376 @@
+{
+  "id": "start-sku-only-in-listings",
+  "version": 1,
+  "skill": "intgral-start",
+  "request": "CV-LAMP-07 现在怎么样？",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "tools": [
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information.",
+      "inputSchema": {
+        "client_capabilities": "object?",
+        "open_browser": "boolean?"
+      },
+      "responses": [
+        {
+          "result": {
+            "contract_version": 1,
+            "erp_url": "https://erp.example.test/app/agent-activity",
+            "erp_opened": false,
+            "open_in_browser": false,
+            "runtime": {
+              "erp": "available",
+              "host": {
+                "browser": "unknown",
+                "file_bytes": "unknown"
+              },
+              "host_capability_source": "caller_reported_not_verified",
+              "limitations": []
+            },
+            "capabilities": [
+              "products",
+              "listings",
+              "images"
+            ],
+            "today": "2026-10-04"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.list_endpoints",
+      "description": "List catalogued admin routes, optionally by prefix.",
+      "inputSchema": {
+        "prefix": "string?"
+      },
+      "responses": [
+        {
+          "result": {
+            "endpoints": [
+              {
+                "method": "GET",
+                "path": "/admin/amazon/listings"
+              },
+              {
+                "method": "GET",
+                "path": "/admin/research/scopes"
+              },
+              {
+                "method": "POST",
+                "path": "/admin/video-generations"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.get_product",
+      "description": "Fetch Medusa catalog products with their status and trimmed variants. Provide exactly one of product_id or sku. Searches the product catalog only, not marketplace listings.",
+      "inputSchema": {
+        "product_id": "string?",
+        "sku": "string?"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No product matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_get",
+      "description": "GET a catalogued admin route.",
+      "inputSchema": {
+        "path": "string",
+        "query": "object?"
+      },
+      "responses": [
+        {
+          "when": {
+            "path": "/admin/amazon/listings"
+          },
+          "result": {
+            "listings": [
+              {
+                "id": "mlist_cvlamp07_es",
+                "seller_sku": "CV-LAMP-07",
+                "marketplace_id": "A1RKKUPIHCS9HS",
+                "store": {
+                  "id": "amzconn_cv01",
+                  "display_name": "Casa Verde ES"
+                },
+                "listing_status": "live",
+                "fulfillment_channel": "AMAZON_EU",
+                "erp_url": "https://erp.example.test/app/amazon-listings/mlist_cvlamp07_es"
+              }
+            ],
+            "count": 1,
+            "limit": 20,
+            "offset": 0
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No catalogued admin route matches that path",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.get_listing_context",
+      "description": "Read a listing's trimmed facts, its product (null when the catalog has none) and compliance. Takes listing_id.",
+      "inputSchema": {
+        "listing_id": "string"
+      },
+      "responses": [
+        {
+          "when": {
+            "listing_id": "mlist_cvlamp07_es"
+          },
+          "result": {
+            "listing": {
+              "id": "mlist_cvlamp07_es",
+              "seller_sku": "CV-LAMP-07",
+              "marketplace_id": "A1RKKUPIHCS9HS",
+              "store": {
+                "id": "amzconn_cv01",
+                "display_name": "Casa Verde ES"
+              },
+              "listing_status": "live",
+              "fulfillment_channel": "AMAZON_EU",
+              "erp_url": "https://erp.example.test/app/amazon-listings/mlist_cvlamp07_es",
+              "product_type": "LAMP",
+              "title": "Lámpara de mesa de bambú"
+            },
+            "product": null,
+            "listing_erp_url": "https://erp.example.test/app/amazon-listings/mlist_cvlamp07_es",
+            "compliance": {
+              "ready": false,
+              "missing_required": [
+                "bullet_point"
+              ],
+              "invalid": [],
+              "warnings": []
+            }
+          }
+        },
+        {
+          "error": {
+            "code": "not_found",
+            "message": "No listing matches the identifier",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.request_bootstrap_preview",
+      "description": "Preview importing a marketplace listing into the catalog as a product (a bootstrap import).",
+      "inputSchema": {
+        "listing_id": "string"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "invalid_arguments",
+            "message": "not expected in this scenario",
+            "request_id": "req_mock_ia"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.request_bootstrap_apply",
+      "description": "Apply a bootstrap import: creates the catalog product from the listing. A write.",
+      "inputSchema": {
+        "listing_id": "string"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "invalid_arguments",
+            "message": "not expected in this scenario",
+            "request_id": "req_mock_ia"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.create_product",
+      "description": "A write tool; not expected in this scenario.",
+      "inputSchema": {},
+      "responses": [
+        {
+          "error": {
+            "code": "invalid_arguments",
+            "message": "not expected in this scenario",
+            "request_id": "req_mock_ia"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.update_product",
+      "description": "A write tool; not expected in this scenario.",
+      "inputSchema": {},
+      "responses": [
+        {
+          "error": {
+            "code": "invalid_arguments",
+            "message": "not expected in this scenario",
+            "request_id": "req_mock_ia"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.update_listing",
+      "description": "A write tool; not expected in this scenario.",
+      "inputSchema": {},
+      "responses": [
+        {
+          "error": {
+            "code": "invalid_arguments",
+            "message": "not expected in this scenario",
+            "request_id": "req_mock_ia"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_post",
+      "description": "A write tool; not expected in this scenario.",
+      "inputSchema": {},
+      "responses": [
+        {
+          "error": {
+            "code": "invalid_arguments",
+            "message": "not expected in this scenario",
+            "request_id": "req_mock_ia"
+          }
+        }
+      ]
+    },
+    {
+      "name": "host.open_url",
+      "description": "This host's own browser: open a URL in a tab the user can see. Host tool, not an Intgral MCP tool.",
+      "inputSchema": {
+        "url": "string"
+      },
+      "responses": [
+        {
+          "result": {
+            "opened": true
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {
+      "medusa.get_started": {
+        "allowed_args": [
+          "client_capabilities",
+          "open_browser"
+        ]
+      }
+    },
+    "reads": [
+      "medusa.list_endpoints",
+      "medusa.get_product",
+      "medusa.admin_get",
+      "medusa.get_listing_context"
+    ],
+    "forbidden_tools": [
+      "medusa.request_bootstrap_preview",
+      "medusa.request_bootstrap_apply",
+      "medusa.create_product",
+      "medusa.update_product",
+      "medusa.update_listing",
+      "medusa.admin_post"
+    ],
+    "forbidden_writes": [
+      {
+        "label": "opens a browser on the gateway machine instead of the listing page",
+        "tool": "medusa.get_started",
+        "args": {
+          "open_browser": true
+        }
+      }
+    ],
+    "required_writes": [
+      {
+        "tool": "medusa.admin_get",
+        "args": {
+          "path": "/admin/amazon/listings",
+          "query": {
+            "seller_sku": "CV-LAMP-07",
+            "view": "all"
+          }
+        }
+      },
+      {
+        "tool": "host.open_url",
+        "args": {
+          "url": "https://erp.example.test/app/amazon-listings/mlist_cvlamp07_es"
+        }
+      }
+    ],
+    "order": [
+      {
+        "label": "the listing lookup came before the catalog read of the SKU",
+        "first": {
+          "tool": "medusa.get_product",
+          "args": {
+            "sku": "CV-LAMP-07"
+          }
+        },
+        "then": {
+          "tool": "medusa.admin_get",
+          "args": {
+            "path": "/admin/amazon/listings"
+          }
+        }
+      },
+      {
+        "label": "the listing page opened before the listing was looked up — the URL was guessed, not returned",
+        "first": {
+          "tool": "medusa.admin_get",
+          "args": {
+            "path": "/admin/amazon/listings",
+            "query": {
+              "seller_sku": "CV-LAMP-07",
+              "view": "all"
+            }
+          }
+        },
+        "then": {
+          "tool": "host.open_url",
+          "args": {}
+        }
+      }
+    ],
+    "max_calls": {
+      "host.open_url": 1,
+      "medusa.get_product": 1
+    },
+    "max_tool_calls": 7,
+    "final_required_text": [
+      "目录"
+    ]
+  },
+  "rubric": [
+    "Run with intgral-listing, intgral-research and intgral-video installed beside intgral-start and the Intgral server already connected; the request names a SKU, so no menu and no install.",
+    "The catalog read (get_product) returns not_found; the agent does not stop there: it looks CV-LAMP-07 up as an exact seller SKU among listings with view=all and finds mlist_cvlamp07_es.",
+    "It answers from the listing (live, FBA, compliance not ready: a bullet point is missing) and says plainly that the catalog has no product for this SKU yet; the bootstrap import is offered as the user's choice and nothing is previewed, imported or created in this turn.",
+    "The listing page (listing_erp_url) is opened once, unprompted; no product URL is guessed. Chinese, and at most one question at the end."
+  ]
+}

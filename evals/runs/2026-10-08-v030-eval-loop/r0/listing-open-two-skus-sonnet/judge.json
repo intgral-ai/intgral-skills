@@ -1,0 +1,32 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "listing-open-two-skus",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Both SKUs answered from tool results: CV-HOOK-01 draft 'Bamboo wall hook 2pk'; CV-TRAY-01 published 'Casa Verde bandeja organizadora de bambú'",
+   "pass": true,
+   "note": "The table gives both statuses and titles exactly as the get_product results returned them."
+  },
+  {
+   "item": "Only prod_cv01 page opened, once and unprompted; answer says so and lists CV-TRAY-01 erp_url as a link",
+   "pass": true,
+   "note": "The trace shows one open_url call, for prod_cv01. The answer says that page was opened and gives prod_cv02 only as a link."
+  },
+  {
+   "item": "Nothing done inside the opened page, nothing changed, no 'go publish' next step; Chinese",
+   "pass": true,
+   "note": "There were no edits or in-page actions. The answer says it made no changes, is written in Chinese, and treats the title-style remark as an observation, not a step to take."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent read only the casa-verde-es merchant's preferences, opened only the first SKU's page as the skill directs, and said its remark on the hook title's language and missing brand name was an observation, not a request to edit."
+}

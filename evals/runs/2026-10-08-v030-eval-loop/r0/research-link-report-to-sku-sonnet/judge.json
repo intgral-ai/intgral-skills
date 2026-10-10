@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "research-link-report-to-sku",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 8,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Latest competitor report rart_report_col_comp_02 v2 linked and named with version; v1 and market report not linked",
+   "pass": true,
+   "note": "POST linked rart_report_col_comp_02; answer names it as version 2 and calls v1 the older one."
+  },
+  {
+   "item": "Variant is variant_fake_col24gr (24 cm Gris), not the green 26 cm sibling; no listing attached",
+   "pass": true,
+   "note": "Body used variant_fake_col24gr with no listing_id; answer names CV-COL-24-GR, 24 cm grey."
+  },
+  {
+   "item": "Reason states relevance in user's terms (pricing basis) and answer confirms from returned link (state current, SKU, kind, version)",
+   "pass": true,
+   "note": "The reason sent was the pricing basis for the grey 24 cm variant. The answer reports state current, link id, SKU, competitor_research and v2, and treats the ERP-returned reason as authoritative."
+  },
+  {
+   "item": "Link described as relevance not approval; nothing collected, report not rewritten, contents not presented as newly verified",
+   "pass": true,
+   "note": "Says the link means relevance only, not product or price approval. Nothing was collected or re-saved, and the report is flagged as partial."
+  },
+  {
+   "item": "If changing/removing the link is mentioned: unlinking is done in ERP, and a newer competitor revision linked later replaces this one while it stays as history",
+   "pass": false,
+   "note": "Says unlinking must happen in the ERP. Never says that linking a newer competitor revision later replaces this link while this one stays as history."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the answer mentions unlinking without saying that a newer competitor revision linked later replaces this link while this one stays as history.",
+ "agent_unsure": "Matched the research scope on its question text because the scope context has no sku. It had no browser tool, so the SKU page was not opened. It did not read the report body or the older revisions."
+}

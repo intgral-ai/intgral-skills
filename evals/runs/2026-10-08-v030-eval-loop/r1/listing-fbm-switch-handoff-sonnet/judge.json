@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "listing-fbm-switch-handoff",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The listing is found by its exact seller SKU (mlist_xz23174_es, live, FBA), not guessed from the product",
+   "pass": true,
+   "note": "admin_get on /admin/amazon/listings with seller_sku XZ-23174; answer names mlist_xz23174_es, live, AMAZON_EU (FBA)."
+  },
+  {
+   "item": "Nothing is saved or switched by the agent; user does Switch to FBM, manual quantity 30, shipping template, then Check with Amazon -> confirm -> submit",
+   "pass": true,
+   "note": "No writes in the trace. The answer lists Switch to FBM, manual 30 plus a shipping template, save, and Check with Amazon, then confirm and submit."
+  },
+  {
+   "item": "Missing shipping template set up in Seller Central first (then Reload requirements); switch not presented as done; reaches Amazon only on submit; observed values change after next sync",
+   "pass": true,
+   "note": "The answer covers each point: Seller Central first, then Reload requirements. It says the listing stays FBA until the user submits and Amazon's values update only after the next sync."
+  },
+  {
+   "item": "The listing page is opened once, unprompted; Chinese",
+   "pass": true,
+   "note": "A single host.open_url on the listing's erp_url. The answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether to mention compliance.ready in the answer; it did, with the caveat that it is not an Amazon approval."
+}

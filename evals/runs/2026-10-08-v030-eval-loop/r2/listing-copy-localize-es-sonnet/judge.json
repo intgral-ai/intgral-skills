@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "listing-copy-localize-es",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Spanish copy from product facts only, brand in Latin script, no invented promises or promotional words",
+   "pass": true,
+   "note": "The title, 5 bullets and description use only bamboo, adhesive no-drill mounting, 2 units, and entryway keys and bags plus bathroom towels. 'Casa Verde' is kept. There are no claims about load, waterproofing, warranty or certification, and none of oferta, gratis or garantía."
+  },
+  {
+   "item": "Limits from tools, copy respects them, metric units",
+   "pass": true,
+   "note": "The answer cites the backend limits: 5 bullets at 255 characters or fewer each, and 2000 characters for the description. The copy is well inside all of them. The agent left out dimensions because they had no units, which is safe."
+  },
+  {
+   "item": "Single update_listing with copy only; reports updated.copy, content_version, erp_url, post-write compliance",
+   "pass": true,
+   "note": "There was one update_listing call, with copy only. The answer reports content_version 3→4, status succeeded with copy completed, attributes untouched, and the erp_url. It also reports compliance after the write: missing_required and warnings are empty and ready is still false."
+  },
+  {
+   "item": "Shows saved Spanish copy with short Chinese source explanation per claim",
+   "pass": true,
+   "note": "Every title, bullet and description item is shown with a Chinese source line. The agent-written phrasing in bullet 3 is flagged as such."
+  },
+  {
+   "item": "No publication claimed; user told where to publish",
+   "pass": true,
+   "note": "The answer says the copy is saved as a draft, that ready is not Amazon approval, and that the user publishes in the ERP at the given URL."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "compliance.ready stayed false after the save and the backend gave no reason. Dimensions and weight were left out because they had no units and did not say whether they are per hook or per pack. Search terms and attributes were not written."
+}

@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "video-label-missing-no-retry",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Failure reported from the generation: stage composing, retry_action null, AIGC label missing from joined cut, nothing published",
+   "pass": true,
+   "note": "States failed at composing, retry_action null, mdta:AIGC label lost on the joined cut, and that the system did not publish it."
+  },
+  {
+   "item": "No resume and no new generation; a whole video needs a new paid generation needing explicit approval of plan and cost",
+   "pass": true,
+   "note": "No resume or create call in the trace. It explains that resume cannot add the label back and that a new generation is a new paid attempt submitted only after the user approves the plan and cost."
+  },
+  {
+   "item": "Why the label matters (EU AI Act), two stored segments stay as product media, spend 1.2 of 2.0 cap stated",
+   "pass": true,
+   "note": "Cites the EU AI Act Art. 50 disclosure rule, says vasset_s70/s71 stay as product media, and gives the spend as 1.2 USD of the 2 USD cap."
+  },
+  {
+   "item": "Product page opened once; Chinese",
+   "pass": true,
+   "note": "host.open_url was called once on the erp_url, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "It made a recovery task record that may not be needed. The generation read had no per-segment attempts, task IDs or plan_hash, so it reported only the backend spend. It skipped the product detail read."
+}

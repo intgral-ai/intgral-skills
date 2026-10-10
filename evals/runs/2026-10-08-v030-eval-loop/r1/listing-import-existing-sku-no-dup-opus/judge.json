@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "listing-import-existing-sku-no-dup",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "SKU found as existing draft prod_cv01; no second product created",
+   "pass": true,
+   "note": "get_product found prod_cv01; no create_product call; only update_product on prod_cv01."
+  },
+  {
+   "item": "12.90 EUR write marked price_source user",
+   "pass": true,
+   "note": "update_product carried prices with price_source 'user'; answer says the price source is recorded as provided by the user."
+  },
+  {
+   "item": "Reports nothing new created, what changed (old -> new), with erp_url",
+   "pass": true,
+   "note": "Says no new product was built. Gives the title old->new. Says the old price was not in the data, which is true: the mock get_product has no prices. Includes the erp_url."
+  },
+  {
+   "item": "Gaps only as the write result reports them, listed for later; page opened once; Chinese",
+   "pass": true,
+   "note": "Lists bullet_points missing and 1 of 8 images from compliance, with no guessed facts and offered for later. One open_url call. Answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure of the prices array shape, decimal vs minor-unit amounts and lowercase currency; old price unknown because get_product returns no prices; no full product read."
+}

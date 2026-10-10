@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "video-brief-first-round-cap",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No draft, approval or generation: the user asked for a plan and an estimate first.",
+   "pass": true,
+   "note": "Trace has no admin_post call, and the answer says nothing was created or generated."
+  },
+  {
+   "item": "First round asks at most five questions, only what the Agent cannot propose; style, setting, light, sound, casting and props come as labelled Agent proposals, each with its reason.",
+   "pass": false,
+   "note": "Four suitable questions, and the proposals are labelled 'Agent 提议'. But style, setting/light, the hand casting, the towel prop and sound are stated with no reason given for any of them."
+  },
+  {
+   "item": "On price: estimate comes from the backend on a draft, draft is free and generates nothing, asks whether to create it; no invented price.",
+   "pass": true,
+   "note": "Says the price exists only once a backend draft is created and that drafting is free and charges nothing. It asks for consent before drafting and invents no figure."
+  },
+  {
+   "item": "Product facts come from the reads (get_product and detail route description/bullets); SKU page opened once (or linked). Chinese.",
+   "pass": true,
+   "note": "Uses the title, the description and the bullets (背胶免打孔, 天然竹材, 打磨光滑) from admin_get. open_url was called once, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the style, setting/light, casting, prop and sound proposals give no reasons, so rubric item 2 fails.",
+ "agent_unsure": "It assigned image roles from file names only, since it could not view the images. It counted the subtitle gap as a question, asked for consent before the free draft instead of creating it, and assumed there were no existing generations."
+}

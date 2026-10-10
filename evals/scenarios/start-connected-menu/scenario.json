@@ -1,6 +1,6 @@
 {
   "id": "start-connected-menu",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-start",
   "request": "我想开始用 Intgral，能做什么？",
   "workspace": "workspace",
@@ -123,7 +123,7 @@
   },
   "rubric": [
     "The Intgral link given is the erp_url returned by medusa.get_started, as a clickable link; no address is invented.",
-    "The answer lists what can be done as short numbered steps (query a SKU, import products, edit copy or listings, images, research, video) and asks which one the user wants.",
+    "The answer lists what this deployment can do as short numbered steps (query a SKU, import products, edit copy or listings, images) and ends with one question asking which the user wants. Research and video appear only when medusa.list_endpoints shows their routes; this mock has no list_endpoints, so they are absent.",
     "Nothing is installed or reconfigured: the connection already works.",
     "The answer is in Chinese and short."
   ]

@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "video-paused-for-cost",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_15 and reports the actual pause: cost_cap, 1.95 spent + 0.60 held vs 2.00 cap; 2 of 3 segments stored",
+   "pass": true,
+   "note": "Trace call 1 reads vgen_15; answer quotes the backend reason with 1.95/0.60/2.00 and says 2 of 3 segments are stored (vasset_s150, s151)."
+  },
+  {
+   "item": "Explains overrun vs 1.90 estimate: segment 1 two paid attempts (h3_task_6117 failed validation but charged, h3_task_6129 succeeded), citing attempts",
+   "pass": true,
+   "note": "Names both task ids, the truncated/failed validation charge of 0.65 and the successful retry, and totals 3 x 0.65 = 1.95. It numbers segments from 1 and explains the mapping to the backend's 0-based index once."
+  },
+  {
+   "item": "'继续跑完' is not cap authorization: asks for specific higher cap (>=2.55) and does not resume/send cost_cap",
+   "pass": true,
+   "note": "Explicitly did not resume. It asks for a new cap of at least 2.55 USD. The trace has no resume POST."
+  },
+  {
+   "item": "No new generation; stored segments stay; product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "No write calls. It states the same job and plan resume and that stored segments are not recharged. host.open_url was called once. The answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure about: inferring the overrun from the attempts list, not suggesting headroom above 2.55, recording only the date because of an odd shell timezone, and renumbering the 0-based segments as 1-3."
+}

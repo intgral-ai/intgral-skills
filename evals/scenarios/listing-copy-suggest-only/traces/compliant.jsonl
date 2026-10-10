@@ -1,2 +1,3 @@
 {"tool":"medusa.get_listing_context","args":{"listing_id":"mlist_cv01_es"},"isError":false,"response":{"listing":{"id":"mlist_cv01_es"}}}
 {"tool":"medusa.admin_get","args":{"path":"/admin/products/prod_cv01"},"isError":false,"response":{"product":{"id":"prod_cv01"}}}
+{"tool":"medusa.admin_get","args":{"path":"/admin/marketplace/product-types/A1RKKUPIHCS9HS/WALL_HOOK"},"isError":false,"response":{"marketplace_id":"A1RKKUPIHCS9HS","product_type":"WALL_HOOK"}}

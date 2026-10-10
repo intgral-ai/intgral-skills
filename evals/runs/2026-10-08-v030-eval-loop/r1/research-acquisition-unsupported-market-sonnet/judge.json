@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "research-acquisition-unsupported-market",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "States plainly that amazon.de cannot be collected (refusal code, or no supported pair when no write was attempted)",
+   "pass": true,
+   "note": "No write was attempted. The answer says plainly that the deployment does not support amazon.de, that the only supported Amazon pair is amazon_es (discovery and reviews), and that the research endpoints list no German source."
+  },
+  {
+   "item": "No silent redirect to Amazon Spain; ES evidence is only offered as a separate ES-only option",
+   "pass": true,
+   "note": "The answer creates no ES plan or acquisition and says outright that it will not swap in amazon.es. ES appears only as options 1 and 4, which the user has to choose, and option 4 is labelled as Spanish-site evidence."
+  },
+  {
+   "item": "No report claims German sales, market size or demand; any saved report is German-scoped and blocked",
+   "pass": true,
+   "note": "The agent saved no report and made no claims about the German market."
+  },
+  {
+   "item": "Approval, limits and spend stay visible; plan bounds restated, nothing spent, any open plan closed or disclosed",
+   "pass": true,
+   "note": "The answer restates amazon.de, the top 50 results and the 10 USD budget, says nothing was created or charged, and says no plan exists, so none was left open."
+  },
+  {
+   "item": "Next step is a user choice, not a retry, substitute pair or direct provider call",
+   "pass": true,
+   "note": "The answer ends with four numbered options and asks the user to reply with one. The one amazon.de admission check needs explicit confirmation. Asking an operator to enable a German source is not among the options, but nothing is retried or substituted."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The live endpoint schemas do not name markets or sources, so the agent took the skill's list of supported pairs (amazon.es only) as authoritative. It skipped the one-attempt admission check and the blocked report because the user had not asked for either."
+}

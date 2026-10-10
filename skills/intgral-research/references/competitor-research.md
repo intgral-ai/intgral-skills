@@ -10,13 +10,13 @@ Only retained review bodies support customer-voice findings. Preserve raw review
 
 Code each usable review against the question: intended task, usage context, desired outcome, reported benefit, reported failure and purchase objection. Leave absent dimensions unknown. Attach evidence references to every theme, distinguish customer reports from verified product facts, and retain contradictory examples. State a theme's count and denominator only when the coding supports them; keep overlapping themes explicit. Ratings without review bodies cannot establish themes. Translate separately from original quotations.
 
-Compare like-for-like variants and offers, keeping current, list, and conditional prices, currency, pack basis, shipping, coupon, availability, specifications, positioning, source URL, and observation date separate. A review finding cites actual review text with variant attribution, sample method and count, dates, and counterexamples; ratings alone cannot establish complaint themes.
+Compare like-for-like variants and offers, keeping current, list, and conditional prices, currency, pack basis, shipping, coupon, availability, specifications, positioning, source URL, and observation date separate.
 
 A price group holds only offers that agree on every comparison condition: material class, pack basis and quantity, currency, coupon and shipping basis. A single observation is a row in the Markdown, not a submitted group — a one-member group is only ever returned with `is_price_band: false`. Any comparison across material or pack basis is prose labelled as an inference, never structured data.
 
-Save the product, market, question, shortlist and reasons, comparable evidence, review findings or explicit unavailability, interpretations, gaps, and next checks. With no usable listing evidence the outcome is unavailable or failed — an honest gap, never an invented comparison. When listings are retained but review bodies are not, the report is still saved: candidates and price groups are complete, `review_analysis` is `unavailable`, coverage is `partial`, and the bounded review acquisition is proposed as the next step rather than asked about first.
+Save the product, market, question, shortlist and reasons, comparable evidence, review findings or explicit unavailability, interpretations, gaps, and next checks. With no usable listing evidence the outcome is unavailable or failed — an honest gap, never an invented comparison. When listings are retained but review bodies are not, the report is still saved: candidates and price groups are complete, `review_analysis` is `unavailable`, coverage is `partial`, and the bounded review acquisition is proposed as the next step rather than asked about first: each ASIN named with a numeric per-ASIN review cap, starting only after the merchant approves a plan.
 
-Save as `competitor_research` ([payload](report-data/competitor_research.md), [artifacts and reuse](artifacts-and-reuse.md)) with `template_revision: competitor_research@1` and `skill_revision: intgral-research/competitor@3`.
+Save as `competitor_research` ([payload](report-data/competitor_research.md), [artifacts and reuse](artifacts-and-reuse.md)) with `template_revision: competitor_research@1` and `skill_revision: intgral-research/competitor@4`.
 
 ## Done when
 

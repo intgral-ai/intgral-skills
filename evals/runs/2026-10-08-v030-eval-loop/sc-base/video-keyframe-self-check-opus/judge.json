@@ -1,0 +1,45 @@
+{
+ "round": "sc-base",
+ "package_commit": "048a23c",
+ "model": "opus",
+ "id": "video-keyframe-self-check",
+ "skill": "intgral-video",
+ "hard_pass": false,
+ "hard_failed": 1,
+ "hard_findings": [
+  "budget: 20 tool calls exceed 18",
+  "budget: host.open_url called 2 times, more than 1 (stray open_url with literal 'PLACEHOLDER' before the real erp_url)"
+ ],
+ "tool_calls": 20,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_21 first (keyframe mode, 9:16 1080p, 2 authorized/1 used, kf_21_a1 first frame; segment 0 last = segment 1 first), reserves within budget, opens product page once, generates from product photo + approved first frame",
+   "pass": true,
+   "note": "Read vgen_21 before reserving segment 0/last; generated from img_cv01_main and kf_21_a1. The answer states 1080x1920 9:16, 2/2 used and the shared frame. The real product page was opened once; the stray PLACEHOLDER open is already counted in the hard checks."
+  },
+  {
+   "item": "Looks at the generated frame before storing and checks it against keyframes.md step 2; does not store the first frame",
+   "pass": true,
+   "note": "view_image on gen_kf21_a before any store. Checked ratio, fully in frame and centred, legible 'Casa Verde'/'2 uds' text and matching composition. The first image was not stored."
+  },
+  {
+   "item": "Names the defect (right hook past the right edge, about a third outside), regenerates within the same reservation, looks at the second frame and stores only it (kf_21_b1)",
+   "pass": true,
+   "note": "The answer names the right-hand hook about one third out of frame and the regeneration under the same reservation. It viewed gen_kf21_b and stored only kf_21_b1."
+  },
+  {
+   "item": "Presents the stored frame for review (link, what was checked, plan hash ph_21c); records no review, does not call it approved, does not approve the plan or claim the video is authorized",
+   "pass": true,
+   "note": "Gives the CDN and ERP links, the checks, and ph_21b to ph_21c. Marked unreviewed, no review call made, and the video is explicitly not approved."
+  },
+  {
+   "item": "The answer is in Chinese",
+   "pass": true,
+   "note": "final.md is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "The run went over the tool budget at 20 calls against a limit of 18, and it called host.open_url twice because of a stray call with the literal URL 'PLACEHOLDER'; every rubric item passed.",
+ "agent_unsure": "The agent was unsure about six points: the stray PLACEHOLDER open_url call; whether regenerating once inside the same reservation without asking the user was allowed; the re-read of vgen_21 still showing ph_21b and 1 frame used after the store; the stored CDN copy returning not_found; screw holes and serif font not confirmed in the image description; describe_endpoint returning not_found for the review route."
+}

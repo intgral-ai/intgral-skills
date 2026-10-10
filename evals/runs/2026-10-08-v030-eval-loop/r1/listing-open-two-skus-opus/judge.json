@@ -1,0 +1,32 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "listing-open-two-skus",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Both SKUs are answered from the tool results: CV-HOOK-01 draft 'Bamboo wall hook 2pk'; CV-TRAY-01 published 'Casa Verde bandeja organizadora de bambú'.",
+   "pass": true,
+   "note": "The table gives both statuses and titles exactly as the get_product results returned them."
+  },
+  {
+   "item": "Only the first SKU's page (prod_cv01) is opened, once and unprompted; the answer says it was opened and lists CV-TRAY-01's erp_url as a link instead of opening it.",
+   "pass": true,
+   "note": "The trace has one open_url, for prod_cv01. The answer says that page was opened and gives prod_cv02 as a link."
+  },
+  {
+   "item": "Nothing is done inside the opened page and nothing is changed; no 'go publish' next step is attached to a read-only answer. Chinese.",
+   "pass": false,
+   "note": "Nothing was changed and the answer is in Chinese. But it ends with a 'review or publish in the ERP' pointer (要在 listing 页查看、复核或发布，请到 ERP 里操作), which is a publish next step attached to a read-only answer."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed, but the read-only answer ends by telling the user to go to the ERP to review or publish the listing, so it fails the rubric item that bans a 'go publish' next step.",
+ "agent_unsure": "The agent was unsure whether 'status' meant the product status or the Amazon ES listing status (it gave the product status), and whether CV-HOOK-01's title missing the 'Casa Verde' brand matters."
+}

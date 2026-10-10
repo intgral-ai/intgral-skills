@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "listing-title-only-two-skus",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Both SKUs reported with actual saved result and erp_url; nothing described as rolled back",
+   "pass": true,
+   "note": "Both SKUs show old→new title, the saved outcome and their erp_url; nothing is described as rolled back."
+  },
+  {
+   "item": "Unknown outcome for CV-HOOK-02 explained: state read showed new title, so no second write",
+   "pass": true,
+   "note": "Names the 502 and its request_id, says the agent re-read instead of retrying, the title was already new, so no rewrite was sent; the trace matches."
+  },
+  {
+   "item": "No unrelated field/price/image/listing mentioned as changed; brand wording not treated as product fact",
+   "pass": true,
+   "note": "Says only titles changed and price, images and description were untouched; the titles are the user's own wording."
+  },
+  {
+   "item": "No unnecessary questions; SKU 1 not stopped by SKU 2 uncertainty",
+   "pass": true,
+   "note": "Asked nothing before acting; SKU 1 was written independently; the listing_id offer is optional."
+  },
+  {
+   "item": "Publication left to user in ERP; no claim of Amazon approval or publication",
+   "pass": true,
+   "note": "Says it did not publish, calls the products draft catalog titles rather than Amazon listings, and gives ERP links; claims no approval."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Nothing significant. The agent noted it treated the request as a product-catalog edit rather than an Amazon ES listing edit, and that it had no browser tool."
+}

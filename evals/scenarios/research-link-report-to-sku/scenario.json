@@ -1,6 +1,6 @@
 {
   "id": "research-link-report-to-sku",
-  "version": 1,
+  "version": 2,
   "skill": "intgral-research",
   "request": "把西班牙站折叠硅胶沥水篮那个研究里最新保存的竞品报告挂到 SKU CV-COL-24-GR 上，这款灰色 24 cm 的定价就是参考这份报告定的。",
   "workspace": "workspace",
@@ -122,6 +122,6 @@
     "The variant is the one the SKU lookup returned for CV-COL-24-GR (variant_fake_col24gr, 24 cm Gris), not the green 26 cm sibling on the same product; no listing is attached.",
     "The reason states relevance in the user's terms (the pricing basis for this variant) and the answer confirms from the returned link — state current, variant SKU, report kind and version — rather than assuming success.",
     "The link is described as relevance, not product approval; nothing is collected, no report is rewritten or re-saved, and the report's contents are not re-presented as newly verified.",
-    "If the answer mentions changing or removing the link, it says unlinking is done in the ERP, not through this connection, and that a newer competitor revision linked later replaces this one while it stays as history."
+    "If the answer mentions removing the link, it says unlinking is done in the ERP, not through this connection; if it mentions switching to a newer report, it says linking that newer competitor revision replaces this link, which stays as history, with no unlink needed. An answer that mentions neither passes."
   ]
 }

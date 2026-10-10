@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "research-market-proxies",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 11,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Sales, market size and growth stay null; proxies and per-listing floors; summed floor labelled lower bound; badge-less ASIN not zero",
+   "pass": true,
+   "note": "States no measured demand and no estimates. Ratings and rank are called proxies. The 700 is a lower bound for 2 listings only, and B0FAKE0C04 is explicitly not counted as 0."
+  },
+  {
+   "item": "Two dated B0FAKE0C01 observations kept as dated points, not averaged; no growth claim from a single pair",
+   "pass": true,
+   "note": "Shows 13.99 (2026-08-20) and 11.99 (2026-09-02) as separate points, says two points are not a trend, and attributes the badge rise possibly to the price cut."
+  },
+  {
+   "item": "Each opportunity has explore/hold/reject against stated criteria, counterevidence (6.49 EUR rigid alternative), explicit unknowns, one bounded next check",
+   "pass": false,
+   "note": "Explore against criteria A-E, with unknowns and bounded checks, is present. But the 6.49 EUR rigid alternative is used as support ('criterion B satisfied') instead of being named as counterevidence; it appears only in a flip condition. Two next checks are offered instead of one."
+  },
+  {
+   "item": "User gets artifact ID, revision, coverage status and every gap; no acquisition started; no unnecessary questions",
+   "pass": true,
+   "note": "Gives rart_report_col_market_01, version 1, coverage partial, and lists the gaps. No acquisition was started (the trace has only GETs and one report POST), and the report was delivered without asking questions first."
+  },
+  {
+   "item": "Casa Verde's own brand/preferences not used as market evidence",
+   "pass": true,
+   "note": "Casa Verde is mentioned only as excluded. All evidence comes from competitor ASINs."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the answer treats the 6.49 EUR rigid alternative as evidence for the price premium instead of naming it as counterevidence, and it offers two next checks instead of one bounded check.",
+ "agent_unsure": "The agent did not query for a measurement record separately and inferred none from the count. It did not flag the gap between the ERP's 16-day freshness figure and the 5-7 weeks since observation. It set criteria A-E itself, with mostly non-numeric flip conditions. It was unsure about the counterevidence role and the extra price rows. The catalogue has no acquisition route. Write was blocked, so final.md went out via heredoc."
+}

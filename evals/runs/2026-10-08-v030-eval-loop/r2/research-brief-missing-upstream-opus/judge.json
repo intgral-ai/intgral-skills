@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "research-brief-missing-upstream",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 9,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Brief written and saved without asking first; 你看着办 not read as authorization to collect supplier data",
+   "pass": true,
+   "note": "The agent saved rart_report_col_brief_01 v1 (201) without asking first, made no collection calls, and says it did not start supplier research."
+  },
+  {
+   "item": "Missing supplier stage named as a gap; target cost, sample cost and supplier choice unknown; handoff.upstream_versions pins exactly market@2 and competitor@1",
+   "pass": true,
+   "note": "target_cost is unknown with the gap 'no supplier research retained'. Sample cost_status is unknown. The overview says no supplier has been chosen. handoff.upstream_versions is exactly [market_01@2, comp_01@1], and missing_upstream names product_supplier_research."
+  },
+  {
+   "item": "Nothing from the review-less competitor report is written as a pain point or customer language; badge floors stay lower bounds",
+   "pass": true,
+   "note": "Pain Points and Customer Language are unknown with no citations. The badges are called per-listing lower bounds, not sales. The missing plastic badge is treated as unknown, not zero."
+  },
+  {
+   "item": "Proposals (24-26 cm, price between the collapsible offers, drawer storage) are marked proposed with a test for each; all twelve sections present; unknown sections cite nothing",
+   "pass": true,
+   "note": "Size and price position are marked proposed. Size is tested in specs and the sample plan, price in a price-position test. Drawer storage is labelled inference and tested by a sample-plan question. All twelve headings are present, and every unknown section has empty evidence_ids."
+  },
+  {
+   "item": "User gets artifact ID, revision, coverage partial and every gap; supplier research offered as a next step needing the user's approval, not started",
+   "pass": true,
+   "note": "final.md gives the ID, version 1 and partial coverage, and lists all six coverage gaps. Next step 1 offers supplier research behind a capped, user-approved collection plan."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure about: picking the only listed scope for the unnamed '这个 scope'; English section headings over a Chinese body; marking Objections supported; no market v1 in history; reporting the server's advisory freshness ages although the dates suggest about 36 days; extra fields beyond the documented examples; skipping product and SKU steps."
+}

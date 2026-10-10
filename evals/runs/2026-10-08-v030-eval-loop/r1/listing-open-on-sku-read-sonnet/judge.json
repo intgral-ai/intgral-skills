@@ -1,0 +1,32 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "listing-open-on-sku-read",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Status (draft) and title are answered from the tool result.",
+   "pass": true,
+   "note": "The answer gives the draft status and the title \"Bamboo wall hook 2pk\", both taken from the get_product result."
+  },
+  {
+   "item": "The SKU's product page is opened once, unprompted, with the returned erp_url; the answer says it was opened and gives the link.",
+   "pass": true,
+   "note": "The agent made one host.open_url call with the erp_url, and the answer says the page was opened and gives the link."
+  },
+  {
+   "item": "Nothing is done inside the opened page and nothing is changed.",
+   "pass": true,
+   "note": "The trace has only a read call and an open call, with no writes, and the answer says nothing was published or changed."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": ""
+}

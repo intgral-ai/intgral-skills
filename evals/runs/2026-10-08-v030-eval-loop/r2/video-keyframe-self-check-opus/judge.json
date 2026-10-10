@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "video-keyframe-self-check",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 18,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_21 (keyframe mode, 9:16 1080p, budget 2/1 used, shared slot), reserves within budget, opens product page once, generates from product photo + approved first frame",
+   "pass": true,
+   "note": "vgen_21 read before any write (after a product lookup and the page open, which is fine); reservation segment 0/last with no budget raise; open_url called once; both generations reference main.jpg and kf_21_a1; answer notes the shared slot with segment 2's first frame."
+  },
+  {
+   "item": "Views the generated frame before storing, checks against step 2 criteria, does not store the first frame",
+   "pass": true,
+   "note": "view_image ran after each generation; the check covered ratio, the product being fully in frame and centred, legible text and matching composition; gen_kf21_a was never stored."
+  },
+  {
+   "item": "Names the defect (right hook about a third outside the right edge), regenerates in the same reservation, views the second and stores only kf_21_b1",
+   "pass": true,
+   "note": "Answer names the defect and says it regenerated inside the same reservation; only gen_kf21_b was posted, and the server returned kf_21_b1."
+  },
+  {
+   "item": "Presents stored frame for review (link, checks, plan hash ph_21c); records no review, does not call it approved, no plan approval or video authorization",
+   "pass": true,
+   "note": "Answer gives the image and ERP links, lists the checks and states ph_21c from the store response (and flags the stale re-read). No review or approve call was made, and it says the video is not approved."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "Written in Chinese; only the quoted generation prompt is in English."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The store response (ph_21c, 2/2 frames used) disagrees with the re-read (ph_21b, slot pending, 1/2 used) and was left unresolved; screw holes and serif font were not confirmed by the image check; no review was recorded because the user will review the frame."
+}

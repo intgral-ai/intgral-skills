@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "listing-image-review-chat-approval",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 3,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Image review read via marketplace.get_image_review and reported as returned (scope, unreviewed, no latest review, provenance unknown, 2/3 hashes unavailable, nothing filled in)",
+   "pass": true,
+   "note": "Says the review covers draft images only, status unreviewed, no review record, all three slots unknown provenance, side/detail have no hash, and main hash comes only from product metadata. Nothing is invented."
+  },
+  {
+   "item": "Chat confirmation not turned into a review decision; the signed-in user records it on the listing page; no passthrough or browser write",
+   "pass": true,
+   "note": "States a chat 'pass' is not recorded as ERP approval and the user must save it with their signed-in ERP account on the listing page. The trace has no admin_post call and no browser interaction."
+  },
+  {
+   "item": "Publication not attempted or promised; approved images are not publish permission; user publishes from ERP after backend gates (bullet_points missing)",
+   "pass": true,
+   "note": "No publish call. Says approval does not mean permission to publish. Reports ready=false with bullet_points missing and leaves submission to the page's checks."
+  },
+  {
+   "item": "Listing page from erp_url opened once, unprompted; nothing clicked or saved; Chinese",
+   "pass": true,
+   "note": "One host.open_url call to the listing erp_url, which is the same as the review's erp_url. No further browser actions. The answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent wasn't sure about four things: it opened listing.erp_url because listing_erp_url was missing; it described the draft publish flow only in general terms; it mentioned that the new flow does not need a separate draft image review; and it did not claim the missing bullet_points block publishing."
+}

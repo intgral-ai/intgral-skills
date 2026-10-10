@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "research-supplier-incomplete-quotes",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No supplier declared cheapest by omission; three bases kept distinct",
+   "pass": true,
+   "note": "Says cheapest cannot be determined. Keeps A's FOB Ningbo USD quote, B's US$ tier with unknown terms and C's CN¥ price per set of 2 apart, and does not convert C to a per-unit price."
+  },
+  {
+   "item": "Unknown cost components stay unknown; no landed cost or margin",
+   "pass": true,
+   "note": "Lists freight, insurance, duty, VAT, customs, inspection, setup fee and FX as having no figure. Gives no total or margin."
+  },
+  {
+   "item": "Each material claim carries its state; Verified Supplier/isFactory not promoted",
+   "pass": true,
+   "note": "A is a written quote expiring 2026-10-10. B and C tiers are marked as unverified listing prices. Factory and Verified Supplier labels are called platform tags, not verified capability."
+  },
+  {
+   "item": "Unsent RFQ asks each candidate only what its evidence leaves open; A not re-asked sample/lead/FOB; supplier decision left to user",
+   "pass": true,
+   "note": "A is asked about setup fee, deposit, carton, food-contact report, factory evidence and box/26 cm, not sample, lead time or FOB. B and C get full same-basis quote requests. Drafts are marked unsent, and sending and choosing are left to the user."
+  },
+  {
+   "item": "Artifact ID, revision, coverage status, every gap, bounded next step without contacting anyone",
+   "pass": true,
+   "note": "Gives rart_report_col_supplier_01, version 1, marked partial, with a gap list. Next step is to get same-basis FOB quotes from B and C. No supplier was contacted."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure: where to put A's quote price in the payload, which went in as an extra price_tiers row with off-schema fields; whether to record A's sample and lead-time differences as conflicts; excluding C's 2-piece set; putting quote expiry under user decisions; the optional DDP question; no product link; and the mock created_at date."
+}

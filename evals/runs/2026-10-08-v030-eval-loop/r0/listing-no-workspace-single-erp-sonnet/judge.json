@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "listing-no-workspace-single-erp",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No workspace: reads the SKU straight away, does not ask which merchant",
+   "pass": true,
+   "note": "First call was medusa.get_product for LH-TBL-02; no merchant question in final.md."
+  },
+  {
+   "item": "Listing found with view=all; product, Amazon.es listing and image-review status as returned; review is the user's to save in the ERP",
+   "pass": true,
+   "note": "admin_get used view=all; reports published / active / unreviewed with no review record, and says the user must do the review on the ERP listing page."
+  },
+  {
+   "item": "SKU's page opened once with the browser tool after the read",
+   "pass": false,
+   "note": "Opened once after the reads, but the page was the listing page (amazon-listings/mlist_lh02_es), not the SKU's product page (app/products/prod_lh02) that get_product returned as erp_url."
+  },
+  {
+   "item": "Nothing written; Chinese",
+   "pass": true,
+   "note": "Only reads plus one host.open_url; the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the agent opened the Amazon listing page rather than the SKU's product page (erp_url app/products/prod_lh02), so the open-SKU-page rubric item fails.",
+ "agent_unsure": "The agent opened the listing erp_url because medusa.get_listing_context was not offered in the mock, and it treated an unset INTGRAL_WORKSPACE as a clear merchant context."
+}

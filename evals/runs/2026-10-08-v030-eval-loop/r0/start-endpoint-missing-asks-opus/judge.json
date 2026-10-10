@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "start-endpoint-missing-asks",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Asks only for the administrator-provided MCP address; no token, password, key or merchant id",
+   "pass": true,
+   "note": "Asks only for the Intgral MCP address from the administrator."
+  },
+  {
+   "item": "No address invented or inferred; any command template uses a placeholder",
+   "pass": true,
+   "note": "The hint that it usually starts with https:// only describes the format; no host or domain is suggested and no command is shown."
+  },
+  {
+   "item": "Nothing installed or configured before the address is given",
+   "pass": true,
+   "note": "The trace has 0 calls, and the answer says the install happens after the address arrives."
+  },
+  {
+   "item": "May describe next steps (install, restart) but does not present the work menu as if connected",
+   "pass": true,
+   "note": "It says it will install and then explain login and what can be done. It does not show a menu and states Intgral is not connected yet."
+  },
+  {
+   "item": "Answer is in Chinese and short",
+   "pass": true,
+   "note": "Three short Chinese sentences."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure whether its hint that the address usually starts with https:// would count as hinting at the address, and it did not check the preferences file."
+}

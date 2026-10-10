@@ -1,0 +1,34 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "start-preferences-existing",
+ "skill": "intgral-start",
+ "hard_pass": false,
+ "hard_failed": 1,
+ "hard_findings": [
+  "forbidden: medusa.admin_post #2 is not allowed in this scenario (stray probe to /admin/x returned route_not_found)"
+ ],
+ "tool_calls": 2,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The session merchant already has preferences.md: the agent offers no preferences menu item, and neither rewrites nor backs up the file.",
+   "pass": true,
+   "note": "The menu has no preferences item. The workspace-unchanged and backups-absent hard checks passed."
+  },
+  {
+   "item": "Only merchants/casa-verde-es/ is looked at; the other merchant's identifier or brand never appears in the answer.",
+   "pass": true,
+   "note": "The agent reports checking only casa-verde-es/preferences.md. verde-norte does not appear in the answer."
+  },
+  {
+   "item": "The menu and the erp_url named for its page are given, with one closing question about what to start with. Chinese.",
+   "pass": true,
+   "note": "The Chinese answer gives a 4-item menu and the erp_url, named as the agent activity log page (agent 操作记录页). It ends with one question: 你想先做哪个？"
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "The agent made a forbidden stray medusa.admin_post probe to /admin/x, which fails one hard check. All three rubric items pass.",
+ "agent_unsure": "The agent left out research and video because no list_endpoints tool could confirm those routes, and it noted that get_started reported the host browser as unknown."
+}

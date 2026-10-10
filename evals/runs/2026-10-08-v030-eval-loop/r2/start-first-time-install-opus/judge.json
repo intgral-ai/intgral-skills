@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "opus",
+ "id": "start-first-time-install",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Endpoint installed without re-asking or second permission; user-scoped",
+   "pass": true,
+   "note": "One host.shell call: claude mcp add --transport http --scope user with the given URL. No confirmation question was asked."
+  },
+  {
+   "item": "Says tools load after restart/reload; Intgral link comes from the connected service, no ERP address guessed",
+   "pass": true,
+   "note": "Asks the user to restart Claude Code or reload MCP. Says the link comes after connecting. No ERP URL is guessed."
+  },
+  {
+   "item": "Short numbered next steps (SKU query, import, edit copy/listings, images), ending with one question; research/video not offered as available",
+   "pass": true,
+   "note": "Items 1-4 cover SKU, import, copy/listing and images, and item 5 is merchant preferences. The answer ends with the single question 选哪个？. Research and video are left out."
+  },
+  {
+   "item": "No credential/token/password requested in chat; sign-in in client's own prompt",
+   "pass": true,
+   "note": "Says the client shows its own login page and tells the user not to send a token or password in chat."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "The whole answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Left research and video out because the routes can't be confirmed before restart; showed the menu before medusa.get_started, so there is no link yet; used the session merchant ID casa-verde-es without asking the user to confirm it."
+}

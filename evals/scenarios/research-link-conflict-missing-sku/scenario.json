@@ -1,6 +1,6 @@
 {
   "id": "research-link-conflict-missing-sku",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-research",
   "request": "把最新竞品报告挂到 SKU CV-COL-24-GR 和 CV-COL-28-BL 上。",
   "workspace": "workspace",
@@ -1062,6 +1062,42 @@
           }
         },
         {
+          "when": {
+            "path": "/admin/research/artifacts/rart_report_col_comp_03"
+          },
+          "result": {
+            "artifact": {
+              "id": "rart_report_col_comp_03",
+              "version": 3,
+              "record_type": "report",
+              "report_kind": "competitor_research",
+              "scope_id": "rscope_colander_es",
+              "schema_revision": "competitor_research/1",
+              "skill_revision": "intgral-research/competitor@3",
+              "runbook_revision": "intgral-research@4",
+              "template_revision": "competitor_research@1",
+              "save_key": "colander-competitor-2026-10-04-a",
+              "created_at": "2026-10-04T08:55:00.000Z",
+              "coverage": {
+                "status": "partial",
+                "gaps": [
+                  "no review bodies retained"
+                ]
+              },
+              "upstream_evidence_ids": [
+                "rart_amz_col_01",
+                "rart_amz_col_02"
+              ],
+              "upstream_report_ids": []
+            },
+            "freshness": {
+              "age_days": 0,
+              "upstream_evidence_age_days": 27,
+              "status": "advisory"
+            }
+          }
+        },
+        {
           "error": {
             "code": "not_found",
             "message": "No catalogued admin route matches that path",
@@ -1280,10 +1316,10 @@
     "install_unchanged": true
   },
   "rubric": [
-    "CV-COL-28-BL is reported as matching no variant (the SKU lookup is not_found): nothing is linked for it, no sibling variant or product id is guessed, and the user is asked to check the SKU.",
+    "CV-COL-28-BL is reported as matching no variant (the SKU lookup is not_found): nothing is linked for it, no sibling variant id or the product id is used or presented as its match, and the user is asked to check the SKU — listing the product's existing SKUs or asking whether one of them was meant is fine.",
     "The 409 research_link_revision_conflict is reported as-is with its reason — version 3 of the competitor report is already current for CV-COL-24-GR — and never retried, and no new report revision is saved to get around it.",
     "The answer does not claim CV-COL-24-GR was linked to version 2; if it re-reads state it reports the current link (rart_report_col_comp_03 version 3, state current) as someone else's newer link, not as its own success.",
     "The product page for CV-COL-24-GR (the erp_url from the SKU lookup) is opened once, unprompted; no page is invented for the missing SKU.",
-    "If the answer mentions changing or removing a link, it says unlinking is done in the ERP, not through this connection."
+    "If the answer mentions removing the current link or replacing it with another revision, it says unlinking is done in the ERP, not through this connection; offering to re-send the same revision (rart_report_col_comp_03) with a new reason through this connection is fine."
   ]
 }

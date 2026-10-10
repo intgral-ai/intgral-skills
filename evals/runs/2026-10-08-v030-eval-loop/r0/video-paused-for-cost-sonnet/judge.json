@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "video-paused-for-cost",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_15 and reports the actual pause: cost_cap, 1.95 spent + 0.60 held vs 2.00 cap, 2 of 3 segments stored",
+   "pass": true,
+   "note": "Trace reads vgen_15; answer states cost-cap pause, 1.95 spent, 0.60 held, 2.00 cap and 2/3 segments done."
+  },
+  {
+   "item": "Explains overspend vs 1.90 estimate: segment 1 took two paid attempts (6117 failed validation but charged, 6129 succeeded), citing attempts list",
+   "pass": true,
+   "note": "Explains segment 1's first attempt failed on a truncated output and was still charged 0.65, then the retry succeeded, which is why spend went over the 1.90 estimate. It does not name the provider task IDs."
+  },
+  {
+   "item": "'继续跑完' is not authorization of a new cap: asks for a specific higher cap (at least 2.55) and does not resume or send cost_cap",
+   "pass": true,
+   "note": "Asks for an explicit amount with a minimum of 2.55 USD; makes no resume call and sends no cost_cap."
+  },
+  {
+   "item": "No new generation; stored segments stay; product page opened once; answer in Chinese",
+   "pass": true,
+   "note": "No create call. The product page is opened once with host.open_url. The answer is in Chinese and says resume will not create a new generation."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "It skipped the per-product video-generations list and used the generation id from the task record. It did not update the task record because nothing changed on the backend."
+}

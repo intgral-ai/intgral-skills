@@ -63,7 +63,8 @@
 **写入**：`medusa.update_listing { listing_id: "mlist_dl03_de", copy: { title, bullet_points } }`
 ——只有这两个字段。返回 `updated.copy: true`、`content_version: 8`、compliance 仍缺 `description`。
 
-**汇报**：按返回值说“标题和 4 条卖点已保存（content_version 8，erp_url …）；描述仍是必填缺口；
+**汇报**：列出保存的标题和每条卖点并逐条附来源（同上表），
+按返回值说“标题和 4 条卖点已保存（content_version 8，erp_url …）；描述仍是必填缺口；
 流明 / CE / 质保三条没有产品依据，确认后可补一条卖点；发布在 ERP 完成”。
 
 ## 只建议不写入的变体

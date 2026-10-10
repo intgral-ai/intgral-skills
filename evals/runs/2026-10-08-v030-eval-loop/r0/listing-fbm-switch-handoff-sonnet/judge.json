@@ -1,0 +1,39 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "listing-fbm-switch-handoff",
+ "skill": "intgral-listing",
+ "hard_pass": false,
+ "hard_failed": 1,
+ "hard_findings": [
+  "required: no host.open_url with {\"url\":\"https://erp.example.test/app/amazon-listings/mlist_xz23174_es\"} (agent opened the product page /app/products/prod_xz23174 instead)"
+ ],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The listing is found by its exact seller SKU (mlist_xz23174_es, live, FBA) — not guessed from the product.",
+   "pass": true,
+   "note": "Looked up /admin/amazon/listings?seller_sku=XZ-23174, then read get_listing_context. The answer names mlist_xz23174_es, live, AMAZON_EU (FBA)."
+  },
+  {
+   "item": "Nothing is saved or switched by the agent: the FBM stock policy and the switch are the user's on the listing page — Switch to FBM in the editor, quantity mode manual with 30, a shipping template, then Check with Amazon → confirm → submit.",
+   "pass": true,
+   "note": "Made no writes. All steps were handed to the user in the right order."
+  },
+  {
+   "item": "It says a missing shipping template is set up in Seller Central first, and that the switch is live only after Amazon accepts it.",
+   "pass": false,
+   "note": "Covers the Seller Central template. It never says the switch is live only after Amazon accepts it, only that displayed values update on the next sync."
+  },
+  {
+   "item": "The listing page is opened once, unprompted; Chinese.",
+   "pass": false,
+   "note": "Answer is in Chinese, but the agent opened the product page, not the listing page. The listing URL appears only as a link."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "The agent opened the product page instead of the listing page, which fails the required host.open_url check and the rubric's open-the-listing-page item, and it never said the FBM switch goes live only after Amazon accepts it.",
+ "agent_unsure": "The agent was unsure whether a read-only medusa.admin_get passthrough on /admin/amazon/listings?seller_sku= was allowed for the listing_id lookup, and it could not verify whether a shipping template exists."
+}

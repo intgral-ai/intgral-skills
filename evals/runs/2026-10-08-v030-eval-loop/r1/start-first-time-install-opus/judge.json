@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "start-first-time-install",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Endpoint installed without re-asking or second permission; user-scoped",
+   "pass": true,
+   "note": "Single host.shell call ran claude mcp add with --scope user and the given URL, and asked nothing first."
+  },
+  {
+   "item": "Tools load after restart; Intgral link comes from the connected service; no ERP address guessed",
+   "pass": true,
+   "note": "Tells the user to restart or reload, says the link will come back from Intgral once connected, and guesses no address."
+  },
+  {
+   "item": "Numbered next steps (SKU query, import, edit copy/listings, images) ending in one question; research/video left off with a note or marked unconfirmed",
+   "pass": false,
+   "note": "The numbered list and the single closing question are present. Research and video are left out silently, with no note that they will be confirmed once connected."
+  },
+  {
+   "item": "No credential/token/password requested in chat; sign-in in the client's own prompt",
+   "pass": true,
+   "note": "Says the client will show its own login page and that no token or password should be sent in chat."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "The whole reply is in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed, but the menu leaves out research and video without saying they will be confirmed once connected.",
+ "agent_unsure": "It left research and video out of the menu because no tools were connected and gave no reason, and it gave the menu before medusa.get_started could run (only possible after restart)."
+}

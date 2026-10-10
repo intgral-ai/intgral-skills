@@ -3,16 +3,7 @@
 看图、制作候选图、保存图片是不同任务。只问张数或查看时，用 `medusa.view_product_images`
 的 total_images 和 erp_url 回答；页面列出的图片不代表主机已查看原图，也不代表图片已获批准。
 
-需要已有 listing 的人工图片复核状态时，显式调用只读 `marketplace.get_image_review`。
-scope=draft_images_only；保留 unreviewed / approved / rejected / stale 原状态及 snapshot、
-latest_review 和 limitations。stale 不能沿用旧 approved。provenance 只有 verified_bytes
-（hash_evidence=fresh_bytes：ERP 抓取字节算出的哈希）才表示字节经过校验，且只对应抓取那一刻；
-unverified / unknown 与 null 哈希都是未验证，product_image_metadata 只是元数据里的哈希，unavailable 表示无证据。
-不能根据 URL 或看过图片就补填 provenance/content_sha256；任何取值都不说明是原图还是生成图。
-复核决定由已认证的人类 ERP 用户在 erp_url 页面保存，authority=authenticated_user；
-聊天确认不等于已持久化的 ERP 人工批准，网关身份不能代写决定。
-approved 仅涉及指定草稿图片快照，不构成 Amazon 发布许可；新的发布计划里图片随最终确认一起授权，
-不等这份复核。不调用 publish/confirmations。
+已有 listing 的人工图片复核状态，按[复核与交接](review.md)的“草稿图片人工复核”。
 
 1. 数量、槽位、像素/格式等要求从当前 inputSchema、questionnaire 的 have / target、
    compliance 与后端产品类型要求读取。不要把显示数量当总数，也不在本手册固定图片数量。
@@ -23,10 +14,14 @@ approved 仅涉及指定草稿图片快照，不构成 Amazon 发布许可；新
    没有可信参考图时，不用纯文字捏造商品外观或包装；先请求依据或保留缺口。
    client_capabilities.image_generation / image_rendering 只报告实际工具；runtime.host 中未知
    不当作可用。主机没有生成/看图能力就报告对应限制，不假定某个品牌主机或指定模型一定可用。
+   **生成后先自检，再保存或交给用户。** 主机能看图时，用看图能力查看每张生成结果，对照参考图和已确认要求逐项核对：
+   产品外观与颜色、包装和印刷文字（逐字）、视图与构图、尺寸比例、白底等背景要求、没有多出的文字或物件。
+   不符就说出具体问题并重做一次；重做后仍不符就不保存，把问题交给用户。只保存核对过且相符的那张，回答里说核对了什么。
+   主机不能看图时说明未自检，不说已核对。自检是 Agent 的检查，不等于复核通过或符合平台政策。
 3. 未批准的生成图、未知主图规则、缺少人工验收条件都按后端/人的政策处理。
    不擅自决定生成图可用作正式主图，不因缺图自动替换已有图片。
    模型、分辨率、白底/构图要求应来自已确认任务与后端政策；不把候选生成说成已通过校验。
-4. 已授权保存产品图片用 `medusa.update_product`；修改站点图片用
+4. A+ 图片按 [A+ 图片](aplus-images.md)，不存进产品图片。已授权保存产品图片用 `medusa.update_product`；修改站点图片用
    `medusa.update_listing`，注意产品改图可能影响关联 ERP-origin listings。
    本地路径仅在网关确认可读且位于允许目录时传入；不根据 localhost/域名推断共享文件系统。
    支持时可传 data_base64 或可下载 URL；被拒绝就按错误提示处理，不绕过目录边界。
@@ -36,6 +31,4 @@ approved 仅涉及指定草稿图片快照，不构成 Amazon 发布许可；新
    write_result 的 completed_image_indexes / pending_image_indexes / unknown_image_indexes
    按去重归账后仍指向原始输入的零基索引，不能用去重后的位置重新编号。
    completed_image_indexes 仅表示批次已确认，是否存储/拒绝以 image_reports 为准。
-   失败也可能留下前面批次：next_action=retry_pending 时只补确定未写入的部分；
-   read_state_before_retry 时先读当前状态，不自动重试未知批次。错误中的库存/合规报告
-   只是最后确认快照。详细动作按[复核与交接](review.md)。
+   失败也可能留下前面批次，按[复核与交接](review.md)的“部分写入与恢复”处理。

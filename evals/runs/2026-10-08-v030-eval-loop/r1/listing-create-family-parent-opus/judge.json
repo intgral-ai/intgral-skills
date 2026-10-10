@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "listing-create-family-parent",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 10,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Family from create_listing reported (theme COLOR, parent SKU RS-9001-BK-PARENT, parent mlist_parent_rs9001, non-buyable; price/stock to children only; both child listings with erp_url)",
+   "pass": true,
+   "note": "Section 1 lists both children with created:true and ERP links, plus theme COLOR, parent SKU, parent listing id, and says the parent is non-buyable with no price, stock, images or EAN."
+  },
+  {
+   "item": "Price 29.90 EUR on both children via update_product with price_source user, reported from the result; stock 50 reported as not set, with steps for the user",
+   "pass": true,
+   "note": "Trace call 8 writes per-SKU prices with price_source user, and the answer reports 'succeeded, 2 prices updated'. Stock is clearly marked as not set, with manual-quantity steps on each child page, and is never claimed saved."
+  },
+  {
+   "item": "Check/submit happens in the ERP family page (Check all, then Submit all), parent first then children, and the agent does not do it",
+   "pass": true,
+   "note": "Section 5 is headed as something the user does in the ERP. It gives 全部检查/Check all, then 全部提交/Submit all, with the parent published first and the children after."
+  },
+  {
+   "item": "Nothing claimed published, submitted or approved; country_of_origin gap reported and asked once, not guessed",
+   "pass": true,
+   "note": "The answer says 'still drafts, not published'. Section 4 reports country_of_origin missing for both SKUs and asks for it once without guessing."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure of five things: it couldn't check for an existing draft first (the listing-by-SKU route returned not_found, so it relied on create_listing being idempotent); it guessed the prices array shape; it couldn't read the stock-policy route to report current stock; it had no browser tool to open pages; and it reported the parent SKU RS-9001-BK-PARENT exactly as returned, even though it carries the black colour code."
+}

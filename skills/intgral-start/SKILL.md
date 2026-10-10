@@ -3,13 +3,13 @@ name: intgral-start
 description: Start using Intgral — connect the Intgral MCP server on first use, then show what can be done with a link to Intgral, and open a SKU's Intgral page whenever a task touches that SKU.
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.3.0"
 ---
 
 # 开始使用 Intgral
 
-用户第一次用 Intgral、问“能做什么”、或连接出问题时用这个 Skill。具体的上架、调研、视频工作由
-`intgral-listing` / `intgral-research` / `intgral-video` / `intgral-inventory`（库存盘点）完成；本 Skill 只负责连接、入口和打开页面。
+具体的上架、调研、视频、库存工作由 `intgral-listing` / `intgral-research` / `intgral-video` / `intgral-inventory`（库存盘点）完成；
+本 Skill 负责连接、入口，以及找到并打开 SKU 的页面。
 
 ## 1. 先看是否已连接
 
@@ -48,7 +48,8 @@ metadata:
 已连接时先调用 `medusa.get_started`（不传 `open_browser`），把返回的 `erp_url` 作为“打开 Intgral”的链接给用户，
 并按地址说清是哪一页（例如以 `/agent-activity` 结尾的是 agent 操作记录页）。没有返回 `erp_url` 就说明拿不到，不拼路径。
 然后用编号列出这个部署能做的事，问用户选哪个。调研和视频两项只在 `medusa.list_endpoints` 列出
-`/admin/research` 或 `/admin/video-generations` 路由时才列，库存一项只在工具列表里有 `medusa.propose_stock_changes` 时才列；没有的不列：
+`/admin/research` 或 `/admin/video-generations` 路由时才列，库存一项只在工具列表里有 `medusa.propose_stock_changes` 时才列；
+没有的不列，读过这份列表后也不提它没开通或为什么没列，不对用户讲路由：
 
 1. 查 SKU 的状态和现有信息（intgral-listing）
 2. 用表格或资料导入，建产品草稿（intgral-listing）
@@ -61,9 +62,23 @@ metadata:
 用户已经说了具体任务就跳过菜单，直接交给对应 Skill。对应 Skill 未安装时说出要装哪个：
 `npx skills@1.7.0 add intgral-ai/intgral-skills --skill <名字>`。
 
-## 3. 操作 SKU 时直接打开它的页面
+本会话还没提过时，菜单多列一行“先配置商家偏好（还没有）”，不另外再问；回答仍只以“选哪个？”这一个问题结尾。用户已说具体任务、或没装
+`intgral-listing` / `intgral-research` / `intgral-video`（偏好由它们读取）就不列。按其
+`references/private-workspace.md` 的“Switching merchants”确定本会话的商家：商家已定时只检查这一个路径（如
+`test -f merchants/<id>/preferences.md`），不列出 `merchants/`；已有就不列；商家不明就不列这一行。
+- 用户选了这一项：按同一文件的“First-time setup”引导（工作区位置、`INTGRAL_WORKSPACE` 未设置怎么办都按它），
+  只问模板 `assets/preferences.example.md` 顶部几项（标识、品牌写法、站点、语言、币种），视频偏好留到做视频时再问；
+  写 `merchants/<stable-id>/preferences.md` 并读回。选之前不写任何文件。
+- 选了别的项或拒绝：说之后任务需要某项设置时会再问；本会话不再提配置偏好。
+
+## 3. 操作 SKU：打开它的页面；目录查不到先查 listing
 
 任务一涉及具体 SKU（查、改、图片、调研关联、视频都算），读到该 SKU 后就用返回的 `erp_url`，
 在本会话的浏览器工具里打开，不等用户要求。每个 SKU 每个会话只开一次；一次涉及多个 SKU 时开第一个，
 其余给链接。页面留给用户操作：打开后不在页面里点击、保存或发布。没有浏览器工具或打开失败时给链接，
 不说已打开。
+
+`medusa.get_product` 返回 `not_found` 不等于没有：listing 可以没有目录产品。先用 seller SKU 查 listing
+（`medusa.admin_get` 读 `GET /admin/amazon/listings?seller_sku=<SKU>&view=all`，不带 `view=all` 只返回待复核队列），
+找到就读 `medusa.get_listing_context` 并按上面的规则打开它的 `listing_erp_url`；告知目录里还没有该产品，是否
+bootstrap 导入由用户决定，这一轮不执行。两处都没有就照实说没找到，请用户核对 SKU；不拿相近 SKU 代替。

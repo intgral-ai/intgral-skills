@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "start-connected-menu",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Link is the erp_url from get_started, clickable, not invented",
+   "pass": true,
+   "note": "Gives https://erp.example.test/app/agent-activity verbatim as a bare URL, which renders as a link"
+  },
+  {
+   "item": "Short numbered capability steps ending in one question; no research/video",
+   "pass": true,
+   "note": "Numbered list covers SKU query, import drafts, copy/listing edits, and images, plus a preferences-setup line; research and video are absent; it ends with the single question 你想先做哪个？"
+  },
+  {
+   "item": "Nothing installed or reconfigured",
+   "pass": true,
+   "note": "Only medusa.get_started was called, with no host.shell or mcp add; the answer says the connection is already set up"
+  },
+  {
+   "item": "Answer in Chinese and short",
+   "pass": true,
+   "note": "Short Chinese answer of about 10 lines"
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "No medusa.list_endpoints was available, so the agent left out research and video because the capabilities list lacked them; it was also unsure whether to show the merchant-preferences line, since it checked only one preferences path."
+}

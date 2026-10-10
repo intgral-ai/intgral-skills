@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "listing-no-workspace-single-erp",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "No workspace, single ERP: reads SKU immediately without asking which merchant",
+   "pass": true,
+   "note": "First call was get_product for LH-TBL-02 and the agent never asked which merchant."
+  },
+  {
+   "item": "Listing found with view=all; product status, ES listing status and image review status given exactly as returned (unreviewed, no saved decision); says the review is the user's to save in the ERP",
+   "pass": true,
+   "note": "It used view=all and reported published, active, unreviewed and latest_review null. It says the user must save the review on the ERP page."
+  },
+  {
+   "item": "One page opened once with the browser tool, unprompted, after the read that returned its link (product or listing erp_url)",
+   "pass": true,
+   "note": "host.open_url was called once on the listing's erp_url, right after the admin_get call that returned it."
+  },
+  {
+   "item": "Nothing written; answer in Chinese",
+   "pass": true,
+   "note": "There were no write calls and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure whether to open the listing page rather than the product page, said the review result had no scope, hash or limitations fields, worried its extra Check-with-Amazon note went beyond the question, and went ahead without asking for a merchant because no workspace is configured."
+}

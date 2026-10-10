@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "research-competitor-ratings-only",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Artifact ID, revision, coverage status, every gap; complaint themes stated unavailable, ratings not presented as themes",
+   "pass": true,
+   "note": "Gives rart_report_col_comp_01, version 1, partial, and lists the gaps: no review text, synthesised C03 row, unknown shipping, one observation date. Says plainly that ratings cannot yield complaint themes."
+  },
+  {
+   "item": "Like-for-like price comparison: 2-unit set separate, list vs current separate, shipping excluded, rigid plastic as alternative",
+   "pass": true,
+   "note": "The group holds only C01 (11.99) and C02 (14.50), and the answer declines to call two points a band. The 17.90 list price stays outside the group, C03 is held apart as a different pack size, C04 is an alternative, and shipping is marked unknown."
+  },
+  {
+   "item": "Purchase badges reported as per-listing lower bounds, not sales; no-badge ASIN not given zero",
+   "pass": true,
+   "note": "C01 is a floor of 200 and C02 a floor of 500, explicitly not sales, and the floors are never summed. C04 is 'unknown (not 0)' and C03 is unknown."
+  },
+  {
+   "item": "Bounded review acquisition naming each ASIN with numeric per-ASIN cap, only after approval, no unnecessary questions",
+   "pass": true,
+   "note": "Proposes up to 100 reviews each for B0FAKE0C01, C02 and C04. It skips C03 with a reason, starts only after the user approves the plan, and asks no questions first."
+  },
+  {
+   "item": "Only retained scope evidence used as competitor facts; Casa Verde excluded",
+   "pass": true,
+   "note": "Every figure traces to the four retained artifacts, and the Casa Verde brand is not treated as a competitor."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether to tie the work to a specific SKU (user named none, so no product lookup or link), and did not check whether the scopes listing accepts a sku filter."
+}

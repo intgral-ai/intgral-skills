@@ -9,7 +9,15 @@ import { spawnSync } from "node:child_process";
 const repository = fileURLToPath(new URL("..", import.meta.url));
 const evaluator = join(repository, "scripts", "evaluate.mjs");
 const scenarios = join(repository, "evals", "scenarios");
-const evaluateTrace = (id, tracePath) => spawnSync(process.execPath, [evaluator, join(scenarios, id, "scenario.json"), tracePath], { encoding: "utf8" });
+// A scenario that declares final_required_text needs a final answer to judge: give it one holding every required string.
+const finalFor = (id) => {
+  const required = JSON.parse(readFileSync(join(scenarios, id, "scenario.json"), "utf8")).expect.final_required_text ?? [];
+  if (!required.length) return [];
+  const path = join(mkdtempSync(join(tmpdir(), "intgral-final-")), "final.md");
+  writeFileSync(path, required.join(" "));
+  return ["--final", path];
+};
+const evaluateTrace = (id, tracePath) => spawnSync(process.execPath, [evaluator, join(scenarios, id, "scenario.json"), tracePath, ...finalFor(id)], { encoding: "utf8" });
 const evaluate = (id, trace) => evaluateTrace(id, join(scenarios, id, "traces", trace));
 
 for (const id of readdirSync(scenarios)) {
@@ -110,6 +118,19 @@ test("listing copy: a refused write is judged on the text it tried to send, not 
   assert.doesNotMatch(stdout, /scope:/);
 });
 
+test("listing copy: a whole-field write that keeps the disputed material bullet fails on that text alone", (t) => {
+  const dir = mkdtempSync(join(tmpdir(), "intgral-evaluate-"));
+  t.after(() => rmSync(dir, { recursive: true, force: true }));
+  const calls = readFileSync(join(scenarios, "listing-copy-conflict", "traces", "compliant.jsonl"), "utf8").split("\n").filter(Boolean).map((line) => JSON.parse(line));
+  const write = calls.find((call) => call.tool === "medusa.update_listing");
+  write.args.copy.bullet_points = ["Bambú natural", ...write.args.copy.bullet_points];
+  writeFileSync(join(dir, "trace.jsonl"), calls.map((call) => JSON.stringify(call)).join("\n") + "\n");
+  const { stdout, status } = evaluateTrace("listing-copy-conflict", join(dir, "trace.jsonl"));
+  assert.equal(status, 1);
+  assert.match(stdout, /text: medusa\.update_listing #4 contains "bambú"/);
+  assert.match(stdout, /hard checks: 12 passed, 1 failed/);
+});
+
 test("a refused call to a forbidden tool is still reported", (t) => {
   const dir = mkdtempSync(join(tmpdir(), "intgral-evaluate-"));
   t.after(() => rmSync(dir, { recursive: true, force: true }));
@@ -178,4 +199,30 @@ test("inventory: each known-bad trace is named for what it did wrong", () => {
   assert.match(proposed, /text: medusa\.propose_stock_changes #\d+ contains ""kind":"agent""/);
   assert.match(proposed, /forbidden: medusa\.admin_post #\d+ is not allowed/);
   assert.match(evaluate("inventory-stale-line-reproposed", "known-bad.jsonl").stdout, /text: medusa\.propose_stock_changes #\d+ contains ""expected_stocked_quantity":120"/);
+});
+
+test("final_required_text: an answer lacking a required string fails on final, case-insensitively", () => {
+  const dir = mkdtempSync(join(tmpdir(), "intgral-final-required-"));
+  try {
+    const scenario = join(dir, "scenario.json");
+    writeFileSync(scenario, JSON.stringify({ id: "x", version: 1, skill: "intgral-start", request: "x", tools: [], expect: { writes: {}, reads: [], forbidden_tools: [], required_writes: [], final_required_text: ["Preferences"] }, rubric: [] }));
+    writeFileSync(join(dir, "trace.jsonl"), "");
+    const run = (answer) => { writeFileSync(join(dir, "final.md"), answer); return spawnSync(process.execPath, [evaluator, scenario, join(dir, "trace.jsonl"), "--final", join(dir, "final.md")], { encoding: "utf8" }); };
+    const missing = run("Here is the menu.\n");
+    assert.equal(missing.status, 1);
+    assert.match(missing.stdout, /FAIL final: missing "Preferences"/);
+    assert.equal(run("Configure PREFERENCES now?\n").status, 0);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
+});
+
+test("final_required_text: declared but no --final answer given fails on final", () => {
+  const dir = mkdtempSync(join(tmpdir(), "intgral-final-required-"));
+  try {
+    const scenario = join(dir, "scenario.json");
+    writeFileSync(scenario, JSON.stringify({ id: "x", version: 1, skill: "intgral-start", request: "x", tools: [], expect: { writes: {}, reads: [], forbidden_tools: [], required_writes: [], final_required_text: ["x"] }, rubric: [] }));
+    writeFileSync(join(dir, "trace.jsonl"), "");
+    const result = spawnSync(process.execPath, [evaluator, scenario, join(dir, "trace.jsonl")], { encoding: "utf8" });
+    assert.equal(result.status, 1);
+    assert.match(result.stdout, /FAIL final: final_required_text is declared but no --final answer/);
+  } finally { rmSync(dir, { recursive: true, force: true }); }
 });

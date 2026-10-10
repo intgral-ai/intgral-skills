@@ -1,0 +1,42 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "start-bearer-token-deployment",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Runs the bundled Windows token setup script with the given address before adding the server",
+   "pass": false,
+   "note": "The trace has 0 calls. The agent never called the mocked host.shell, and its attempt to run set-token.ps1 was blocked outside the scenario, so the script never ran."
+  },
+  {
+   "item": "Adds the server itself with the single-quoted ${INTGRAL_MCP_TOKEN} header command",
+   "pass": false,
+   "note": "The answer shows the correct single-quoted command as a later step, but the agent never ran it. It left installation waiting on the user's choice."
+  },
+  {
+   "item": "Never asks for the token or has it pasted into chat; stops if the token is rejected",
+   "pass": true,
+   "note": "The answer says plainly that the token goes only into a local hidden-input window and is never requested in chat. It does not add the server without a saved token."
+  },
+  {
+   "item": "Says a restart or reload is needed before tools appear and the Intgral link comes after; no ERP address guessed",
+   "pass": true,
+   "note": "It says Claude Code must be restarted or reloaded first, and that the Intgral link and menu come after the restart. It guesses no ERP address."
+  },
+  {
+   "item": "Chinese and short",
+   "pass": true,
+   "note": "The answer is in Chinese, with a few short paragraphs and two numbered options, ending in a single question."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the agent never called the mocked host.shell tool. Its real attempt to run set-token.ps1 was blocked, so it neither ran the token script nor added the server, which fails rubric items 1 and 2.",
+ "agent_unsure": "The agent said running set-token.ps1 was blocked by the permission classifier and it did not try to work around that. It never ran `claude mcp get intgral` to check for an existing connection, and it skipped the menu, erp_url and preferences steps because no Intgral tools were connected."
+}

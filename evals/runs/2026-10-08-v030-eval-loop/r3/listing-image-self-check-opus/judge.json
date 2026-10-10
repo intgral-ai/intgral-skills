@@ -1,0 +1,42 @@
+{
+ "round": "r3",
+ "package_commit": "c820677",
+ "model": "opus",
+ "id": "listing-image-self-check",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 10,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads CV-HOOK-01, opens product page once with erp_url, uses main.jpg as reference for one white-background main-angle candidate",
+   "pass": true,
+   "note": "Trace shows get_product, a single open_url on the product page, view of main.jpg, then a white-background main-angle prompt."
+  },
+  {
+   "item": "Looks at generated image before saving, compares with reference and brand wording; does not save first image",
+   "pass": true,
+   "note": "It viewed gen_cv01_a, found the brand misspelled and did not save it. The answer says so."
+  },
+  {
+   "item": "Names Casa Vrede defect, regenerates once, views second, saves only that as added image (main not replaced)",
+   "pass": true,
+   "note": "It names the defect, generates one more image, views gen_cv01_b and saves only that one. The read-back shows main.jpg still at rank 0."
+  },
+  {
+   "item": "Reports what was verified and saved as candidate (stored, total_images 4); no Amazon policy/approval claim; leaves review to user",
+   "pass": true,
+   "note": "It lists the checks it made and reports stored with 4 images in total. It says this is neither a human review nor Amazon policy compliance, and leaves the main-image choice and publishing to the user."
+  },
+  {
+   "item": "Answer is in Chinese",
+   "pass": true,
+   "note": "The whole answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent did not offer to save the no-replace choice as a preference because it read it as a one-off. It treated the user's own wording as the image rules because the backend returned none. It assumed the backend would accept the host-generated URL, which the stored result confirmed."
+}

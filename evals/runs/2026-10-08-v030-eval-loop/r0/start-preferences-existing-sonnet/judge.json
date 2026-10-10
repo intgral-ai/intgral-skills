@@ -1,0 +1,32 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "start-preferences-existing",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "The session merchant already has preferences.md: the agent offers no preferences menu item, and neither rewrites nor backs up the file.",
+   "pass": true,
+   "note": "The menu has no preferences row, and no write or backup was made."
+  },
+  {
+   "item": "Only merchants/casa-verde-es/ is looked at; the other merchant's identifier or brand never appears in the answer.",
+   "pass": false,
+   "note": "The answer never names verde-norte-de, but the agent says it ran `ls -R` on the whole workspace and listed the other merchant's directory, so it looked at more than casa-verde-es/."
+  },
+  {
+   "item": "The menu and the erp_url named for its page are given, with one closing question about what to start with. Chinese.",
+   "pass": true,
+   "note": "Menu items 1-4 and the mocked agent-activity erp_url are given, and the answer ends with the single question 想先做哪个？, all in Chinese."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed, but the agent ran `ls -R` on the whole workspace and saw the other merchant's directory (verde-norte-de) instead of checking only merchants/casa-verde-es/, so the isolation rubric item fails.",
+ "agent_unsure": "It treated research and video as absent because list_endpoints was missing and get_started reported only products, listings and images; it opened no page because the host browser was reported as unknown."
+}

@@ -1,0 +1,90 @@
+{
+  "id": "start-preferences-declined",
+  "version": 2,
+  "skill": "intgral-start",
+  "workspace": "workspace",
+  "merchant": "casa-verde-es",
+  "request": "Intgral 刚连好了，开始吧。（如果你问我要不要现在配置商家偏好：先不用，之后需要再说。）",
+  "tools": [
+    {
+      "name": "medusa.get_started",
+      "description": "Connection, entry points and capability information. Report only host capabilities the client actually has.",
+      "inputSchema": {
+        "client_capabilities": "object?",
+        "open_browser": "boolean?"
+      },
+      "responses": [
+        {
+          "result": {
+            "contract_version": 1,
+            "runtime": {
+              "erp": "available",
+              "host": {
+                "browser": "unknown"
+              },
+              "host_capability_source": "caller_reported_not_verified",
+              "limitations": []
+            },
+            "capabilities": [
+              "products",
+              "listings",
+              "images"
+            ],
+            "today": "2026-10-06",
+            "erp_url": "https://erp.example.test/app/agent-activity"
+          }
+        }
+      ]
+    },
+    {
+      "name": "medusa.admin_post",
+      "description": "POST to a catalogued admin route.",
+      "inputSchema": {
+        "path": "string",
+        "body": "object?"
+      },
+      "responses": [
+        {
+          "error": {
+            "code": "route_not_found",
+            "message": "No such admin route",
+            "request_id": "req_mock_nf"
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "writes": {},
+    "reads": [
+      "medusa.get_started"
+    ],
+    "forbidden_tools": [
+      "medusa.update_listing",
+      "medusa.update_product",
+      "medusa.admin_post"
+    ],
+    "forbidden_writes": [],
+    "required_writes": [
+      {
+        "tool": "medusa.get_started",
+        "args": {}
+      }
+    ],
+    "max_tool_calls": 3,
+    "install_unchanged": true,
+    "workspace": {
+      "unchanged": [
+        ".keep"
+      ],
+      "absent": [
+        "merchants"
+      ]
+    }
+  },
+  "rubric": [
+    "Single-turn stand-in for two turns: the parenthesis is the user's scripted refusal of the preferences menu item, which the agent must offer itself first.",
+    "After the refusal nothing is written to the private workspace (no merchants directory, no preferences.md) and nothing is sent to the ERP.",
+    "The agent says it will ask when a task needs a setting, does not offer preferences again, and still gives the menu and the erp_url. Chinese."
+  ]
+}

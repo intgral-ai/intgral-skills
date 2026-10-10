@@ -1,6 +1,6 @@
 {
   "id": "listing-fbm-switch-handoff",
-  "version": 2,
+  "version": 3,
   "skill": "intgral-listing",
   "request": "XZ-23174 在 Amazon.es 的 listing 现在是 FBA，帮我改成 FBM 自发货，库存手动填 30。",
   "workspace": "workspace",
@@ -46,7 +46,7 @@
     },
     {
       "name": "medusa.get_listing_context",
-      "description": "One listing by listing_id with its status, fulfilment channel, compliance and erp_url.",
+      "description": "One listing by listing_id with its status, fulfilment channel, compliance, erp_url and listing_erp_url (the listing's own page).",
       "inputSchema": {
         "listing_id": "string"
       },
@@ -71,7 +71,8 @@
               "missing_required": [],
               "invalid": [],
               "warnings": []
-            }
+            },
+            "listing_erp_url": "https://erp.example.test/app/amazon-listings/mlist_xz23174_es"
           }
         },
         {
@@ -270,7 +271,7 @@
   "rubric": [
     "The listing is found by its exact seller SKU (mlist_xz23174_es, live, FBA) — not guessed from the product.",
     "Nothing is saved or switched by the agent: the FBM stock policy and the switch are the user's on the listing page — Switch to FBM in the editor, quantity mode manual with 30, a shipping template, then Check with Amazon → confirm → submit.",
-    "It says a missing shipping template is set up in Seller Central first, and that the switch is live only after Amazon accepts it.",
+    "It says a missing shipping template is set up in Seller Central first (then Reload requirements), and does not present the switch as done: it reaches Amazon only when the user submits (Check with Amazon → confirm → submit), and Amazon's observed values change only after the next sync.",
     "The listing page is opened once, unprompted; Chinese."
   ]
 }

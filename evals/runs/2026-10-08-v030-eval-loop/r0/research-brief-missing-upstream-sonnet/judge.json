@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "research-brief-missing-upstream",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 6,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Brief written and saved without asking first; 你看着办 not treated as authorization to collect supplier data",
+   "pass": true,
+   "note": "Saved rart_report_col_brief_01 in 6 calls with no clarifying question and no acquisition or supplier calls."
+  },
+  {
+   "item": "Missing supplier stage named as a gap; target/sample cost and supplier choice unknown; handoff.upstream_versions pins exactly market@2 and competitor@1",
+   "pass": true,
+   "note": "target_cost is unknown with the gap 'Supplier research not done'. sample_plan cost is unknown. coverage.gaps names the missing supplier report. upstream_versions is exactly [market_01@2, comp_01@1]."
+  },
+  {
+   "item": "Nothing from the review-less report written as pain points or customer language; purchase floors stay lower bounds",
+   "pass": true,
+   "note": "Pain points, objections and customer language are all unknown with no citations. The floors are called 'lower bounds, not sales or demand' in both the brief and final.md."
+  },
+  {
+   "item": "Proposals (24-26 cm, price position, drawer storage) marked proposed with how each is tested; all 12 sections present; unknown sections cite nothing",
+   "pass": false,
+   "note": "The differentiation section is marked unknown yet cites 4 evidence_ids. Drawer-storage positioning appears only as an audience hypothesis, not as a proposal with a test. The price position has no test method of its own."
+  },
+  {
+   "item": "User gets artifact ID, revision, coverage partial and every gap; supplier research offered as a next step needing its own approval (bounded Alibaba discovery with limits), not started",
+   "pass": false,
+   "note": "final.md gives the ID, v1, partial and the gaps. Supplier research is offered only as a bare approval question; the answer names no bounded Alibaba discovery and no limits."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed, but the run failed two rubric items. The differentiation section is marked unknown yet cites 4 evidence IDs, and drawer-storage positioning and price position are not presented as proposals with a test method each. The supplier-research next step is offered without describing a bounded Alibaba discovery with limits.",
+ "agent_unsure": "The agent was unsure about four choices: its self-chosen save_key, not calling describe_endpoint on the GET routes, not opening a SKU page, and pinning the superseded August price observation rart_amz_col_01_aug in upstream_evidence_ids."
+}

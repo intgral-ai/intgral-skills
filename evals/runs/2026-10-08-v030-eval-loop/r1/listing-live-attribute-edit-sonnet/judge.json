@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "listing-live-attribute-edit",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Country of origin is saved as CN from the user's explicit confirmation, reported from the tool result.",
+   "pass": true,
+   "note": "update_listing wrote country_of_origin CN only; the answer cites the user's confirmation and reports write_result succeeded and compliance ready."
+  },
+  {
+   "item": "Brand is not written: schema marks it editable:false; the answer says so instead of saving it.",
+   "pass": true,
+   "note": "The agent read the WALL_HOOK schema and did not write brand. The answer explains editable:false and that a live listing will not take a brand change."
+  },
+  {
+   "item": "Push to Amazon handed to the user on the listing page; the agent does not submit or claim the change is live.",
+   "pass": true,
+   "note": "The answer tells the user to click Check with Amazon, then confirm and submit, and says the change exists only in the ERP."
+  },
+  {
+   "item": "The listing page is opened once, unprompted.",
+   "pass": true,
+   "note": "The trace shows one host.open_url to the listing page."
+  },
+  {
+   "item": "Chinese; nothing else changed.",
+   "pass": true,
+   "note": "The answer is in Chinese. The only write was the attributes call with country_of_origin."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent said the merchant's \"Casa Verde\" preference covers titles only and does not permit a brand-attribute change, so it left any Amazon-side brand change to the user."
+}

@@ -1,0 +1,37 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "research-find-by-sku-market-value",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 9,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Finds the retained Amazon.es scope despite no linked research; does not report that no research exists",
+   "pass": true,
+   "note": "Listed scopes with target_market amazon.es, matched rscope_colander_es on context.sku, and said the study exists but is not linked to the SKU."
+  },
+  {
+   "item": "Gives the latest report's conclusion with version, coverage (partial, no review text) and age; not presented as fresh",
+   "pass": true,
+   "note": "Gives version 2 (latest), coverage partial with 'no review text retained', report age 18 days and evidence age 32 days, and warns the data is over a month old."
+  },
+  {
+   "item": "No collection/save/link made or claimed; linking offered as a question",
+   "pass": true,
+   "note": "The trace has no writes. Linking, review collection and the price refresh are listed as next steps that need the user's confirmation and are marked as not done yet."
+  },
+  {
+   "item": "SKU page opened once (or linked); answer in Chinese",
+   "pass": true,
+   "note": "host.open_url was called once for the product page and the link is given. The answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "It did not link the report to the SKU (offered instead). Evidence has no source_ref, so it cited the evidence ID, ASIN and URL. The two prices are different sizes, so it gave no price band. Ages come from ERP freshness fields, not recomputed. It read only the latest report revision, not version 1."
+}

@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "listing-live-attribute-edit",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Country of origin saved as CN from the user's explicit confirmation, reported from the tool result",
+   "pass": true,
+   "note": "update_listing wrote country_of_origin CN only; answer says write_result succeeded and cites the user's confirmation."
+  },
+  {
+   "item": "Brand not written: schema marks it editable:false, answer says so",
+   "pass": true,
+   "note": "Agent read the WALL_HOOK schema, did not write brand, and explained editable:false and that a live listing will not accept the change."
+  },
+  {
+   "item": "Push to Amazon handed to user (Check with Amazon -> confirm -> submit); agent does not submit or claim live",
+   "pass": true,
+   "note": "Says it is saved only in the ERP and not pushed, and gives the Check with Amazon, confirm, submit steps; it prepared no plan."
+  },
+  {
+   "item": "Listing page opened once, unprompted",
+   "pass": true,
+   "note": "One host.open_url call to the listing page."
+  },
+  {
+   "item": "Chinese; nothing else changed",
+   "pass": true,
+   "note": "The answer is in Chinese; the only write was the country_of_origin attribute."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether to suggest the Seller Central brand-correction route or a new listing for the brand change; mentioned both and left the choice to the user."
+}

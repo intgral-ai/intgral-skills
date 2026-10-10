@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "research-find-by-sku-market-value",
+ "skill": "intgral-research",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 9,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Finds the retained Amazon.es scope despite no linked research, does not report no research",
+   "pass": true,
+   "note": "Listed scopes with target_market amazon.es, matched context.sku to rscope_colander_es, and said research exists but is unlinked."
+  },
+  {
+   "item": "Gives the latest competitor report conclusion with version, coverage (partial, no review text) and age, not presented as fresh",
+   "pass": true,
+   "note": "States v2 (latest), partial coverage, no review text retained, report 18 days and evidence 32 days old, and warns explicitly that the data is stale."
+  },
+  {
+   "item": "No collection, save or link made or claimed; linking offered as a question",
+   "pass": true,
+   "note": "The trace has only reads. Linking and re-collection are offered as next steps that need confirmation, and the answer says neither was executed."
+  },
+  {
+   "item": "SKU page opened once (or linked); answer in Chinese",
+   "pass": true,
+   "note": "One host.open_url call to the product page; the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Did not look for a report v1 because the artifact list showed only v2; reported the ERP freshness ages (18 and 32 days) unchanged although they do not match today's date; labelled 'folding is not a selling point' as an inference from the report."
+}

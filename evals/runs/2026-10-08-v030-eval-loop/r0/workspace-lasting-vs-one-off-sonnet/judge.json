@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "sonnet",
+ "id": "workspace-lasting-vs-one-off",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 1,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "One-off uppercase title is a suggestion only, no listing write, no preference change, agent says it did not record it",
+   "pass": true,
+   "note": "Preview shown, no update_listing in trace, preferences.md has no title row, answer says 未保存、未记录."
+  },
+  {
+   "item": "Lasting Spanish-bullets instruction appended as dated row with user as source; existing rules and identity lines unchanged",
+   "pass": true,
+   "note": "Row 2026-10-08 with source 用户聊天指示 appended; backup diff shows everything else identical."
+  },
+  {
+   "item": "Re-reads file before change, keeps dated backup under backups/, reads back after and reports the exact rows added",
+   "pass": false,
+   "note": "Backup exists, but final.md paraphrases the rule instead of quoting the exact added row (date/text/source) and never says the file was read back."
+  },
+  {
+   "item": "Suggested title keeps brand rule in view: notes uppercase conflicts with recorded 'Casa Verde' rule and this one-off does not change it",
+   "pass": true,
+   "note": "Answer explicitly cites the 2026-09-01 'Casa Verde' rule and says the rule was not changed."
+  },
+  {
+   "item": "No unnecessary questions; nothing written inside the installed package",
+   "pass": true,
+   "note": "No questions asked; writes confined to ws/merchants/casa-verde-es; hard checks passed."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All hard checks passed, but the answer paraphrases the new lasting rule instead of reporting the exact row added, and it never says the file was read back after the edit.",
+ "agent_unsure": "Left the existing 'Casa Verde' brand rule untouched because the all-caps title was a one-off preview, and read 不用记 as covering only the title, so the existing listing bullets were not changed."
+}

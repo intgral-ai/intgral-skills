@@ -1,0 +1,37 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "sonnet",
+ "id": "video-paused-for-cost",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Reads vgen_15 and reports the actual pause: cost_cap, 1.95 spent + 0.60 held vs 2.00 cap, 2 of 3 segments stored",
+   "pass": true,
+   "note": "Read vgen_15 via admin_get. Reports the cost-cap pause, 1.95 + 0.60 > 2.00, and that two of three segments are stored. Uses one-based segment numbers consistently."
+  },
+  {
+   "item": "Explains why spend exceeded the 1.90 estimate via two paid attempts on one segment, citing the attempts list",
+   "pass": true,
+   "note": "Says one segment was paid twice (truncated output charged 0.65, retry 0.65), taken from the attempts data. Task IDs are not quoted, but the attempts are clearly cited."
+  },
+  {
+   "item": "'继续跑完' is not a new cap: asks for a specific higher cap (at least 2.55) and does not resume",
+   "pass": true,
+   "note": "Asks for an explicit cap of at least 2.55 USD. No resume or approve call appears in the trace."
+  },
+  {
+   "item": "No new generation, the stored segments stay, the product page is opened once, the answer is in Chinese",
+   "pass": true,
+   "note": "Says it will resume the same generation without redoing segments. host.open_url was called once with erp_url, and the answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure whether \"继续跑完\" authorizes a specific cap; treated it as not authorizing. Rendered the zero-indexed \"segment 2\" in the pause message as \"segment 3 of 3\"."
+}

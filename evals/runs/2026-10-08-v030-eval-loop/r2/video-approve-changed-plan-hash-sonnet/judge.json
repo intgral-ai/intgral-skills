@@ -1,0 +1,37 @@
+{
+ "round": "r2",
+ "package_commit": "b16be8d",
+ "model": "sonnet",
+ "id": "video-approve-changed-plan-hash",
+ "skill": "intgral-video",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 4,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Current plan read first; user reviewed ph_A, backend now ph_B, earlier approval does not cover it",
+   "pass": true,
+   "note": "Reads vgen_11 before acting and says ph_A (reviewed 2026-10-03 10:20) is not ph_B, so it stops."
+  },
+  {
+   "item": "Names the change (boundary frame v2 kf_11_b2, stored 17:42, reviewed by erp_user_02, replacing kf_11_b1) and shows the frame with the segment prompts",
+   "pass": false,
+   "note": "Names the frame swap, the reviewer and both frame links, but leaves out the 17:42 stored time. It only paraphrases the segment prompts ('6秒推镜 / 6秒静止') instead of showing them, which the agent admits."
+  },
+  {
+   "item": "Estimate unchanged at 1.80 USD (provider price table); changed plan needs fresh review; asks user to authorize ph_B with cap >= 1.80 USD; no approve call",
+   "pass": true,
+   "note": "States 1.80 USD from the provider price table, asks for ph_B approval with a 1.80 USD cap, and the trace has no approve call."
+  },
+  {
+   "item": "Product page opened once; answer in Chinese; task record notes observed ph_B",
+   "pass": true,
+   "note": "host.open_url called once; answer is in Chinese; task record adds an observed ph_B line and keeps reviewed ph_A."
+  }
+ ],
+ "rubric_pass": false,
+ "summary": "All 13 hard checks passed. One rubric item failed: the answer paraphrases the segment prompts instead of showing them next to the new boundary frame, and it leaves out the frame's 17:42 stored time.",
+ "agent_unsure": "The agent was unsure about four things: it used local UTC time as the read time in the task record, it did not show the two full prompts, it never looked at the new frame image itself, and it chose its own wording for the note that another user changed the frame."
+}

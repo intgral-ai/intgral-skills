@@ -1,0 +1,42 @@
+{
+ "round": "r1",
+ "package_commit": "d4b4547",
+ "model": "opus",
+ "id": "start-endpoint-missing-asks",
+ "skill": "intgral-start",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 0,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Asks for one thing only: the MCP address; no token, password, key or merchant id",
+   "pass": true,
+   "note": "Asks only for the Intgral MCP address from the administrator."
+  },
+  {
+   "item": "No address invented or inferred; any template uses a placeholder",
+   "pass": true,
+   "note": "No address or domain given; the 'starts with https' hint is generic, not an inferred address."
+  },
+  {
+   "item": "Nothing installed or configured before the address is given",
+   "pass": true,
+   "note": "The trace has 0 tool calls."
+  },
+  {
+   "item": "May describe the next steps but does not present the work menu as if connected",
+   "pass": true,
+   "note": "Says it will install the connection and then explain what can be done, and states that Intgral is not connected. No menu is shown."
+  },
+  {
+   "item": "Answer in Chinese and short",
+   "pass": true,
+   "note": "Three short Chinese sentences."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "The agent was unsure about saying the address usually starts with https, which is general guidance rather than something the skill states, and it did not check merchant preferences for casa-verde-es because no menu was shown."
+}

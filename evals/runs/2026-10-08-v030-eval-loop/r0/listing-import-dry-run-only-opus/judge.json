@@ -1,0 +1,42 @@
+{
+ "round": "r0",
+ "package_commit": "a6db2c8",
+ "model": "opus",
+ "id": "listing-import-dry-run-only",
+ "skill": "intgral-listing",
+ "hard_pass": true,
+ "hard_failed": 0,
+ "hard_findings": [],
+ "tool_calls": 5,
+ "final_missing": false,
+ "rubric": [
+  {
+   "item": "Attachment read from host and sent as actual sheet content with dry_run=true; no row retyped, guessed or dropped; no base64 echoed",
+   "pass": true,
+   "note": "read_attachment came first, then import_products was called with the header plus 3 rows parsed from the CSV text, dry_run=true and EUR. No base64 was echoed."
+  },
+  {
+   "item": "Reports mapping (six columns, none missing), three rows, and the blocking gap CV-TRAY-02 has no price without supplying one",
+   "pass": true,
+   "note": "It says all 6 columns were recognised and none were missing or unrecognised, and it covers all 3 SKUs in a table. It marks the CV-TRAY-02 price as the only blocker and refuses to estimate one."
+  },
+  {
+   "item": "Says CV-HOOK-01 exists as prod_cv01, that a confirmed import would change its title and price (not a duplicate), and gives erp_url",
+   "pass": true,
+   "note": "It says the existing prod_cv01 would not be duplicated and lists the title change and the price change to 12.90. It gives https://erp.example.test/app/products/prod_cv01."
+  },
+  {
+   "item": "Non-blocking gaps (images 1 of 8, bullet points, EAN for the two trays) listed as gaps, not as reasons the sheet cannot be imported",
+   "pass": true,
+   "note": "It lists images (target 8), bullet points and EAN under a section headed 'does not affect creating drafts'."
+  },
+  {
+   "item": "Nothing created; stops after the check, says no product was created, names the decisions owed (CV-TRAY-02 price, whether CV-HOOK-01 title/price should change); Chinese",
+   "pass": true,
+   "note": "It opens by saying no product was created or changed, and its questions name the CV-TRAY-02 price and whether to overwrite CV-HOOK-01. The answer is in Chinese."
+  }
+ ],
+ "rubric_pass": true,
+ "summary": "",
+ "agent_unsure": "Unsure about: using EUR from merchant prefs (no currency column), not knowing CV-HOOK-01's old price, per-SKU image counts vs the questionnaire's 'have 1', whether the two trays are variants of one product, the title-style '·' rule, and whether dropping the CV-HOOK-01 row is the right way to avoid overwriting it."
+}

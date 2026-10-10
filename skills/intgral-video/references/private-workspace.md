@@ -18,31 +18,35 @@ The stable identifier is confirmed by the user or taken from the ERP — never i
 1. Say what the workspace is for and what it is not: a file the agent reads at the start of every task — not the agent's memory, not an ERP setting, not shared with anyone.
 2. Confirm the two things nothing else can supply: the stable identifier and the private location. If `INTGRAL_WORKSPACE` is configured and the user names an identifier, both are answered; ask only for what is still missing.
 3. Read `merchants/<stable-id>/` first. If preferences exist, use them and do not recreate them. If not, create `preferences.md` from the bundled [preferences template](../assets/preferences.example.md) with the values the user supplied, leaving unknown items unset — never filled in the installed package, never with guessed merchant facts.
-4. Record the user's lasting instructions as dated rows in the rules table with their source. Read the file back and report the actual path and contents.
-5. Close with what happens next time: the file is read first, and the user can edit it directly.
+4. Record the user's lasting instructions as dated rows in the rules table with their source. Read the file back and report the actual saved path (not a placeholder) and contents.
+5. Close with what happens next time: the file is read first, and the user can edit it directly; reinstalling or upgrading the skills leaves it untouched, and on another machine the user copies the workspace directory (or points `INTGRAL_WORKSPACE` at it).
 
 Ordinary read-only work needs none of this and can proceed from the current request. Before promising persistence or creating a task record, one writable private location must exist.
 
 ## Every later task
 
-Read the current merchant's `preferences.md` (and `rules.md` if present) before acting. Current user choices control this task; backend facts, permissions and validation remain authoritative. Local brand wording supplies wording rules, never product facts, and never authorizes an external action.
+Read the current merchant's `preferences.md` (and `rules.md` if present) before acting; when its rules shape the answer, say which merchant (stable identifier) they belong to. Current user choices control this task; backend facts, permissions and validation remain authoritative. Local brand wording supplies wording rules, never product facts, and never authorizes an external action.
 
 ## Lasting instructions and one-off choices
 
-Only an explicit lasting instruction ("from now on", "always", "remember") updates preferences or rules. A one-off choice ("this time", "just for this") affects the current task only and is not recorded — say so. When the intent matters and is ambiguous, ask once. A lasting change never retroactively changes an approved backend snapshot.
+- **Explicit lasting words** ("from now on", "always", "remember"): write it now, by the procedure below, then read back and report.
+- **A requirement that could outlive this task** — brand wording, a banned word or claim, market or language, a style correction, or the same correction a second time — stated without those words: finish the task with it applied, then offer once. The offer is part of the answer's single final question, never a second question: quote the exact row, in the user's words, that would be written ("Save «<their words>» to your preferences?"). Write nothing until the user says yes; then follow the procedure below. Without a settled merchant or a writable private location, no offer.
+- **Clearly one-off** ("this time", "just for this"): applies to this task only; no offer, no write — say it is not recorded.
+
+A lasting change never retroactively changes an approved backend snapshot.
 
 To change a preference file:
 
 1. Re-read the current file.
 2. Copy it to `backups/preferences.<date>.md` (or `rules.<date>.md`).
 3. Make the minimum change — usually one new dated row — preserving every unrelated line.
-4. Read the file back and report exactly what changed.
+4. Read the file back and quote the added or changed row verbatim from that read — date, instruction and source as saved, not the user's wording.
 
 If the file changed between the read and the write, merge or ask about the conflicting part; never overwrite it. Explain a conflict with an existing rule and use the user's explicit resolution. Never claim to remember a change whose write failed.
 
 ## Switching merchants
 
-Each merchant has its own directory. A task names one merchant; read that directory only. Another merchant's rules, identities or task records never enter the current task, even when the operator runs several merchants from one client. When no merchant is named for the session, count the directories under `merchants/` without listing their names or reading any file (for example `ls merchants | wc -l`). Without a workspace, or with a single merchant directory, the merchant is not unclear: proceed — the ERP connection decides what can be read. With two or more and none settled for this session, the merchant is unclear: the answer opens with the question for the stable identifier, no tool is called and no file is read, and nothing merchant-specific follows until it is answered. Never settle that question by reading a second directory; the reading is itself the leak. Never list the candidates either: no other merchant's identifier, brand name or directory name belongs in the answer or in any file written, not even to say it was not read. When the host cannot put the question to the user, stop at the question and deliver only what needs no merchant.
+Each merchant has its own directory. A task names one merchant; read that directory only, by its path — never list, search or walk the workspace root or `merchants/` (no `ls -R`, `find`, `tree` or globbing over them). Another merchant's rules, identities or task records never enter the current task, even when the operator runs several merchants from one client. When no merchant is named for the session, count the directories under `merchants/` without listing their names or reading any file (for example `ls merchants | wc -l`). Without a workspace, or with a single merchant directory, the merchant is not unclear: proceed — the ERP connection decides what can be read. With two or more and none settled for this session, the merchant is unclear: the answer opens with the question for the stable identifier, no tool is called and no file is read, and nothing merchant-specific follows until it is answered. Never settle that question by reading a second directory; the reading is itself the leak. Never list the candidates either: no other merchant's identifier, brand name or directory name belongs in the answer or in any file written, not even to say it was not read. When the host cannot put the question to the user, stop at the question and deliver only what needs no merchant.
 
 ## Reinstall and upgrade
 
